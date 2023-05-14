@@ -1,0 +1,94 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Test Dataset",
+  "description": "This is a test dataset metadata json file to test catalog api",
+  "url": "https://hydroshare.org/resource/e2fdf99cbb0c4275b32afd3c16ae6863",
+  "identifier": [
+    "e2fdf99cbb0c4275b32afd3c16ae6863"
+  ],
+  "creator": [
+    {
+      "@type": "Person",
+      "name": "John Doe",
+      "email": "john.doe@gmail.com",
+      "identifier":
+        {
+          "@type": "PropertyValue",
+          "@id": "https://orcid.org/0000-0000-0000-0001",
+          "propertyID": "https://registry.identifiers.org/registry/orcid",
+          "url": "https://orcid.org/0000-0000-0000-0001",
+          "value": "0000-0000-0000-0001"
+        }
+    }
+  ],
+  "dateCreated": "2021-01-01",
+  "keywords": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Leaf wetness",
+      "description": "The effect of moisture settling on the surface of a leaf as a result of either condensation or rainfall.",
+      "inDefinedTermSet": "http://his.cuahsi.org/mastercvreg/edit_cv11.aspx?tbl=VariableNameCV"
+    }
+  ],
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "provider": {
+    "@type": "Organization",
+    "name": "HydroShare",
+    "url": "https://hydroshare.org",
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "CUAHSI",
+      "url": "https://www.cuahsi.org/",
+      "address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476"
+    }
+  },
+  "datePublished": "2023-05-10",
+  "subjectOf": [
+      {
+        "@type": "CreativeWork",
+        "name": "Dublin Core Metadata Document Describing the Dataset",
+        "url": "https://www.hydroshare.org/hsapi/resource/c1be74eeea614d65a29a185a66a7552f/scimeta/",
+        "encodingFormat": "application/rdf+xml"
+     }
+  ],
+  "version": 1.0,
+  "inLanguage": "eng",
+  "creativeWorkStatus": {
+    "@type": "DefinedTerm",
+    "name": "Private",
+    "description": "This is a private dataset"
+  },
+  "dateModified": "2021-01-10",
+  "temporalCoverage": "2007-03-01T13:00:00Z/2008-05-11T15:30:00Z",
+  "spatialCoverage": {
+    "@type": "Place",
+    "name": "CUAHSI Office",
+    "address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476"
+  },
+  "hasPart": [
+    {
+      "@type": "CreativeWork",
+      "name": "Great Salt Lake Bathymetry",
+      "description": "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry.",
+      "identifier": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
+    }
+  ],
+  "isPartOf": [
+    {
+      "@type": "CreativeWork",
+      "name": "Collection of Great Salt Lake Data",
+      "description": "Data from the Great Salt Lake and its basin",
+      "identifier": "https://www.hydroshare.org/resource/b6c4fcad40c64c4cb4dd7d4a25d0db6e/"
+    }
+  ],
+  "associatedMedia": [
+    {
+      "@type": "DataDownload",
+      "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
+      "encodingFormat": "text/csv",
+      "contentSize": "0.17 MB",
+      "name": "USGS gage locations within the Harvey-affected areas in Texas"
+    }
+  ]
+}
