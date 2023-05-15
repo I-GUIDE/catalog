@@ -4,6 +4,7 @@ import pytest
 from asgi_lifespan import LifespanManager
 from httpx import AsyncClient
 
+from api.models.catalog import CoreMetadataDOC
 from api.models.schema import CoreMetadata, Dataset
 from api.config import get_settings
 from main import app
@@ -21,6 +22,9 @@ async def client_test():
         async with AsyncClient(app=app, base_url="http://test", follow_redirects=True) as ac:
             ac.app = app
             yield ac
+
+        # cleanup the test db collection
+        await CoreMetadataDOC.find(with_children=True).delete()
 
 
 @pytest.fixture(scope="function")

@@ -1,6 +1,5 @@
 import pytest
 
-from api.models.catalog import DatasetMetadataDOC
 from tests import client_test, dataset_data, core_data, change_test_dir
 
 pytestmark = pytest.mark.asyncio
@@ -33,11 +32,3 @@ async def test_dataset(client_test, dataset_data):
     # retrieve the record from the db
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
     assert response.status_code == 200
-
-
-async def test_cleanup_test_db(client_test):
-    """Cleanup the test db"""
-    try:
-        await DatasetMetadataDOC.delete_all()
-    except Exception as e:
-        pytest.fail(f"Failed to cleanup test db: {str(e)}")
