@@ -24,5 +24,5 @@ test:
 
 .PHONY: format
 format:
-	docker-compose exec api $(isort)
-	docker-compose exec api $(black)
+	docker-compose run api $(isort)
+	docker-compose run api $(black)

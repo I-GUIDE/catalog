@@ -3,9 +3,10 @@ import os
 
 import pytest
 from asgi_lifespan import LifespanManager
+from fastapi import Security
 from httpx import AsyncClient
 
-from api.authentication.user import get_current_user
+from api.authentication.user import auth_scheme, get_current_user
 from api.config import get_settings
 from api.main import app
 from api.models.catalog import CoreMetadataDOC
