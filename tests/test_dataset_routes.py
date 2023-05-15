@@ -25,6 +25,10 @@ async def test_dataset(client_test, dataset_data):
     dataset_data['provider']['address'] = None
     dataset_data['provider']['parentOrganization']['identifier'] = None
     dataset_data['spatialCoverage']['geo'] = None
+    dataset_data['hasPart'][0]['creator'] = None
+    dataset_data['isPartOf'][0]['creator'] = None
+    dataset_data['includedInDataCatalog'][0]['creator']['address'] = None
+    dataset_data['includedInDataCatalog'][0]['creator']['identifier'] = None
 
     # assert that the response contains the expected data
     assert response_data == dataset_data

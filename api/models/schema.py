@@ -61,6 +61,7 @@ class KeywordTerm(DefinedTerm):
 class HasPart(CreativeWork):
     description: str
     identifier: Identifier
+    creator: Optional[Union[Person, Organization]]
 
 
 class IsPartOf(HasPart):
