@@ -15,3 +15,7 @@ down:
 .PHONY: build
 build:
 	docker-compose build
+
+.PHONY: test
+test:
+	docker-compose exec api pytest tests
