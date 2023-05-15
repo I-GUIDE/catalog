@@ -1,13 +1,14 @@
 from api.authentication.fastapi_resource_server import GrantType, JwtDecodeOptions, OidcResourceServer
 from api.models.user import User
 from api.procedures.user import create_or_update_user
+from api.config import get_settings
 from fastapi import Security
 
 
 decode_options = JwtDecodeOptions(verify_aud=False)
 
 auth_scheme = OidcResourceServer(
-    "https://auth.cuahsi.io/realms/HydroShare",
+    get_settings().keycloak_issuer,
     jwt_decode_options=decode_options,
     allowed_grant_types=[GrantType.IMPLICIT]
 )
