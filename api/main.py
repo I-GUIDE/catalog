@@ -1,3 +1,4 @@
+from api.models.user import User, Submission
 import uvicorn
 from beanie import init_beanie
 from fastapi import FastAPI
@@ -26,7 +27,7 @@ async def startup_db_client():
     settings = get_settings()
     app.mongodb_client = AsyncIOMotorClient(settings.db_connection_string)
     app.mongodb = app.mongodb_client[settings.database_name]
-    await init_beanie(database=app.mongodb, document_models=[DatasetMetadataDOC])
+    await init_beanie(database=app.mongodb, document_models=[DatasetMetadataDOC, User, Submission])
 
 
 @app.on_event("shutdown")

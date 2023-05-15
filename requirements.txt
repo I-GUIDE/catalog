@@ -2,3 +2,4 @@ fastapi[all]
 uvicorn[standard]
 motor
 beanie[httpx]
+python-jose

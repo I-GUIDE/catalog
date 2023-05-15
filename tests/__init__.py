@@ -7,7 +7,7 @@ from httpx import AsyncClient
 from api.models.catalog import CoreMetadataDOC
 from api.models.schema import CoreMetadata, Dataset
 from api.config import get_settings
-from main import app
+from api.main import app
 
 
 @pytest.fixture
