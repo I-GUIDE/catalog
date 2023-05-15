@@ -52,6 +52,20 @@ async def dataset_data(core_data):
         "contentSize": "102.1 MB"
       }
     dataset_data["variableMeasured"] = "Water Temperature"
+    dataset_data["includedInDataCatalog"] = [
+        {
+            "@type": "DataCatalog",
+            "name": "The USGS Science Data Catalog (SDC)",
+            "description": "The Science Data Catalog (SDC) is the official public and searchable index that aggregates descriptions of all public research data that have been published by the USGS.",
+            "url": "https://data.usgs.gov/datacatalog/",
+            "identifier": "6625bdbde41c45c2b906f32be7ea70f0/",
+            "creator": {
+                "@type": "Organization",
+                "name": "U.S. Geological Survey",
+                "url": "https://www.usgs.gov/"
+            }
+        }
+    ]
     return dataset_data
 
 

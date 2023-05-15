@@ -133,7 +133,7 @@ async def test_dataset_schema_distribution_value_type(dataset_data, dataset_mode
 @pytest.mark.asyncio
 async def test_dataset_schema_variable_cardinality(dataset_data, dataset_model, multiple_variable):
     """Test that a dataset pydantic model can be created from dataset json data.
-    Purpose of the test is to validate dataset pydantic model where the variable property can have or more values.
+    Purpose of the test is to validate dataset pydantic model where the variable property can have 0 or more values.
     Note: This test does nat add a record to the database.
     """
     dataset_data = dataset_data
@@ -205,3 +205,82 @@ async def test_dataset_schema_variable_value_type(dataset_data, dataset_model, d
         assert dataset_instance.variableMeasured.unitText == data_format["unitText"]
     else:
         assert dataset_instance.variableMeasured == data_format
+
+
+@pytest.mark.parametrize('multiple_data_catalog', [True, False])
+@pytest.mark.asyncio
+async def test_dataset_schema_variable_cardinality(dataset_data, dataset_model, multiple_data_catalog):
+    """Test that a dataset pydantic model can be created from dataset json data.
+    Purpose of the test is to validate dataset pydantic model where the includedInDataCatalog property can
+    have one or more values.
+    Note: This test does nat add a record to the database.
+    """
+    dataset_data = dataset_data
+    dataset_model = dataset_model
+    if multiple_data_catalog:
+        dataset_data["includedInDataCatalog"] = [
+            {
+                "@type": "DataCatalog",
+                "name": "The USGS Science Data Catalog (SDC)",
+                "description": "The Science Data Catalog (SDC) is the official public and searchable index that aggregates descriptions of all public research data that have been published by the USGS.",
+                "url": "https://data.usgs.gov/datacatalog/",
+                "identifier": "6625bdbde41c45c2b906f32be7ea70f0",
+                "creator": {
+                    "@type": "Organization",
+                    "name": "U.S. Geological Survey",
+                    "url": "https://www.usgs.gov/"
+                }
+            },
+            {
+                "@type": "DataCatalog",
+                "name": "The I-GUIDE Data Catalog",
+                "description": "A centralized metadata catalog capable of indexing data from the diverse, distributed data required by the I-GUIDE project focus areas.",
+                "url": "https://iguide.cuahsi.io/discover",
+                "identifier": "e2fdf99cbb0c4275b32afd3c16ae6863",
+                "creator": {
+                    "@type": "Organization",
+                    "name": "NSF Institute for Geospatial Understanding through an Integrative Discovery Environment (I-GUIDE)",
+                    "url": "https://iguide.illinois.edu/"
+                }
+            }
+        ]
+    else:
+        dataset_data["includedInDataCatalog"] = [
+            {
+                "@type": "DataCatalog",
+                "name": "The USGS Science Data Catalog (SDC)",
+                "description": "The Science Data Catalog (SDC) is the official public and searchable index that aggregates descriptions of all public research data that have been published by the USGS.",
+                "url": "https://data.usgs.gov/datacatalog/",
+                "identifier": "6625bdbde41c45c2b906f32be7ea70f0",
+                "creator": {
+                    "@type": "Organization",
+                    "name": "U.S. Geological Survey",
+                    "url": "https://www.usgs.gov/"
+                }
+            }
+        ]
+    # validate the dataset model
+    dataset_instance = await utils.validate_data_model(dataset_data, dataset_model)
+    # checking dataset specific metadata
+    if multiple_data_catalog:
+        assert len(dataset_instance.includedInDataCatalog) == 2
+        assert dataset_instance.includedInDataCatalog[0].name == "The USGS Science Data Catalog (SDC)"
+        assert dataset_instance.includedInDataCatalog[1].name == "The I-GUIDE Data Catalog"
+        assert dataset_instance.includedInDataCatalog[0].identifier == "6625bdbde41c45c2b906f32be7ea70f0"
+        assert dataset_instance.includedInDataCatalog[1].identifier == "e2fdf99cbb0c4275b32afd3c16ae6863"
+        assert dataset_instance.includedInDataCatalog[0].url == "https://data.usgs.gov/datacatalog/"
+        assert dataset_instance.includedInDataCatalog[1].url == "https://iguide.cuahsi.io/discover"
+        assert dataset_instance.includedInDataCatalog[0].description == "The Science Data Catalog (SDC) is the official public and searchable index that aggregates descriptions of all public research data that have been published by the USGS."
+        assert dataset_instance.includedInDataCatalog[1].description == "A centralized metadata catalog capable of indexing data from the diverse, distributed data required by the I-GUIDE project focus areas."
+        assert dataset_instance.includedInDataCatalog[0].creator.name == "U.S. Geological Survey"
+        assert dataset_instance.includedInDataCatalog[1].creator.name == "NSF Institute for Geospatial Understanding through an Integrative Discovery Environment (I-GUIDE)"
+        assert dataset_instance.includedInDataCatalog[0].creator.url == "https://www.usgs.gov/"
+        assert dataset_instance.includedInDataCatalog[1].creator.url == "https://iguide.illinois.edu/"
+    else:
+        assert len(dataset_instance.includedInDataCatalog) == 1
+        assert dataset_instance.includedInDataCatalog[0].name == "The USGS Science Data Catalog (SDC)"
+        assert dataset_instance.includedInDataCatalog[0].identifier == "6625bdbde41c45c2b906f32be7ea70f0"
+        assert dataset_instance.includedInDataCatalog[0].url == "https://data.usgs.gov/datacatalog/"
+        assert dataset_instance.includedInDataCatalog[0].description == "The Science Data Catalog (SDC) is the official public and searchable index that aggregates descriptions of all public research data that have been published by the USGS."
+        assert dataset_instance.includedInDataCatalog[0].creator.name == "U.S. Geological Survey"
+        assert dataset_instance.includedInDataCatalog[0].creator.url == "https://www.usgs.gov/"

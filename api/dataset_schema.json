@@ -301,6 +301,14 @@
           }
         }
       ]
+    },
+    "includedInDataCatalog": {
+      "title": "Includedindatacatalog",
+      "description": "A data catalog which contains this dataset (this property was previously 'catalog', preferred name is now 'includedInDataCatalog').",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/IncludedInDataCatalog"
+      }
     }
   },
   "required": [
@@ -313,7 +321,8 @@
     "keywords",
     "license",
     "provider",
-    "distribution"
+    "distribution",
+    "includedInDataCatalog"
   ],
   "definitions": {
     "PropertyValue": {
@@ -993,6 +1002,69 @@
         "name",
         "unitText"
       ]
+    },
+    "IncludedInDataCatalog": {
+      "title": "IncludedInDataCatalog",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "@Type",
+          "default": "DataCatalog",
+          "const": "DataCatalog",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "minLength": 1,
+          "maxLength": 2083,
+          "format": "uri",
+          "type": "string"
+        },
+        "identifier": {
+          "title": "Identifier",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2083,
+              "format": "uri"
+            },
+            {
+              "$ref": "#/definitions/PropertyValue"
+            }
+          ]
+        },
+        "creator": {
+          "title": "Creator",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Person"
+            },
+            {
+              "$ref": "#/definitions/Organization"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "url",
+        "identifier",
+        "creator"
+      ]
     }
   }
 }
+

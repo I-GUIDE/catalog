@@ -747,7 +747,7 @@ async def test_core_schema_has_part_of_cardinality(core_data, core_model, is_mul
     """
     core_data = core_data
     core_model = core_model
-    core_data["hasPart"] = []
+    core_data.pop("hasPart", None)
 
     if is_multiple and is_multiple is not None:
         core_data["hasPart"] = [
@@ -793,7 +793,7 @@ async def test_core_schema_has_part_of_cardinality(core_data, core_model, is_mul
         assert core_model_instance.hasPart[0].description == "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry."
         assert core_model_instance.hasPart[0].identifier == "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
     else:
-        assert core_model_instance.hasPart == []
+        assert core_model_instance.hasPart is None
 
 
 @pytest.mark.parametrize('is_multiple', [True, False, None])
@@ -806,7 +806,7 @@ async def test_core_schema_is_part_of_cardinality(core_data, core_model, is_mult
     """
     core_data = core_data
     core_model = core_model
-    core_data["isPartOf"] = []
+    core_data.pop("isPartOf", None)
 
     if is_multiple and is_multiple is not None:
         core_data["isPartOf"] = [
@@ -852,7 +852,7 @@ async def test_core_schema_is_part_of_cardinality(core_data, core_model, is_mult
         assert core_model_instance.isPartOf[0].description == "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry."
         assert core_model_instance.isPartOf[0].identifier == "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
     else:
-        assert core_model_instance.isPartOf == []
+        assert core_model_instance.isPartOf is None
 
 
 @pytest.mark.parametrize('part_name', ["hasPart", "isPartOf"])
@@ -1178,7 +1178,7 @@ async def test_core_schema_funding_cardinality(core_data, core_model, multiple_f
             }
         ]
     else:
-        core_data["funding"] = []
+        core_data.pop("funding", None)
 
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
@@ -1204,7 +1204,7 @@ async def test_core_schema_funding_cardinality(core_data, core_model, multiple_f
         assert core_model_instance.funding[0].funder.name == "John Doe"
         assert core_model_instance.funding[0].funder.email == "johnd@gmail.com"
     else:
-        assert core_model_instance.funding == []
+        assert core_model_instance.funding is None
 
 
 @pytest.mark.parametrize('funder_type', ["person", "organization"])

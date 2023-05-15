@@ -13,15 +13,6 @@ class CreativeWork(BaseModel):
     name: str
 
 
-class Distribution(BaseModel):
-    type: str = Field(alias="@type", const=True, default="DataDownload")
-    name: str
-    contentUrl: Optional[HttpUrl]
-    encodingFormat: Optional[Union[str, list[str]]]
-    contentSize: Optional[str]
-    comment: Optional[str]
-
-
 class PropertyValue(BaseModel):
     id: HttpUrl = Field(alias="@id")
     type: str = Field(alias="@type", const=True, default="PropertyValue")
@@ -248,12 +239,6 @@ class MediaObject(BaseModel):
         return v
 
 
-class VariableMeasured(BaseModel):
-    type: str = Field(alias="@type", const=True, default="PropertyValue")
-    name: str
-    unitText: str
-
-
 class CoreMetadata(BaseModel):
     context: HttpUrl = Field(alias='@context', default='https://schema.org')
     type: str = Field(alias="@type", const=True, default="Dataset")
@@ -281,9 +266,34 @@ class CoreMetadata(BaseModel):
     associatedMedia: Optional[List[MediaObject]] = Field(description="A media object that encodes this CreativeWork. This property is a synonym for encoding.")
 
 
+class Distribution(BaseModel):
+    type: str = Field(alias="@type", const=True, default="DataDownload")
+    name: str
+    contentUrl: Optional[HttpUrl]
+    encodingFormat: Optional[Union[str, list[str]]]
+    contentSize: Optional[str]
+    comment: Optional[str]
+
+
+class VariableMeasured(BaseModel):
+    type: str = Field(alias="@type", const=True, default="PropertyValue")
+    name: str
+    unitText: str
+
+
+class IncludedInDataCatalog(BaseModel):
+    type: str = Field(alias="@type", const=True, default="DataCatalog")
+    name: str
+    description: str
+    url: HttpUrl
+    identifier: Identifier
+    creator: Union[Person, Organization]
+
+
 class Dataset(BaseModel):
     distribution: Union[Distribution, List[Distribution]] = Field(description="A data distribution in the form of a dataset (see https://schema.org/Dataset for more information).")
     variableMeasured: Optional[Union[str, VariableMeasured, List[VariableMeasured]]] = Field(description="The variableMeasured property can indicate (repeated as necessary) the variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue.")
+    includedInDataCatalog: List[IncludedInDataCatalog] = Field(description="A data catalog which contains this dataset (this property was previously 'catalog', preferred name is now 'includedInDataCatalog').")
 
 
 class DatasetSchema(Dataset, CoreMetadata):
