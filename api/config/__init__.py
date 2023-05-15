@@ -1,5 +1,6 @@
 from functools import lru_cache
 from typing import Any
+
 from pydantic import BaseSettings
 
 

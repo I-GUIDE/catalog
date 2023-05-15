@@ -1,6 +1,5 @@
 import pytest
 
-from tests import core_data, dataset_data, change_test_dir, dataset_model
 from tests import utils
 
 
@@ -21,24 +20,24 @@ async def test_dataset_schema_distribution_cardinality(dataset_data, dataset_mod
                 "name": "Search",
                 "contentSize": "100.5 MB",
                 "contentUrl": "https://www.ncdc.noaa.gov/stormevents/",
-                "encodingFormat": "text/csv"
+                "encodingFormat": "text/csv",
             },
             {
                 "@type": "DataDownload",
                 "name": "Bulk Data Download (CSV)",
                 "contentSize": "102.1 MB",
                 "contentUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-                "encodingFormat": "application/zip"
-            }
+                "encodingFormat": "application/zip",
+            },
         ]
     else:
         dataset_data["distribution"] = {
-                "@type": "DataDownload",
-                "name": "Search",
-                "contentSize": "100.5 MB",
-                "contentUrl": "https://www.ncdc.noaa.gov/stormevents/",
-                "encodingFormat": "text/csv"
-            }
+            "@type": "DataDownload",
+            "name": "Search",
+            "contentSize": "100.5 MB",
+            "contentUrl": "https://www.ncdc.noaa.gov/stormevents/",
+            "encodingFormat": "text/csv",
+        }
 
     dataset_instance = await utils.validate_data_model(dataset_data, dataset_model)
     # checking dataset specific metadata
@@ -51,7 +50,10 @@ async def test_dataset_schema_distribution_cardinality(dataset_data, dataset_mod
         assert dataset_instance.distribution[0].contentSize == "100.5 MB"
         assert dataset_instance.distribution[1].contentSize == "102.1 MB"
         assert dataset_instance.distribution[0].contentUrl == "https://www.ncdc.noaa.gov/stormevents/"
-        assert dataset_instance.distribution[1].contentUrl == "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/"
+        assert (
+            dataset_instance.distribution[1].contentUrl
+            == "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/"
+        )
         assert dataset_instance.distribution[0].encodingFormat == "text/csv"
         assert dataset_instance.distribution[1].encodingFormat == "application/zip"
     else:
@@ -62,44 +64,44 @@ async def test_dataset_schema_distribution_cardinality(dataset_data, dataset_mod
         assert dataset_instance.distribution.encodingFormat == "text/csv"
 
 
-@pytest.mark.parametrize('data_format', [
-    {
-        "@type": "DataDownload",
-        "name": "Fiber_opticdist.zip"
-    },
-    {
-        "@type": "DataDownload",
-        "name": "Fiber_opticdist.zip",
-        "contentUrl": "https://www.sciencebase.gov/catalog/file/get/626b086bd34e76103cd183c5"
-    },
-    {
-        "@type": "DataDownload",
-        "name": "Fiber_opticdist.zip",
-        "contentUrl": "https://www.sciencebase.gov/catalog/file/get/626b086bd34e76103cd183c5",
-        "encodingFormat": "application/zip"
-    },
-    {
-        "@type": "DataDownload",
-        "name": "Fiber_opticdist.zip",
-        "contentUrl": "https://www.sciencebase.gov/catalog/file/get/626b086bd34e76103cd183c5",
-        "encodingFormat": "application/zip",
-        "contentSize": "439 MB"
-    },
-    {
-        "@type": "DataDownload",
-        "name": "Fiber_opticdist.zip",
-        "contentUrl": "https://www.sciencebase.gov/catalog/file/get/626b086bd34e76103cd183c5",
-        "encodingFormat": "application/zip",
-        "contentSize": "439 MB",
-        "comment": "Downloading all the data within this dataset"
-    },
-    {
-        "@type": "DataDownload",
-        "name": "Fiber_opticdist.zip",
-        "contentUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
-        "encodingFormat": ["text/csv", "application/zip"]
-    }
-])
+@pytest.mark.parametrize(
+    'data_format',
+    [
+        {"@type": "DataDownload", "name": "Fiber_opticdist.zip"},
+        {
+            "@type": "DataDownload",
+            "name": "Fiber_opticdist.zip",
+            "contentUrl": "https://www.sciencebase.gov/catalog/file/get/626b086bd34e76103cd183c5",
+        },
+        {
+            "@type": "DataDownload",
+            "name": "Fiber_opticdist.zip",
+            "contentUrl": "https://www.sciencebase.gov/catalog/file/get/626b086bd34e76103cd183c5",
+            "encodingFormat": "application/zip",
+        },
+        {
+            "@type": "DataDownload",
+            "name": "Fiber_opticdist.zip",
+            "contentUrl": "https://www.sciencebase.gov/catalog/file/get/626b086bd34e76103cd183c5",
+            "encodingFormat": "application/zip",
+            "contentSize": "439 MB",
+        },
+        {
+            "@type": "DataDownload",
+            "name": "Fiber_opticdist.zip",
+            "contentUrl": "https://www.sciencebase.gov/catalog/file/get/626b086bd34e76103cd183c5",
+            "encodingFormat": "application/zip",
+            "contentSize": "439 MB",
+            "comment": "Downloading all the data within this dataset",
+        },
+        {
+            "@type": "DataDownload",
+            "name": "Fiber_opticdist.zip",
+            "contentUrl": "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/",
+            "encodingFormat": ["text/csv", "application/zip"],
+        },
+    ],
+)
 @pytest.mark.asyncio
 async def test_dataset_schema_distribution_value_type(dataset_data, dataset_model, data_format):
     """Test that a dataset pydantic model can be created from dataset json data.
@@ -141,22 +143,14 @@ async def test_dataset_schema_variable_cardinality(dataset_data, dataset_model, 
 
     if multiple_variable and multiple_variable is not None:
         dataset_data["variableMeasured"] = [
-            {
-                "@type": "PropertyValue",
-                "name": "Streambed interface temperature values",
-                "unitText": "degC"
-            },
-            {
-                "@type": "PropertyValue",
-                "name": "Air flow rate",
-                "unitText": "m/sec"
-            }
+            {"@type": "PropertyValue", "name": "Streambed interface temperature values", "unitText": "degC"},
+            {"@type": "PropertyValue", "name": "Air flow rate", "unitText": "m/sec"},
         ]
     elif multiple_variable is not None:
         dataset_data["variableMeasured"] = {
             "@type": "PropertyValue",
             "name": "Streambed interface temperature values",
-            "unitText": "degC"
+            "unitText": "degC",
         }
     else:
         dataset_data.pop("variableMeasured", None)
@@ -177,14 +171,12 @@ async def test_dataset_schema_variable_cardinality(dataset_data, dataset_model, 
         assert dataset_instance.variableMeasured is None
 
 
-@pytest.mark.parametrize('data_format', [
-    {
-        "@type": "PropertyValue",
-        "name": "Streambed interface temperature values",
-        "unitText": "degC"
-    },
-    "Streambed interface temperature values"
-  ]
+@pytest.mark.parametrize(
+    'data_format',
+    [
+        {"@type": "PropertyValue", "name": "Streambed interface temperature values", "unitText": "degC"},
+        "Streambed interface temperature values",
+    ],
 )
 @pytest.mark.asyncio
 async def test_dataset_schema_variable_value_type(dataset_data, dataset_model, data_format):
@@ -225,11 +217,7 @@ async def test_dataset_schema_variable_cardinality(dataset_data, dataset_model, 
                 "description": "The Science Data Catalog (SDC) is the official public and searchable index that aggregates descriptions of all public research data that have been published by the USGS.",
                 "url": "https://data.usgs.gov/datacatalog/",
                 "identifier": "6625bdbde41c45c2b906f32be7ea70f0",
-                "creator": {
-                    "@type": "Organization",
-                    "name": "U.S. Geological Survey",
-                    "url": "https://www.usgs.gov/"
-                }
+                "creator": {"@type": "Organization", "name": "U.S. Geological Survey", "url": "https://www.usgs.gov/"},
             },
             {
                 "@type": "DataCatalog",
@@ -240,9 +228,9 @@ async def test_dataset_schema_variable_cardinality(dataset_data, dataset_model, 
                 "creator": {
                     "@type": "Organization",
                     "name": "NSF Institute for Geospatial Understanding through an Integrative Discovery Environment (I-GUIDE)",
-                    "url": "https://iguide.illinois.edu/"
-                }
-            }
+                    "url": "https://iguide.illinois.edu/",
+                },
+            },
         ]
     else:
         dataset_data["includedInDataCatalog"] = [
@@ -252,11 +240,7 @@ async def test_dataset_schema_variable_cardinality(dataset_data, dataset_model, 
                 "description": "The Science Data Catalog (SDC) is the official public and searchable index that aggregates descriptions of all public research data that have been published by the USGS.",
                 "url": "https://data.usgs.gov/datacatalog/",
                 "identifier": "6625bdbde41c45c2b906f32be7ea70f0",
-                "creator": {
-                    "@type": "Organization",
-                    "name": "U.S. Geological Survey",
-                    "url": "https://www.usgs.gov/"
-                }
+                "creator": {"@type": "Organization", "name": "U.S. Geological Survey", "url": "https://www.usgs.gov/"},
             }
         ]
     # validate the dataset model
@@ -270,10 +254,19 @@ async def test_dataset_schema_variable_cardinality(dataset_data, dataset_model, 
         assert dataset_instance.includedInDataCatalog[1].identifier == "e2fdf99cbb0c4275b32afd3c16ae6863"
         assert dataset_instance.includedInDataCatalog[0].url == "https://data.usgs.gov/datacatalog/"
         assert dataset_instance.includedInDataCatalog[1].url == "https://iguide.cuahsi.io/discover"
-        assert dataset_instance.includedInDataCatalog[0].description == "The Science Data Catalog (SDC) is the official public and searchable index that aggregates descriptions of all public research data that have been published by the USGS."
-        assert dataset_instance.includedInDataCatalog[1].description == "A centralized metadata catalog capable of indexing data from the diverse, distributed data required by the I-GUIDE project focus areas."
+        assert (
+            dataset_instance.includedInDataCatalog[0].description
+            == "The Science Data Catalog (SDC) is the official public and searchable index that aggregates descriptions of all public research data that have been published by the USGS."
+        )
+        assert (
+            dataset_instance.includedInDataCatalog[1].description
+            == "A centralized metadata catalog capable of indexing data from the diverse, distributed data required by the I-GUIDE project focus areas."
+        )
         assert dataset_instance.includedInDataCatalog[0].creator.name == "U.S. Geological Survey"
-        assert dataset_instance.includedInDataCatalog[1].creator.name == "NSF Institute for Geospatial Understanding through an Integrative Discovery Environment (I-GUIDE)"
+        assert (
+            dataset_instance.includedInDataCatalog[1].creator.name
+            == "NSF Institute for Geospatial Understanding through an Integrative Discovery Environment (I-GUIDE)"
+        )
         assert dataset_instance.includedInDataCatalog[0].creator.url == "https://www.usgs.gov/"
         assert dataset_instance.includedInDataCatalog[1].creator.url == "https://iguide.illinois.edu/"
     else:
@@ -281,6 +274,9 @@ async def test_dataset_schema_variable_cardinality(dataset_data, dataset_model, 
         assert dataset_instance.includedInDataCatalog[0].name == "The USGS Science Data Catalog (SDC)"
         assert dataset_instance.includedInDataCatalog[0].identifier == "6625bdbde41c45c2b906f32be7ea70f0"
         assert dataset_instance.includedInDataCatalog[0].url == "https://data.usgs.gov/datacatalog/"
-        assert dataset_instance.includedInDataCatalog[0].description == "The Science Data Catalog (SDC) is the official public and searchable index that aggregates descriptions of all public research data that have been published by the USGS."
+        assert (
+            dataset_instance.includedInDataCatalog[0].description
+            == "The Science Data Catalog (SDC) is the official public and searchable index that aggregates descriptions of all public research data that have been published by the USGS."
+        )
         assert dataset_instance.includedInDataCatalog[0].creator.name == "U.S. Geological Survey"
         assert dataset_instance.includedInDataCatalog[0].creator.url == "https://www.usgs.gov/"

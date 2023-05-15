@@ -5,6 +5,7 @@ from urllib.request import urlopen
 
 from fastapi import Request
 from fastapi.exceptions import HTTPException
+from fastapi.openapi.models import OAuth2 as OAuth2Model
 from fastapi.openapi.models import (
     OAuthFlowAuthorizationCode,
     OAuthFlowClientCredentials,
@@ -12,7 +13,6 @@ from fastapi.openapi.models import (
     OAuthFlowPassword,
 )
 from fastapi.openapi.models import OAuthFlows as OAuthFlowsModel
-from fastapi.openapi.models import OAuth2 as OAuth2Model
 from fastapi.security.base import SecurityBase
 from fastapi.security.utils import get_authorization_scheme_param
 from jose import jwt
@@ -97,9 +97,7 @@ class OidcResourceServer(SecurityBase):
             )
 
         if GrantType.CLIENT_CREDENTIALS in grant_types:
-            flows.clientCredentials = OAuthFlowClientCredentials(
-                tokenUrl=token_url
-            )
+            flows.clientCredentials = OAuthFlowClientCredentials(tokenUrl=token_url)
 
         if GrantType.PASSWORD in grant_types:
             flows.password = OAuthFlowPassword(tokenUrl=token_url)

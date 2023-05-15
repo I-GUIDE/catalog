@@ -1,8 +1,8 @@
 import json
-from api.models.user import User
 
 from beanie import DeleteRules, WriteRules
 
+from api.models.user import User
 
 
 async def delete_submission(identifier: str, user: User):

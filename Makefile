@@ -1,4 +1,6 @@
 .DEFAULT_GOAL := all
+isort = isort api tests
+black = black -S -l 120 --target-version py38 api tests
 
 .PHONY: up
 up:
@@ -19,3 +21,8 @@ build:
 .PHONY: test
 test:
 	docker-compose exec api pytest tests
+
+.PHONY: format
+format:
+	docker-compose exec api $(isort)
+	docker-compose exec api $(black)

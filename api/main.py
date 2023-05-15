@@ -1,12 +1,13 @@
-from api.models.user import User, Submission
 import uvicorn
 from beanie import init_beanie
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
-from dotenv import load_dotenv
+
 from api.config import get_settings
 from api.models.catalog import DatasetMetadataDOC
+from api.models.user import Submission, User
 from api.routes.catalog import router as catalog_router
 
 # had to use load_dotenv() to get the env variables to work during testing

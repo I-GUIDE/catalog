@@ -1,7 +1,5 @@
 import re
 from datetime import date, datetime
-
-
 from enum import Enum
 from typing import List, Optional, Union
 
@@ -90,7 +88,6 @@ class Grant(BaseModel):
 
 
 class TimeInterval(str):
-
     @classmethod
     def __get_validators__(cls):
         yield cls.validate
@@ -218,7 +215,7 @@ class Place(BaseModel):
 class MediaObject(BaseModel):
     type: str = Field(alias="@type", const=False, default="MediaObject")
     contentUrl: HttpUrl
-    encodingFormat: str     # TODO enum for encoding formats
+    encodingFormat: str  # TODO enum for encoding formats
     contentSize: str
     name: str
 
@@ -233,8 +230,18 @@ class MediaObject(BaseModel):
             raise ValueError('invalid format')
 
         size_unit = match.group(2)
-        if size_unit.upper() not in ['KB', 'MB', 'GB', 'TB', 'PB', 'KILOBYTES', 'MEGABYTES',
-                                     'GIGABYTES', 'TERABYTES', 'PETABYTES']:
+        if size_unit.upper() not in [
+            'KB',
+            'MB',
+            'GB',
+            'TB',
+            'PB',
+            'KILOBYTES',
+            'MEGABYTES',
+            'GIGABYTES',
+            'TERABYTES',
+            'PETABYTES',
+        ]:
             raise ValueError('invalid unit')
 
         return v
@@ -249,22 +256,50 @@ class CoreMetadata(BaseModel):
     identifier: List[Union[str, HttpUrl, PropertyValue]] = Field(description="Any kind of identifier for the record.")
     creator: List[Union[Person, Organization]] = Field(description="Person or organization that created the work.")
     dateCreated: Union[date, datetime] = Field(description="The date on which the work was created.")
-    keywords: List[Union[KeywordTerm, str, HttpUrl]] = Field(min_items=1, description="Keywords or tags used to describe the dataset, delimited by commas.")
-    license: Union[License, HttpUrl] = Field(description="A license document that applies to the content, typically indicated by a URL.")
-    provider: Union[ProviderOrganization, Person, ProviderID] = Field(description="The service provider, service operator, or service performer.")
-    publisher: Optional[Union[ProviderOrganization, Person, ProviderID]] = Field(description="The publisher of the record.")
+    keywords: List[Union[KeywordTerm, str, HttpUrl]] = Field(
+        min_items=1, description="Keywords or tags used to describe the dataset, delimited by commas."
+    )
+    license: Union[License, HttpUrl] = Field(
+        description="A license document that applies to the content, typically indicated by a URL."
+    )
+    provider: Union[ProviderOrganization, Person, ProviderID] = Field(
+        description="The service provider, service operator, or service performer."
+    )
+    publisher: Optional[Union[ProviderOrganization, Person, ProviderID]] = Field(
+        description="The publisher of the record."
+    )
     datePublished: Optional[Union[date, datetime]] = Field(description="Date of first publication for the record.")
-    subjectOf: Optional[List[SubjectOf]] = Field(description="A CreativeWork about the record - e.g., a related metadata document describing the record.")
-    version: Optional[Union[float, str]] = Field(description="The version of the record.")  # TODO find something better than float for number
+    subjectOf: Optional[List[SubjectOf]] = Field(
+        description="A CreativeWork about the record - e.g., a related metadata document describing the record."
+    )
+    version: Optional[Union[float, str]] = Field(
+        description="The version of the record."
+    )  # TODO find something better than float for number
     inLanguage: Optional[Union[LanguageEnum, str]] = Field(description="The language of the content of the record.")
-    creativeWorkStatus: Optional[Union[DefinedTerm, str]] = Field(description="The status of a creative work in terms of its stage in a lifecycle. Example terms include Incomplete, Draft, Published, Obsolete. Some organizations define a set of terms for the stages of their publication lifecycle.")
-    dateModified: Optional[Union[date, datetime]] = Field(description="The date on which the CreativeWork was most recently modified or updated.")
-    funding: Optional[List[Grant]] = Field(description="A Grant that directly or indirectly provide funding or sponsorship for creation of the dataset.")
-    temporalCoverage: Optional[TimeInterval] = Field(description="The temporalCoverage of a CreativeWork indicates the period that the content applies to, i.e. that it describes, either as a DateTime or as a textual string indicating a time period in ISO 8601 time interval format.")
-    spatialCoverage: Optional[Place] = Field(description="The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. It is a subproperty of contentLocation intended primarily for more technical and detailed materials. For example with a Dataset, it indicates areas that the dataset describes: a dataset of New York weather would have spatialCoverage which was the place: the state of New York.")
-    hasPart: Optional[List[HasPart]] = Field(description="Indicates an record or CreativeWork that is part of this record.")
-    isPartOf: Optional[List[IsPartOf]] = Field(description="Indicates an record or CreativeWork that this record, or CreativeWork (in some sense), is part of.")
-    associatedMedia: Optional[List[MediaObject]] = Field(description="A media object that encodes this CreativeWork. This property is a synonym for encoding.")
+    creativeWorkStatus: Optional[Union[DefinedTerm, str]] = Field(
+        description="The status of a creative work in terms of its stage in a lifecycle. Example terms include Incomplete, Draft, Published, Obsolete. Some organizations define a set of terms for the stages of their publication lifecycle."
+    )
+    dateModified: Optional[Union[date, datetime]] = Field(
+        description="The date on which the CreativeWork was most recently modified or updated."
+    )
+    funding: Optional[List[Grant]] = Field(
+        description="A Grant that directly or indirectly provide funding or sponsorship for creation of the dataset."
+    )
+    temporalCoverage: Optional[TimeInterval] = Field(
+        description="The temporalCoverage of a CreativeWork indicates the period that the content applies to, i.e. that it describes, either as a DateTime or as a textual string indicating a time period in ISO 8601 time interval format."
+    )
+    spatialCoverage: Optional[Place] = Field(
+        description="The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. It is a subproperty of contentLocation intended primarily for more technical and detailed materials. For example with a Dataset, it indicates areas that the dataset describes: a dataset of New York weather would have spatialCoverage which was the place: the state of New York."
+    )
+    hasPart: Optional[List[HasPart]] = Field(
+        description="Indicates an record or CreativeWork that is part of this record."
+    )
+    isPartOf: Optional[List[IsPartOf]] = Field(
+        description="Indicates an record or CreativeWork that this record, or CreativeWork (in some sense), is part of."
+    )
+    associatedMedia: Optional[List[MediaObject]] = Field(
+        description="A media object that encodes this CreativeWork. This property is a synonym for encoding."
+    )
 
 
 class Distribution(BaseModel):
@@ -292,9 +327,15 @@ class IncludedInDataCatalog(BaseModel):
 
 
 class Dataset(BaseModel):
-    distribution: Union[Distribution, List[Distribution]] = Field(description="A data distribution in the form of a dataset (see https://schema.org/Dataset for more information).")
-    variableMeasured: Optional[Union[str, VariableMeasured, List[VariableMeasured]]] = Field(description="The variableMeasured property can indicate (repeated as necessary) the variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue.")
-    includedInDataCatalog: List[IncludedInDataCatalog] = Field(description="A data catalog which contains this dataset (this property was previously 'catalog', preferred name is now 'includedInDataCatalog').")
+    distribution: Union[Distribution, List[Distribution]] = Field(
+        description="A data distribution in the form of a dataset (see https://schema.org/Dataset for more information)."
+    )
+    variableMeasured: Optional[Union[str, VariableMeasured, List[VariableMeasured]]] = Field(
+        description="The variableMeasured property can indicate (repeated as necessary) the variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue."
+    )
+    includedInDataCatalog: List[IncludedInDataCatalog] = Field(
+        description="A data catalog which contains this dataset (this property was previously 'catalog', preferred name is now 'includedInDataCatalog')."
+    )
 
 
 class DatasetSchema(Dataset, CoreMetadata):

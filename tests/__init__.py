@@ -1,21 +1,22 @@
 import json
 import os
+
 import pytest
-from api.models.user import User
-from api.procedures.user import create_or_update_user
 from asgi_lifespan import LifespanManager
 from httpx import AsyncClient
-from fastapi import Security
 
+from api.authentication.user import get_current_user
+from api.config import get_settings
+from api.main import app
 from api.models.catalog import CoreMetadataDOC
 from api.models.schema import CoreMetadata, Dataset
-from api.config import get_settings
-from api.authentication.user import get_current_user, auth_scheme
-from api.main import app
+from api.models.user import User
+from api.procedures.user import create_or_update_user
 
 
 async def override_get_current_user() -> User:
     return await create_or_update_user("pytest_user")
+
 
 app.dependency_overrides[get_current_user] = override_get_current_user
 
@@ -59,8 +60,8 @@ async def dataset_data(core_data):
         "name": "Search",
         "contentUrl": "https://www.my-unique-url.com/get_zip/9d413b9d1/",
         "encodingFormat": "application/zip",
-        "contentSize": "102.1 MB"
-      }
+        "contentSize": "102.1 MB",
+    }
     dataset_data["variableMeasured"] = "Water Temperature"
     dataset_data["includedInDataCatalog"] = [
         {
@@ -69,11 +70,7 @@ async def dataset_data(core_data):
             "description": "The Science Data Catalog (SDC) is the official public and searchable index that aggregates descriptions of all public research data that have been published by the USGS.",
             "url": "https://data.usgs.gov/datacatalog/",
             "identifier": "6625bdbde41c45c2b906f32be7ea70f0/",
-            "creator": {
-                "@type": "Organization",
-                "name": "U.S. Geological Survey",
-                "url": "https://www.usgs.gov/"
-            }
+            "creator": {"@type": "Organization", "name": "U.S. Geological Survey", "url": "https://www.usgs.gov/"},
         }
     ]
     return dataset_data
@@ -88,4 +85,5 @@ async def core_model():
 async def dataset_model():
     class _Dataset(Dataset, CoreMetadata):
         pass
+
     return _Dataset
