@@ -845,6 +845,17 @@
               "$ref": "#/definitions/PropertyValue"
             }
           ]
+        },
+        "creator": {
+          "title": "Creator",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Person"
+            },
+            {
+              "$ref": "#/definitions/Organization"
+            }
+          ]
         }
       },
       "required": [
@@ -885,6 +896,17 @@
             },
             {
               "$ref": "#/definitions/PropertyValue"
+            }
+          ]
+        },
+        "creator": {
+          "title": "Creator",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Person"
+            },
+            {
+              "$ref": "#/definitions/Organization"
             }
           ]
         }
@@ -1067,4 +1089,3 @@
     }
   }
 }
-
