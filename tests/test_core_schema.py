@@ -908,6 +908,46 @@ async def test_core_schema_part_identifier_value_type(core_data, core_model, par
         assert part[0].identifier == identifier_format
 
 
+@pytest.mark.parametrize('property_name', ["hasPart", "isPartOf"])
+@pytest.mark.parametrize('include_creator', [True, False])
+@pytest.mark.asyncio
+async def test_core_schema_part_creator_optional(core_data, core_model, property_name, include_creator):
+    """Test that a core metadata pydantic model can be created from core metadata json.
+    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
+    creator attribute for the hasPartOf/IsPartOf property is optional.
+    Note: This test does nat add a record to the database.
+    """
+    core_data = core_data
+    core_model = core_model
+    core_data[property_name] = []
+    data_format = {
+        "@type": "CreativeWork",
+        "name": "Collection of Great Salt Lake Data",
+        "description": "Data from the Great Salt Lake and its basin",
+        "identifier": "https://www.hydroshare.org/resource/b6c4fcad40c64c4cb4dd7d4a25d0db6e/"
+    }
+    if include_creator:
+        data_format["creator"] = {
+          "@type": "Person",
+          "name": "David Tarboton"
+        }
+    core_data[property_name].append(data_format)
+    # validate the data model
+    core_model_instance = await utils.validate_data_model(core_data, core_model)
+    if property_name == "hasPart":
+        part = core_model_instance.hasPart
+    else:
+        part = core_model_instance.isPartOf
+    assert len(part) == 1
+    assert part[0].type == "CreativeWork"
+    assert part[0].name == "Collection of Great Salt Lake Data"
+    assert part[0].description == "Data from the Great Salt Lake and its basin"
+    assert part[0].identifier == "https://www.hydroshare.org/resource/b6c4fcad40c64c4cb4dd7d4a25d0db6e/"
+    if include_creator:
+        assert part[0].creator.type == "Person"
+        assert part[0].creator.name == "David Tarboton"
+
+
 @pytest.mark.parametrize('dt_type', ["date", "datetime", None])
 @pytest.mark.asyncio
 async def test_core_schema_date_value_type(core_data, core_model, dt_type):
