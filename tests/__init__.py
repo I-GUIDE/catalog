@@ -1,13 +1,23 @@
 import json
 import os
 import pytest
+from api.models.user import User
+from api.procedures.user import create_or_update_user
 from asgi_lifespan import LifespanManager
 from httpx import AsyncClient
+from fastapi import Security
 
 from api.models.catalog import CoreMetadataDOC
 from api.models.schema import CoreMetadata, Dataset
 from api.config import get_settings
+from api.authentication.user import get_current_user, auth_scheme
 from api.main import app
+
+
+async def override_get_current_user() -> User:
+    return await create_or_update_user("pytest_user")
+
+app.dependency_overrides[get_current_user] = override_get_current_user
 
 
 @pytest.fixture

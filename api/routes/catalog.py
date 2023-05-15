@@ -1,4 +1,4 @@
-from typing import List
+from typing import Annotated, List
 from api.authentication.user import get_current_user
 from api.models.user import Submission, User
 
@@ -12,16 +12,17 @@ router = APIRouter()
 
 
 @router.post("/dataset/", response_model=DatasetMetadataDOC, status_code=status.HTTP_201_CREATED)
-async def create_dataset(document: DatasetMetadataDOC, user: User = Depends(get_current_user)):
+async def create_dataset(document: DatasetMetadataDOC, user: Annotated[User, Depends(get_current_user)]):
     await document.insert()
     submission = document.as_submission()
+    await submission.insert()
     user.submissions.append(submission)
     await user.save()
     return document
 
 
 @router.get("/dataset/{submission_id}", response_model=DatasetMetadataDOC)
-async def get_dataset(submission_id: PydanticObjectId, user: User = Depends(get_current_user)):
+async def get_dataset(submission_id: PydanticObjectId, user: Annotated[User, Depends(get_current_user)]):
     submission = user.submission(submission_id)    
     if submission is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
@@ -33,13 +34,13 @@ async def get_dataset(submission_id: PydanticObjectId, user: User = Depends(get_
 
 
 @router.get("/dataset/", response_model=List[DatasetMetadataDOC])
-async def get_datasets(user: User = Depends(get_current_user)):
+async def get_datasets(user: Annotated[User, Depends(get_current_user)]):
     documents = [await DatasetMetadataDOC.get(submission.identifier) for submission in user.submissions]
     return documents
 
 
 @router.put("/dataset/{submission_id}", response_model=DatasetMetadataDOC)
-async def update_dataset(submission_id: PydanticObjectId, updated_document: DatasetMetadataDOC, user: User = Depends(get_current_user)):
+async def update_dataset(submission_id: PydanticObjectId, updated_document: DatasetMetadataDOC, user: Annotated[User, Depends(get_current_user)]):
     submission = user.submission(submission_id)
     dataset: DatasetMetadataDOC = await DatasetMetadataDOC.get(submission_id.identifier)
     if dataset is None:
@@ -51,7 +52,7 @@ async def update_dataset(submission_id: PydanticObjectId, updated_document: Data
 
 
 @router.delete("/dataset/{submission_id}", response_model=dict)
-async def delete_dataset(submission_id: PydanticObjectId, user: User = Depends(get_current_user)):
+async def delete_dataset(submission_id: PydanticObjectId, user: Annotated[User, Depends(get_current_user)]):
     submission = user.submission(submission_id)
     if submission is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
@@ -64,5 +65,5 @@ async def delete_dataset(submission_id: PydanticObjectId, user: User = Depends(g
 
 
 @router.get("/submission/", response_model=List[Submission])
-async def get_submissions(user: User = Depends(get_current_user)):
+async def get_submissions(user: Annotated[User, Depends(get_current_user)]):
     return user.submissions

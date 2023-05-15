@@ -1,14 +1,14 @@
 from datetime import datetime
 from typing import List
 
-from beanie import Document, Link
+from beanie import Document, Link, PydanticObjectId
 from pydantic import HttpUrl
 
 
 class Submission(Document):
     title: str = None
     authors: List[str] = []
-    identifier: str = None
+    identifier: PydanticObjectId
     submitted: datetime = datetime.utcnow()
     url: HttpUrl = None
 

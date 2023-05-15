@@ -18,12 +18,11 @@ class CoreMetadataDOC(Document, CoreMetadata):
                                                         second=0)
         }
     
-    @property
     def as_submission(self) -> Submission:
         return Submission(
             title=self.name,
             authors=[creator.name for creator in self.creator],
-            submitted=datetime.utcnow(),
+            submitted=datetime.datetime.utcnow(),
             identifier=self.id,
             url=self.url,
         )
