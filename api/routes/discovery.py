@@ -43,6 +43,8 @@ async def search(request: Request, term: str, sortBy: str = None, contentType: s
         })
 
     if dataCoverageStart:
+        # TODO: split the date string on the '/' character and get the start date
+        #  example value for temporalCoverage: "2020-01-01T00:00:00Z/2020-12-31T23:59:59Z"
         filters.append({
             'range': {
                 'path': 'temporalCoverage.start',
@@ -51,6 +53,11 @@ async def search(request: Request, term: str, sortBy: str = None, contentType: s
         })
 
     if dataCoverageEnd:
+        # TODO: split the date string on the '/' character and get the end date
+        #  example value for temporalCoverage:
+        #   "2020-01-01T00:00:00Z/2020-12-31T23:59:59Z"
+        #  OR
+        #   "2020-01-01T00:00:00Z/.."
         filters.append({
             'range': {
                 'path': 'temporalCoverage.end',
