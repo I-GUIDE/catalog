@@ -3,6 +3,7 @@ from beanie import init_beanie
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.openapi.utils import get_openapi
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from api.config import get_settings
@@ -42,6 +43,13 @@ async def shutdown_db_client():
 app.include_router(catalog_router, tags=["Dataset"], prefix="/api/catalog")
 app.include_router(discovery_router, tags=["Discovery"], prefix="/api/discovery")
 
+openapi_schema = get_openapi(
+    title="I-GUIDE Catalog API",
+    version="1.0",
+    description="Standardized interface with validation for managing catalog",
+    routes=app.routes,
+)
+app.openapi_schema = openapi_schema
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000)
