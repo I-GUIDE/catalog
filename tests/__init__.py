@@ -1,12 +1,11 @@
 import json
 import os
 
-import pytest
+import pytest_asyncio
 from asgi_lifespan import LifespanManager
-from fastapi import Security
 from httpx import AsyncClient
 
-from api.authentication.user import auth_scheme, get_current_user
+from api.authentication.user import get_current_user
 from api.config import get_settings
 from api.main import app
 from api.models.catalog import CoreMetadataDOC
@@ -22,7 +21,7 @@ async def override_get_current_user() -> User:
 app.dependency_overrides[get_current_user] = override_get_current_user
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def client_test():
     """
     Create an instance of the client.
@@ -39,20 +38,20 @@ async def client_test():
         await CoreMetadataDOC.find(with_children=True).delete()
 
 
-@pytest.fixture(scope="function")
+@pytest_asyncio.fixture(scope="function")
 async def change_test_dir(request):
     os.chdir(request.fspath.dirname)
     yield
     os.chdir(request.config.invocation_dir)
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def core_data(change_test_dir):
     with open("data/core_metadata.json", "r") as f:
         return json.loads(f.read())
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def dataset_data(core_data):
     dataset_data = core_data.copy()
     # add dataset specific metadata
@@ -77,12 +76,12 @@ async def dataset_data(core_data):
     return dataset_data
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def core_model():
     return CoreMetadata
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def dataset_model():
     class _Dataset(Dataset, CoreMetadata):
         pass
