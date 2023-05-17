@@ -12,7 +12,9 @@ router = APIRouter()
 @router.get("/search")
 async def search(request: Request, term: str, sortBy: str = None, contentType: str = None, providerName: str = None,
                  creatorName: str = None, dataCoverageStart: int = None, dataCoverageEnd: int = None,
-                 publishedStart: int = None, publishedEnd: int = None,
+                 publishedStart: int = None, publishedEnd: int = None, variableMeasured: str = None,
+                 includedInDataCatalogName: str = None, hasPartName: str = None, isPartOfName: str = None,
+                 associatedMediaName: str = None, fundingGrantName: str = None, fundingFunderName: str = None,
                  clusters: Union[list[str], None] = Query(default=None),
                  pageNumber: int = 1, pageSize: int = 30):
     searchPaths = ['name', 'description', 'keywords']
@@ -77,6 +79,62 @@ async def search(request: Request, term: str, sortBy: str = None, contentType: s
             'text': {
                 'path': '@type',
                 'query': contentType
+            }
+        })
+
+    if variableMeasured:
+        must.append({
+            'text': {
+                'path': 'variableMeasured',
+                'query': variableMeasured
+            }
+        })
+
+    if includedInDataCatalogName:
+        must.append({
+            'text': {
+                'path': 'includedInDataCatalog.@list.name',
+                'query': includedInDataCatalogName
+            }
+        })
+
+    if hasPartName:
+        must.append({
+            'text': {
+                'path': 'hasPart.@list.name',
+                'query': hasPartName
+            }
+        })
+
+    if isPartOfName:
+        must.append({
+            'text': {
+                'path': 'isPartOf.@list.name',
+                'query': isPartOfName
+            }
+        })
+
+    if associatedMediaName:
+        must.append({
+            'text': {
+                'path': 'associatedMedia.@list.name',
+                'query': associatedMediaName
+            }
+        })
+
+    if fundingGrantName:
+        must.append({
+            'text': {
+                'path': 'funding.@list.grant.name',
+                'query': fundingGrantName
+            }
+        })
+
+    if fundingFunderName:
+        must.append({
+            'text': {
+                'path': 'funding.@list.funder.name',
+                'query': fundingFunderName
             }
         })
 
@@ -150,35 +208,7 @@ async def typeahead(request: Request, term: str, pageSize: int = 30):
             '$search': {
                 'index': 'fuzzy_search',
                 'compound': {
-                    'should': [
-                        {
-                            'autocomplete': {
-                                'query': term,
-                                'path': 'description',
-                                'fuzzy': {
-                                    'maxEdits': 1
-                                }
-                            }
-                        },
-                        {
-                            'autocomplete': {
-                                'query': term,
-                                'path': 'name',
-                                'fuzzy': {
-                                    'maxEdits': 1
-                                }
-                            }
-                        },
-                        {
-                            'autocomplete': {
-                                'query': term,
-                                'path': 'keywords',
-                                'fuzzy': {
-                                    'maxEdits': 1
-                                }
-                            }
-                        }
-                    ]
+                    'should': should
                 },
                 'highlight': {
                     'path': ['description', 'name', 'keywords']
