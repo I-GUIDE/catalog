@@ -48,7 +48,8 @@ async def update_dataset(
     dataset: DatasetMetadataDOC = await DatasetMetadataDOC.get(submission.identifier)
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
-    await dataset.set(updated_document.dict(exclude_unset=True))
+
+    await dataset.set(updated_document.dict(exclude_unset=True, by_alias=True))
     dataset = await DatasetMetadataDOC.get(submission_id)
     await submission.set(dataset.as_submission().dict(exclude_unset=True))
     return dataset

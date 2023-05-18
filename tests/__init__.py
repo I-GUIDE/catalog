@@ -8,7 +8,7 @@ from httpx import AsyncClient
 from api.authentication.user import get_current_user
 from api.config import get_settings
 from api.main import app
-from api.models.catalog import CoreMetadataDOC
+from api.models.catalog import CoreMetadataDOC, Submission
 from api.models.schema import CoreMetadata, Dataset
 from api.models.user import User
 from api.procedures.user import create_or_update_user
@@ -34,8 +34,9 @@ async def client_test():
             ac.app = app
             yield ac
 
-        # cleanup the test db collection
+        # cleanup the test db collections
         await CoreMetadataDOC.find(with_children=True).delete()
+        await Submission.find().delete()
 
 
 @pytest_asyncio.fixture(scope="function")
