@@ -42,25 +42,45 @@ async def search(request: Request, term: str, sortBy: str = None, contentType: s
             },
         })
 
+    if dataCoverageStart or dataCoverageEnd:
+        # split the date string on the '/' character and store the start and end dates using the added
+        # field 'temporalCoverageDates'
+        # e.g., value for temporalCoverage with both start and end date values:
+        # "2020-01-01T00:00:00Z/2020-12-31T23:59:59Z"
+        # e.g., value for temporalCoverage with start date and no end date values:
+        # "2020-01-01T00:00:00Z/.."
+        stages.append({
+            '$addFields': {
+                'temporalCoverageDates': {
+                    '$map': {
+                        'input': {
+                            '$split': [
+                                '$temporalCoverage', '/'
+                            ]
+                        },
+                        'in': {
+                            '$dateFromString': {
+                                'dateString': '$$this',
+                                'onError': datetime.utcnow()
+                            }
+                        }
+                    }
+                }
+            }
+        })
+
     if dataCoverageStart:
-        # TODO: split the date string on the '/' character and get the start date
-        #  example value for temporalCoverage: "2020-01-01T00:00:00Z/2020-12-31T23:59:59Z"
         filters.append({
             'range': {
-                'path': 'temporalCoverage.start',
+                'path': 'temporalCoverageDates.0',
                 'gte': datetime(dataCoverageStart, 1, 1)
             }
         })
 
     if dataCoverageEnd:
-        # TODO: split the date string on the '/' character and get the end date
-        #  example value for temporalCoverage:
-        #   "2020-01-01T00:00:00Z/2020-12-31T23:59:59Z"
-        #  OR
-        #   "2020-01-01T00:00:00Z/.."
         filters.append({
             'range': {
-                'path': 'temporalCoverage.end',
+                'path': 'temporalCoverageDates.1',
                 'lt': datetime(dataCoverageEnd + 1, 1, 1)
             }
         })
