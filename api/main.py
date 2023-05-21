@@ -78,6 +78,7 @@ async def main():
         submissions_trigger = asyncio.create_task(watch_submissions_with_retry())
         await asyncio.wait([api, catalog_trigger, submissions_trigger, scheduler])
 
+
 if __name__ == "__main__":
     rocketry_logger = logging.getLogger("rocketry.task")
     rocketry_logger.addHandler(logging.StreamHandler())
