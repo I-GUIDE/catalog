@@ -2,10 +2,7 @@ import asyncio
 
 from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
-<<<<<<< HEAD
 
-=======
->>>>>>> adding triggers for catalog data sync
 from api.config import get_settings
 from api.models.user import Submission
 
@@ -18,16 +15,10 @@ async def main():
     # This enables us to get the record id of a deleted submission within a trigger.  We need this for removing
     # discovery records when a submission is deleted
     await db[settings.database_name].command(
-<<<<<<< HEAD
         ({'collMod': Submission.get_collection_name(), "changeStreamPreAndPostImages": {'enabled': True}})
     )
     db.close()
 
 
-=======
-        ({'collMod': Submission.get_collection_name(), "changeStreamPreAndPostImages": {'enabled': True}}))
-    db.close()
-
->>>>>>> adding triggers for catalog data sync
 if __name__ == "__main__":
     asyncio.run(main())

@@ -23,7 +23,6 @@ async def search(
     pageNumber: int = 1,
     pageSize: int = 30,
 ):
-    #searchPaths = ['name', 'description', 'keywords']
     highlightPaths = ['name', 'description', 'keywords', 'creator.@list.name']
     autoCompletePaths = ['name', 'description', 'keywords']
 

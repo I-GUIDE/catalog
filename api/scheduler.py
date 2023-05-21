@@ -27,8 +27,9 @@ async def do_daily():
             await catalog.delete()
 
     async for submission in Submission.find_all():
-        catalog = await CoreMetadataDOC.find(CoreMetadataDOC.id == submission.identifier,
-                                             with_children=True).first_or_none()
+        catalog = await CoreMetadataDOC.find(
+            CoreMetadataDOC.id == submission.identifier, with_children=True
+        ).first_or_none()
         if not catalog:
             await submission.delete()
 
