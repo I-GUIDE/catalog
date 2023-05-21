@@ -1,6 +1,3 @@
-import asyncio
-import logging
-
 import uvicorn
 from beanie import init_beanie
 from dotenv import load_dotenv
@@ -14,8 +11,6 @@ from api.models.catalog import DatasetMetadataDOC
 from api.models.user import Submission, User
 from api.routes.catalog import router as catalog_router
 from api.routes.discovery import router as discovery_router
-from api.scheduler import app as app_rocketry
-from api.triggers import watch_catalog_with_retry, watch_submissions_with_retry
 
 # had to use load_dotenv() to get the env variables to work during testing
 load_dotenv()
@@ -36,8 +31,6 @@ async def startup_db_client():
     app.mongodb_client = AsyncIOMotorClient(settings.db_connection_string)
     app.mongodb = app.mongodb_client[settings.database_name]
     await init_beanie(database=app.mongodb, document_models=[DatasetMetadataDOC, User, Submission])
-    clusters = await app.mongodb["iguide"].find().distinct('clusters')
-    app.clusters = clusters
 
 
 @app.on_event("shutdown")
@@ -56,31 +49,5 @@ openapi_schema = get_openapi(
 )
 app.openapi_schema = openapi_schema
 
-
-class Server(uvicorn.Server):
-    def handle_exit(self, sig: int, frame) -> None:
-        app_rocketry.session.shut_down()
-        return super().handle_exit(sig, frame)
-
-
-async def main():
-    """Run Rocketry and FastAPI"""
-
-    settings = get_settings()
-    reload = settings.local_development is True
-    server = Server(config=uvicorn.Config(app, workers=1, loop="asyncio", host="0.0.0.0", port=5002, reload=reload))
-    api = asyncio.create_task(server.serve())
-    if settings.local_development:
-        await asyncio.wait([api])
-    else:
-        scheduler = asyncio.create_task(app_rocketry.serve())
-        catalog_trigger = asyncio.create_task(watch_catalog_with_retry())
-        submissions_trigger = asyncio.create_task(watch_submissions_with_retry())
-        await asyncio.wait([api, catalog_trigger, submissions_trigger, scheduler])
-
-
 if __name__ == "__main__":
-    rocketry_logger = logging.getLogger("rocketry.task")
-    rocketry_logger.addHandler(logging.StreamHandler())
-
-    asyncio.run(main())
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)
