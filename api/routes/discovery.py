@@ -135,7 +135,7 @@ async def search(request: Request, term: str, sortBy: str = None, contentType: s
         },
     )
 
-    result = await request.app.mongodb["cznet"].aggregate(stages).to_list(pageSize)
+    result = await request.app.mongodb["catalog"].aggregate(stages).to_list(pageSize)
     return result
 
 
@@ -196,7 +196,7 @@ async def typeahead(request: Request, term: str, pageSize: int = 30):
             }
         }
     ]
-    result = await request.app.mongodb["cznet"].aggregate(stages).to_list(pageSize)
+    result = await request.app.mongodb["typeahead"].aggregate(stages).to_list(pageSize)
     return result
 
 
@@ -210,7 +210,7 @@ async def sanitize(request: Request):
             '_id': 0
         }
     }]
-    json_response = await request.app.mongodb["cznet"].aggregate(project).to_list(None)
+    json_response = await request.app.mongodb["catalog"].aggregate(project).to_list(None)
     df = pandas.read_json(json.dumps(json_response))
     filename = "file.csv"
     df.to_csv(filename)

@@ -4,3 +4,4 @@ motor
 beanie[httpx]
 python-jose
 pandas
+rocketry==2.5.1
