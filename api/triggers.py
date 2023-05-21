@@ -1,6 +1,6 @@
+import re
 import asyncio
 import logging
-import re
 
 from motor.motor_asyncio import AsyncIOMotorClient
 

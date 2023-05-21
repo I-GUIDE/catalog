@@ -2,9 +2,7 @@ import json
 from datetime import datetime
 from typing import Union
 
-import pandas
 from fastapi import APIRouter, Query, Request
-from fastapi.responses import FileResponse
 
 router = APIRouter()
 
@@ -25,7 +23,7 @@ async def search(
     pageNumber: int = 1,
     pageSize: int = 30,
 ):
-    searchPaths = ['name', 'description', 'keywords']
+    #searchPaths = ['name', 'description', 'keywords']
     highlightPaths = ['name', 'description', 'keywords', 'creator.@list.name']
     autoCompletePaths = ['name', 'description', 'keywords']
 
@@ -95,13 +93,14 @@ async def search(
         {'$set': {'score': {'$meta': 'searchScore'}, 'highlights': {'$meta': 'searchHighlights'}}},
     )
 
-    result = await request.app.mongodb["cznet"].aggregate(stages).to_list(pageSize)
+    result = await request.app.mongodb["catalog"].aggregate(stages).to_list(pageSize)
     return result
 
 
 @router.get("/typeahead")
 async def typeahead(request: Request, term: str, pageSize: int = 30):
     autoCompletePaths = ['name', 'description', 'keywords']
+    highlightsPaths = ['name', 'description', 'keywords']
     should = [{'autocomplete': {'query': term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in autoCompletePaths]
 
     stages = [
@@ -128,20 +127,5 @@ async def typeahead(request: Request, term: str, pageSize: int = 30):
             }
         },
     ]
-    result = await request.app.mongodb["cznet"].aggregate(stages).to_list(pageSize)
+    result = await request.app.mongodb["typeahead"].aggregate(stages).to_list(pageSize)
     return result
-
-
-@router.get("/csv")
-async def sanitize(request: Request):
-    project = [{'$project': {'name': 1, 'description': 1, 'keywords': 1, '_id': 0}}]
-    json_response = await request.app.mongodb["cznet"].aggregate(project).to_list(None)
-    df = pandas.read_json(json.dumps(json_response))
-    filename = "file.csv"
-    df.to_csv(filename)
-    return FileResponse(filename, filename=filename, media_type='application/octet-stream')
-
-
-@router.get("/clusters", response_model=list[str])
-async def clusters(request: Request):
-    return request.app.clusters
