@@ -31,8 +31,6 @@ async def startup_db_client():
     app.mongodb_client = AsyncIOMotorClient(settings.db_connection_string)
     app.mongodb = app.mongodb_client[settings.database_name]
     await init_beanie(database=app.mongodb, document_models=[DatasetMetadataDOC, User, Submission])
-    clusters = await app.mongodb["cznet"].find().distinct('clusters')
-    app.clusters = clusters
 
 
 @app.on_event("shutdown")
