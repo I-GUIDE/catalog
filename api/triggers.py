@@ -65,22 +65,3 @@ async def watch_catalog_with_retry():
         except:
             logger.exception("Catalog Watch Task failed, restarting the task after 1 second")
             await asyncio.sleep(1)
-
-
-async def watch_submissions():
-    db = get_db()
-    async with db["Submission"].watch(full_document_before_change="whenAvailable") as stream:
-        async for change in stream:
-            logger.warning(f"start with a {change}")
-            if change["operationType"] == "delete":
-                document = change["fullDocumentBeforeChange"]
-                await db["catalog"].delete_one({"_id": document["identifier"]})
-
-
-async def watch_submissions_with_retry():
-    while True:
-        try:
-            await watch_submissions()
-        except:
-            logger.exception("Submission Watch Task failed, restarting the task after 1 second")
-            await asyncio.sleep(1)

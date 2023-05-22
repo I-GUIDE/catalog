@@ -1,5 +1,4 @@
 import asyncio
-import logging
 
 import uvicorn
 from beanie import init_beanie
@@ -14,7 +13,6 @@ from api.models.catalog import DatasetMetadataDOC
 from api.models.user import Submission, User
 from api.routes.catalog import router as catalog_router
 from api.routes.discovery import router as discovery_router
-from api.triggers import watch_catalog_with_retry, watch_submissions_with_retry
 
 # had to use load_dotenv() to get the env variables to work during testing
 load_dotenv()
@@ -62,14 +60,10 @@ class Server(uvicorn.Server):
 async def main():
     """Run FastAPI"""
 
-    settings = get_settings()
-    reload = settings.local_development is True
-    server = Server(config=uvicorn.Config(app, workers=1, loop="asyncio", host="0.0.0.0", port=5002, reload=reload))
+    server = Server(config=uvicorn.Config(app, workers=1, loop="asyncio", host="0.0.0.0", port=8000))
     api = asyncio.create_task(server.serve())
-    
-    catalog_trigger = asyncio.create_task(watch_catalog_with_retry())
-    submissions_trigger = asyncio.create_task(watch_submissions_with_retry())
-    await asyncio.wait([api, catalog_trigger, submissions_trigger])
+
+    await asyncio.wait([api])
 
 
 if __name__ == "__main__":
