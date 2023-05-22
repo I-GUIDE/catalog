@@ -26,3 +26,11 @@ test:
 format:
 	docker-compose run api $(isort)
 	docker-compose run api $(black)
+
+.PHONY: schema
+schema:
+	docker-compose run api python api/models/management/generate_schema.py
+
+.PHONY: test
+test:
+	docker-compose exec api pytest tests
