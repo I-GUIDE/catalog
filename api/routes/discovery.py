@@ -1,7 +1,6 @@
 from datetime import datetime
-from typing import Union
 
-from fastapi import APIRouter, Query, Request
+from fastapi import APIRouter, Request
 from pydantic import BaseModel, validator
 
 router = APIRouter()

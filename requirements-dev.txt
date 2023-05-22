@@ -6,3 +6,4 @@ pytest-cov
 pytest-asyncio==0.18.2
 datamodel-code-generator==0.15.0
 asgi_lifespan==1.0.1
+typer
