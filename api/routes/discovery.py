@@ -24,7 +24,6 @@ class SearchQuery(BaseModel):
     associatedMediaName: str = None
     fundingGrantName: str = None
     fundingFunderName: str = None
-    clusters: Union[list[str], None] = Query(default=None)  # TODO: may be this is not relevant to iguide
     pageNumber: int = 1
     pageSize: int = 30
 
@@ -149,9 +148,6 @@ class SearchQuery(BaseModel):
                 }
             }
         )
-
-        if self.clusters:
-            stages.append({'$match': {'clusters': {'$all': self.clusters}}})
 
         # sorting needs to happen before pagination
         if self.sortBy:
