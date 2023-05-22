@@ -170,7 +170,6 @@ async def search(request: Request, search_query: SearchQuery):
 @router.get("/typeahead")
 async def typeahead(request: Request, term: str, pageSize: int = 30):
     autoCompletePaths = ['name', 'description', 'keywords']
-    highlightsPaths = ['name', 'description', 'keywords']
     should = [{'autocomplete': {'query': term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in autoCompletePaths]
 
     stages = [
