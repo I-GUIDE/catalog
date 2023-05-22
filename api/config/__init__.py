@@ -14,8 +14,6 @@ class Settings(BaseSettings):
 
     keycloak_issuer: str
 
-    outside_host: str
-
     def __init__(self, **data: Any) -> None:
         super().__init__(**data)
         if self.testing:
@@ -24,10 +22,6 @@ class Settings(BaseSettings):
     @property
     def db_connection_string(self):
         return f"{self.db_protocol}://{self.db_username}:{self.db_password}@{self.db_host}/?retryWrites=true&w=majority"
-
-    @property
-    def local_development(self):
-        return self.outside_host == "localhost"
 
     class Config:
         env_file = ".env"
