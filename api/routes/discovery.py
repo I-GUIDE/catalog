@@ -23,6 +23,7 @@ class SearchQuery(BaseModel):
     associatedMediaName: str = None
     fundingGrantName: str = None
     fundingFunderName: str = None
+    creativeWorkStatus: str = None
     pageNumber: int = 1
     pageSize: int = 30
 
@@ -88,7 +89,7 @@ class SearchQuery(BaseModel):
 
     @property
     def _should(self):
-        auto_complete_paths = ['name', 'description', 'keywords']
+        auto_complete_paths = ['name', 'description', 'keywords', 'keywords.name']
         should = [
             {'autocomplete': {'query': self.term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in auto_complete_paths
         ]
@@ -97,40 +98,44 @@ class SearchQuery(BaseModel):
     @property
     def _must(self):
         must = []
+        if self.contentType:
+            must.append({'term': {'path': '@type', 'query': self.contentType}})
         if self.creatorName:
-            must.append({'text': {'path': 'creator.@list.name', 'query': self.creatorName}})
+            must.append({'text': {'path': 'creator.name', 'query': self.creatorName}})
         if self.providerName:
             must.append({'text': {'path': 'provider.name', 'query': self.providerName}})
-        if self.contentType:
-            must.append({'term': {'path': '@type', 'value': self.contentType}})
         if self.variableMeasured:
-            must.append({'term': {'path': 'variableMeasured', 'value': self.variableMeasured}})
+            must.append({'text': {'path': ['variableMeasured', 'variableMeasured.name'],
+                                  'query': self.variableMeasured}})
         if self.includedInDataCatalogName:
-            must.append({'text': {'path': 'includedInDataCatalog.@list.name', 'query': self.includedInDataCatalogName}})
+            must.append({'text': {'path': 'includedInDataCatalog.name', 'query': self.includedInDataCatalogName}})
         if self.hasPartName:
-            must.append({'text': {'path': 'hasPart.@list.name', 'query': self.hasPartName}})
+            must.append({'text': {'path': 'hasPart.name', 'query': self.hasPartName}})
         if self.isPartOfName:
-            must.append({'text': {'path': 'isPartOf.@list.name', 'query': self.isPartOfName}})
+            must.append({'text': {'path': 'isPartOf.name', 'query': self.isPartOfName}})
         if self.associatedMediaName:
-            must.append({'text': {'path': 'associatedMedia.@list.name', 'query': self.associatedMediaName}})
+            must.append({'text': {'path': 'associatedMedia.name', 'query': self.associatedMediaName}})
         if self.fundingGrantName:
-            must.append({'text': {'path': 'funding.@list.grant.name', 'query': self.fundingGrantName}})
+            must.append({'text': {'path': 'funding.name', 'query': self.fundingGrantName}})
         if self.fundingFunderName:
-            must.append({'text': {'path': 'funding.@list.funder.name', 'query': self.fundingFunderName}})
+            must.append({'text': {'path': 'funding.funder.name', 'query': self.fundingFunderName}})
+        if self.creativeWorkStatus:
+            must.append({'text': {'path': ['creativeWorkStatus', 'creativeWorkStatus.name'],
+                                  'query': self.creativeWorkStatus}})
 
         return must
 
     @property
     def stages(self):
-        highlightPaths = ['name', 'description', 'keywords', 'creator.@list.name']
+        highlightPaths = ['name', 'description', 'keywords', 'creator.name']
         stages = []
         if self.dataCoverageStart or self.dataCoverageEnd:
             stages.append(
                 {
                     '$addFields': {
-                        'dataCoverageDates': {
+                        'temporalCoverageDates': {
                             '$map': {
-                                'input': {'$split': ['$dataCoverage', '/']},
+                                'input': {'$split': ['$temporalCoverage', '/']},
                                 'in': {'$dateFromString': {'dateString': '$$this', 'onError': datetime.utcnow()}},
                             }
                         }
@@ -138,7 +143,8 @@ class SearchQuery(BaseModel):
                 }
             )
 
-        stages.append(
+        stages.insert(
+            0,
             {
                 '$search': {
                     'index': 'fuzzy_search',
@@ -153,14 +159,14 @@ class SearchQuery(BaseModel):
             stages.append({'$sort': {self.sortBy: 1}})
         stages.append({'$skip': (self.pageNumber - 1) * self.pageSize})
         stages.append({'$limit': self.pageSize})
-        stages.append({'unset': ['_id']})
+        stages.append({'$unset': ['_id', '_class_id']})
         stages.append(
             {'$set': {'score': {'$meta': 'searchScore'}, 'highlights': {'$meta': 'searchHighlights'}}},
         )
         return stages
 
 
-@router.get("/search")
+@router.post("/search")
 async def search(request: Request, search_query: SearchQuery):
     stages = search_query.stages
     result = await request.app.mongodb["catalog"].aggregate(stages).to_list(search_query.pageSize)
@@ -169,7 +175,7 @@ async def search(request: Request, search_query: SearchQuery):
 
 @router.get("/typeahead")
 async def typeahead(request: Request, term: str, pageSize: int = 30):
-    autoCompletePaths = ['name', 'description', 'keywords']
+    autoCompletePaths = ['name', 'description', 'keywords', 'keywords.name']
     should = [{'autocomplete': {'query': term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in autoCompletePaths]
 
     stages = [
