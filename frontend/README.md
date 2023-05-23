@@ -1,0 +1,1 @@
+I propose the frontend be moved to here and this repository to be renamed
