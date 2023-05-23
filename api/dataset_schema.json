@@ -137,76 +137,70 @@
               },
               "identifier": {
                 "title": "Identifier",
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 2083,
-                    "format": "uri"
-                  },
-                  {
-                    "title": "PropertyValue",
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "title": "@Id",
-                        "minLength": 1,
-                        "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
-                      },
-                      "@type": {
-                        "title": "@Type",
-                        "default": "PropertyValue",
-                        "const": "PropertyValue",
-                        "type": "string",
-                        "readonly": true,
-                        "option": {
-                          "hidden": true
-                        }
-                      },
-                      "name": {
-                        "title": "Name",
-                        "type": "string"
-                      },
-                      "propertyID": {
-                        "title": "Propertyid",
-                        "minLength": 1,
-                        "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
-                      },
-                      "value": {
-                        "title": "Value",
-                        "type": "string"
-                      },
-                      "url": {
-                        "title": "Url",
-                        "minLength": 1,
-                        "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
-                      }
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
                     },
-                    "required": [
-                      "@id",
-                      "value",
-                      "url"
-                    ]
-                  },
-                  {
-                    "type": "array",
-                    "items": {
+                    {
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 2083,
                       "format": "uri"
+                    },
+                    {
+                      "title": "PropertyValue",
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "title": "@Id",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "format": "uri",
+                          "type": "string"
+                        },
+                        "@type": {
+                          "title": "@Type",
+                          "default": "PropertyValue",
+                          "const": "PropertyValue",
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
+                        },
+                        "name": {
+                          "title": "Name",
+                          "type": "string"
+                        },
+                        "propertyID": {
+                          "title": "Propertyid",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "format": "uri",
+                          "type": "string"
+                        },
+                        "value": {
+                          "title": "Value",
+                          "type": "string"
+                        },
+                        "url": {
+                          "title": "Url",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "format": "uri",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "@id",
+                        "value",
+                        "url"
+                      ]
                     }
-                  }
-                ]
+                  ]
+                }
               }
             },
             "required": [
@@ -240,76 +234,70 @@
               },
               "identifier": {
                 "title": "Identifier",
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 2083,
-                    "format": "uri"
-                  },
-                  {
-                    "title": "PropertyValue",
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "title": "@Id",
-                        "minLength": 1,
-                        "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
-                      },
-                      "@type": {
-                        "title": "@Type",
-                        "default": "PropertyValue",
-                        "const": "PropertyValue",
-                        "type": "string",
-                        "readonly": true,
-                        "option": {
-                          "hidden": true
-                        }
-                      },
-                      "name": {
-                        "title": "Name",
-                        "type": "string"
-                      },
-                      "propertyID": {
-                        "title": "Propertyid",
-                        "minLength": 1,
-                        "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
-                      },
-                      "value": {
-                        "title": "Value",
-                        "type": "string"
-                      },
-                      "url": {
-                        "title": "Url",
-                        "minLength": 1,
-                        "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
-                      }
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
                     },
-                    "required": [
-                      "@id",
-                      "value",
-                      "url"
-                    ]
-                  },
-                  {
-                    "type": "array",
-                    "items": {
+                    {
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 2083,
                       "format": "uri"
+                    },
+                    {
+                      "title": "PropertyValue",
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "title": "@Id",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "format": "uri",
+                          "type": "string"
+                        },
+                        "@type": {
+                          "title": "@Type",
+                          "default": "PropertyValue",
+                          "const": "PropertyValue",
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
+                        },
+                        "name": {
+                          "title": "Name",
+                          "type": "string"
+                        },
+                        "propertyID": {
+                          "title": "Propertyid",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "format": "uri",
+                          "type": "string"
+                        },
+                        "value": {
+                          "title": "Value",
+                          "type": "string"
+                        },
+                        "url": {
+                          "title": "Url",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "format": "uri",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "@id",
+                        "value",
+                        "url"
+                      ]
                     }
-                  }
-                ]
+                  ]
+                }
               },
               "address": {
                 "title": "Address",
@@ -466,76 +454,70 @@
             },
             "identifier": {
               "title": "Identifier",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "format": "uri"
-                },
-                {
-                  "title": "PropertyValue",
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "title": "@Id",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    },
-                    "@type": {
-                      "title": "@Type",
-                      "default": "PropertyValue",
-                      "const": "PropertyValue",
-                      "type": "string",
-                      "readonly": true,
-                      "option": {
-                        "hidden": true
-                      }
-                    },
-                    "name": {
-                      "title": "Name",
-                      "type": "string"
-                    },
-                    "propertyID": {
-                      "title": "Propertyid",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    },
-                    "value": {
-                      "title": "Value",
-                      "type": "string"
-                    },
-                    "url": {
-                      "title": "Url",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    }
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
                   },
-                  "required": [
-                    "@id",
-                    "value",
-                    "url"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
+                  {
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 2083,
                     "format": "uri"
+                  },
+                  {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "title": "@Id",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      },
+                      "@type": {
+                        "title": "@Type",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
+                      },
+                      "name": {
+                        "title": "Name",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "Propertyid",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      },
+                      "value": {
+                        "title": "Value",
+                        "type": "string"
+                      },
+                      "url": {
+                        "title": "Url",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "@id",
+                      "value",
+                      "url"
+                    ]
                   }
-                }
-              ]
+                ]
+              }
             },
             "address": {
               "title": "Address",
@@ -568,76 +550,70 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri"
-                    },
-                    {
-                      "title": "PropertyValue",
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "title": "@Id",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "@type": {
-                          "title": "@Type",
-                          "default": "PropertyValue",
-                          "const": "PropertyValue",
-                          "type": "string",
-                          "readonly": true,
-                          "option": {
-                            "hidden": true
-                          }
-                        },
-                        "name": {
-                          "title": "Name",
-                          "type": "string"
-                        },
-                        "propertyID": {
-                          "title": "Propertyid",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "value": {
-                          "title": "Value",
-                          "type": "string"
-                        },
-                        "url": {
-                          "title": "Url",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        }
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
                       },
-                      "required": [
-                        "@id",
-                        "value",
-                        "url"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
+                      {
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 2083,
                         "format": "uri"
+                      },
+                      {
+                        "title": "PropertyValue",
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "title": "@Id",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "@type": {
+                            "title": "@Type",
+                            "default": "PropertyValue",
+                            "const": "PropertyValue",
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
+                          },
+                          "name": {
+                            "title": "Name",
+                            "type": "string"
+                          },
+                          "propertyID": {
+                            "title": "Propertyid",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "Value",
+                            "type": "string"
+                          },
+                          "url": {
+                            "title": "Url",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id",
+                          "value",
+                          "url"
+                        ]
                       }
-                    }
-                  ]
+                    ]
+                  }
                 },
                 "address": {
                   "title": "Address",
@@ -678,76 +654,70 @@
             },
             "identifier": {
               "title": "Identifier",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "format": "uri"
-                },
-                {
-                  "title": "PropertyValue",
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "title": "@Id",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    },
-                    "@type": {
-                      "title": "@Type",
-                      "default": "PropertyValue",
-                      "const": "PropertyValue",
-                      "type": "string",
-                      "readonly": true,
-                      "option": {
-                        "hidden": true
-                      }
-                    },
-                    "name": {
-                      "title": "Name",
-                      "type": "string"
-                    },
-                    "propertyID": {
-                      "title": "Propertyid",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    },
-                    "value": {
-                      "title": "Value",
-                      "type": "string"
-                    },
-                    "url": {
-                      "title": "Url",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    }
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
                   },
-                  "required": [
-                    "@id",
-                    "value",
-                    "url"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
+                  {
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 2083,
                     "format": "uri"
+                  },
+                  {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "title": "@Id",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      },
+                      "@type": {
+                        "title": "@Type",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
+                      },
+                      "name": {
+                        "title": "Name",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "Propertyid",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      },
+                      "value": {
+                        "title": "Value",
+                        "type": "string"
+                      },
+                      "url": {
+                        "title": "Url",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "@id",
+                      "value",
+                      "url"
+                    ]
                   }
-                }
-              ]
+                ]
+              }
             }
           },
           "required": [
@@ -803,76 +773,70 @@
             },
             "identifier": {
               "title": "Identifier",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "format": "uri"
-                },
-                {
-                  "title": "PropertyValue",
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "title": "@Id",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    },
-                    "@type": {
-                      "title": "@Type",
-                      "default": "PropertyValue",
-                      "const": "PropertyValue",
-                      "type": "string",
-                      "readonly": true,
-                      "option": {
-                        "hidden": true
-                      }
-                    },
-                    "name": {
-                      "title": "Name",
-                      "type": "string"
-                    },
-                    "propertyID": {
-                      "title": "Propertyid",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    },
-                    "value": {
-                      "title": "Value",
-                      "type": "string"
-                    },
-                    "url": {
-                      "title": "Url",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    }
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
                   },
-                  "required": [
-                    "@id",
-                    "value",
-                    "url"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
+                  {
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 2083,
                     "format": "uri"
+                  },
+                  {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "title": "@Id",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      },
+                      "@type": {
+                        "title": "@Type",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
+                      },
+                      "name": {
+                        "title": "Name",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "Propertyid",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      },
+                      "value": {
+                        "title": "Value",
+                        "type": "string"
+                      },
+                      "url": {
+                        "title": "Url",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "@id",
+                      "value",
+                      "url"
+                    ]
                   }
-                }
-              ]
+                ]
+              }
             },
             "address": {
               "title": "Address",
@@ -905,76 +869,70 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri"
-                    },
-                    {
-                      "title": "PropertyValue",
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "title": "@Id",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "@type": {
-                          "title": "@Type",
-                          "default": "PropertyValue",
-                          "const": "PropertyValue",
-                          "type": "string",
-                          "readonly": true,
-                          "option": {
-                            "hidden": true
-                          }
-                        },
-                        "name": {
-                          "title": "Name",
-                          "type": "string"
-                        },
-                        "propertyID": {
-                          "title": "Propertyid",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "value": {
-                          "title": "Value",
-                          "type": "string"
-                        },
-                        "url": {
-                          "title": "Url",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        }
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
                       },
-                      "required": [
-                        "@id",
-                        "value",
-                        "url"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
+                      {
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 2083,
                         "format": "uri"
+                      },
+                      {
+                        "title": "PropertyValue",
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "title": "@Id",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "@type": {
+                            "title": "@Type",
+                            "default": "PropertyValue",
+                            "const": "PropertyValue",
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
+                          },
+                          "name": {
+                            "title": "Name",
+                            "type": "string"
+                          },
+                          "propertyID": {
+                            "title": "Propertyid",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "Value",
+                            "type": "string"
+                          },
+                          "url": {
+                            "title": "Url",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id",
+                          "value",
+                          "url"
+                        ]
                       }
-                    }
-                  ]
+                    ]
+                  }
                 },
                 "address": {
                   "title": "Address",
@@ -1015,76 +973,70 @@
             },
             "identifier": {
               "title": "Identifier",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "format": "uri"
-                },
-                {
-                  "title": "PropertyValue",
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "title": "@Id",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    },
-                    "@type": {
-                      "title": "@Type",
-                      "default": "PropertyValue",
-                      "const": "PropertyValue",
-                      "type": "string",
-                      "readonly": true,
-                      "option": {
-                        "hidden": true
-                      }
-                    },
-                    "name": {
-                      "title": "Name",
-                      "type": "string"
-                    },
-                    "propertyID": {
-                      "title": "Propertyid",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    },
-                    "value": {
-                      "title": "Value",
-                      "type": "string"
-                    },
-                    "url": {
-                      "title": "Url",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    }
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
                   },
-                  "required": [
-                    "@id",
-                    "value",
-                    "url"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
+                  {
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 2083,
                     "format": "uri"
+                  },
+                  {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "title": "@Id",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      },
+                      "@type": {
+                        "title": "@Type",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
+                      },
+                      "name": {
+                        "title": "Name",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "Propertyid",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      },
+                      "value": {
+                        "title": "Value",
+                        "type": "string"
+                      },
+                      "url": {
+                        "title": "Url",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "@id",
+                      "value",
+                      "url"
+                    ]
                   }
-                }
-              ]
+                ]
+              }
             }
           },
           "required": [
@@ -1302,76 +1254,70 @@
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 2083,
-                        "format": "uri"
-                      },
-                      {
-                        "title": "PropertyValue",
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "title": "@Id",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "@type": {
-                            "title": "@Type",
-                            "default": "PropertyValue",
-                            "const": "PropertyValue",
-                            "type": "string",
-                            "readonly": true,
-                            "option": {
-                              "hidden": true
-                            }
-                          },
-                          "name": {
-                            "title": "Name",
-                            "type": "string"
-                          },
-                          "propertyID": {
-                            "title": "Propertyid",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "value": {
-                            "title": "Value",
-                            "type": "string"
-                          },
-                          "url": {
-                            "title": "Url",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          }
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
                         },
-                        "required": [
-                          "@id",
-                          "value",
-                          "url"
-                        ]
-                      },
-                      {
-                        "type": "array",
-                        "items": {
+                        {
                           "type": "string",
                           "minLength": 1,
                           "maxLength": 2083,
                           "format": "uri"
+                        },
+                        {
+                          "title": "PropertyValue",
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "title": "@Id",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "@type": {
+                              "title": "@Type",
+                              "default": "PropertyValue",
+                              "const": "PropertyValue",
+                              "type": "string",
+                              "readonly": true,
+                              "option": {
+                                "hidden": true
+                              }
+                            },
+                            "name": {
+                              "title": "Name",
+                              "type": "string"
+                            },
+                            "propertyID": {
+                              "title": "Propertyid",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "value": {
+                              "title": "Value",
+                              "type": "string"
+                            },
+                            "url": {
+                              "title": "Url",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id",
+                            "value",
+                            "url"
+                          ]
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 },
                 "required": [
@@ -1405,76 +1351,70 @@
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 2083,
-                        "format": "uri"
-                      },
-                      {
-                        "title": "PropertyValue",
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "title": "@Id",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "@type": {
-                            "title": "@Type",
-                            "default": "PropertyValue",
-                            "const": "PropertyValue",
-                            "type": "string",
-                            "readonly": true,
-                            "option": {
-                              "hidden": true
-                            }
-                          },
-                          "name": {
-                            "title": "Name",
-                            "type": "string"
-                          },
-                          "propertyID": {
-                            "title": "Propertyid",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "value": {
-                            "title": "Value",
-                            "type": "string"
-                          },
-                          "url": {
-                            "title": "Url",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          }
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
                         },
-                        "required": [
-                          "@id",
-                          "value",
-                          "url"
-                        ]
-                      },
-                      {
-                        "type": "array",
-                        "items": {
+                        {
                           "type": "string",
                           "minLength": 1,
                           "maxLength": 2083,
                           "format": "uri"
+                        },
+                        {
+                          "title": "PropertyValue",
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "title": "@Id",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "@type": {
+                              "title": "@Type",
+                              "default": "PropertyValue",
+                              "const": "PropertyValue",
+                              "type": "string",
+                              "readonly": true,
+                              "option": {
+                                "hidden": true
+                              }
+                            },
+                            "name": {
+                              "title": "Name",
+                              "type": "string"
+                            },
+                            "propertyID": {
+                              "title": "Propertyid",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "value": {
+                              "title": "Value",
+                              "type": "string"
+                            },
+                            "url": {
+                              "title": "Url",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id",
+                            "value",
+                            "url"
+                          ]
                         }
-                      }
-                    ]
+                      ]
+                    }
                   },
                   "address": {
                     "title": "Address",
@@ -1727,76 +1667,70 @@
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 2083,
-                        "format": "uri"
-                      },
-                      {
-                        "title": "PropertyValue",
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "title": "@Id",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "@type": {
-                            "title": "@Type",
-                            "default": "PropertyValue",
-                            "const": "PropertyValue",
-                            "type": "string",
-                            "readonly": true,
-                            "option": {
-                              "hidden": true
-                            }
-                          },
-                          "name": {
-                            "title": "Name",
-                            "type": "string"
-                          },
-                          "propertyID": {
-                            "title": "Propertyid",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "value": {
-                            "title": "Value",
-                            "type": "string"
-                          },
-                          "url": {
-                            "title": "Url",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          }
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
                         },
-                        "required": [
-                          "@id",
-                          "value",
-                          "url"
-                        ]
-                      },
-                      {
-                        "type": "array",
-                        "items": {
+                        {
                           "type": "string",
                           "minLength": 1,
                           "maxLength": 2083,
                           "format": "uri"
+                        },
+                        {
+                          "title": "PropertyValue",
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "title": "@Id",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "@type": {
+                              "title": "@Type",
+                              "default": "PropertyValue",
+                              "const": "PropertyValue",
+                              "type": "string",
+                              "readonly": true,
+                              "option": {
+                                "hidden": true
+                              }
+                            },
+                            "name": {
+                              "title": "Name",
+                              "type": "string"
+                            },
+                            "propertyID": {
+                              "title": "Propertyid",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "value": {
+                              "title": "Value",
+                              "type": "string"
+                            },
+                            "url": {
+                              "title": "Url",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id",
+                            "value",
+                            "url"
+                          ]
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 },
                 "required": [
@@ -1830,76 +1764,70 @@
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 2083,
-                        "format": "uri"
-                      },
-                      {
-                        "title": "PropertyValue",
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "title": "@Id",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "@type": {
-                            "title": "@Type",
-                            "default": "PropertyValue",
-                            "const": "PropertyValue",
-                            "type": "string",
-                            "readonly": true,
-                            "option": {
-                              "hidden": true
-                            }
-                          },
-                          "name": {
-                            "title": "Name",
-                            "type": "string"
-                          },
-                          "propertyID": {
-                            "title": "Propertyid",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "value": {
-                            "title": "Value",
-                            "type": "string"
-                          },
-                          "url": {
-                            "title": "Url",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          }
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
                         },
-                        "required": [
-                          "@id",
-                          "value",
-                          "url"
-                        ]
-                      },
-                      {
-                        "type": "array",
-                        "items": {
+                        {
                           "type": "string",
                           "minLength": 1,
                           "maxLength": 2083,
                           "format": "uri"
+                        },
+                        {
+                          "title": "PropertyValue",
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "title": "@Id",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "@type": {
+                              "title": "@Type",
+                              "default": "PropertyValue",
+                              "const": "PropertyValue",
+                              "type": "string",
+                              "readonly": true,
+                              "option": {
+                                "hidden": true
+                              }
+                            },
+                            "name": {
+                              "title": "Name",
+                              "type": "string"
+                            },
+                            "propertyID": {
+                              "title": "Propertyid",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "value": {
+                              "title": "Value",
+                              "type": "string"
+                            },
+                            "url": {
+                              "title": "Url",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id",
+                            "value",
+                            "url"
+                          ]
                         }
-                      }
-                    ]
+                      ]
+                    }
                   },
                   "address": {
                     "title": "Address",
@@ -2038,76 +1966,70 @@
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 2083,
-                        "format": "uri"
-                      },
-                      {
-                        "title": "PropertyValue",
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "title": "@Id",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "@type": {
-                            "title": "@Type",
-                            "default": "PropertyValue",
-                            "const": "PropertyValue",
-                            "type": "string",
-                            "readonly": true,
-                            "option": {
-                              "hidden": true
-                            }
-                          },
-                          "name": {
-                            "title": "Name",
-                            "type": "string"
-                          },
-                          "propertyID": {
-                            "title": "Propertyid",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "value": {
-                            "title": "Value",
-                            "type": "string"
-                          },
-                          "url": {
-                            "title": "Url",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          }
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
                         },
-                        "required": [
-                          "@id",
-                          "value",
-                          "url"
-                        ]
-                      },
-                      {
-                        "type": "array",
-                        "items": {
+                        {
                           "type": "string",
                           "minLength": 1,
                           "maxLength": 2083,
                           "format": "uri"
+                        },
+                        {
+                          "title": "PropertyValue",
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "title": "@Id",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "@type": {
+                              "title": "@Type",
+                              "default": "PropertyValue",
+                              "const": "PropertyValue",
+                              "type": "string",
+                              "readonly": true,
+                              "option": {
+                                "hidden": true
+                              }
+                            },
+                            "name": {
+                              "title": "Name",
+                              "type": "string"
+                            },
+                            "propertyID": {
+                              "title": "Propertyid",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "value": {
+                              "title": "Value",
+                              "type": "string"
+                            },
+                            "url": {
+                              "title": "Url",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id",
+                            "value",
+                            "url"
+                          ]
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 },
                 "required": [
@@ -2141,76 +2063,70 @@
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 2083,
-                        "format": "uri"
-                      },
-                      {
-                        "title": "PropertyValue",
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "title": "@Id",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "@type": {
-                            "title": "@Type",
-                            "default": "PropertyValue",
-                            "const": "PropertyValue",
-                            "type": "string",
-                            "readonly": true,
-                            "option": {
-                              "hidden": true
-                            }
-                          },
-                          "name": {
-                            "title": "Name",
-                            "type": "string"
-                          },
-                          "propertyID": {
-                            "title": "Propertyid",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "value": {
-                            "title": "Value",
-                            "type": "string"
-                          },
-                          "url": {
-                            "title": "Url",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          }
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
                         },
-                        "required": [
-                          "@id",
-                          "value",
-                          "url"
-                        ]
-                      },
-                      {
-                        "type": "array",
-                        "items": {
+                        {
                           "type": "string",
                           "minLength": 1,
                           "maxLength": 2083,
                           "format": "uri"
+                        },
+                        {
+                          "title": "PropertyValue",
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "title": "@Id",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "@type": {
+                              "title": "@Type",
+                              "default": "PropertyValue",
+                              "const": "PropertyValue",
+                              "type": "string",
+                              "readonly": true,
+                              "option": {
+                                "hidden": true
+                              }
+                            },
+                            "name": {
+                              "title": "Name",
+                              "type": "string"
+                            },
+                            "propertyID": {
+                              "title": "Propertyid",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "value": {
+                              "title": "Value",
+                              "type": "string"
+                            },
+                            "url": {
+                              "title": "Url",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id",
+                            "value",
+                            "url"
+                          ]
                         }
-                      }
-                    ]
+                      ]
+                    }
                   },
                   "address": {
                     "title": "Address",
@@ -2275,154 +2191,63 @@
     "distribution": {
       "title": "Distribution",
       "description": "A data distribution in the form of a dataset (see https://schema.org/Dataset for more information).",
-      "anyOf": [
-        {
-          "title": "Distribution",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "title": "@Type",
-              "default": "DataDownload",
-              "const": "DataDownload",
-              "type": "string",
-              "readonly": true,
-              "option": {
-                "hidden": true
-              }
-            },
-            "name": {
-              "title": "Name",
-              "type": "string"
-            },
-            "contentUrl": {
-              "title": "Contenturl",
-              "minLength": 1,
-              "maxLength": 2083,
-              "format": "uri",
-              "type": "string"
-            },
-            "encodingFormat": {
-              "title": "Encodingformat",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ]
-            },
-            "contentSize": {
-              "title": "Contentsize",
-              "type": "string"
-            },
-            "comment": {
-              "title": "Comment",
+      "type": "array",
+      "items": {
+        "title": "Distribution",
+        "type": "object",
+        "properties": {
+          "@type": {
+            "title": "@Type",
+            "default": "DataDownload",
+            "const": "DataDownload",
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "contentUrl": {
+            "title": "Contenturl",
+            "minLength": 1,
+            "maxLength": 2083,
+            "format": "uri",
+            "type": "string"
+          },
+          "encodingFormat": {
+            "title": "Encodingformat",
+            "type": "array",
+            "items": {
               "type": "string"
             }
           },
-          "required": [
-            "name"
-          ]
-        },
-        {
-          "type": "array",
-          "items": {
-            "title": "Distribution",
-            "type": "object",
-            "properties": {
-              "@type": {
-                "title": "@Type",
-                "default": "DataDownload",
-                "const": "DataDownload",
-                "type": "string",
-                "readonly": true,
-                "option": {
-                  "hidden": true
-                }
-              },
-              "name": {
-                "title": "Name",
-                "type": "string"
-              },
-              "contentUrl": {
-                "title": "Contenturl",
-                "minLength": 1,
-                "maxLength": 2083,
-                "format": "uri",
-                "type": "string"
-              },
-              "encodingFormat": {
-                "title": "Encodingformat",
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                ]
-              },
-              "contentSize": {
-                "title": "Contentsize",
-                "type": "string"
-              },
-              "comment": {
-                "title": "Comment",
-                "type": "string"
-              }
-            },
-            "required": [
-              "name"
-            ]
+          "contentSize": {
+            "title": "Contentsize",
+            "type": "string"
+          },
+          "comment": {
+            "title": "Comment",
+            "type": "string"
           }
-        }
-      ]
+        },
+        "required": [
+          "name"
+        ]
+      }
     },
     "variableMeasured": {
       "title": "Variablemeasured",
       "description": "The variableMeasured property can indicate (repeated as necessary) the variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue.",
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "title": "VariableMeasured",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "title": "@Type",
-              "default": "PropertyValue",
-              "const": "PropertyValue",
-              "type": "string",
-              "readonly": true,
-              "option": {
-                "hidden": true
-              }
-            },
-            "name": {
-              "title": "Name",
-              "type": "string"
-            },
-            "unitText": {
-              "title": "Unittext",
-              "type": "string"
-            }
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string"
           },
-          "required": [
-            "name",
-            "unitText"
-          ]
-        },
-        {
-          "type": "array",
-          "items": {
+          {
             "title": "VariableMeasured",
             "type": "object",
             "properties": {
@@ -2450,8 +2275,8 @@
               "unitText"
             ]
           }
-        }
-      ]
+        ]
+      }
     },
     "includedInDataCatalog": {
       "title": "Includedindatacatalog",
@@ -2578,76 +2403,70 @@
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 2083,
-                        "format": "uri"
-                      },
-                      {
-                        "title": "PropertyValue",
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "title": "@Id",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "@type": {
-                            "title": "@Type",
-                            "default": "PropertyValue",
-                            "const": "PropertyValue",
-                            "type": "string",
-                            "readonly": true,
-                            "option": {
-                              "hidden": true
-                            }
-                          },
-                          "name": {
-                            "title": "Name",
-                            "type": "string"
-                          },
-                          "propertyID": {
-                            "title": "Propertyid",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "value": {
-                            "title": "Value",
-                            "type": "string"
-                          },
-                          "url": {
-                            "title": "Url",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          }
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
                         },
-                        "required": [
-                          "@id",
-                          "value",
-                          "url"
-                        ]
-                      },
-                      {
-                        "type": "array",
-                        "items": {
+                        {
                           "type": "string",
                           "minLength": 1,
                           "maxLength": 2083,
                           "format": "uri"
+                        },
+                        {
+                          "title": "PropertyValue",
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "title": "@Id",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "@type": {
+                              "title": "@Type",
+                              "default": "PropertyValue",
+                              "const": "PropertyValue",
+                              "type": "string",
+                              "readonly": true,
+                              "option": {
+                                "hidden": true
+                              }
+                            },
+                            "name": {
+                              "title": "Name",
+                              "type": "string"
+                            },
+                            "propertyID": {
+                              "title": "Propertyid",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "value": {
+                              "title": "Value",
+                              "type": "string"
+                            },
+                            "url": {
+                              "title": "Url",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id",
+                            "value",
+                            "url"
+                          ]
                         }
-                      }
-                    ]
+                      ]
+                    }
                   }
                 },
                 "required": [
@@ -2681,76 +2500,70 @@
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 2083,
-                        "format": "uri"
-                      },
-                      {
-                        "title": "PropertyValue",
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "title": "@Id",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "@type": {
-                            "title": "@Type",
-                            "default": "PropertyValue",
-                            "const": "PropertyValue",
-                            "type": "string",
-                            "readonly": true,
-                            "option": {
-                              "hidden": true
-                            }
-                          },
-                          "name": {
-                            "title": "Name",
-                            "type": "string"
-                          },
-                          "propertyID": {
-                            "title": "Propertyid",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          },
-                          "value": {
-                            "title": "Value",
-                            "type": "string"
-                          },
-                          "url": {
-                            "title": "Url",
-                            "minLength": 1,
-                            "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
-                          }
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
                         },
-                        "required": [
-                          "@id",
-                          "value",
-                          "url"
-                        ]
-                      },
-                      {
-                        "type": "array",
-                        "items": {
+                        {
                           "type": "string",
                           "minLength": 1,
                           "maxLength": 2083,
                           "format": "uri"
+                        },
+                        {
+                          "title": "PropertyValue",
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "title": "@Id",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "@type": {
+                              "title": "@Type",
+                              "default": "PropertyValue",
+                              "const": "PropertyValue",
+                              "type": "string",
+                              "readonly": true,
+                              "option": {
+                                "hidden": true
+                              }
+                            },
+                            "name": {
+                              "title": "Name",
+                              "type": "string"
+                            },
+                            "propertyID": {
+                              "title": "Propertyid",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            },
+                            "value": {
+                              "title": "Value",
+                              "type": "string"
+                            },
+                            "url": {
+                              "title": "Url",
+                              "minLength": 1,
+                              "maxLength": 2083,
+                              "format": "uri",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id",
+                            "value",
+                            "url"
+                          ]
                         }
-                      }
-                    ]
+                      ]
+                    }
                   },
                   "address": {
                     "title": "Address",
@@ -2863,76 +2676,70 @@
         },
         "identifier": {
           "title": "Identifier",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 2083,
-              "format": "uri"
-            },
-            {
-              "title": "PropertyValue",
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "title": "@Id",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
-                },
-                "@type": {
-                  "title": "@Type",
-                  "default": "PropertyValue",
-                  "const": "PropertyValue",
-                  "type": "string",
-                  "readonly": true,
-                  "option": {
-                    "hidden": true
-                  }
-                },
-                "name": {
-                  "title": "Name",
-                  "type": "string"
-                },
-                "propertyID": {
-                  "title": "Propertyid",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
-                },
-                "value": {
-                  "title": "Value",
-                  "type": "string"
-                },
-                "url": {
-                  "title": "Url",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
-                }
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
               },
-              "required": [
-                "@id",
-                "value",
-                "url"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
+              {
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 2083,
                 "format": "uri"
+              },
+              {
+                "title": "PropertyValue",
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "title": "@Id",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "@type": {
+                    "title": "@Type",
+                    "default": "PropertyValue",
+                    "const": "PropertyValue",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "Name",
+                    "type": "string"
+                  },
+                  "propertyID": {
+                    "title": "Propertyid",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "value": {
+                    "title": "Value",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "Url",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "format": "uri",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id",
+                  "value",
+                  "url"
+                ]
               }
-            }
-          ]
+            ]
+          }
         }
       },
       "required": [
@@ -2966,76 +2773,70 @@
         },
         "identifier": {
           "title": "Identifier",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 2083,
-              "format": "uri"
-            },
-            {
-              "title": "PropertyValue",
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "title": "@Id",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
-                },
-                "@type": {
-                  "title": "@Type",
-                  "default": "PropertyValue",
-                  "const": "PropertyValue",
-                  "type": "string",
-                  "readonly": true,
-                  "option": {
-                    "hidden": true
-                  }
-                },
-                "name": {
-                  "title": "Name",
-                  "type": "string"
-                },
-                "propertyID": {
-                  "title": "Propertyid",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
-                },
-                "value": {
-                  "title": "Value",
-                  "type": "string"
-                },
-                "url": {
-                  "title": "Url",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
-                }
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
               },
-              "required": [
-                "@id",
-                "value",
-                "url"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
+              {
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 2083,
                 "format": "uri"
+              },
+              {
+                "title": "PropertyValue",
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "title": "@Id",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "@type": {
+                    "title": "@Type",
+                    "default": "PropertyValue",
+                    "const": "PropertyValue",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "Name",
+                    "type": "string"
+                  },
+                  "propertyID": {
+                    "title": "Propertyid",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "value": {
+                    "title": "Value",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "Url",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "format": "uri",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id",
+                  "value",
+                  "url"
+                ]
               }
-            }
-          ]
+            ]
+          }
         },
         "address": {
           "title": "Address",
@@ -3140,76 +2941,70 @@
         },
         "identifier": {
           "title": "Identifier",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 2083,
-              "format": "uri"
-            },
-            {
-              "title": "PropertyValue",
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "title": "@Id",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
-                },
-                "@type": {
-                  "title": "@Type",
-                  "default": "PropertyValue",
-                  "const": "PropertyValue",
-                  "type": "string",
-                  "readonly": true,
-                  "option": {
-                    "hidden": true
-                  }
-                },
-                "name": {
-                  "title": "Name",
-                  "type": "string"
-                },
-                "propertyID": {
-                  "title": "Propertyid",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
-                },
-                "value": {
-                  "title": "Value",
-                  "type": "string"
-                },
-                "url": {
-                  "title": "Url",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
-                }
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
               },
-              "required": [
-                "@id",
-                "value",
-                "url"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
+              {
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 2083,
                 "format": "uri"
+              },
+              {
+                "title": "PropertyValue",
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "title": "@Id",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "@type": {
+                    "title": "@Type",
+                    "default": "PropertyValue",
+                    "const": "PropertyValue",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "Name",
+                    "type": "string"
+                  },
+                  "propertyID": {
+                    "title": "Propertyid",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "value": {
+                    "title": "Value",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "Url",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "format": "uri",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id",
+                  "value",
+                  "url"
+                ]
               }
-            }
-          ]
+            ]
+          }
         },
         "address": {
           "title": "Address",
@@ -3242,76 +3037,70 @@
             },
             "identifier": {
               "title": "Identifier",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "format": "uri"
-                },
-                {
-                  "title": "PropertyValue",
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "title": "@Id",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    },
-                    "@type": {
-                      "title": "@Type",
-                      "default": "PropertyValue",
-                      "const": "PropertyValue",
-                      "type": "string",
-                      "readonly": true,
-                      "option": {
-                        "hidden": true
-                      }
-                    },
-                    "name": {
-                      "title": "Name",
-                      "type": "string"
-                    },
-                    "propertyID": {
-                      "title": "Propertyid",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    },
-                    "value": {
-                      "title": "Value",
-                      "type": "string"
-                    },
-                    "url": {
-                      "title": "Url",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri",
-                      "type": "string"
-                    }
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
                   },
-                  "required": [
-                    "@id",
-                    "value",
-                    "url"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
+                  {
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 2083,
                     "format": "uri"
+                  },
+                  {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "title": "@Id",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      },
+                      "@type": {
+                        "title": "@Type",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
+                      },
+                      "name": {
+                        "title": "Name",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "Propertyid",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      },
+                      "value": {
+                        "title": "Value",
+                        "type": "string"
+                      },
+                      "url": {
+                        "title": "Url",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "format": "uri",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "@id",
+                      "value",
+                      "url"
+                    ]
                   }
-                }
-              ]
+                ]
+              }
             },
             "address": {
               "title": "Address",
@@ -3469,76 +3258,70 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri"
-                    },
-                    {
-                      "title": "PropertyValue",
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "title": "@Id",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "@type": {
-                          "title": "@Type",
-                          "default": "PropertyValue",
-                          "const": "PropertyValue",
-                          "type": "string",
-                          "readonly": true,
-                          "option": {
-                            "hidden": true
-                          }
-                        },
-                        "name": {
-                          "title": "Name",
-                          "type": "string"
-                        },
-                        "propertyID": {
-                          "title": "Propertyid",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "value": {
-                          "title": "Value",
-                          "type": "string"
-                        },
-                        "url": {
-                          "title": "Url",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        }
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
                       },
-                      "required": [
-                        "@id",
-                        "value",
-                        "url"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
+                      {
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 2083,
                         "format": "uri"
+                      },
+                      {
+                        "title": "PropertyValue",
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "title": "@Id",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "@type": {
+                            "title": "@Type",
+                            "default": "PropertyValue",
+                            "const": "PropertyValue",
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
+                          },
+                          "name": {
+                            "title": "Name",
+                            "type": "string"
+                          },
+                          "propertyID": {
+                            "title": "Propertyid",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "Value",
+                            "type": "string"
+                          },
+                          "url": {
+                            "title": "Url",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id",
+                          "value",
+                          "url"
+                        ]
                       }
-                    }
-                  ]
+                    ]
+                  }
                 }
               },
               "required": [
@@ -3572,76 +3355,70 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri"
-                    },
-                    {
-                      "title": "PropertyValue",
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "title": "@Id",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "@type": {
-                          "title": "@Type",
-                          "default": "PropertyValue",
-                          "const": "PropertyValue",
-                          "type": "string",
-                          "readonly": true,
-                          "option": {
-                            "hidden": true
-                          }
-                        },
-                        "name": {
-                          "title": "Name",
-                          "type": "string"
-                        },
-                        "propertyID": {
-                          "title": "Propertyid",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "value": {
-                          "title": "Value",
-                          "type": "string"
-                        },
-                        "url": {
-                          "title": "Url",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        }
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
                       },
-                      "required": [
-                        "@id",
-                        "value",
-                        "url"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
+                      {
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 2083,
                         "format": "uri"
+                      },
+                      {
+                        "title": "PropertyValue",
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "title": "@Id",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "@type": {
+                            "title": "@Type",
+                            "default": "PropertyValue",
+                            "const": "PropertyValue",
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
+                          },
+                          "name": {
+                            "title": "Name",
+                            "type": "string"
+                          },
+                          "propertyID": {
+                            "title": "Propertyid",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "Value",
+                            "type": "string"
+                          },
+                          "url": {
+                            "title": "Url",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id",
+                          "value",
+                          "url"
+                        ]
                       }
-                    }
-                  ]
+                    ]
+                  }
                 },
                 "address": {
                   "title": "Address",
@@ -3952,76 +3729,70 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri"
-                    },
-                    {
-                      "title": "PropertyValue",
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "title": "@Id",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "@type": {
-                          "title": "@Type",
-                          "default": "PropertyValue",
-                          "const": "PropertyValue",
-                          "type": "string",
-                          "readonly": true,
-                          "option": {
-                            "hidden": true
-                          }
-                        },
-                        "name": {
-                          "title": "Name",
-                          "type": "string"
-                        },
-                        "propertyID": {
-                          "title": "Propertyid",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "value": {
-                          "title": "Value",
-                          "type": "string"
-                        },
-                        "url": {
-                          "title": "Url",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        }
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
                       },
-                      "required": [
-                        "@id",
-                        "value",
-                        "url"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
+                      {
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 2083,
                         "format": "uri"
+                      },
+                      {
+                        "title": "PropertyValue",
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "title": "@Id",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "@type": {
+                            "title": "@Type",
+                            "default": "PropertyValue",
+                            "const": "PropertyValue",
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
+                          },
+                          "name": {
+                            "title": "Name",
+                            "type": "string"
+                          },
+                          "propertyID": {
+                            "title": "Propertyid",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "Value",
+                            "type": "string"
+                          },
+                          "url": {
+                            "title": "Url",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id",
+                          "value",
+                          "url"
+                        ]
                       }
-                    }
-                  ]
+                    ]
+                  }
                 }
               },
               "required": [
@@ -4055,76 +3826,70 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri"
-                    },
-                    {
-                      "title": "PropertyValue",
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "title": "@Id",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "@type": {
-                          "title": "@Type",
-                          "default": "PropertyValue",
-                          "const": "PropertyValue",
-                          "type": "string",
-                          "readonly": true,
-                          "option": {
-                            "hidden": true
-                          }
-                        },
-                        "name": {
-                          "title": "Name",
-                          "type": "string"
-                        },
-                        "propertyID": {
-                          "title": "Propertyid",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "value": {
-                          "title": "Value",
-                          "type": "string"
-                        },
-                        "url": {
-                          "title": "Url",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        }
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
                       },
-                      "required": [
-                        "@id",
-                        "value",
-                        "url"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
+                      {
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 2083,
                         "format": "uri"
+                      },
+                      {
+                        "title": "PropertyValue",
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "title": "@Id",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "@type": {
+                            "title": "@Type",
+                            "default": "PropertyValue",
+                            "const": "PropertyValue",
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
+                          },
+                          "name": {
+                            "title": "Name",
+                            "type": "string"
+                          },
+                          "propertyID": {
+                            "title": "Propertyid",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "Value",
+                            "type": "string"
+                          },
+                          "url": {
+                            "title": "Url",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id",
+                          "value",
+                          "url"
+                        ]
                       }
-                    }
-                  ]
+                    ]
+                  }
                 },
                 "address": {
                   "title": "Address",
@@ -4258,76 +4023,70 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri"
-                    },
-                    {
-                      "title": "PropertyValue",
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "title": "@Id",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "@type": {
-                          "title": "@Type",
-                          "default": "PropertyValue",
-                          "const": "PropertyValue",
-                          "type": "string",
-                          "readonly": true,
-                          "option": {
-                            "hidden": true
-                          }
-                        },
-                        "name": {
-                          "title": "Name",
-                          "type": "string"
-                        },
-                        "propertyID": {
-                          "title": "Propertyid",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "value": {
-                          "title": "Value",
-                          "type": "string"
-                        },
-                        "url": {
-                          "title": "Url",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        }
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
                       },
-                      "required": [
-                        "@id",
-                        "value",
-                        "url"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
+                      {
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 2083,
                         "format": "uri"
+                      },
+                      {
+                        "title": "PropertyValue",
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "title": "@Id",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "@type": {
+                            "title": "@Type",
+                            "default": "PropertyValue",
+                            "const": "PropertyValue",
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
+                          },
+                          "name": {
+                            "title": "Name",
+                            "type": "string"
+                          },
+                          "propertyID": {
+                            "title": "Propertyid",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "Value",
+                            "type": "string"
+                          },
+                          "url": {
+                            "title": "Url",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id",
+                          "value",
+                          "url"
+                        ]
                       }
-                    }
-                  ]
+                    ]
+                  }
                 }
               },
               "required": [
@@ -4361,76 +4120,70 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri"
-                    },
-                    {
-                      "title": "PropertyValue",
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "title": "@Id",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "@type": {
-                          "title": "@Type",
-                          "default": "PropertyValue",
-                          "const": "PropertyValue",
-                          "type": "string",
-                          "readonly": true,
-                          "option": {
-                            "hidden": true
-                          }
-                        },
-                        "name": {
-                          "title": "Name",
-                          "type": "string"
-                        },
-                        "propertyID": {
-                          "title": "Propertyid",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "value": {
-                          "title": "Value",
-                          "type": "string"
-                        },
-                        "url": {
-                          "title": "Url",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        }
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
                       },
-                      "required": [
-                        "@id",
-                        "value",
-                        "url"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
+                      {
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 2083,
                         "format": "uri"
+                      },
+                      {
+                        "title": "PropertyValue",
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "title": "@Id",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "@type": {
+                            "title": "@Type",
+                            "default": "PropertyValue",
+                            "const": "PropertyValue",
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
+                          },
+                          "name": {
+                            "title": "Name",
+                            "type": "string"
+                          },
+                          "propertyID": {
+                            "title": "Propertyid",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "Value",
+                            "type": "string"
+                          },
+                          "url": {
+                            "title": "Url",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id",
+                          "value",
+                          "url"
+                        ]
                       }
-                    }
-                  ]
+                    ]
+                  }
                 },
                 "address": {
                   "title": "Address",
@@ -4513,17 +4266,10 @@
         },
         "encodingFormat": {
           "title": "Encodingformat",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          ]
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "contentSize": {
           "title": "Contentsize",
@@ -4687,76 +4433,70 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri"
-                    },
-                    {
-                      "title": "PropertyValue",
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "title": "@Id",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "@type": {
-                          "title": "@Type",
-                          "default": "PropertyValue",
-                          "const": "PropertyValue",
-                          "type": "string",
-                          "readonly": true,
-                          "option": {
-                            "hidden": true
-                          }
-                        },
-                        "name": {
-                          "title": "Name",
-                          "type": "string"
-                        },
-                        "propertyID": {
-                          "title": "Propertyid",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "value": {
-                          "title": "Value",
-                          "type": "string"
-                        },
-                        "url": {
-                          "title": "Url",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        }
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
                       },
-                      "required": [
-                        "@id",
-                        "value",
-                        "url"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
+                      {
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 2083,
                         "format": "uri"
+                      },
+                      {
+                        "title": "PropertyValue",
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "title": "@Id",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "@type": {
+                            "title": "@Type",
+                            "default": "PropertyValue",
+                            "const": "PropertyValue",
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
+                          },
+                          "name": {
+                            "title": "Name",
+                            "type": "string"
+                          },
+                          "propertyID": {
+                            "title": "Propertyid",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "Value",
+                            "type": "string"
+                          },
+                          "url": {
+                            "title": "Url",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id",
+                          "value",
+                          "url"
+                        ]
                       }
-                    }
-                  ]
+                    ]
+                  }
                 }
               },
               "required": [
@@ -4790,76 +4530,70 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 2083,
-                      "format": "uri"
-                    },
-                    {
-                      "title": "PropertyValue",
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "title": "@Id",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "@type": {
-                          "title": "@Type",
-                          "default": "PropertyValue",
-                          "const": "PropertyValue",
-                          "type": "string",
-                          "readonly": true,
-                          "option": {
-                            "hidden": true
-                          }
-                        },
-                        "name": {
-                          "title": "Name",
-                          "type": "string"
-                        },
-                        "propertyID": {
-                          "title": "Propertyid",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        },
-                        "value": {
-                          "title": "Value",
-                          "type": "string"
-                        },
-                        "url": {
-                          "title": "Url",
-                          "minLength": 1,
-                          "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
-                        }
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
                       },
-                      "required": [
-                        "@id",
-                        "value",
-                        "url"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
+                      {
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 2083,
                         "format": "uri"
+                      },
+                      {
+                        "title": "PropertyValue",
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "title": "@Id",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "@type": {
+                            "title": "@Type",
+                            "default": "PropertyValue",
+                            "const": "PropertyValue",
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
+                          },
+                          "name": {
+                            "title": "Name",
+                            "type": "string"
+                          },
+                          "propertyID": {
+                            "title": "Propertyid",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "value": {
+                            "title": "Value",
+                            "type": "string"
+                          },
+                          "url": {
+                            "title": "Url",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "format": "uri",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id",
+                          "value",
+                          "url"
+                        ]
                       }
-                    }
-                  ]
+                    ]
+                  }
                 },
                 "address": {
                   "title": "Address",

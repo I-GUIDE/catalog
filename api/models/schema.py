@@ -40,14 +40,14 @@ class Person(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, default="Person")
     name: str
     email: Optional[EmailStr]
-    identifier: Optional[Union[Identifier, List[HttpUrl]]]
+    identifier: Optional[List[Union[Identifier, HttpUrl]]]
 
 
 class Organization(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, default="Organization")
     name: str
     url: Optional[HttpUrl]
-    identifier: Optional[Union[Identifier, List[HttpUrl]]]
+    identifier: Optional[List[Union[Identifier, HttpUrl]]]
     address: Optional[str]  # Should address be a string or another constrained type?
 
 
@@ -319,7 +319,7 @@ class Distribution(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, default="DataDownload")
     name: str
     contentUrl: Optional[HttpUrl]
-    encodingFormat: Optional[Union[str, list[str]]]
+    encodingFormat: Optional[list[str]]
     contentSize: Optional[str]
     comment: Optional[str]
 
@@ -340,10 +340,10 @@ class IncludedInDataCatalog(SchemaBaseModel):
 
 
 class Dataset(SchemaBaseModel):
-    distribution: Union[Distribution, List[Distribution]] = Field(
+    distribution: List[Distribution] = Field(
         description="A data distribution in the form of a dataset (see https://schema.org/Dataset for more information)."
     )
-    variableMeasured: Optional[Union[str, VariableMeasured, List[VariableMeasured]]] = Field(
+    variableMeasured: Optional[List[Union[str, VariableMeasured]]] = Field(
         description="The variableMeasured property can indicate (repeated as necessary) the variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue."
     )
     includedInDataCatalog: List[IncludedInDataCatalog] = Field(
