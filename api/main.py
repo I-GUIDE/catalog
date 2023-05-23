@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
+from fastapi.staticfiles import StaticFiles
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from api.config import get_settings
@@ -42,6 +43,8 @@ async def shutdown_db_client():
 
 app.include_router(catalog_router, tags=["Dataset"], prefix="/api/catalog")
 app.include_router(discovery_router, tags=["Discovery"], prefix="/api/discovery")
+
+app.mount("/api/schemas", StaticFiles(directory="api/models/schemas"), name="schemas")
 
 openapi_schema = get_openapi(
     title="I-GUIDE Catalog API",
