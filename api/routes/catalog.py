@@ -45,6 +45,9 @@ async def update_dataset(
     user: Annotated[User, Depends(get_current_user)],
 ):
     submission = user.submission(submission_id)
+    if submission is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
+
     dataset: DatasetMetadataDOC = await DatasetMetadataDOC.get(submission.identifier)
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")

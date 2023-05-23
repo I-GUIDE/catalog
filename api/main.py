@@ -1,3 +1,5 @@
+import asyncio
+
 import uvicorn
 from beanie import init_beanie
 from dotenv import load_dotenv
@@ -49,5 +51,20 @@ openapi_schema = get_openapi(
 )
 app.openapi_schema = openapi_schema
 
+
+class Server(uvicorn.Server):
+    def handle_exit(self, sig: int, frame) -> None:
+        return super().handle_exit(sig, frame)
+
+
+async def main():
+    """Run FastAPI"""
+
+    server = Server(config=uvicorn.Config(app, workers=1, loop="asyncio", host="0.0.0.0", port=8000))
+    api = asyncio.create_task(server.serve())
+
+    await asyncio.wait([api])
+
+
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000)
+    asyncio.run(main())
