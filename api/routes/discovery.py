@@ -43,10 +43,10 @@ class SearchQuery(BaseModel):
         except ValueError:
             raise ValueError(f'{field.name} is not a valid year')
         if field.name == 'dataCoverageEnd':
-            if 'dataCoverageStart' in values and v <= values['dataCoverageStart']:
+            if 'dataCoverageStart' in values and v < values['dataCoverageStart']:
                 raise ValueError(f'{field.name} must be greater or equal to dataCoverageStart')
         if field.name == 'publishedEnd':
-            if 'publishedStart' in values and v <= values['publishedStart']:
+            if 'publishedStart' in values and v < values['publishedStart']:
                 raise ValueError(f'{field.name} must be greater or equal to publishedStart')
         return v
 
@@ -169,21 +169,21 @@ class SearchQuery(BaseModel):
 @router.post("/search")
 async def search(request: Request, search_query: SearchQuery):
     stages = search_query.stages
-    result = await request.app.mongodb["catalog"].aggregate(stages).to_list(search_query.pageSize)
+    result = await request.app.mongodb["discovery"].aggregate(stages).to_list(search_query.pageSize)
     return result
 
 
 @router.get("/typeahead")
 async def typeahead(request: Request, term: str, pageSize: int = 30):
-    autoCompletePaths = ['name', 'description', 'keywords', 'keywords.name']
-    should = [{'autocomplete': {'query': term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in autoCompletePaths]
+    auto_complete_paths = ['name', 'description', 'keywords', 'keywords.name']
+    should = [{'autocomplete': {'query': term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in auto_complete_paths]
 
     stages = [
         {
             '$search': {
                 'index': 'fuzzy_search',
                 'compound': {'should': should},
-                'highlight': {'path': ['description', 'name', 'keywords']},
+                'highlight': {'path': ['description', 'name', 'keywords', 'keywords.name']},
             }
         },
         {
@@ -196,5 +196,5 @@ async def typeahead(request: Request, term: str, pageSize: int = 30):
             }
         },
     ]
-    result = await request.app.mongodb["typeahead"].aggregate(stages).to_list(pageSize)
+    result = await request.app.mongodb["discovery"].aggregate(stages).to_list(pageSize)
     return result
