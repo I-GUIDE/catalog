@@ -1,3 +1,5 @@
+import asyncio
+
 import uvicorn
 from beanie import init_beanie
 from dotenv import load_dotenv
@@ -31,8 +33,6 @@ async def startup_db_client():
     app.mongodb_client = AsyncIOMotorClient(settings.db_connection_string)
     app.mongodb = app.mongodb_client[settings.database_name]
     await init_beanie(database=app.mongodb, document_models=[DatasetMetadataDOC, User, Submission])
-    clusters = await app.mongodb["cznet"].find().distinct('clusters')
-    app.clusters = clusters
 
 
 @app.on_event("shutdown")
@@ -51,5 +51,20 @@ openapi_schema = get_openapi(
 )
 app.openapi_schema = openapi_schema
 
+
+class Server(uvicorn.Server):
+    def handle_exit(self, sig: int, frame) -> None:
+        return super().handle_exit(sig, frame)
+
+
+async def main():
+    """Run FastAPI"""
+
+    server = Server(config=uvicorn.Config(app, workers=1, loop="asyncio", host="0.0.0.0", port=8000))
+    api = asyncio.create_task(server.serve())
+
+    await asyncio.wait([api])
+
+
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000)
+    asyncio.run(main())

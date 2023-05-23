@@ -22,10 +22,10 @@ services:
       - ./tests:/app/tests
       - ./.env:/app/.env
     build:
-      context: ./
+      context: ./docker
       dockerfile: Dockerfile
     ports:
-      - 5002:5002
+      - 8000:8000
     restart: on-failure
     depends_on:
       - mongodb
@@ -39,3 +39,33 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=AzureDiamond
       - MONGO_INITDB_ROOT_PASSWORD=hunter2
+  
+  catalog-trigger:
+    image: iguide_trigger
+    volumes:
+      - ./api:/app/api
+      - ./triggers:/app/triggers
+      - ./.env:/app/.env
+    build:
+      context: ./docker/
+      dockerfile: Dockerfile-triggers
+    command: >
+      python triggers/update_catalog.py
+    restart: on-failure
+    depends_on:
+      - mongodb
+  
+  typeahead-trigger:
+    image: iguide_trigger
+    volumes:
+      - ./api:/app/api
+      - ./triggers:/app/triggers
+      - ./.env:/app/.env
+    build:
+      context: ./docker/
+      dockerfile: Dockerfile-triggers
+    command: >
+      python triggers/update_typeahead.py
+    restart: on-failure
+    depends_on:
+      - mongodb

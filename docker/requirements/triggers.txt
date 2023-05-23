@@ -1,0 +1,5 @@
+typer
+beanie
+motor
+pydantic[dotenv]
+pydantic[email]
