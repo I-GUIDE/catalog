@@ -10,13 +10,19 @@ class SchemaBaseModel(BaseModel):
     class Config:
         @staticmethod
         def schema_extra(schema: dict[str, Any], model) -> None:
-            # For jsonforms, hiding const/readonly fields from the form
-            properties = schema.get('properties', {})
-            for prop in properties.values():
+            # json schema modification for jsonforms
+            for prop in schema.get('properties', {}).values():
                 if 'const' in prop:
+                    # hiding const/readonly fields from the form
                     prop['readonly'] = True
                     prop['option'] = {'hidden': True}
-            schema['properties'] = properties
+                if 'format' in prop and prop['format'] == 'uri':
+                    # using a regex for url matching
+                    prop.pop('format')
+                    prop[
+                        'pattern'
+                    ] = "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$"
+                    prop['errorMessage'] = {"pattern": "must match format \"url\""}
 
 
 class CreativeWork(SchemaBaseModel):

@@ -7,8 +7,11 @@
       "default": "https://schema.org",
       "minLength": 1,
       "maxLength": 2083,
-      "format": "uri",
-      "type": "string"
+      "type": "string",
+      "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+      "errorMessage": {
+        "pattern": "must match format \"url\""
+      }
     },
     "@type": {
       "title": "@Type",
@@ -35,8 +38,11 @@
       "description": "The url of the record.",
       "minLength": 1,
       "maxLength": 2083,
-      "format": "uri",
-      "type": "string"
+      "type": "string",
+      "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+      "errorMessage": {
+        "pattern": "must match format \"url\""
+      }
     },
     "identifier": {
       "title": "Identifier",
@@ -61,8 +67,11 @@
                 "title": "@Id",
                 "minLength": 1,
                 "maxLength": 2083,
-                "format": "uri",
-                "type": "string"
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
               },
               "@type": {
                 "title": "@Type",
@@ -82,8 +91,11 @@
                 "title": "Propertyid",
                 "minLength": 1,
                 "maxLength": 2083,
-                "format": "uri",
-                "type": "string"
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
               },
               "value": {
                 "title": "Value",
@@ -93,8 +105,11 @@
                 "title": "Url",
                 "minLength": 1,
                 "maxLength": 2083,
-                "format": "uri",
-                "type": "string"
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
               }
             },
             "required": [
@@ -157,8 +172,11 @@
                           "title": "@Id",
                           "minLength": 1,
                           "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
                         },
                         "@type": {
                           "title": "@Type",
@@ -178,8 +196,11 @@
                           "title": "Propertyid",
                           "minLength": 1,
                           "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
                         },
                         "value": {
                           "title": "Value",
@@ -189,8 +210,11 @@
                           "title": "Url",
                           "minLength": 1,
                           "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
                         }
                       },
                       "required": [
@@ -229,8 +253,11 @@
                 "title": "Url",
                 "minLength": 1,
                 "maxLength": 2083,
-                "format": "uri",
-                "type": "string"
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
               },
               "identifier": {
                 "title": "Identifier",
@@ -254,8 +281,11 @@
                           "title": "@Id",
                           "minLength": 1,
                           "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
                         },
                         "@type": {
                           "title": "@Type",
@@ -275,8 +305,11 @@
                           "title": "Propertyid",
                           "minLength": 1,
                           "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
                         },
                         "value": {
                           "title": "Value",
@@ -286,8 +319,11 @@
                           "title": "Url",
                           "minLength": 1,
                           "maxLength": 2083,
-                          "format": "uri",
-                          "type": "string"
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
                         }
                       },
                       "required": [
@@ -358,8 +394,11 @@
                 "title": "Indefinedtermset",
                 "minLength": 1,
                 "maxLength": 2083,
-                "format": "uri",
-                "type": "string"
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
               }
             },
             "required": [
@@ -406,8 +445,11 @@
               "title": "Url",
               "minLength": 1,
               "maxLength": 2083,
-              "format": "uri",
-              "type": "string"
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
+              }
             }
           },
           "required": [
@@ -449,8 +491,11 @@
               "title": "Url",
               "minLength": 1,
               "maxLength": 2083,
-              "format": "uri",
-              "type": "string"
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
+              }
             },
             "identifier": {
               "title": "Identifier",
@@ -474,8 +519,11 @@
                         "title": "@Id",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       },
                       "@type": {
                         "title": "@Type",
@@ -495,8 +543,11 @@
                         "title": "Propertyid",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       },
                       "value": {
                         "title": "Value",
@@ -506,8 +557,11 @@
                         "title": "Url",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       }
                     },
                     "required": [
@@ -545,8 +599,11 @@
                   "title": "Url",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 },
                 "identifier": {
                   "title": "Identifier",
@@ -570,8 +627,11 @@
                             "title": "@Id",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "@type": {
                             "title": "@Type",
@@ -591,8 +651,11 @@
                             "title": "Propertyid",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "value": {
                             "title": "Value",
@@ -602,8 +665,11 @@
                             "title": "Url",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           }
                         },
                         "required": [
@@ -674,8 +740,11 @@
                         "title": "@Id",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       },
                       "@type": {
                         "title": "@Type",
@@ -695,8 +764,11 @@
                         "title": "Propertyid",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       },
                       "value": {
                         "title": "Value",
@@ -706,8 +778,11 @@
                         "title": "Url",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       }
                     },
                     "required": [
@@ -732,8 +807,11 @@
               "title": "@Id",
               "minLength": 1,
               "maxLength": 2083,
-              "format": "uri",
-              "type": "string"
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
+              }
             }
           },
           "required": [
@@ -768,8 +846,11 @@
               "title": "Url",
               "minLength": 1,
               "maxLength": 2083,
-              "format": "uri",
-              "type": "string"
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
+              }
             },
             "identifier": {
               "title": "Identifier",
@@ -793,8 +874,11 @@
                         "title": "@Id",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       },
                       "@type": {
                         "title": "@Type",
@@ -814,8 +898,11 @@
                         "title": "Propertyid",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       },
                       "value": {
                         "title": "Value",
@@ -825,8 +912,11 @@
                         "title": "Url",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       }
                     },
                     "required": [
@@ -864,8 +954,11 @@
                   "title": "Url",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 },
                 "identifier": {
                   "title": "Identifier",
@@ -889,8 +982,11 @@
                             "title": "@Id",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "@type": {
                             "title": "@Type",
@@ -910,8 +1006,11 @@
                             "title": "Propertyid",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "value": {
                             "title": "Value",
@@ -921,8 +1020,11 @@
                             "title": "Url",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           }
                         },
                         "required": [
@@ -993,8 +1095,11 @@
                         "title": "@Id",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       },
                       "@type": {
                         "title": "@Type",
@@ -1014,8 +1119,11 @@
                         "title": "Propertyid",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       },
                       "value": {
                         "title": "Value",
@@ -1025,8 +1133,11 @@
                         "title": "Url",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       }
                     },
                     "required": [
@@ -1051,8 +1162,11 @@
               "title": "@Id",
               "minLength": 1,
               "maxLength": 2083,
-              "format": "uri",
-              "type": "string"
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
+              }
             }
           },
           "required": [
@@ -1101,8 +1215,11 @@
             "title": "Url",
             "minLength": 1,
             "maxLength": 2083,
-            "format": "uri",
-            "type": "string"
+            "type": "string",
+            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+            "errorMessage": {
+              "pattern": "must match format \"url\""
+            }
           },
           "encodingFormat": {
             "title": "Encodingformat",
@@ -1223,8 +1340,11 @@
             "title": "Url",
             "minLength": 1,
             "maxLength": 2083,
-            "format": "uri",
-            "type": "string"
+            "type": "string",
+            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+            "errorMessage": {
+              "pattern": "must match format \"url\""
+            }
           },
           "funder": {
             "title": "Funder",
@@ -1274,8 +1394,11 @@
                               "title": "@Id",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "@type": {
                               "title": "@Type",
@@ -1295,8 +1418,11 @@
                               "title": "Propertyid",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "value": {
                               "title": "Value",
@@ -1306,8 +1432,11 @@
                               "title": "Url",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             }
                           },
                           "required": [
@@ -1346,8 +1475,11 @@
                     "title": "Url",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "identifier": {
                     "title": "Identifier",
@@ -1371,8 +1503,11 @@
                               "title": "@Id",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "@type": {
                               "title": "@Type",
@@ -1392,8 +1527,11 @@
                               "title": "Propertyid",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "value": {
                               "title": "Value",
@@ -1403,8 +1541,11 @@
                               "title": "Url",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             }
                           },
                           "required": [
@@ -1595,8 +1736,11 @@
                     "title": "@Id",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "@type": {
                     "title": "@Type",
@@ -1616,8 +1760,11 @@
                     "title": "Propertyid",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "value": {
                     "title": "Value",
@@ -1627,8 +1774,11 @@
                     "title": "Url",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   }
                 },
                 "required": [
@@ -1687,8 +1837,11 @@
                               "title": "@Id",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "@type": {
                               "title": "@Type",
@@ -1708,8 +1861,11 @@
                               "title": "Propertyid",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "value": {
                               "title": "Value",
@@ -1719,8 +1875,11 @@
                               "title": "Url",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             }
                           },
                           "required": [
@@ -1759,8 +1918,11 @@
                     "title": "Url",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "identifier": {
                     "title": "Identifier",
@@ -1784,8 +1946,11 @@
                               "title": "@Id",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "@type": {
                               "title": "@Type",
@@ -1805,8 +1970,11 @@
                               "title": "Propertyid",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "value": {
                               "title": "Value",
@@ -1816,8 +1984,11 @@
                               "title": "Url",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             }
                           },
                           "required": [
@@ -1894,8 +2065,11 @@
                     "title": "@Id",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "@type": {
                     "title": "@Type",
@@ -1915,8 +2089,11 @@
                     "title": "Propertyid",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "value": {
                     "title": "Value",
@@ -1926,8 +2103,11 @@
                     "title": "Url",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   }
                 },
                 "required": [
@@ -1986,8 +2166,11 @@
                               "title": "@Id",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "@type": {
                               "title": "@Type",
@@ -2007,8 +2190,11 @@
                               "title": "Propertyid",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "value": {
                               "title": "Value",
@@ -2018,8 +2204,11 @@
                               "title": "Url",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             }
                           },
                           "required": [
@@ -2058,8 +2247,11 @@
                     "title": "Url",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "identifier": {
                     "title": "Identifier",
@@ -2083,8 +2275,11 @@
                               "title": "@Id",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "@type": {
                               "title": "@Type",
@@ -2104,8 +2299,11 @@
                               "title": "Propertyid",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "value": {
                               "title": "Value",
@@ -2115,8 +2313,11 @@
                               "title": "Url",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             }
                           },
                           "required": [
@@ -2164,8 +2365,11 @@
             "title": "Contenturl",
             "minLength": 1,
             "maxLength": 2083,
-            "format": "uri",
-            "type": "string"
+            "type": "string",
+            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+            "errorMessage": {
+              "pattern": "must match format \"url\""
+            }
           },
           "encodingFormat": {
             "title": "Encodingformat",
@@ -2214,8 +2418,11 @@
             "title": "Contenturl",
             "minLength": 1,
             "maxLength": 2083,
-            "format": "uri",
-            "type": "string"
+            "type": "string",
+            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+            "errorMessage": {
+              "pattern": "must match format \"url\""
+            }
           },
           "encodingFormat": {
             "title": "Encodingformat",
@@ -2308,8 +2515,11 @@
             "title": "Url",
             "minLength": 1,
             "maxLength": 2083,
-            "format": "uri",
-            "type": "string"
+            "type": "string",
+            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+            "errorMessage": {
+              "pattern": "must match format \"url\""
+            }
           },
           "identifier": {
             "title": "Identifier",
@@ -2331,8 +2541,11 @@
                     "title": "@Id",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "@type": {
                     "title": "@Type",
@@ -2352,8 +2565,11 @@
                     "title": "Propertyid",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "value": {
                     "title": "Value",
@@ -2363,8 +2579,11 @@
                     "title": "Url",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   }
                 },
                 "required": [
@@ -2423,8 +2642,11 @@
                               "title": "@Id",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "@type": {
                               "title": "@Type",
@@ -2444,8 +2666,11 @@
                               "title": "Propertyid",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "value": {
                               "title": "Value",
@@ -2455,8 +2680,11 @@
                               "title": "Url",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             }
                           },
                           "required": [
@@ -2495,8 +2723,11 @@
                     "title": "Url",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "identifier": {
                     "title": "Identifier",
@@ -2520,8 +2751,11 @@
                               "title": "@Id",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "@type": {
                               "title": "@Type",
@@ -2541,8 +2775,11 @@
                               "title": "Propertyid",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             },
                             "value": {
                               "title": "Value",
@@ -2552,8 +2789,11 @@
                               "title": "Url",
                               "minLength": 1,
                               "maxLength": 2083,
-                              "format": "uri",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                              "errorMessage": {
+                                "pattern": "must match format \"url\""
+                              }
                             }
                           },
                           "required": [
@@ -2609,8 +2849,11 @@
           "title": "@Id",
           "minLength": 1,
           "maxLength": 2083,
-          "format": "uri",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
         },
         "@type": {
           "title": "@Type",
@@ -2630,8 +2873,11 @@
           "title": "Propertyid",
           "minLength": 1,
           "maxLength": 2083,
-          "format": "uri",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
         },
         "value": {
           "title": "Value",
@@ -2641,8 +2887,11 @@
           "title": "Url",
           "minLength": 1,
           "maxLength": 2083,
-          "format": "uri",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
         }
       },
       "required": [
@@ -2696,8 +2945,11 @@
                     "title": "@Id",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "@type": {
                     "title": "@Type",
@@ -2717,8 +2969,11 @@
                     "title": "Propertyid",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "value": {
                     "title": "Value",
@@ -2728,8 +2983,11 @@
                     "title": "Url",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   }
                 },
                 "required": [
@@ -2768,8 +3026,11 @@
           "title": "Url",
           "minLength": 1,
           "maxLength": 2083,
-          "format": "uri",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
         },
         "identifier": {
           "title": "Identifier",
@@ -2793,8 +3054,11 @@
                     "title": "@Id",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "@type": {
                     "title": "@Type",
@@ -2814,8 +3078,11 @@
                     "title": "Propertyid",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "value": {
                     "title": "Value",
@@ -2825,8 +3092,11 @@
                     "title": "Url",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   }
                 },
                 "required": [
@@ -2873,8 +3143,11 @@
           "title": "Indefinedtermset",
           "minLength": 1,
           "maxLength": 2083,
-          "format": "uri",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
         }
       },
       "required": [
@@ -2905,8 +3178,11 @@
           "title": "Url",
           "minLength": 1,
           "maxLength": 2083,
-          "format": "uri",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
         }
       },
       "required": [
@@ -2936,8 +3212,11 @@
           "title": "Url",
           "minLength": 1,
           "maxLength": 2083,
-          "format": "uri",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
         },
         "identifier": {
           "title": "Identifier",
@@ -2961,8 +3240,11 @@
                     "title": "@Id",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "@type": {
                     "title": "@Type",
@@ -2982,8 +3264,11 @@
                     "title": "Propertyid",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   },
                   "value": {
                     "title": "Value",
@@ -2993,8 +3278,11 @@
                     "title": "Url",
                     "minLength": 1,
                     "maxLength": 2083,
-                    "format": "uri",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
                   }
                 },
                 "required": [
@@ -3032,8 +3320,11 @@
               "title": "Url",
               "minLength": 1,
               "maxLength": 2083,
-              "format": "uri",
-              "type": "string"
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
+              }
             },
             "identifier": {
               "title": "Identifier",
@@ -3057,8 +3348,11 @@
                         "title": "@Id",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       },
                       "@type": {
                         "title": "@Type",
@@ -3078,8 +3372,11 @@
                         "title": "Propertyid",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       },
                       "value": {
                         "title": "Value",
@@ -3089,8 +3386,11 @@
                         "title": "Url",
                         "minLength": 1,
                         "maxLength": 2083,
-                        "format": "uri",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
                       }
                     },
                     "required": [
@@ -3124,8 +3424,11 @@
           "title": "@Id",
           "minLength": 1,
           "maxLength": 2083,
-          "format": "uri",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
         }
       },
       "required": [
@@ -3154,8 +3457,11 @@
           "title": "Url",
           "minLength": 1,
           "maxLength": 2083,
-          "format": "uri",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
         },
         "encodingFormat": {
           "title": "Encodingformat",
@@ -3227,8 +3533,11 @@
           "title": "Url",
           "minLength": 1,
           "maxLength": 2083,
-          "format": "uri",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
         },
         "funder": {
           "title": "Funder",
@@ -3278,8 +3587,11 @@
                             "title": "@Id",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "@type": {
                             "title": "@Type",
@@ -3299,8 +3611,11 @@
                             "title": "Propertyid",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "value": {
                             "title": "Value",
@@ -3310,8 +3625,11 @@
                             "title": "Url",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           }
                         },
                         "required": [
@@ -3350,8 +3668,11 @@
                   "title": "Url",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 },
                 "identifier": {
                   "title": "Identifier",
@@ -3375,8 +3696,11 @@
                             "title": "@Id",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "@type": {
                             "title": "@Type",
@@ -3396,8 +3720,11 @@
                             "title": "Propertyid",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "value": {
                             "title": "Value",
@@ -3407,8 +3734,11 @@
                             "title": "Url",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           }
                         },
                         "required": [
@@ -3657,8 +3987,11 @@
                   "title": "@Id",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 },
                 "@type": {
                   "title": "@Type",
@@ -3678,8 +4011,11 @@
                   "title": "Propertyid",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 },
                 "value": {
                   "title": "Value",
@@ -3689,8 +4025,11 @@
                   "title": "Url",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 }
               },
               "required": [
@@ -3749,8 +4088,11 @@
                             "title": "@Id",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "@type": {
                             "title": "@Type",
@@ -3770,8 +4112,11 @@
                             "title": "Propertyid",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "value": {
                             "title": "Value",
@@ -3781,8 +4126,11 @@
                             "title": "Url",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           }
                         },
                         "required": [
@@ -3821,8 +4169,11 @@
                   "title": "Url",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 },
                 "identifier": {
                   "title": "Identifier",
@@ -3846,8 +4197,11 @@
                             "title": "@Id",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "@type": {
                             "title": "@Type",
@@ -3867,8 +4221,11 @@
                             "title": "Propertyid",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "value": {
                             "title": "Value",
@@ -3878,8 +4235,11 @@
                             "title": "Url",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           }
                         },
                         "required": [
@@ -3951,8 +4311,11 @@
                   "title": "@Id",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 },
                 "@type": {
                   "title": "@Type",
@@ -3972,8 +4335,11 @@
                   "title": "Propertyid",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 },
                 "value": {
                   "title": "Value",
@@ -3983,8 +4349,11 @@
                   "title": "Url",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 }
               },
               "required": [
@@ -4043,8 +4412,11 @@
                             "title": "@Id",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "@type": {
                             "title": "@Type",
@@ -4064,8 +4436,11 @@
                             "title": "Propertyid",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "value": {
                             "title": "Value",
@@ -4075,8 +4450,11 @@
                             "title": "Url",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           }
                         },
                         "required": [
@@ -4115,8 +4493,11 @@
                   "title": "Url",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 },
                 "identifier": {
                   "title": "Identifier",
@@ -4140,8 +4521,11 @@
                             "title": "@Id",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "@type": {
                             "title": "@Type",
@@ -4161,8 +4545,11 @@
                             "title": "Propertyid",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "value": {
                             "title": "Value",
@@ -4172,8 +4559,11 @@
                             "title": "Url",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           }
                         },
                         "required": [
@@ -4216,8 +4606,11 @@
           "title": "Contenturl",
           "minLength": 1,
           "maxLength": 2083,
-          "format": "uri",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
         },
         "encodingFormat": {
           "title": "Encodingformat",
@@ -4261,8 +4654,11 @@
           "title": "Contenturl",
           "minLength": 1,
           "maxLength": 2083,
-          "format": "uri",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
         },
         "encodingFormat": {
           "title": "Encodingformat",
@@ -4338,8 +4734,11 @@
           "title": "Url",
           "minLength": 1,
           "maxLength": 2083,
-          "format": "uri",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
         },
         "identifier": {
           "title": "Identifier",
@@ -4361,8 +4760,11 @@
                   "title": "@Id",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 },
                 "@type": {
                   "title": "@Type",
@@ -4382,8 +4784,11 @@
                   "title": "Propertyid",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 },
                 "value": {
                   "title": "Value",
@@ -4393,8 +4798,11 @@
                   "title": "Url",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 }
               },
               "required": [
@@ -4453,8 +4861,11 @@
                             "title": "@Id",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "@type": {
                             "title": "@Type",
@@ -4474,8 +4885,11 @@
                             "title": "Propertyid",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "value": {
                             "title": "Value",
@@ -4485,8 +4899,11 @@
                             "title": "Url",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           }
                         },
                         "required": [
@@ -4525,8 +4942,11 @@
                   "title": "Url",
                   "minLength": 1,
                   "maxLength": 2083,
-                  "format": "uri",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
                 },
                 "identifier": {
                   "title": "Identifier",
@@ -4550,8 +4970,11 @@
                             "title": "@Id",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "@type": {
                             "title": "@Type",
@@ -4571,8 +4994,11 @@
                             "title": "Propertyid",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           },
                           "value": {
                             "title": "Value",
@@ -4582,8 +5008,11 @@
                             "title": "Url",
                             "minLength": 1,
                             "maxLength": 2083,
-                            "format": "uri",
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
                           }
                         },
                         "required": [
