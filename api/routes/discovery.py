@@ -77,14 +77,15 @@ class SearchQuery(BaseModel):
                     },
                 }
             )
-        if self.dataCoverageStart:
-            filters.append(
-                {'range': {'path': 'temporalCoverageDates.0', 'gte': datetime(self.dataCoverageStart, 1, 1)}}
-            )
-        if self.dataCoverageEnd:
-            filters.append(
-                {'range': {'path': 'temporalCoverageDates.1', 'lt': datetime(self.dataCoverageEnd + 1, 1, 1)}}
-            )
+        # TODO: filtering on dataCoverageStart and dataCoverageEnd is not working
+        # if self.dataCoverageStart:
+        #     filters.append(
+        #         {'range': {'path': 'temporalCoverageDates.0', 'gte': datetime(self.dataCoverageStart, 1, 1)}}
+        #     )
+        # if self.dataCoverageEnd:
+        #     filters.append(
+        #         {'range': {'path': 'temporalCoverageDates.1', 'lt': datetime(self.dataCoverageEnd + 1, 1, 1)}}
+        #     )
         return filters
 
     @property
@@ -129,19 +130,21 @@ class SearchQuery(BaseModel):
     def stages(self):
         highlightPaths = ['name', 'description', 'keywords', 'creator.name']
         stages = []
-        if self.dataCoverageStart or self.dataCoverageEnd:
-            stages.append(
-                {
-                    '$addFields': {
-                        'temporalCoverageDates': {
-                            '$map': {
-                                'input': {'$split': ['$temporalCoverage', '/']},
-                                'in': {'$dateFromString': {'dateString': '$$this', 'onError': datetime.utcnow()}},
-                            }
-                        }
-                    }
-                }
-            )
+        # TODO: having the $addField stage after the #search stage is not helping for filtering on
+        #  temporal coverage date range b/c the field gets added after the search is done
+        # if self.dataCoverageStart or self.dataCoverageEnd:
+        #     stages.append(
+        #         {
+        #             '$addFields': {
+        #                 'temporalCoverageDates': {
+        #                     '$map': {
+        #                         'input': {'$split': ['$temporalCoverage', '/']},
+        #                         'in': {'$dateFromString': {'dateString': '$$this', 'onError': datetime.utcnow()}},
+        #                     }
+        #                 }
+        #             }
+        #         }
+        #     )
 
         stages.insert(
             0,
@@ -170,6 +173,7 @@ class SearchQuery(BaseModel):
 async def search(request: Request, search_query: SearchQuery):
     stages = search_query.stages
     result = await request.app.mongodb["discovery"].aggregate(stages).to_list(search_query.pageSize)
+    # TODO: should we do the coverage date filtering here?
     return result
 
 
