@@ -1,7 +1,7 @@
 import re
 from datetime import date, datetime
 from enum import Enum
-from typing import Annotated, Any, List, Optional, Union
+from typing import Any, List, Optional, Union
 
 from pydantic import BaseModel, EmailStr, Field, HttpUrl, validator
 
