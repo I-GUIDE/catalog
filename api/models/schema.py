@@ -1,17 +1,30 @@
 import re
 from datetime import date, datetime
 from enum import Enum
-from typing import List, Optional, Union
+from typing import Annotated, Any, List, Optional, Union
 
 from pydantic import BaseModel, EmailStr, Field, HttpUrl, validator
 
 
-class CreativeWork(BaseModel):
+class SchemaBaseModel(BaseModel):
+    class Config:
+        @staticmethod
+        def schema_extra(schema: dict[str, Any], model) -> None:
+            # For jsonforms, hiding const/readonly fields from the form
+            properties = schema.get('properties', {})
+            for prop in properties.values():
+                if 'const' in prop:
+                    prop['readonly'] = True
+                    prop['option'] = {'hidden': True}
+            schema['properties'] = properties
+
+
+class CreativeWork(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, default="CreativeWork")
     name: str
 
 
-class PropertyValue(BaseModel):
+class PropertyValue(SchemaBaseModel):
     id: HttpUrl = Field(alias="@id")
     type: str = Field(alias="@type", const=True, default="PropertyValue")
     name: Optional[str]
@@ -23,14 +36,14 @@ class PropertyValue(BaseModel):
 Identifier = Union[str, HttpUrl, PropertyValue]
 
 
-class Person(BaseModel):
+class Person(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, default="Person")
     name: str
     email: Optional[EmailStr]
     identifier: Optional[Union[Identifier, List[HttpUrl]]]
 
 
-class Organization(BaseModel):
+class Organization(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, default="Organization")
     name: str
     url: Optional[HttpUrl]
@@ -38,7 +51,7 @@ class Organization(BaseModel):
     address: Optional[str]  # Should address be a string or another constrained type?
 
 
-class ProviderID(BaseModel):
+class ProviderID(SchemaBaseModel):
     id: HttpUrl = Field(alias="@id")
 
 
@@ -46,7 +59,7 @@ class ProviderOrganization(Organization):
     parentOrganization: Optional[Organization]
 
 
-class DefinedTerm(BaseModel):
+class DefinedTerm(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, default="DefinedTerm")
     name: str
     description: str
@@ -80,7 +93,7 @@ class LanguageEnum(str, Enum):
     esp = 'esp'
 
 
-class Grant(BaseModel):
+class Grant(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, default="MonetaryGrant")
     name: str
     url: HttpUrl
@@ -135,7 +148,7 @@ class TimeInterval(str):
         return f'TimeInterval({super().__repr__()})'
 
 
-class GeoCoordinates(BaseModel):
+class GeoCoordinates(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, default="GeoCoordinates")
     latitude: float
     longitude: float
@@ -153,7 +166,7 @@ class GeoCoordinates(BaseModel):
         return v
 
 
-class GeoShape(BaseModel):
+class GeoShape(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, default="GeoShape")
 
 
@@ -205,14 +218,14 @@ class Polygon(GeoShape):
         return v
 
 
-class Place(BaseModel):
+class Place(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, default="Place")
     name: Optional[str]
     address: Optional[str]
     geo: Optional[Union[Line, Polygon, GeoCoordinates]]
 
 
-class MediaObject(BaseModel):
+class MediaObject(SchemaBaseModel):
     type: str = Field(alias="@type", const=False, default="MediaObject")
     contentUrl: HttpUrl
     encodingFormat: str  # TODO enum for encoding formats
@@ -247,7 +260,7 @@ class MediaObject(BaseModel):
         return v
 
 
-class CoreMetadata(BaseModel):
+class CoreMetadata(SchemaBaseModel):
     context: HttpUrl = Field(alias='@context', default='https://schema.org')
     type: str = Field(alias="@type", const=True, default="Dataset")
     name: str = Field(description="The name or title of the record.")
@@ -302,7 +315,7 @@ class CoreMetadata(BaseModel):
     )
 
 
-class Distribution(BaseModel):
+class Distribution(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, default="DataDownload")
     name: str
     contentUrl: Optional[HttpUrl]
@@ -311,13 +324,13 @@ class Distribution(BaseModel):
     comment: Optional[str]
 
 
-class VariableMeasured(BaseModel):
+class VariableMeasured(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, default="PropertyValue")
     name: str
     unitText: str
 
 
-class IncludedInDataCatalog(BaseModel):
+class IncludedInDataCatalog(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, default="DataCatalog")
     name: str
     description: str
@@ -326,7 +339,7 @@ class IncludedInDataCatalog(BaseModel):
     creator: Union[Person, Organization]
 
 
-class Dataset(BaseModel):
+class Dataset(SchemaBaseModel):
     distribution: Union[Distribution, List[Distribution]] = Field(
         description="A data distribution in the form of a dataset (see https://schema.org/Dataset for more information)."
     )

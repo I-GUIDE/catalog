@@ -14,7 +14,11 @@
       "title": "@Type",
       "default": "Dataset",
       "const": "Dataset",
-      "type": "string"
+      "type": "string",
+      "readonly": true,
+      "option": {
+        "hidden": true
+      }
     },
     "name": {
       "title": "Name",
@@ -64,7 +68,11 @@
                 "title": "@Type",
                 "default": "PropertyValue",
                 "const": "PropertyValue",
-                "type": "string"
+                "type": "string",
+                "readonly": true,
+                "option": {
+                  "hidden": true
+                }
               },
               "name": {
                 "title": "Name",
@@ -112,7 +120,11 @@
                 "title": "@Type",
                 "default": "Person",
                 "const": "Person",
-                "type": "string"
+                "type": "string",
+                "readonly": true,
+                "option": {
+                  "hidden": true
+                }
               },
               "name": {
                 "title": "Name",
@@ -150,7 +162,11 @@
                         "title": "@Type",
                         "default": "PropertyValue",
                         "const": "PropertyValue",
-                        "type": "string"
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
                       },
                       "name": {
                         "title": "Name",
@@ -205,7 +221,11 @@
                 "title": "@Type",
                 "default": "Organization",
                 "const": "Organization",
-                "type": "string"
+                "type": "string",
+                "readonly": true,
+                "option": {
+                  "hidden": true
+                }
               },
               "name": {
                 "title": "Name",
@@ -245,7 +265,11 @@
                         "title": "@Type",
                         "default": "PropertyValue",
                         "const": "PropertyValue",
-                        "type": "string"
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
                       },
                       "name": {
                         "title": "Name",
@@ -328,7 +352,11 @@
                 "title": "@Type",
                 "default": "DefinedTerm",
                 "const": "DefinedTerm",
-                "type": "string"
+                "type": "string",
+                "readonly": true,
+                "option": {
+                  "hidden": true
+                }
               },
               "name": {
                 "title": "Name",
@@ -376,7 +404,11 @@
               "title": "@Type",
               "default": "CreativeWork",
               "const": "CreativeWork",
-              "type": "string"
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
             },
             "name": {
               "title": "Name",
@@ -415,7 +447,11 @@
               "title": "@Type",
               "default": "Organization",
               "const": "Organization",
-              "type": "string"
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
             },
             "name": {
               "title": "Name",
@@ -455,7 +491,11 @@
                       "title": "@Type",
                       "default": "PropertyValue",
                       "const": "PropertyValue",
-                      "type": "string"
+                      "type": "string",
+                      "readonly": true,
+                      "option": {
+                        "hidden": true
+                      }
                     },
                     "name": {
                       "title": "Name",
@@ -509,7 +549,11 @@
                   "title": "@Type",
                   "default": "Organization",
                   "const": "Organization",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -549,7 +593,11 @@
                           "title": "@Type",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
-                          "type": "string"
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
                         },
                         "name": {
                           "title": "Name",
@@ -613,7 +661,11 @@
               "title": "@Type",
               "default": "Person",
               "const": "Person",
-              "type": "string"
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
             },
             "name": {
               "title": "Name",
@@ -651,7 +703,11 @@
                       "title": "@Type",
                       "default": "PropertyValue",
                       "const": "PropertyValue",
-                      "type": "string"
+                      "type": "string",
+                      "readonly": true,
+                      "option": {
+                        "hidden": true
+                      }
                     },
                     "name": {
                       "title": "Name",
@@ -728,7 +784,11 @@
               "title": "@Type",
               "default": "Organization",
               "const": "Organization",
-              "type": "string"
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
             },
             "name": {
               "title": "Name",
@@ -768,7 +828,11 @@
                       "title": "@Type",
                       "default": "PropertyValue",
                       "const": "PropertyValue",
-                      "type": "string"
+                      "type": "string",
+                      "readonly": true,
+                      "option": {
+                        "hidden": true
+                      }
                     },
                     "name": {
                       "title": "Name",
@@ -822,7 +886,11 @@
                   "title": "@Type",
                   "default": "Organization",
                   "const": "Organization",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -862,7 +930,11 @@
                           "title": "@Type",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
-                          "type": "string"
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
                         },
                         "name": {
                           "title": "Name",
@@ -926,7 +998,11 @@
               "title": "@Type",
               "default": "Person",
               "const": "Person",
-              "type": "string"
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
             },
             "name": {
               "title": "Name",
@@ -964,7 +1040,11 @@
                       "title": "@Type",
                       "default": "PropertyValue",
                       "const": "PropertyValue",
-                      "type": "string"
+                      "type": "string",
+                      "readonly": true,
+                      "option": {
+                        "hidden": true
+                      }
                     },
                     "name": {
                       "title": "Name",
@@ -1055,7 +1135,11 @@
             "title": "@Type",
             "default": "CreativeWork",
             "const": "CreativeWork",
-            "type": "string"
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
           },
           "name": {
             "title": "Name",
@@ -1122,7 +1206,11 @@
               "title": "@Type",
               "default": "DefinedTerm",
               "const": "DefinedTerm",
-              "type": "string"
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
             },
             "name": {
               "title": "Name",
@@ -1169,7 +1257,11 @@
             "title": "@Type",
             "default": "MonetaryGrant",
             "const": "MonetaryGrant",
-            "type": "string"
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
           },
           "name": {
             "title": "Name",
@@ -1193,7 +1285,11 @@
                     "title": "@Type",
                     "default": "Person",
                     "const": "Person",
-                    "type": "string"
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
                   },
                   "name": {
                     "title": "Name",
@@ -1231,7 +1327,11 @@
                             "title": "@Type",
                             "default": "PropertyValue",
                             "const": "PropertyValue",
-                            "type": "string"
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
                           },
                           "name": {
                             "title": "Name",
@@ -1286,7 +1386,11 @@
                     "title": "@Type",
                     "default": "Organization",
                     "const": "Organization",
-                    "type": "string"
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
                   },
                   "name": {
                     "title": "Name",
@@ -1326,7 +1430,11 @@
                             "title": "@Type",
                             "default": "PropertyValue",
                             "const": "PropertyValue",
-                            "type": "string"
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
                           },
                           "name": {
                             "title": "Name",
@@ -1404,7 +1512,11 @@
               "title": "@Type",
               "default": "Place",
               "const": "Place",
-              "type": "string"
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
             },
             "name": {
               "title": "Name",
@@ -1425,7 +1537,11 @@
                       "title": "@Type",
                       "default": "GeoShape",
                       "const": "GeoShape",
-                      "type": "string"
+                      "type": "string",
+                      "readonly": true,
+                      "option": {
+                        "hidden": true
+                      }
                     },
                     "line": {
                       "title": "Line",
@@ -1444,7 +1560,11 @@
                       "title": "@Type",
                       "default": "GeoShape",
                       "const": "GeoShape",
-                      "type": "string"
+                      "type": "string",
+                      "readonly": true,
+                      "option": {
+                        "hidden": true
+                      }
                     },
                     "polygon": {
                       "title": "Polygon",
@@ -1463,7 +1583,11 @@
                       "title": "@Type",
                       "default": "GeoCoordinates",
                       "const": "GeoCoordinates",
-                      "type": "string"
+                      "type": "string",
+                      "readonly": true,
+                      "option": {
+                        "hidden": true
+                      }
                     },
                     "latitude": {
                       "title": "Latitude",
@@ -1497,7 +1621,11 @@
             "title": "@Type",
             "default": "CreativeWork",
             "const": "CreativeWork",
-            "type": "string"
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
           },
           "name": {
             "title": "Name",
@@ -1534,7 +1662,11 @@
                     "title": "@Type",
                     "default": "PropertyValue",
                     "const": "PropertyValue",
-                    "type": "string"
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
                   },
                   "name": {
                     "title": "Name",
@@ -1578,7 +1710,11 @@
                     "title": "@Type",
                     "default": "Person",
                     "const": "Person",
-                    "type": "string"
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
                   },
                   "name": {
                     "title": "Name",
@@ -1616,7 +1752,11 @@
                             "title": "@Type",
                             "default": "PropertyValue",
                             "const": "PropertyValue",
-                            "type": "string"
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
                           },
                           "name": {
                             "title": "Name",
@@ -1671,7 +1811,11 @@
                     "title": "@Type",
                     "default": "Organization",
                     "const": "Organization",
-                    "type": "string"
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
                   },
                   "name": {
                     "title": "Name",
@@ -1711,7 +1855,11 @@
                             "title": "@Type",
                             "default": "PropertyValue",
                             "const": "PropertyValue",
-                            "type": "string"
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
                           },
                           "name": {
                             "title": "Name",
@@ -1784,7 +1932,11 @@
             "title": "@Type",
             "default": "CreativeWork",
             "const": "CreativeWork",
-            "type": "string"
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
           },
           "name": {
             "title": "Name",
@@ -1821,7 +1973,11 @@
                     "title": "@Type",
                     "default": "PropertyValue",
                     "const": "PropertyValue",
-                    "type": "string"
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
                   },
                   "name": {
                     "title": "Name",
@@ -1865,7 +2021,11 @@
                     "title": "@Type",
                     "default": "Person",
                     "const": "Person",
-                    "type": "string"
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
                   },
                   "name": {
                     "title": "Name",
@@ -1903,7 +2063,11 @@
                             "title": "@Type",
                             "default": "PropertyValue",
                             "const": "PropertyValue",
-                            "type": "string"
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
                           },
                           "name": {
                             "title": "Name",
@@ -1958,7 +2122,11 @@
                     "title": "@Type",
                     "default": "Organization",
                     "const": "Organization",
-                    "type": "string"
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
                   },
                   "name": {
                     "title": "Name",
@@ -1998,7 +2166,11 @@
                             "title": "@Type",
                             "default": "PropertyValue",
                             "const": "PropertyValue",
-                            "type": "string"
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
                           },
                           "name": {
                             "title": "Name",
@@ -2112,7 +2284,11 @@
               "title": "@Type",
               "default": "DataDownload",
               "const": "DataDownload",
-              "type": "string"
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
             },
             "name": {
               "title": "Name",
@@ -2162,7 +2338,11 @@
                 "title": "@Type",
                 "default": "DataDownload",
                 "const": "DataDownload",
-                "type": "string"
+                "type": "string",
+                "readonly": true,
+                "option": {
+                  "hidden": true
+                }
               },
               "name": {
                 "title": "Name",
@@ -2220,7 +2400,11 @@
               "title": "@Type",
               "default": "PropertyValue",
               "const": "PropertyValue",
-              "type": "string"
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
             },
             "name": {
               "title": "Name",
@@ -2246,7 +2430,11 @@
                 "title": "@Type",
                 "default": "PropertyValue",
                 "const": "PropertyValue",
-                "type": "string"
+                "type": "string",
+                "readonly": true,
+                "option": {
+                  "hidden": true
+                }
               },
               "name": {
                 "title": "Name",
@@ -2277,7 +2465,11 @@
             "title": "@Type",
             "default": "DataCatalog",
             "const": "DataCatalog",
-            "type": "string"
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
           },
           "name": {
             "title": "Name",
@@ -2321,7 +2513,11 @@
                     "title": "@Type",
                     "default": "PropertyValue",
                     "const": "PropertyValue",
-                    "type": "string"
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
                   },
                   "name": {
                     "title": "Name",
@@ -2365,7 +2561,11 @@
                     "title": "@Type",
                     "default": "Person",
                     "const": "Person",
-                    "type": "string"
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
                   },
                   "name": {
                     "title": "Name",
@@ -2403,7 +2603,11 @@
                             "title": "@Type",
                             "default": "PropertyValue",
                             "const": "PropertyValue",
-                            "type": "string"
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
                           },
                           "name": {
                             "title": "Name",
@@ -2458,7 +2662,11 @@
                     "title": "@Type",
                     "default": "Organization",
                     "const": "Organization",
-                    "type": "string"
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
                   },
                   "name": {
                     "title": "Name",
@@ -2498,7 +2706,11 @@
                             "title": "@Type",
                             "default": "PropertyValue",
                             "const": "PropertyValue",
-                            "type": "string"
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
                           },
                           "name": {
                             "title": "Name",
@@ -2591,7 +2803,11 @@
           "title": "@Type",
           "default": "PropertyValue",
           "const": "PropertyValue",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -2630,7 +2846,11 @@
           "title": "@Type",
           "default": "Person",
           "const": "Person",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -2668,7 +2888,11 @@
                   "title": "@Type",
                   "default": "PropertyValue",
                   "const": "PropertyValue",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -2723,7 +2947,11 @@
           "title": "@Type",
           "default": "Organization",
           "const": "Organization",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -2763,7 +2991,11 @@
                   "title": "@Type",
                   "default": "PropertyValue",
                   "const": "PropertyValue",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -2822,7 +3054,11 @@
           "title": "@Type",
           "default": "DefinedTerm",
           "const": "DefinedTerm",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -2854,7 +3090,11 @@
           "title": "@Type",
           "default": "CreativeWork",
           "const": "CreativeWork",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -2881,7 +3121,11 @@
           "title": "@Type",
           "default": "Organization",
           "const": "Organization",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -2921,7 +3165,11 @@
                   "title": "@Type",
                   "default": "PropertyValue",
                   "const": "PropertyValue",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -2975,7 +3223,11 @@
               "title": "@Type",
               "default": "Organization",
               "const": "Organization",
-              "type": "string"
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
             },
             "name": {
               "title": "Name",
@@ -3015,7 +3267,11 @@
                       "title": "@Type",
                       "default": "PropertyValue",
                       "const": "PropertyValue",
-                      "type": "string"
+                      "type": "string",
+                      "readonly": true,
+                      "option": {
+                        "hidden": true
+                      }
                     },
                     "name": {
                       "title": "Name",
@@ -3095,7 +3351,11 @@
           "title": "@Type",
           "default": "CreativeWork",
           "const": "CreativeWork",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -3136,7 +3396,11 @@
           "title": "@Type",
           "default": "DefinedTerm",
           "const": "DefinedTerm",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -3160,7 +3424,11 @@
           "title": "@Type",
           "default": "MonetaryGrant",
           "const": "MonetaryGrant",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -3184,7 +3452,11 @@
                   "title": "@Type",
                   "default": "Person",
                   "const": "Person",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -3222,7 +3494,11 @@
                           "title": "@Type",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
-                          "type": "string"
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
                         },
                         "name": {
                           "title": "Name",
@@ -3277,7 +3553,11 @@
                   "title": "@Type",
                   "default": "Organization",
                   "const": "Organization",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -3317,7 +3597,11 @@
                           "title": "@Type",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
-                          "type": "string"
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
                         },
                         "name": {
                           "title": "Name",
@@ -3385,7 +3669,11 @@
           "title": "@Type",
           "default": "GeoShape",
           "const": "GeoShape",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "line": {
           "title": "Line",
@@ -3404,7 +3692,11 @@
           "title": "@Type",
           "default": "GeoShape",
           "const": "GeoShape",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "polygon": {
           "title": "Polygon",
@@ -3423,7 +3715,11 @@
           "title": "@Type",
           "default": "GeoCoordinates",
           "const": "GeoCoordinates",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "latitude": {
           "title": "Latitude",
@@ -3447,7 +3743,11 @@
           "title": "@Type",
           "default": "Place",
           "const": "Place",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -3468,7 +3768,11 @@
                   "title": "@Type",
                   "default": "GeoShape",
                   "const": "GeoShape",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "line": {
                   "title": "Line",
@@ -3487,7 +3791,11 @@
                   "title": "@Type",
                   "default": "GeoShape",
                   "const": "GeoShape",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "polygon": {
                   "title": "Polygon",
@@ -3506,7 +3814,11 @@
                   "title": "@Type",
                   "default": "GeoCoordinates",
                   "const": "GeoCoordinates",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "latitude": {
                   "title": "Latitude",
@@ -3534,7 +3846,11 @@
           "title": "@Type",
           "default": "CreativeWork",
           "const": "CreativeWork",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -3571,7 +3887,11 @@
                   "title": "@Type",
                   "default": "PropertyValue",
                   "const": "PropertyValue",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -3615,7 +3935,11 @@
                   "title": "@Type",
                   "default": "Person",
                   "const": "Person",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -3653,7 +3977,11 @@
                           "title": "@Type",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
-                          "type": "string"
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
                         },
                         "name": {
                           "title": "Name",
@@ -3708,7 +4036,11 @@
                   "title": "@Type",
                   "default": "Organization",
                   "const": "Organization",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -3748,7 +4080,11 @@
                           "title": "@Type",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
-                          "type": "string"
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
                         },
                         "name": {
                           "title": "Name",
@@ -3816,7 +4152,11 @@
           "title": "@Type",
           "default": "CreativeWork",
           "const": "CreativeWork",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -3853,7 +4193,11 @@
                   "title": "@Type",
                   "default": "PropertyValue",
                   "const": "PropertyValue",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -3897,7 +4241,11 @@
                   "title": "@Type",
                   "default": "Person",
                   "const": "Person",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -3935,7 +4283,11 @@
                           "title": "@Type",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
-                          "type": "string"
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
                         },
                         "name": {
                           "title": "Name",
@@ -3990,7 +4342,11 @@
                   "title": "@Type",
                   "default": "Organization",
                   "const": "Organization",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -4030,7 +4386,11 @@
                           "title": "@Type",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
-                          "type": "string"
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
                         },
                         "name": {
                           "title": "Name",
@@ -4134,7 +4494,11 @@
           "title": "@Type",
           "default": "DataDownload",
           "const": "DataDownload",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -4182,7 +4546,11 @@
           "title": "@Type",
           "default": "PropertyValue",
           "const": "PropertyValue",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -4206,7 +4574,11 @@
           "title": "@Type",
           "default": "DataCatalog",
           "const": "DataCatalog",
-          "type": "string"
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
         },
         "name": {
           "title": "Name",
@@ -4250,7 +4622,11 @@
                   "title": "@Type",
                   "default": "PropertyValue",
                   "const": "PropertyValue",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -4294,7 +4670,11 @@
                   "title": "@Type",
                   "default": "Person",
                   "const": "Person",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -4332,7 +4712,11 @@
                           "title": "@Type",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
-                          "type": "string"
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
                         },
                         "name": {
                           "title": "Name",
@@ -4387,7 +4771,11 @@
                   "title": "@Type",
                   "default": "Organization",
                   "const": "Organization",
-                  "type": "string"
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
                 },
                 "name": {
                   "title": "Name",
@@ -4427,7 +4815,11 @@
                           "title": "@Type",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
-                          "type": "string"
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
                         },
                         "name": {
                           "title": "Name",
