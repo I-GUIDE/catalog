@@ -18,8 +18,10 @@ services:
   
   frontend:
     image: iguide_frontend
+    build:
+      dockerfile: ./docker/Dockerfile-frontend
     volumes:
-      - ./.env:/app/.env
+      - ./frontend:/app
     ports:
       - 5001:5001
     restart: unless-stopped
