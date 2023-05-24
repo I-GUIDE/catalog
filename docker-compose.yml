@@ -20,8 +20,9 @@ services:
     image: iguide_frontend
     build:
       dockerfile: ./docker/Dockerfile-frontend
-    volumes:
-      - ./frontend:/app
+    #volumes:
+      #- ./frontend:/app
+      #- ./frontend/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - 5001:5001
     restart: unless-stopped
