@@ -39,7 +39,8 @@ class PropertyValue(SchemaBaseModel):
     url: HttpUrl = Field(title="TODO", description="TODO")
 
 
-Identifier = Union[str, HttpUrl, PropertyValue]
+# Identifier = Union[str, HttpUrl, PropertyValue]
+Identifier = PropertyValue
 
 
 class Person(SchemaBaseModel):
@@ -274,14 +275,10 @@ class CoreMetadata(SchemaBaseModel):
     name: str = Field(description="The name or title of the record.", title="TODO")
     description: str = Field(description="The description or abstract of the record.", title="TODO")
     url: HttpUrl = Field(description="The url of the record.", title="TODO")
-    identifier: List[Union[str, HttpUrl, PropertyValue]] = Field(
-        description="Any kind of identifier for the record.", title="TODO"
-    )
-    creator: List[Union[Person, Organization]] = Field(
-        description="Person or organization that created the work.", title="TODO"
-    )
+    identifier: List[PropertyValue] = Field(description="Any kind of identifier for the record.", title="TODO")
+    creator: List[Person] = Field(description="Person or organization that created the work.", title="TODO")
     dateCreated: Union[date, datetime] = Field(description="The date on which the work was created.", title="TODO")
-    keywords: List[Union[KeywordTerm, str, HttpUrl]] = Field(
+    keywords: List[KeywordTerm] = Field(
         min_items=1, description="Keywords or tags used to describe the dataset, delimited by commas.", title="TODO"
     )
     license: Union[License, HttpUrl] = Field(
@@ -367,7 +364,7 @@ class Dataset(SchemaBaseModel):
         description="A data distribution in the form of a dataset (see https://schema.org/Dataset for more information).",
         title="TODO",
     )
-    variableMeasured: Optional[List[Union[str, VariableMeasured]]] = Field(
+    variableMeasured: Optional[List[VariableMeasured]] = Field(
         description="The variableMeasured property can indicate (repeated as necessary) the variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue.",
         title="TODO",
     )
