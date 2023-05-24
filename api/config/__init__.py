@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     def __init__(self, **data: Any) -> None:
         super().__init__(**data)
         if self.testing:
-            self.database_name = f"{self.database_name}-test"
+            self.database_name = f"{self.database_name}"
 
     @property
     def db_connection_string(self):

@@ -34,3 +34,7 @@ schema:
 .PHONY: test
 test:
 	docker-compose exec api pytest tests
+
+.PHONY: pre-post
+pre-post:
+	docker-compose run catalog-trigger python /app/triggers/management/change_streams_pre_and_post.py
