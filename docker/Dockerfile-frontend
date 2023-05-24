@@ -1,8 +1,8 @@
 FROM node:14 as build-stage
 WORKDIR /app
 COPY frontend/package*.json ./
-RUN npm i @cznethub/cznet-vue-core
-RUN npm install
+RUN npm i @cznethub/cznet-vue-core --legacy-peer-deps
+RUN npm install --legacy-peer-deps
 COPY ./frontend .
 RUN npm run build-prod
 
