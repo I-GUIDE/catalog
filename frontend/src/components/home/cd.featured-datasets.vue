@@ -7,7 +7,13 @@
     >
       {{ $t("home.featuredData.subtitle") }}
     </v-subheader>
-    <v-slide-group v-model="selected" center-active class="pa-4" show-arrows>
+    <v-slide-group
+      v-model="selected"
+      v-if="fetchedDatasets.length || isLoading"
+      center-active
+      class="pa-4"
+      show-arrows
+    >
       <v-slide-item
         v-for="(result, index) in datasets"
         :key="index"
@@ -22,7 +28,7 @@
           :ripple="false"
           elevation="1"
         >
-          <template v-if="result">
+          <template v-if="!isLoading && result">
             <div class="d-flex full-height card-wrapper">
               <div class="card-icon info lighten-3">
                 <div class="page-icons">
@@ -81,6 +87,9 @@
         </v-card>
       </v-slide-item>
     </v-slide-group>
+    <div v-else class="text-body-2">
+      No data to feature right now. Check again soon...
+    </div>
   </v-container>
 </template>
 
@@ -100,6 +109,7 @@ const featuredSearch = "Water";
 export default class CdFeaturedDatasets extends Vue {
   protected selected: number | null = null;
   protected formatDate = formatDate;
+  protected isLoading = false;
   // protected datasets = FEATURED_DATASETS;  // JSON file setup. Unused for now.
 
   protected getResultAuthors(result) {
@@ -107,9 +117,13 @@ export default class CdFeaturedDatasets extends Vue {
   }
 
   public get datasets(): IResult[] {
-    return Search.$state.results.length
-      ? Search.$state.results
+    return this.fetchedDatasets.length
+      ? this.fetchedDatasets
       : new Array(numFeatured).fill(null);
+  }
+
+  protected get fetchedDatasets() {
+    return Search.$state.results;
   }
 
   created() {
@@ -118,13 +132,16 @@ export default class CdFeaturedDatasets extends Vue {
 
   public async getFeaturedDatasets() {
     try {
+      this.isLoading = true;
       await Search.search({
         term: featuredSearch,
         pageSize: numFeatured,
         pageNumber: 1,
       });
+      this.isLoading = false;
     } catch (e) {
       console.log(e);
+      this.isLoading = false;
     }
   }
 
