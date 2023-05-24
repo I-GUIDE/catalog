@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends
 from pydantic import BaseModel, validator
 
 router = APIRouter()
@@ -38,6 +38,8 @@ class SearchQuery(BaseModel):
 
     @validator('dataCoverageStart', 'dataCoverageEnd', 'publishedStart', 'publishedEnd')
     def validate_year(cls, v, values, field, **kwargs):
+        if v is None:
+            return v
         try:
             datetime(v, 1, 1)
         except ValueError:
@@ -77,15 +79,15 @@ class SearchQuery(BaseModel):
                     },
                 }
             )
-        # TODO: filtering on dataCoverageStart and dataCoverageEnd is not working
-        # if self.dataCoverageStart:
-        #     filters.append(
-        #         {'range': {'path': 'temporalCoverageDates.0', 'gte': datetime(self.dataCoverageStart, 1, 1)}}
-        #     )
-        # if self.dataCoverageEnd:
-        #     filters.append(
-        #         {'range': {'path': 'temporalCoverageDates.1', 'lt': datetime(self.dataCoverageEnd + 1, 1, 1)}}
-        #     )
+
+        if self.dataCoverageStart:
+            filters.append(
+                {'range': {'path': 'temporalCoverageStart', 'gte': datetime(self.dataCoverageStart, 1, 1)}}
+            )
+        if self.dataCoverageEnd:
+            filters.append(
+                {'range': {'path': 'temporalCoverageEnd', 'lt': datetime(self.dataCoverageEnd + 1, 1, 1)}}
+            )
         return filters
 
     @property
@@ -128,26 +130,9 @@ class SearchQuery(BaseModel):
 
     @property
     def stages(self):
-        highlightPaths = ['name', 'description', 'keywords', 'creator.name']
+        highlightPaths = ['name', 'description', 'keywords', 'keywords.name', 'creator.name']
         stages = []
-        # TODO: having the $addField stage after the #search stage is not helping for filtering on
-        #  temporal coverage date range b/c the field gets added after the search is done
-        # if self.dataCoverageStart or self.dataCoverageEnd:
-        #     stages.append(
-        #         {
-        #             '$addFields': {
-        #                 'temporalCoverageDates': {
-        #                     '$map': {
-        #                         'input': {'$split': ['$temporalCoverage', '/']},
-        #                         'in': {'$dateFromString': {'dateString': '$$this', 'onError': datetime.utcnow()}},
-        #                     }
-        #                 }
-        #             }
-        #         }
-        #     )
-
-        stages.insert(
-            0,
+        stages.append(
             {
                 '$search': {
                     'index': 'fuzzy_search',
@@ -169,11 +154,10 @@ class SearchQuery(BaseModel):
         return stages
 
 
-@router.post("/search")
-async def search(request: Request, search_query: SearchQuery):
+@router.get("/search")
+async def search(request: Request, search_query: SearchQuery = Depends()):
     stages = search_query.stages
     result = await request.app.mongodb["discovery"].aggregate(stages).to_list(search_query.pageSize)
-    # TODO: should we do the coverage date filtering here?
     return result
 
 
