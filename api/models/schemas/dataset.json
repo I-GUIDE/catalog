@@ -1,0 +1,4974 @@
+{
+  "title": "DatasetSchema",
+  "type": "object",
+  "properties": {
+    "@context": {
+      "title": "TODO",
+      "description": "TODO",
+      "default": "https://schema.org",
+      "minLength": 1,
+      "maxLength": 2083,
+      "type": "string",
+      "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+      "errorMessage": {
+        "pattern": "must match format \"url\""
+      }
+    },
+    "@type": {
+      "title": "TODO",
+      "description": "TODO",
+      "default": "Dataset",
+      "const": "Dataset",
+      "type": "string",
+      "readonly": true,
+      "option": {
+        "hidden": true
+      }
+    },
+    "name": {
+      "title": "TODO",
+      "description": "The name or title of the record.",
+      "type": "string"
+    },
+    "description": {
+      "title": "TODO",
+      "description": "The description or abstract of the record.",
+      "type": "string"
+    },
+    "url": {
+      "title": "TODO",
+      "description": "The url of the record.",
+      "minLength": 1,
+      "maxLength": 2083,
+      "type": "string",
+      "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+      "errorMessage": {
+        "pattern": "must match format \"url\""
+      }
+    },
+    "identifier": {
+      "title": "TODO",
+      "description": "Any kind of identifier for the record.",
+      "type": "array",
+      "items": {
+        "title": "PropertyValue",
+        "type": "object",
+        "properties": {
+          "@id": {
+            "title": "TODO",
+            "description": "TODO",
+            "minLength": 1,
+            "maxLength": 2083,
+            "type": "string",
+            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+            "errorMessage": {
+              "pattern": "must match format \"url\""
+            }
+          },
+          "@type": {
+            "title": "TODO",
+            "description": "TODO",
+            "default": "PropertyValue",
+            "const": "PropertyValue",
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
+          },
+          "name": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "propertyID": {
+            "title": "TODO",
+            "description": "TODO",
+            "minLength": 1,
+            "maxLength": 2083,
+            "type": "string",
+            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+            "errorMessage": {
+              "pattern": "must match format \"url\""
+            }
+          },
+          "value": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "url": {
+            "title": "TODO",
+            "description": "TODO",
+            "minLength": 1,
+            "maxLength": 2083,
+            "type": "string",
+            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+            "errorMessage": {
+              "pattern": "must match format \"url\""
+            }
+          }
+        },
+        "required": [
+          "@id",
+          "value",
+          "url"
+        ]
+      }
+    },
+    "creator": {
+      "title": "TODO",
+      "description": "Person or organization that created the work.",
+      "type": "array",
+      "items": {
+        "title": "Person",
+        "type": "object",
+        "properties": {
+          "@type": {
+            "title": "TODO",
+            "description": "TODO",
+            "default": "Person",
+            "const": "Person",
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
+          },
+          "name": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "email": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string",
+            "format": "email"
+          },
+          "identifier": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "array",
+            "items": {
+              "title": "PropertyValue",
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "PropertyValue",
+                  "const": "PropertyValue",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "name": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "propertyID": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "value": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "url": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                }
+              },
+              "required": [
+                "@id",
+                "value",
+                "url"
+              ]
+            }
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    "dateCreated": {
+      "title": "TODO",
+      "description": "The date on which the work was created.",
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date"
+        },
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      ]
+    },
+    "keywords": {
+      "title": "TODO",
+      "description": "Keywords or tags used to describe the dataset, delimited by commas.",
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "title": "KeywordTerm",
+        "type": "object",
+        "properties": {
+          "@type": {
+            "title": "TODO",
+            "description": "TODO",
+            "default": "DefinedTerm",
+            "const": "DefinedTerm",
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
+          },
+          "name": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "description": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "inDefinedTermSet": {
+            "title": "TODO",
+            "description": "TODO",
+            "minLength": 1,
+            "maxLength": 2083,
+            "type": "string",
+            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+            "errorMessage": {
+              "pattern": "must match format \"url\""
+            }
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "inDefinedTermSet"
+        ]
+      }
+    },
+    "license": {
+      "title": "TODO",
+      "description": "A license document that applies to the content, typically indicated by a URL.",
+      "anyOf": [
+        {
+          "title": "License",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "title": "TODO",
+              "description": "TODO",
+              "default": "CreativeWork",
+              "const": "CreativeWork",
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
+            },
+            "name": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            },
+            "url": {
+              "title": "TODO",
+              "description": "TODO",
+              "minLength": 1,
+              "maxLength": 2083,
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
+              }
+            }
+          },
+          "required": [
+            "name",
+            "url"
+          ]
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2083,
+          "format": "uri"
+        }
+      ]
+    },
+    "provider": {
+      "title": "TODO",
+      "description": "The service provider, service operator, or service performer.",
+      "anyOf": [
+        {
+          "title": "ProviderOrganization",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "title": "TODO",
+              "description": "TODO",
+              "default": "Organization",
+              "const": "Organization",
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
+            },
+            "name": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            },
+            "url": {
+              "title": "TODO",
+              "description": "TODO",
+              "minLength": 1,
+              "maxLength": 2083,
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
+              }
+            },
+            "identifier": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "array",
+              "items": {
+                "title": "PropertyValue",
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "PropertyValue",
+                    "const": "PropertyValue",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "propertyID": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "value": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  }
+                },
+                "required": [
+                  "@id",
+                  "value",
+                  "url"
+                ]
+              }
+            },
+            "address": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            },
+            "parentOrganization": {
+              "title": "TODO",
+              "description": "TODO",
+              "allOf": [
+                {
+                  "title": "Organization",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "default": "Organization",
+                      "const": "Organization",
+                      "type": "string",
+                      "readonly": true,
+                      "option": {
+                        "hidden": true
+                      }
+                    },
+                    "name": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "type": "string"
+                    },
+                    "url": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "minLength": 1,
+                      "maxLength": 2083,
+                      "type": "string",
+                      "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                      "errorMessage": {
+                        "pattern": "must match format \"url\""
+                      }
+                    },
+                    "identifier": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "type": "array",
+                      "items": {
+                        "title": "PropertyValue",
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "title": "TODO",
+                            "description": "TODO",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
+                          },
+                          "@type": {
+                            "title": "TODO",
+                            "description": "TODO",
+                            "default": "PropertyValue",
+                            "const": "PropertyValue",
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
+                          },
+                          "name": {
+                            "title": "TODO",
+                            "description": "TODO",
+                            "type": "string"
+                          },
+                          "propertyID": {
+                            "title": "TODO",
+                            "description": "TODO",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
+                          },
+                          "value": {
+                            "title": "TODO",
+                            "description": "TODO",
+                            "type": "string"
+                          },
+                          "url": {
+                            "title": "TODO",
+                            "description": "TODO",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
+                          }
+                        },
+                        "required": [
+                          "@id",
+                          "value",
+                          "url"
+                        ]
+                      }
+                    },
+                    "address": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        {
+          "title": "Person",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "title": "TODO",
+              "description": "TODO",
+              "default": "Person",
+              "const": "Person",
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
+            },
+            "name": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            },
+            "email": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string",
+              "format": "email"
+            },
+            "identifier": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "array",
+              "items": {
+                "title": "PropertyValue",
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "PropertyValue",
+                    "const": "PropertyValue",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "propertyID": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "value": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  }
+                },
+                "required": [
+                  "@id",
+                  "value",
+                  "url"
+                ]
+              }
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        {
+          "title": "ProviderID",
+          "type": "object",
+          "properties": {
+            "@id": {
+              "title": "TODO",
+              "description": "TODO",
+              "minLength": 1,
+              "maxLength": 2083,
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
+              }
+            }
+          },
+          "required": [
+            "@id"
+          ]
+        }
+      ]
+    },
+    "publisher": {
+      "title": "TODO",
+      "description": "The publisher of the record.",
+      "anyOf": [
+        {
+          "title": "ProviderOrganization",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "title": "TODO",
+              "description": "TODO",
+              "default": "Organization",
+              "const": "Organization",
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
+            },
+            "name": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            },
+            "url": {
+              "title": "TODO",
+              "description": "TODO",
+              "minLength": 1,
+              "maxLength": 2083,
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
+              }
+            },
+            "identifier": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "array",
+              "items": {
+                "title": "PropertyValue",
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "PropertyValue",
+                    "const": "PropertyValue",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "propertyID": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "value": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  }
+                },
+                "required": [
+                  "@id",
+                  "value",
+                  "url"
+                ]
+              }
+            },
+            "address": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            },
+            "parentOrganization": {
+              "title": "TODO",
+              "description": "TODO",
+              "allOf": [
+                {
+                  "title": "Organization",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "default": "Organization",
+                      "const": "Organization",
+                      "type": "string",
+                      "readonly": true,
+                      "option": {
+                        "hidden": true
+                      }
+                    },
+                    "name": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "type": "string"
+                    },
+                    "url": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "minLength": 1,
+                      "maxLength": 2083,
+                      "type": "string",
+                      "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                      "errorMessage": {
+                        "pattern": "must match format \"url\""
+                      }
+                    },
+                    "identifier": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "type": "array",
+                      "items": {
+                        "title": "PropertyValue",
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "title": "TODO",
+                            "description": "TODO",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
+                          },
+                          "@type": {
+                            "title": "TODO",
+                            "description": "TODO",
+                            "default": "PropertyValue",
+                            "const": "PropertyValue",
+                            "type": "string",
+                            "readonly": true,
+                            "option": {
+                              "hidden": true
+                            }
+                          },
+                          "name": {
+                            "title": "TODO",
+                            "description": "TODO",
+                            "type": "string"
+                          },
+                          "propertyID": {
+                            "title": "TODO",
+                            "description": "TODO",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
+                          },
+                          "value": {
+                            "title": "TODO",
+                            "description": "TODO",
+                            "type": "string"
+                          },
+                          "url": {
+                            "title": "TODO",
+                            "description": "TODO",
+                            "minLength": 1,
+                            "maxLength": 2083,
+                            "type": "string",
+                            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                            "errorMessage": {
+                              "pattern": "must match format \"url\""
+                            }
+                          }
+                        },
+                        "required": [
+                          "@id",
+                          "value",
+                          "url"
+                        ]
+                      }
+                    },
+                    "address": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        {
+          "title": "Person",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "title": "TODO",
+              "description": "TODO",
+              "default": "Person",
+              "const": "Person",
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
+            },
+            "name": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            },
+            "email": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string",
+              "format": "email"
+            },
+            "identifier": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "array",
+              "items": {
+                "title": "PropertyValue",
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "PropertyValue",
+                    "const": "PropertyValue",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "propertyID": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "value": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  }
+                },
+                "required": [
+                  "@id",
+                  "value",
+                  "url"
+                ]
+              }
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        {
+          "title": "ProviderID",
+          "type": "object",
+          "properties": {
+            "@id": {
+              "title": "TODO",
+              "description": "TODO",
+              "minLength": 1,
+              "maxLength": 2083,
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
+              }
+            }
+          },
+          "required": [
+            "@id"
+          ]
+        }
+      ]
+    },
+    "datePublished": {
+      "title": "TODO",
+      "description": "Date of first publication for the record.",
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date"
+        },
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      ]
+    },
+    "subjectOf": {
+      "title": "TODO",
+      "description": "A CreativeWork about the record - e.g., a related metadata document describing the record.",
+      "type": "array",
+      "items": {
+        "title": "SubjectOf",
+        "type": "object",
+        "properties": {
+          "@type": {
+            "title": "TODO",
+            "description": "TODO",
+            "default": "CreativeWork",
+            "const": "CreativeWork",
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
+          },
+          "name": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "url": {
+            "title": "TODO",
+            "description": "TODO",
+            "minLength": 1,
+            "maxLength": 2083,
+            "type": "string",
+            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+            "errorMessage": {
+              "pattern": "must match format \"url\""
+            }
+          },
+          "encodingFormat": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "url",
+          "encodingFormat"
+        ]
+      }
+    },
+    "version": {
+      "title": "TODO",
+      "description": "The version of the record.",
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "inLanguage": {
+      "title": "TODO",
+      "description": "The language of the content of the record.",
+      "anyOf": [
+        {
+          "title": "LanguageEnum",
+          "description": "An enumeration.",
+          "enum": [
+            "eng",
+            "esp"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "creativeWorkStatus": {
+      "title": "TODO",
+      "description": "The status of a creative work in terms of its stage in a lifecycle. Example terms include Incomplete, Draft, Published, Obsolete. Some organizations define a set of terms for the stages of their publication lifecycle.",
+      "anyOf": [
+        {
+          "title": "DefinedTerm",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "title": "TODO",
+              "description": "TODO",
+              "default": "DefinedTerm",
+              "const": "DefinedTerm",
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
+            },
+            "name": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            },
+            "description": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "description"
+          ]
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "dateModified": {
+      "title": "TODO",
+      "description": "The date on which the CreativeWork was most recently modified or updated.",
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date"
+        },
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      ]
+    },
+    "funding": {
+      "title": "TODO",
+      "description": "A Grant that directly or indirectly provide funding or sponsorship for creation of the dataset.",
+      "type": "array",
+      "items": {
+        "title": "Grant",
+        "type": "object",
+        "properties": {
+          "@type": {
+            "title": "TODO",
+            "description": "TODO",
+            "default": "MonetaryGrant",
+            "const": "MonetaryGrant",
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
+          },
+          "name": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "url": {
+            "title": "TODO",
+            "description": "TODO",
+            "minLength": 1,
+            "maxLength": 2083,
+            "type": "string",
+            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+            "errorMessage": {
+              "pattern": "must match format \"url\""
+            }
+          },
+          "funder": {
+            "title": "TODO",
+            "description": "TODO",
+            "anyOf": [
+              {
+                "title": "Person",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "Person",
+                    "const": "Person",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "email": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "identifier": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "array",
+                    "items": {
+                      "title": "PropertyValue",
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "@type": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "default": "PropertyValue",
+                          "const": "PropertyValue",
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
+                        },
+                        "name": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "propertyID": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "value": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "url": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        }
+                      },
+                      "required": [
+                        "@id",
+                        "value",
+                        "url"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              },
+              {
+                "title": "Organization",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "Organization",
+                    "const": "Organization",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "identifier": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "array",
+                    "items": {
+                      "title": "PropertyValue",
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "@type": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "default": "PropertyValue",
+                          "const": "PropertyValue",
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
+                        },
+                        "name": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "propertyID": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "value": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "url": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        }
+                      },
+                      "required": [
+                        "@id",
+                        "value",
+                        "url"
+                      ]
+                    }
+                  },
+                  "address": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "url",
+          "funder"
+        ]
+      }
+    },
+    "temporalCoverage": {
+      "title": "TODO",
+      "description": "The temporalCoverage of a CreativeWork indicates the period that the content applies to, i.e. that it describes, either as a DateTime or as a textual string indicating a time period in ISO 8601 time interval format.",
+      "type": "string"
+    },
+    "spatialCoverage": {
+      "title": "TODO",
+      "description": "The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. It is a subproperty of contentLocation intended primarily for more technical and detailed materials. For example with a Dataset, it indicates areas that the dataset describes: a dataset of New York weather would have spatialCoverage which was the place: the state of New York.",
+      "allOf": [
+        {
+          "title": "Place",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "title": "TODO",
+              "description": "TODO",
+              "default": "Place",
+              "const": "Place",
+              "type": "string",
+              "readonly": true,
+              "option": {
+                "hidden": true
+              }
+            },
+            "name": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            },
+            "address": {
+              "title": "TODO",
+              "description": "TODO",
+              "type": "string"
+            },
+            "geo": {
+              "title": "TODO",
+              "description": "TODO",
+              "anyOf": [
+                {
+                  "title": "Line",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "default": "GeoShape",
+                      "const": "GeoShape",
+                      "type": "string",
+                      "readonly": true,
+                      "option": {
+                        "hidden": true
+                      }
+                    },
+                    "line": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "line"
+                  ]
+                },
+                {
+                  "title": "Polygon",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "default": "GeoShape",
+                      "const": "GeoShape",
+                      "type": "string",
+                      "readonly": true,
+                      "option": {
+                        "hidden": true
+                      }
+                    },
+                    "polygon": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "polygon"
+                  ]
+                },
+                {
+                  "title": "GeoCoordinates",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "default": "GeoCoordinates",
+                      "const": "GeoCoordinates",
+                      "type": "string",
+                      "readonly": true,
+                      "option": {
+                        "hidden": true
+                      }
+                    },
+                    "latitude": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "type": "number"
+                    },
+                    "longitude": {
+                      "title": "TODO",
+                      "description": "TODO",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "latitude",
+                    "longitude"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "hasPart": {
+      "title": "TODO",
+      "description": "Indicates an record or CreativeWork that is part of this record.",
+      "type": "array",
+      "items": {
+        "title": "HasPart",
+        "type": "object",
+        "properties": {
+          "@type": {
+            "title": "TODO",
+            "description": "TODO",
+            "default": "CreativeWork",
+            "const": "CreativeWork",
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
+          },
+          "name": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "description": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "identifier": {
+            "title": "TODO",
+            "description": "TODO",
+            "allOf": [
+              {
+                "title": "PropertyValue",
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "PropertyValue",
+                    "const": "PropertyValue",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "propertyID": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "value": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  }
+                },
+                "required": [
+                  "@id",
+                  "value",
+                  "url"
+                ]
+              }
+            ]
+          },
+          "creator": {
+            "title": "TODO",
+            "description": "TODO",
+            "anyOf": [
+              {
+                "title": "Person",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "Person",
+                    "const": "Person",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "email": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "identifier": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "array",
+                    "items": {
+                      "title": "PropertyValue",
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "@type": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "default": "PropertyValue",
+                          "const": "PropertyValue",
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
+                        },
+                        "name": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "propertyID": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "value": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "url": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        }
+                      },
+                      "required": [
+                        "@id",
+                        "value",
+                        "url"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              },
+              {
+                "title": "Organization",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "Organization",
+                    "const": "Organization",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "identifier": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "array",
+                    "items": {
+                      "title": "PropertyValue",
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "@type": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "default": "PropertyValue",
+                          "const": "PropertyValue",
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
+                        },
+                        "name": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "propertyID": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "value": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "url": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        }
+                      },
+                      "required": [
+                        "@id",
+                        "value",
+                        "url"
+                      ]
+                    }
+                  },
+                  "address": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "identifier"
+        ]
+      }
+    },
+    "isPartOf": {
+      "title": "TODO",
+      "description": "Indicates an record or CreativeWork that this record, or CreativeWork (in some sense), is part of.",
+      "type": "array",
+      "items": {
+        "title": "IsPartOf",
+        "type": "object",
+        "properties": {
+          "@type": {
+            "title": "TODO",
+            "description": "TODO",
+            "default": "CreativeWork",
+            "const": "CreativeWork",
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
+          },
+          "name": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "description": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "identifier": {
+            "title": "TODO",
+            "description": "TODO",
+            "allOf": [
+              {
+                "title": "PropertyValue",
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "PropertyValue",
+                    "const": "PropertyValue",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "propertyID": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "value": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  }
+                },
+                "required": [
+                  "@id",
+                  "value",
+                  "url"
+                ]
+              }
+            ]
+          },
+          "creator": {
+            "title": "TODO",
+            "description": "TODO",
+            "anyOf": [
+              {
+                "title": "Person",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "Person",
+                    "const": "Person",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "email": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "identifier": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "array",
+                    "items": {
+                      "title": "PropertyValue",
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "@type": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "default": "PropertyValue",
+                          "const": "PropertyValue",
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
+                        },
+                        "name": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "propertyID": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "value": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "url": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        }
+                      },
+                      "required": [
+                        "@id",
+                        "value",
+                        "url"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              },
+              {
+                "title": "Organization",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "Organization",
+                    "const": "Organization",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "identifier": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "array",
+                    "items": {
+                      "title": "PropertyValue",
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "@type": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "default": "PropertyValue",
+                          "const": "PropertyValue",
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
+                        },
+                        "name": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "propertyID": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "value": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "url": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        }
+                      },
+                      "required": [
+                        "@id",
+                        "value",
+                        "url"
+                      ]
+                    }
+                  },
+                  "address": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "identifier"
+        ]
+      }
+    },
+    "associatedMedia": {
+      "title": "TODO",
+      "description": "A media object that encodes this CreativeWork. This property is a synonym for encoding.",
+      "type": "array",
+      "items": {
+        "title": "MediaObject",
+        "type": "object",
+        "properties": {
+          "@type": {
+            "title": "TODO",
+            "description": "TODO",
+            "default": "MediaObject",
+            "type": "string"
+          },
+          "contentUrl": {
+            "title": "TODO",
+            "description": "TODO",
+            "minLength": 1,
+            "maxLength": 2083,
+            "type": "string",
+            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+            "errorMessage": {
+              "pattern": "must match format \"url\""
+            }
+          },
+          "encodingFormat": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "contentSize": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "name": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          }
+        },
+        "required": [
+          "contentUrl",
+          "encodingFormat",
+          "contentSize",
+          "name"
+        ]
+      }
+    },
+    "distribution": {
+      "title": "TODO",
+      "description": "A data distribution in the form of a dataset (see https://schema.org/Dataset for more information).",
+      "type": "array",
+      "items": {
+        "title": "Distribution",
+        "type": "object",
+        "properties": {
+          "@type": {
+            "title": "TODO",
+            "description": "TODO",
+            "default": "DataDownload",
+            "const": "DataDownload",
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
+          },
+          "name": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "contentUrl": {
+            "title": "TODO",
+            "description": "TODO",
+            "minLength": 1,
+            "maxLength": 2083,
+            "type": "string",
+            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+            "errorMessage": {
+              "pattern": "must match format \"url\""
+            }
+          },
+          "encodingFormat": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "contentSize": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "comment": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    "variableMeasured": {
+      "title": "TODO",
+      "description": "The variableMeasured property can indicate (repeated as necessary) the variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue.",
+      "type": "array",
+      "items": {
+        "title": "VariableMeasured",
+        "type": "object",
+        "properties": {
+          "@type": {
+            "title": "TODO",
+            "description": "TODO",
+            "default": "PropertyValue",
+            "const": "PropertyValue",
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
+          },
+          "name": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "unitText": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "unitText"
+        ]
+      }
+    },
+    "includedInDataCatalog": {
+      "title": "TODO",
+      "description": "A data catalog which contains this dataset (this property was previously 'catalog', preferred name is now 'includedInDataCatalog').",
+      "type": "array",
+      "items": {
+        "title": "IncludedInDataCatalog",
+        "type": "object",
+        "properties": {
+          "@type": {
+            "title": "TODO",
+            "description": "TODO",
+            "default": "DataCatalog",
+            "const": "DataCatalog",
+            "type": "string",
+            "readonly": true,
+            "option": {
+              "hidden": true
+            }
+          },
+          "name": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "description": {
+            "title": "TODO",
+            "description": "TODO",
+            "type": "string"
+          },
+          "url": {
+            "title": "TODO",
+            "description": "TODO",
+            "minLength": 1,
+            "maxLength": 2083,
+            "type": "string",
+            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+            "errorMessage": {
+              "pattern": "must match format \"url\""
+            }
+          },
+          "identifier": {
+            "title": "TODO",
+            "description": "TODO",
+            "allOf": [
+              {
+                "title": "PropertyValue",
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "PropertyValue",
+                    "const": "PropertyValue",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "propertyID": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "value": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  }
+                },
+                "required": [
+                  "@id",
+                  "value",
+                  "url"
+                ]
+              }
+            ]
+          },
+          "creator": {
+            "title": "TODO",
+            "description": "TODO",
+            "anyOf": [
+              {
+                "title": "Person",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "Person",
+                    "const": "Person",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "email": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "identifier": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "array",
+                    "items": {
+                      "title": "PropertyValue",
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "@type": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "default": "PropertyValue",
+                          "const": "PropertyValue",
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
+                        },
+                        "name": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "propertyID": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "value": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "url": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        }
+                      },
+                      "required": [
+                        "@id",
+                        "value",
+                        "url"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              },
+              {
+                "title": "Organization",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "default": "Organization",
+                    "const": "Organization",
+                    "type": "string",
+                    "readonly": true,
+                    "option": {
+                      "hidden": true
+                    }
+                  },
+                  "name": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "identifier": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "array",
+                    "items": {
+                      "title": "PropertyValue",
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "@type": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "default": "PropertyValue",
+                          "const": "PropertyValue",
+                          "type": "string",
+                          "readonly": true,
+                          "option": {
+                            "hidden": true
+                          }
+                        },
+                        "name": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "propertyID": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        },
+                        "value": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "type": "string"
+                        },
+                        "url": {
+                          "title": "TODO",
+                          "description": "TODO",
+                          "minLength": 1,
+                          "maxLength": 2083,
+                          "type": "string",
+                          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                          "errorMessage": {
+                            "pattern": "must match format \"url\""
+                          }
+                        }
+                      },
+                      "required": [
+                        "@id",
+                        "value",
+                        "url"
+                      ]
+                    }
+                  },
+                  "address": {
+                    "title": "TODO",
+                    "description": "TODO",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "url",
+          "identifier",
+          "creator"
+        ]
+      }
+    }
+  },
+  "required": [
+    "name",
+    "description",
+    "url",
+    "identifier",
+    "creator",
+    "dateCreated",
+    "keywords",
+    "license",
+    "provider",
+    "distribution",
+    "includedInDataCatalog"
+  ],
+  "definitions": {
+    "PropertyValue": {
+      "title": "PropertyValue",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "title": "TODO",
+          "description": "TODO",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "PropertyValue",
+          "const": "PropertyValue",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "propertyID": {
+          "title": "TODO",
+          "description": "TODO",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "value": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "url": {
+          "title": "TODO",
+          "description": "TODO",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        }
+      },
+      "required": [
+        "@id",
+        "value",
+        "url"
+      ]
+    },
+    "Person": {
+      "title": "Person",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "Person",
+          "const": "Person",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "email": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string",
+          "format": "email"
+        },
+        "identifier": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "array",
+          "items": {
+            "title": "PropertyValue",
+            "type": "object",
+            "properties": {
+              "@id": {
+                "title": "TODO",
+                "description": "TODO",
+                "minLength": 1,
+                "maxLength": 2083,
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
+              },
+              "@type": {
+                "title": "TODO",
+                "description": "TODO",
+                "default": "PropertyValue",
+                "const": "PropertyValue",
+                "type": "string",
+                "readonly": true,
+                "option": {
+                  "hidden": true
+                }
+              },
+              "name": {
+                "title": "TODO",
+                "description": "TODO",
+                "type": "string"
+              },
+              "propertyID": {
+                "title": "TODO",
+                "description": "TODO",
+                "minLength": 1,
+                "maxLength": 2083,
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
+              },
+              "value": {
+                "title": "TODO",
+                "description": "TODO",
+                "type": "string"
+              },
+              "url": {
+                "title": "TODO",
+                "description": "TODO",
+                "minLength": 1,
+                "maxLength": 2083,
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
+              }
+            },
+            "required": [
+              "@id",
+              "value",
+              "url"
+            ]
+          }
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "KeywordTerm": {
+      "title": "KeywordTerm",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "DefinedTerm",
+          "const": "DefinedTerm",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "description": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "inDefinedTermSet": {
+          "title": "TODO",
+          "description": "TODO",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "inDefinedTermSet"
+      ]
+    },
+    "License": {
+      "title": "License",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "CreativeWork",
+          "const": "CreativeWork",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "url": {
+          "title": "TODO",
+          "description": "TODO",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        }
+      },
+      "required": [
+        "name",
+        "url"
+      ]
+    },
+    "Organization": {
+      "title": "Organization",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "Organization",
+          "const": "Organization",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "url": {
+          "title": "TODO",
+          "description": "TODO",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "identifier": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "array",
+          "items": {
+            "title": "PropertyValue",
+            "type": "object",
+            "properties": {
+              "@id": {
+                "title": "TODO",
+                "description": "TODO",
+                "minLength": 1,
+                "maxLength": 2083,
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
+              },
+              "@type": {
+                "title": "TODO",
+                "description": "TODO",
+                "default": "PropertyValue",
+                "const": "PropertyValue",
+                "type": "string",
+                "readonly": true,
+                "option": {
+                  "hidden": true
+                }
+              },
+              "name": {
+                "title": "TODO",
+                "description": "TODO",
+                "type": "string"
+              },
+              "propertyID": {
+                "title": "TODO",
+                "description": "TODO",
+                "minLength": 1,
+                "maxLength": 2083,
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
+              },
+              "value": {
+                "title": "TODO",
+                "description": "TODO",
+                "type": "string"
+              },
+              "url": {
+                "title": "TODO",
+                "description": "TODO",
+                "minLength": 1,
+                "maxLength": 2083,
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
+              }
+            },
+            "required": [
+              "@id",
+              "value",
+              "url"
+            ]
+          }
+        },
+        "address": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "ProviderOrganization": {
+      "title": "ProviderOrganization",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "Organization",
+          "const": "Organization",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "url": {
+          "title": "TODO",
+          "description": "TODO",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "identifier": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "array",
+          "items": {
+            "title": "PropertyValue",
+            "type": "object",
+            "properties": {
+              "@id": {
+                "title": "TODO",
+                "description": "TODO",
+                "minLength": 1,
+                "maxLength": 2083,
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
+              },
+              "@type": {
+                "title": "TODO",
+                "description": "TODO",
+                "default": "PropertyValue",
+                "const": "PropertyValue",
+                "type": "string",
+                "readonly": true,
+                "option": {
+                  "hidden": true
+                }
+              },
+              "name": {
+                "title": "TODO",
+                "description": "TODO",
+                "type": "string"
+              },
+              "propertyID": {
+                "title": "TODO",
+                "description": "TODO",
+                "minLength": 1,
+                "maxLength": 2083,
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
+              },
+              "value": {
+                "title": "TODO",
+                "description": "TODO",
+                "type": "string"
+              },
+              "url": {
+                "title": "TODO",
+                "description": "TODO",
+                "minLength": 1,
+                "maxLength": 2083,
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
+              }
+            },
+            "required": [
+              "@id",
+              "value",
+              "url"
+            ]
+          }
+        },
+        "address": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "parentOrganization": {
+          "title": "TODO",
+          "description": "TODO",
+          "allOf": [
+            {
+              "title": "Organization",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "Organization",
+                  "const": "Organization",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "name": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "url": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "identifier": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "array",
+                  "items": {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "@type": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
+                      },
+                      "name": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "value": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "url": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      }
+                    },
+                    "required": [
+                      "@id",
+                      "value",
+                      "url"
+                    ]
+                  }
+                },
+                "address": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "ProviderID": {
+      "title": "ProviderID",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "title": "TODO",
+          "description": "TODO",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        }
+      },
+      "required": [
+        "@id"
+      ]
+    },
+    "SubjectOf": {
+      "title": "SubjectOf",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "CreativeWork",
+          "const": "CreativeWork",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "url": {
+          "title": "TODO",
+          "description": "TODO",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "encodingFormat": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "url",
+        "encodingFormat"
+      ]
+    },
+    "LanguageEnum": {
+      "title": "LanguageEnum",
+      "description": "An enumeration.",
+      "enum": [
+        "eng",
+        "esp"
+      ],
+      "type": "string"
+    },
+    "DefinedTerm": {
+      "title": "DefinedTerm",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "DefinedTerm",
+          "const": "DefinedTerm",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "description": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description"
+      ]
+    },
+    "Grant": {
+      "title": "Grant",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "MonetaryGrant",
+          "const": "MonetaryGrant",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "url": {
+          "title": "TODO",
+          "description": "TODO",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "funder": {
+          "title": "TODO",
+          "description": "TODO",
+          "anyOf": [
+            {
+              "title": "Person",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "Person",
+                  "const": "Person",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "name": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "email": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string",
+                  "format": "email"
+                },
+                "identifier": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "array",
+                  "items": {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "@type": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
+                      },
+                      "name": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "value": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "url": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      }
+                    },
+                    "required": [
+                      "@id",
+                      "value",
+                      "url"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "name"
+              ]
+            },
+            {
+              "title": "Organization",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "Organization",
+                  "const": "Organization",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "name": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "url": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "identifier": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "array",
+                  "items": {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "@type": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
+                      },
+                      "name": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "value": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "url": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      }
+                    },
+                    "required": [
+                      "@id",
+                      "value",
+                      "url"
+                    ]
+                  }
+                },
+                "address": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "url",
+        "funder"
+      ]
+    },
+    "Line": {
+      "title": "Line",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "GeoShape",
+          "const": "GeoShape",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "line": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        }
+      },
+      "required": [
+        "line"
+      ]
+    },
+    "Polygon": {
+      "title": "Polygon",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "GeoShape",
+          "const": "GeoShape",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "polygon": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        }
+      },
+      "required": [
+        "polygon"
+      ]
+    },
+    "GeoCoordinates": {
+      "title": "GeoCoordinates",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "GeoCoordinates",
+          "const": "GeoCoordinates",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "latitude": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "number"
+        },
+        "longitude": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "number"
+        }
+      },
+      "required": [
+        "latitude",
+        "longitude"
+      ]
+    },
+    "Place": {
+      "title": "Place",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "Place",
+          "const": "Place",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "address": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "geo": {
+          "title": "TODO",
+          "description": "TODO",
+          "anyOf": [
+            {
+              "title": "Line",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "GeoShape",
+                  "const": "GeoShape",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "line": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "line"
+              ]
+            },
+            {
+              "title": "Polygon",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "GeoShape",
+                  "const": "GeoShape",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "polygon": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "polygon"
+              ]
+            },
+            {
+              "title": "GeoCoordinates",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "GeoCoordinates",
+                  "const": "GeoCoordinates",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "latitude": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "number"
+                },
+                "longitude": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "number"
+                }
+              },
+              "required": [
+                "latitude",
+                "longitude"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "HasPart": {
+      "title": "HasPart",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "CreativeWork",
+          "const": "CreativeWork",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "description": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "identifier": {
+          "title": "TODO",
+          "description": "TODO",
+          "allOf": [
+            {
+              "title": "PropertyValue",
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "PropertyValue",
+                  "const": "PropertyValue",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "name": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "propertyID": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "value": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "url": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                }
+              },
+              "required": [
+                "@id",
+                "value",
+                "url"
+              ]
+            }
+          ]
+        },
+        "creator": {
+          "title": "TODO",
+          "description": "TODO",
+          "anyOf": [
+            {
+              "title": "Person",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "Person",
+                  "const": "Person",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "name": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "email": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string",
+                  "format": "email"
+                },
+                "identifier": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "array",
+                  "items": {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "@type": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
+                      },
+                      "name": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "value": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "url": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      }
+                    },
+                    "required": [
+                      "@id",
+                      "value",
+                      "url"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "name"
+              ]
+            },
+            {
+              "title": "Organization",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "Organization",
+                  "const": "Organization",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "name": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "url": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "identifier": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "array",
+                  "items": {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "@type": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
+                      },
+                      "name": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "value": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "url": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      }
+                    },
+                    "required": [
+                      "@id",
+                      "value",
+                      "url"
+                    ]
+                  }
+                },
+                "address": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "identifier"
+      ]
+    },
+    "IsPartOf": {
+      "title": "IsPartOf",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "CreativeWork",
+          "const": "CreativeWork",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "description": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "identifier": {
+          "title": "TODO",
+          "description": "TODO",
+          "allOf": [
+            {
+              "title": "PropertyValue",
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "PropertyValue",
+                  "const": "PropertyValue",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "name": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "propertyID": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "value": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "url": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                }
+              },
+              "required": [
+                "@id",
+                "value",
+                "url"
+              ]
+            }
+          ]
+        },
+        "creator": {
+          "title": "TODO",
+          "description": "TODO",
+          "anyOf": [
+            {
+              "title": "Person",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "Person",
+                  "const": "Person",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "name": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "email": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string",
+                  "format": "email"
+                },
+                "identifier": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "array",
+                  "items": {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "@type": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
+                      },
+                      "name": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "value": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "url": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      }
+                    },
+                    "required": [
+                      "@id",
+                      "value",
+                      "url"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "name"
+              ]
+            },
+            {
+              "title": "Organization",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "Organization",
+                  "const": "Organization",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "name": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "url": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "identifier": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "array",
+                  "items": {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "@type": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
+                      },
+                      "name": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "value": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "url": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      }
+                    },
+                    "required": [
+                      "@id",
+                      "value",
+                      "url"
+                    ]
+                  }
+                },
+                "address": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "identifier"
+      ]
+    },
+    "MediaObject": {
+      "title": "MediaObject",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "MediaObject",
+          "type": "string"
+        },
+        "contentUrl": {
+          "title": "TODO",
+          "description": "TODO",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "encodingFormat": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "contentSize": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        }
+      },
+      "required": [
+        "contentUrl",
+        "encodingFormat",
+        "contentSize",
+        "name"
+      ]
+    },
+    "Distribution": {
+      "title": "Distribution",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "DataDownload",
+          "const": "DataDownload",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "contentUrl": {
+          "title": "TODO",
+          "description": "TODO",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "encodingFormat": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contentSize": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "comment": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "VariableMeasured": {
+      "title": "VariableMeasured",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "PropertyValue",
+          "const": "PropertyValue",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "unitText": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "unitText"
+      ]
+    },
+    "IncludedInDataCatalog": {
+      "title": "IncludedInDataCatalog",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "TODO",
+          "description": "TODO",
+          "default": "DataCatalog",
+          "const": "DataCatalog",
+          "type": "string",
+          "readonly": true,
+          "option": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "description": {
+          "title": "TODO",
+          "description": "TODO",
+          "type": "string"
+        },
+        "url": {
+          "title": "TODO",
+          "description": "TODO",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "identifier": {
+          "title": "TODO",
+          "description": "TODO",
+          "allOf": [
+            {
+              "title": "PropertyValue",
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "PropertyValue",
+                  "const": "PropertyValue",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "name": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "propertyID": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "value": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "url": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                }
+              },
+              "required": [
+                "@id",
+                "value",
+                "url"
+              ]
+            }
+          ]
+        },
+        "creator": {
+          "title": "TODO",
+          "description": "TODO",
+          "anyOf": [
+            {
+              "title": "Person",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "Person",
+                  "const": "Person",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "name": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "email": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string",
+                  "format": "email"
+                },
+                "identifier": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "array",
+                  "items": {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "@type": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
+                      },
+                      "name": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "value": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "url": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      }
+                    },
+                    "required": [
+                      "@id",
+                      "value",
+                      "url"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "name"
+              ]
+            },
+            {
+              "title": "Organization",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "default": "Organization",
+                  "const": "Organization",
+                  "type": "string",
+                  "readonly": true,
+                  "option": {
+                    "hidden": true
+                  }
+                },
+                "name": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                },
+                "url": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "identifier": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "array",
+                  "items": {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "@type": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string",
+                        "readonly": true,
+                        "option": {
+                          "hidden": true
+                        }
+                      },
+                      "name": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      },
+                      "value": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "type": "string"
+                      },
+                      "url": {
+                        "title": "TODO",
+                        "description": "TODO",
+                        "minLength": 1,
+                        "maxLength": 2083,
+                        "type": "string",
+                        "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                        "errorMessage": {
+                          "pattern": "must match format \"url\""
+                        }
+                      }
+                    },
+                    "required": [
+                      "@id",
+                      "value",
+                      "url"
+                    ]
+                  }
+                },
+                "address": {
+                  "title": "TODO",
+                  "description": "TODO",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "url",
+        "identifier",
+        "creator"
+      ]
+    }
+  }
+}
