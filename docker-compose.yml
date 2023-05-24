@@ -9,7 +9,8 @@ services:
     image: nginx:1.17.10
     volumes:
       #- ./nginx/nginx-local.conf:/etc/nginx/nginx.conf
-      - ./nginx/nginx-local-all.conf:/etc/nginx/nginx.conf
+      #- ./nginx/nginx-local-all.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx-local-frontend-dev.conf:/etc/nginx/nginx.conf
       - ./nginx/config:/etc/ssl
     ports:
       - 443:443
