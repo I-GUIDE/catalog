@@ -58,7 +58,7 @@ export default class User extends Model {
     const params = {
       response_type: "token",
       client_id: "local_iguide_api",
-      redirect_uri: "http://localhost/auth-redirect",
+      redirect_uri: "https://localhost/auth-redirect",
       window_close: "True",
     };
     const loginUrl = `https://auth.cuahsi.io/realms/HydroShare/protocol/openid-connect/auth`;
@@ -73,10 +73,7 @@ export default class User extends Model {
       this.isLoginListenerSet = true; // Prevents registering the listener more than once
       console.info(`User: listening to login window...`);
       window.addEventListener("message", async (event: MessageEvent) => {
-        if (
-          event.type !== "message" ||
-          event.origin !== "http://localhost:8080"
-        ) {
+        if (event.type !== "message" || event.origin !== "https://localhost") {
           Notifications.toast({
             message: "Failed to Log In",
             type: "error",
@@ -166,10 +163,16 @@ export default class User extends Model {
     }
   }
 
-  static async submit() {
-    const response: Response = await fetch(`${ENDPOINTS.submit}`);
-    console.log(response);
-    if (response.ok) {
-    }
+  static async submit(data: any) {
+    console.log(data);
+    const response: Response = await fetch(`${ENDPOINTS.submit}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.accessToken}`,
+      },
+      body: JSON.stringify(data),
+    });
+    return response.ok;
   }
 }

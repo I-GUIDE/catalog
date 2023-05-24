@@ -35,7 +35,12 @@
                 color="primary"
                 depressed
                 @click="submit"
-                :disabled="isReadonly || !!errors.length || !hasUnsavedChanges"
+                :disabled="
+                  isSaving ||
+                  isReadonly ||
+                  !!errors.length ||
+                  !hasUnsavedChanges
+                "
                 >Submit</v-btn
               >
             </v-badge>
@@ -80,6 +85,7 @@ export default class CdContribute extends Vue {
   protected errors = [];
   protected data = {};
   protected timesChanged = 0;
+  protected isSaving = false;
 
   // beforeCreate() {
   //   this.schema = schema;
@@ -105,12 +111,32 @@ export default class CdContribute extends Vue {
     this.hasUnsavedChanges = false;
   }
 
-  protected submit() {
-    this.hasUnsavedChanges = false;
+  protected async submit() {
+    try {
+      this.isSaving = true;
+      const wasSaved = await User.submit(this.data);
+      this.isSaving = false;
+      if (wasSaved) {
+        this.hasUnsavedChanges = false;
+        Notifications.toast({
+          message: `Your submission has been saved!`,
+          type: "success",
+        });
+        this.$router.push({ name: "home" });
+      } else {
+        // Failed to save
+        Notifications.toast({
+          message: `Failed to save submission`,
+          type: "error",
+        });
+      }
+    } catch (e) {
+      this.isSaving = false;
+    }
   }
 
   protected onCancel() {
-    this.$router.push("/");
+    this.$router.push({ name: "home" });
   }
 
   protected onDataChange(data) {
