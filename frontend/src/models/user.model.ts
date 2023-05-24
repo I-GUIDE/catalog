@@ -15,6 +15,7 @@ export interface IUserState {
   accessToken: string;
   next: string;
   hasUnsavedChanges: boolean;
+  schema: any;
 }
 
 export default class User extends Model {
@@ -45,6 +46,7 @@ export default class User extends Model {
       accessToken: "",
       next: "",
       hasUnsavedChanges: false,
+      schema: null,
     };
   }
 
@@ -56,7 +58,7 @@ export default class User extends Model {
     const params = {
       response_type: "token",
       client_id: "local_iguide_api",
-      redirect_uri: "http://localhost:8080/auth-redirect",
+      redirect_uri: "http://localhost/auth-redirect",
       window_close: "True",
     };
     const loginUrl = `https://auth.cuahsi.io/realms/HydroShare/protocol/openid-connect/auth`;
@@ -150,6 +152,24 @@ export default class User extends Model {
 
     if (router.currentRoute.meta?.hasLoggedInGuard) {
       router.push({ path: "/" });
+    }
+  }
+
+  static async fetchSchema() {
+    const response: Response = await fetch(`${ENDPOINTS.schemaUrl}`);
+    if (response.ok) {
+      const schema = await response.json();
+
+      User.commit((state) => {
+        state.schema = schema;
+      });
+    }
+  }
+
+  static async submit() {
+    const response: Response = await fetch(`${ENDPOINTS.submit}`);
+    console.log(response);
+    if (response.ok) {
     }
   }
 }

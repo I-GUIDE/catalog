@@ -166,6 +166,7 @@ import { Subscription } from "rxjs";
 import User from "@/models/user.model";
 import CzLogin from "@/components/account/cz.login.vue";
 import { RawLocation } from "vue-router";
+import { setupRouteGuards } from "@/router/router";
 
 @Component({
   name: "app",
@@ -217,6 +218,11 @@ export default class App extends Vue {
 
   async created() {
     document.title = APP_NAME;
+
+    User.fetchSchema();
+    // Guards are setup after checking authorization and loading access tokens
+    // because they depend on user logged in status
+    setupRouteGuards();
 
     this.onOpenLogInDialog = User.logInDialog$.subscribe(
       (redirectTo: RawLocation | undefined) => {

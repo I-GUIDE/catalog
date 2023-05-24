@@ -1,7 +1,7 @@
 <template>
   <v-card class="cz-login">
     <v-card-title>Log In</v-card-title>
-    <v-card-text> Some text here </v-card-text>
+    <v-card-text>Please log in to access the contribution form</v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
       <v-spacer></v-spacer>

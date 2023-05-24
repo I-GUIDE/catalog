@@ -2,7 +2,6 @@ FROM node:14
 WORKDIR /app
 COPY frontend/package*.json ./
 RUN npm i @vue/cli-service
-RUN npm i @cznethub/cznet-vue-core --legacy-peer-deps
 RUN npm install --legacy-peer-deps
 COPY frontend .
 RUN npm run build

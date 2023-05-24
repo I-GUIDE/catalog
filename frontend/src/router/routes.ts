@@ -29,6 +29,11 @@ export const routes: RouteConfig[] = [
       content: CdContribute,
       footer: CdFooter,
     },
+    meta: {
+      hasLoggedInGuard: true,
+      hasAccessTokenGuard: true,
+      hasUnsavedChangesGuard: true,
+    },
   },
   {
     name: "auth-redirect",

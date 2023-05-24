@@ -17,9 +17,11 @@ export const MAX_YEAR = new Date().getFullYear();
 export const MIN_YEAR = 1900;
 export const API_BASE = process.env.VUE_APP_API_URL || "";
 export const ENDPOINTS: { [key: string]: string } = {
-  search: `${API_BASE}/search`,
-  typeahead: `${API_BASE}/typeahead`,
-  api: `${API_BASE}`,
-  logout: `${API_BASE}/logout`,
+  search: `${API_BASE}/discovery/search`,
+  typeahead: `${API_BASE}/discovery/typeahead`,
+  submit: `${API_BASE}/catalog`,
+  schemaUrl: `${API_BASE}/schemas/dataset.json`,
+  // api: `${API_BASE}`,
+  // logout: `${API_BASE}/logout`,
 };
 export const INITIAL_RANGE: [number, number] = [MIN_YEAR, MAX_YEAR];
