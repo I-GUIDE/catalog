@@ -169,7 +169,7 @@ async def typeahead(request: Request, term: str, pageSize: int = 30):
     stages = [
         {
             '$search': {
-                'index': 'fuzzy_search',
+                'index': 'typeahead',
                 'compound': {'should': should},
                 'highlight': {'path': ['description', 'name', 'keywords', 'keywords.name']},
             }
@@ -184,5 +184,5 @@ async def typeahead(request: Request, term: str, pageSize: int = 30):
             }
         },
     ]
-    result = await request.app.mongodb["discovery"].aggregate(stages).to_list(pageSize)
+    result = await request.app.mongodb["typeahead"].aggregate(stages).to_list(pageSize)
     return result
