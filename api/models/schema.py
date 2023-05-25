@@ -26,17 +26,17 @@ class SchemaBaseModel(BaseModel):
 
 
 class CreativeWork(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, default="CreativeWork", description="TODO")
-    name: str = Field(description="TODO")
+    type: str = Field(alias="@type", const=True, default="CreativeWork", description="All records in the IGUIDE data catalog are considered creative works. Creative works can encompass various forms of content, such as datasets, software source code, digital documents, etc.")
+    name: str = Field(description="Record's title")
 
 
 class PropertyValue(SchemaBaseModel):
-    id: HttpUrl = Field(alias="@id", description="TODO")
-    type: str = Field(alias="@type", const=True, default="PropertyValue", description="TODO")
-    name: Optional[str] = Field(description="TODO")
-    propertyID: Optional[HttpUrl] = Field(description="TODO")
-    value: str = Field(description="TODO")
-    url: HttpUrl = Field(description="TODO")
+    id: HttpUrl = Field(alias="@id", description="The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.")
+    type: str = Field(alias="@type", const=True, default="PropertyValue", description="Specifies that the type of the structured data object is a PropertyValue.")
+    name: Optional[str] = Field(description="The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.")
+    propertyID: Optional[HttpUrl] = Field(description="Specifies the property ID. For example, this can be the ORCID registry identifier.")
+    value: str = Field(description="Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.")
+    url: HttpUrl = Field(description="Indicates the URL associated with the property value. For example, the ORCID profile URL")
 
 
 # Identifier = Union[str, HttpUrl, PropertyValue]
@@ -44,26 +44,26 @@ Identifier = PropertyValue
 
 
 class Person(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, default="Person", description="TODO")
-    name: str = Field(description="TODO")
-    email: Optional[EmailStr] = Field(description="TODO")
-    identifier: Optional[List[Identifier]] = Field(description="TODO")
+    type: str = Field(alias="@type", const=True, default="Person", description="Describe the author(s) of a creative work")
+    name: str = Field(description="The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc.")
+    email: Optional[EmailStr] = Field(description="The email address of the individual who is listed as a contributor.")
+    identifier: Optional[List[Identifier]] = Field(description="The unique identifier for the person.")
 
 
 class Organization(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, default="Organization", description="TODO")
-    name: str = Field(description="TODO")
-    url: Optional[HttpUrl] = Field(description="TODO")
-    identifier: Optional[List[Identifier]] = Field(description="TODO")
-    address: Optional[str] = Field(description="TODO")  # Should address be a string or another constrained type?
+    type: str = Field(alias="@type", const=True, default="Organization", description="Describe the organization(s) contributed to a creative work")
+    name: str = Field(description="The organization name who contributed to this creative work.")
+    url: Optional[HttpUrl] = Field(description="Indicates the URL associated with the organizatino who contributed to this work.")
+    identifier: Optional[List[Identifier]] = Field(description="The unique identifier for the organization.")
+    address: Optional[str] = Field(description="The mailing address for the organization.")  # Should address be a string or another constrained type?
 
 
 class ProviderID(SchemaBaseModel):
-    id: HttpUrl = Field(alias="@id", description="TODO")
+    id: HttpUrl = Field(alias="@id", description="The URL of a provider. For example, the URL to the HydroShare data repository that is considered as a provider for a creatiev work.")
 
 
 class ProviderOrganization(Organization):
-    parentOrganization: Optional[Organization] = Field(description="TODO")
+    parentOrganization: Optional[Organization] = Field(description="The larger organization that the provider or publisher organization is a subOrganization of.")
 
 
 class DefinedTerm(SchemaBaseModel):
