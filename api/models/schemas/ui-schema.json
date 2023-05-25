@@ -1,0 +1,119 @@
+{
+  "type": "VerticalLayout",
+  "elements": [
+    {
+      "type": "Group",
+      "label": "Basic Information",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/@context"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/@type"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/name"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/url"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/dateCreated"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/dateModified"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/datePublished"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/version"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/description"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/keywords"
+        }
+      ]
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/creator"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/temporalCoverage"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/spatialCoverage"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/identifier"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/license"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/provider"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/publisher"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/subjectOf"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/inLanguage"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/creativeWorkStatus"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/funding"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/hasPart"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/isPartOf"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/associatedMedia"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/distribution"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/variableMeasured"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/includedInDataCatalog"
+    }
+  ]
+}

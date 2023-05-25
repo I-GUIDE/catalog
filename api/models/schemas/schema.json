@@ -6,6 +6,9 @@
       "title": "@Context",
       "description": "TODO",
       "default": "https://schema.org",
+      "options": {
+        "hidden": true
+      },
       "minLength": 1,
       "maxLength": 2083,
       "type": "string",
@@ -20,8 +23,8 @@
       "default": "Dataset",
       "const": "Dataset",
       "type": "string",
-      "readonly": true,
-      "option": {
+      "readOnly": true,
+      "options": {
         "hidden": true
       }
     },
@@ -71,8 +74,8 @@
             "default": "PropertyValue",
             "const": "PropertyValue",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -130,8 +133,8 @@
             "default": "Person",
             "const": "Person",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -171,8 +174,8 @@
                   "default": "PropertyValue",
                   "const": "PropertyValue",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -251,8 +254,8 @@
             "default": "DefinedTerm",
             "const": "DefinedTerm",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -299,8 +302,8 @@
               "default": "CreativeWork",
               "const": "CreativeWork",
               "type": "string",
-              "readonly": true,
-              "option": {
+              "readOnly": true,
+              "options": {
                 "hidden": true
               }
             },
@@ -348,8 +351,8 @@
               "default": "Organization",
               "const": "Organization",
               "type": "string",
-              "readonly": true,
-              "option": {
+              "readOnly": true,
+              "options": {
                 "hidden": true
               }
             },
@@ -394,8 +397,8 @@
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -458,8 +461,8 @@
                       "default": "Organization",
                       "const": "Organization",
                       "type": "string",
-                      "readonly": true,
-                      "option": {
+                      "readOnly": true,
+                      "options": {
                         "hidden": true
                       }
                     },
@@ -504,8 +507,8 @@
                             "default": "PropertyValue",
                             "const": "PropertyValue",
                             "type": "string",
-                            "readonly": true,
-                            "option": {
+                            "readOnly": true,
+                            "options": {
                               "hidden": true
                             }
                           },
@@ -576,8 +579,8 @@
               "default": "Person",
               "const": "Person",
               "type": "string",
-              "readonly": true,
-              "option": {
+              "readOnly": true,
+              "options": {
                 "hidden": true
               }
             },
@@ -617,8 +620,8 @@
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -703,8 +706,8 @@
               "default": "Organization",
               "const": "Organization",
               "type": "string",
-              "readonly": true,
-              "option": {
+              "readOnly": true,
+              "options": {
                 "hidden": true
               }
             },
@@ -749,8 +752,8 @@
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -813,8 +816,8 @@
                       "default": "Organization",
                       "const": "Organization",
                       "type": "string",
-                      "readonly": true,
-                      "option": {
+                      "readOnly": true,
+                      "options": {
                         "hidden": true
                       }
                     },
@@ -859,8 +862,8 @@
                             "default": "PropertyValue",
                             "const": "PropertyValue",
                             "type": "string",
-                            "readonly": true,
-                            "option": {
+                            "readOnly": true,
+                            "options": {
                               "hidden": true
                             }
                           },
@@ -931,8 +934,8 @@
               "default": "Person",
               "const": "Person",
               "type": "string",
-              "readonly": true,
-              "option": {
+              "readOnly": true,
+              "options": {
                 "hidden": true
               }
             },
@@ -972,8 +975,8 @@
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -1072,8 +1075,8 @@
             "default": "CreativeWork",
             "const": "CreativeWork",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -1150,8 +1153,8 @@
               "default": "DefinedTerm",
               "const": "DefinedTerm",
               "type": "string",
-              "readonly": true,
-              "option": {
+              "readOnly": true,
+              "options": {
                 "hidden": true
               }
             },
@@ -1204,8 +1207,8 @@
             "default": "MonetaryGrant",
             "const": "MonetaryGrant",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -1239,8 +1242,8 @@
                     "default": "Person",
                     "const": "Person",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -1280,8 +1283,8 @@
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
-                          "readonly": true,
-                          "option": {
+                          "readOnly": true,
+                          "options": {
                             "hidden": true
                           }
                         },
@@ -1340,8 +1343,8 @@
                     "default": "Organization",
                     "const": "Organization",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -1386,8 +1389,8 @@
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
-                          "readonly": true,
-                          "option": {
+                          "readOnly": true,
+                          "options": {
                             "hidden": true
                           }
                         },
@@ -1470,8 +1473,8 @@
               "default": "Place",
               "const": "Place",
               "type": "string",
-              "readonly": true,
-              "option": {
+              "readOnly": true,
+              "options": {
                 "hidden": true
               }
             },
@@ -1499,8 +1502,8 @@
                       "default": "GeoShape",
                       "const": "GeoShape",
                       "type": "string",
-                      "readonly": true,
-                      "option": {
+                      "readOnly": true,
+                      "options": {
                         "hidden": true
                       }
                     },
@@ -1524,8 +1527,8 @@
                       "default": "GeoShape",
                       "const": "GeoShape",
                       "type": "string",
-                      "readonly": true,
-                      "option": {
+                      "readOnly": true,
+                      "options": {
                         "hidden": true
                       }
                     },
@@ -1542,6 +1545,37 @@
                 {
                   "title": "GeoCoordinates",
                   "type": "object",
+                  "options": {
+                    "detail": {
+                      "type": "VerticalLayout",
+                      "elements": [
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/@type"
+                        },
+                        {
+                          "type": "MapLayout",
+                          "options": {
+                            "map": {
+                              "type": "point",
+                              "north": "latitude",
+                              "east": "longitude"
+                            }
+                          },
+                          "elements": [
+                            {
+                              "type": "Control",
+                              "scope": "#/properties/latitude"
+                            },
+                            {
+                              "type": "Control",
+                              "scope": "#/properties/longitude"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
                   "properties": {
                     "@type": {
                       "title": "@Type",
@@ -1549,8 +1583,8 @@
                       "default": "GeoCoordinates",
                       "const": "GeoCoordinates",
                       "type": "string",
-                      "readonly": true,
-                      "option": {
+                      "readOnly": true,
+                      "options": {
                         "hidden": true
                       }
                     },
@@ -1590,8 +1624,8 @@
             "default": "CreativeWork",
             "const": "CreativeWork",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -1630,8 +1664,8 @@
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -1690,8 +1724,8 @@
                     "default": "Person",
                     "const": "Person",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -1731,8 +1765,8 @@
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
-                          "readonly": true,
-                          "option": {
+                          "readOnly": true,
+                          "options": {
                             "hidden": true
                           }
                         },
@@ -1791,8 +1825,8 @@
                     "default": "Organization",
                     "const": "Organization",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -1837,8 +1871,8 @@
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
-                          "readonly": true,
-                          "option": {
+                          "readOnly": true,
+                          "options": {
                             "hidden": true
                           }
                         },
@@ -1916,8 +1950,8 @@
             "default": "CreativeWork",
             "const": "CreativeWork",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -1956,8 +1990,8 @@
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -2016,8 +2050,8 @@
                     "default": "Person",
                     "const": "Person",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -2057,8 +2091,8 @@
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
-                          "readonly": true,
-                          "option": {
+                          "readOnly": true,
+                          "options": {
                             "hidden": true
                           }
                         },
@@ -2117,8 +2151,8 @@
                     "default": "Organization",
                     "const": "Organization",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -2163,8 +2197,8 @@
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
-                          "readonly": true,
-                          "option": {
+                          "readOnly": true,
+                          "options": {
                             "hidden": true
                           }
                         },
@@ -2291,8 +2325,8 @@
             "default": "DataDownload",
             "const": "DataDownload",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -2350,8 +2384,8 @@
             "default": "PropertyValue",
             "const": "PropertyValue",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -2386,8 +2420,8 @@
             "default": "DataCatalog",
             "const": "DataCatalog",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -2437,8 +2471,8 @@
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -2497,8 +2531,8 @@
                     "default": "Person",
                     "const": "Person",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -2538,8 +2572,8 @@
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
-                          "readonly": true,
-                          "option": {
+                          "readOnly": true,
+                          "options": {
                             "hidden": true
                           }
                         },
@@ -2598,8 +2632,8 @@
                     "default": "Organization",
                     "const": "Organization",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -2644,8 +2678,8 @@
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
-                          "readonly": true,
-                          "option": {
+                          "readOnly": true,
+                          "options": {
                             "hidden": true
                           }
                         },
@@ -2747,8 +2781,8 @@
           "default": "PropertyValue",
           "const": "PropertyValue",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -2801,8 +2835,8 @@
           "default": "Person",
           "const": "Person",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -2842,8 +2876,8 @@
                 "default": "PropertyValue",
                 "const": "PropertyValue",
                 "type": "string",
-                "readonly": true,
-                "option": {
+                "readOnly": true,
+                "options": {
                   "hidden": true
                 }
               },
@@ -2902,8 +2936,8 @@
           "default": "DefinedTerm",
           "const": "DefinedTerm",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -2945,8 +2979,8 @@
           "default": "CreativeWork",
           "const": "CreativeWork",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -2982,8 +3016,8 @@
           "default": "Organization",
           "const": "Organization",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3028,8 +3062,8 @@
                 "default": "PropertyValue",
                 "const": "PropertyValue",
                 "type": "string",
-                "readonly": true,
-                "option": {
+                "readOnly": true,
+                "options": {
                   "hidden": true
                 }
               },
@@ -3093,8 +3127,8 @@
           "default": "Organization",
           "const": "Organization",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3139,8 +3173,8 @@
                 "default": "PropertyValue",
                 "const": "PropertyValue",
                 "type": "string",
-                "readonly": true,
-                "option": {
+                "readOnly": true,
+                "options": {
                   "hidden": true
                 }
               },
@@ -3203,8 +3237,8 @@
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -3249,8 +3283,8 @@
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
-                        "readonly": true,
-                        "option": {
+                        "readOnly": true,
+                        "options": {
                           "hidden": true
                         }
                       },
@@ -3341,8 +3375,8 @@
           "default": "CreativeWork",
           "const": "CreativeWork",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3393,8 +3427,8 @@
           "default": "DefinedTerm",
           "const": "DefinedTerm",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3424,8 +3458,8 @@
           "default": "MonetaryGrant",
           "const": "MonetaryGrant",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3459,8 +3493,8 @@
                   "default": "Person",
                   "const": "Person",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -3500,8 +3534,8 @@
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
-                        "readonly": true,
-                        "option": {
+                        "readOnly": true,
+                        "options": {
                           "hidden": true
                         }
                       },
@@ -3560,8 +3594,8 @@
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -3606,8 +3640,8 @@
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
-                        "readonly": true,
-                        "option": {
+                        "readOnly": true,
+                        "options": {
                           "hidden": true
                         }
                       },
@@ -3680,8 +3714,8 @@
           "default": "GeoShape",
           "const": "GeoShape",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3705,8 +3739,8 @@
           "default": "GeoShape",
           "const": "GeoShape",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3730,8 +3764,8 @@
           "default": "GeoCoordinates",
           "const": "GeoCoordinates",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3761,8 +3795,8 @@
           "default": "Place",
           "const": "Place",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3790,8 +3824,8 @@
                   "default": "GeoShape",
                   "const": "GeoShape",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -3815,8 +3849,8 @@
                   "default": "GeoShape",
                   "const": "GeoShape",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -3840,8 +3874,8 @@
                   "default": "GeoCoordinates",
                   "const": "GeoCoordinates",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -3875,8 +3909,8 @@
           "default": "CreativeWork",
           "const": "CreativeWork",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3915,8 +3949,8 @@
                   "default": "PropertyValue",
                   "const": "PropertyValue",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -3975,8 +4009,8 @@
                   "default": "Person",
                   "const": "Person",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4016,8 +4050,8 @@
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
-                        "readonly": true,
-                        "option": {
+                        "readOnly": true,
+                        "options": {
                           "hidden": true
                         }
                       },
@@ -4076,8 +4110,8 @@
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4122,8 +4156,8 @@
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
-                        "readonly": true,
-                        "option": {
+                        "readOnly": true,
+                        "options": {
                           "hidden": true
                         }
                       },
@@ -4196,8 +4230,8 @@
           "default": "CreativeWork",
           "const": "CreativeWork",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -4236,8 +4270,8 @@
                   "default": "PropertyValue",
                   "const": "PropertyValue",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4296,8 +4330,8 @@
                   "default": "Person",
                   "const": "Person",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4337,8 +4371,8 @@
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
-                        "readonly": true,
-                        "option": {
+                        "readOnly": true,
+                        "options": {
                           "hidden": true
                         }
                       },
@@ -4397,8 +4431,8 @@
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4443,8 +4477,8 @@
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
-                        "readonly": true,
-                        "option": {
+                        "readOnly": true,
+                        "options": {
                           "hidden": true
                         }
                       },
@@ -4561,8 +4595,8 @@
           "default": "DataDownload",
           "const": "DataDownload",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -4615,8 +4649,8 @@
           "default": "PropertyValue",
           "const": "PropertyValue",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -4646,8 +4680,8 @@
           "default": "DataCatalog",
           "const": "DataCatalog",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -4697,8 +4731,8 @@
                   "default": "PropertyValue",
                   "const": "PropertyValue",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4757,8 +4791,8 @@
                   "default": "Person",
                   "const": "Person",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4798,8 +4832,8 @@
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
-                        "readonly": true,
-                        "option": {
+                        "readOnly": true,
+                        "options": {
                           "hidden": true
                         }
                       },
@@ -4858,8 +4892,8 @@
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4904,8 +4938,8 @@
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
-                        "readonly": true,
-                        "option": {
+                        "readOnly": true,
+                        "options": {
                           "hidden": true
                         }
                       },

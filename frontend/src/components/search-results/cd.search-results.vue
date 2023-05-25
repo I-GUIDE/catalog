@@ -69,9 +69,8 @@
                 :key="result.id"
               >
                 <a
+                  @click="goToDataset(result.id)"
                   class="result-title text-body-1 text-decoration-none"
-                  :href="result.url"
-                  target="_blank"
                   v-html="highlight(result, 'name')"
                 ></a>
                 <div class="my-1" v-html="highlightCreators(result)"></div>
@@ -249,6 +248,10 @@ export default class CdSearchResults extends Vue {
     if (this.$route.query["q"]) {
       this.onSearch();
     }
+  }
+
+  protected goToDataset(id: string) {
+    this.$router.push({ path: `dataset/${id}` });
   }
 
   public onIntersect(entries, observer) {

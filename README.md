@@ -21,4 +21,4 @@ make schema
 ### JSON Schema file serving
 Files in `api/models/schemas` are served at `/api/schemas`
 
-(i.e. [https://localhost/api/schemas/dataset.json](https://localhost/api/schemas/dataset.json))
+(i.e. [https://localhost/api/schemas/schema.json](https://localhost/api/schemas/schema.json))

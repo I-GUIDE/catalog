@@ -3,6 +3,7 @@ import CdHome from "@/components/home/cd.home.vue";
 import CdSearchResults from "@/components/search-results/cd.search-results.vue";
 import CdFooter from "@/components/base/cd.footer.vue";
 import CdContribute from "@/components/contribute/cd.contribute.vue";
+import CdDataset from "@/components/dataset/cd.dataset.vue";
 import AuthRedirect from "@/components/account/auth-redirect.vue";
 
 export const routes: RouteConfig[] = [
@@ -34,6 +35,11 @@ export const routes: RouteConfig[] = [
       hasAccessTokenGuard: true,
       hasUnsavedChangesGuard: true,
     },
+  },
+  {
+    name: "dataset",
+    path: "/dataset/:id",
+    components: { content: CdDataset, footer: CdFooter },
   },
   {
     name: "auth-redirect",

@@ -147,7 +147,7 @@ class SearchQuery(BaseModel):
             stages.append({'$sort': {self.sortBy: 1}})
         stages.append({'$skip': (self.pageNumber - 1) * self.pageSize})
         stages.append({'$limit': self.pageSize})
-        stages.append({'$unset': ['_id', '_class_id']})
+        # stages.append({'$unset': ['_id', '_class_id']})
         stages.append(
             {'$set': {'score': {'$meta': 'searchScore'}, 'highlights': {'$meta': 'searchHighlights'}}},
         )

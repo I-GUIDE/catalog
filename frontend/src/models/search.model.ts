@@ -78,6 +78,7 @@ export default class Search extends Model {
 
   /** Transform raw result data from API into `IResult` shaped objects */
   private static _parseResult(rawResult: any): IResult {
+    console.log(rawResult);
     return {
       creator: rawResult.creator?.["@list"]?.map((c) => c.name) || [],
       dateCreated: rawResult.dateCreated || "",
@@ -86,7 +87,7 @@ export default class Search extends Model {
       funding: rawResult.funding?.map((f) => f.name || f.funder.name) || [],
       highlights: rawResult.highlights || [],
       id: rawResult["@id"],
-      keywords: rawResult.keywords || [],
+      keywords: rawResult.keywords.map((k) => k.name) || [], // TODO: map different schemas
       license: rawResult.license?.text || "",
       name: rawResult.name || "",
       score: rawResult.score || 0,

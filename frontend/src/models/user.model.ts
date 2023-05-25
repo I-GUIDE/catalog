@@ -16,6 +16,8 @@ export interface IUserState {
   next: string;
   hasUnsavedChanges: boolean;
   schema: any;
+  uiSchema: any;
+  schemaDefaults: any;
 }
 
 export default class User extends Model {
@@ -47,6 +49,8 @@ export default class User extends Model {
       next: "",
       hasUnsavedChanges: false,
       schema: null,
+      uiSchema: null,
+      schemaDefaults: null,
     };
   }
 
@@ -152,19 +156,44 @@ export default class User extends Model {
     }
   }
 
-  static async fetchSchema() {
-    const response: Response = await fetch(`${ENDPOINTS.schemaUrl}`);
-    if (response.ok) {
-      const schema = await response.json();
+  static async fetchSchemas() {
+    const responses: PromiseSettledResult<any>[] = await Promise.allSettled([
+      fetch(`${ENDPOINTS.schemaUrl}`),
+      fetch(`${ENDPOINTS.uiSchemaUrl}`),
+      fetch(`${ENDPOINTS.schemaDefaultsUrl}`),
+    ]);
 
+    const results = responses.map((r: PromiseSettledResult<any>) => {
+      if (r.status === "fulfilled") {
+        return r.value;
+      }
+    });
+
+    let schema = null;
+    let uiSchema = null;
+    let schemaDefaults = null;
+
+    if (results[0].ok) {
+      schema = await results[0].json();
       User.commit((state) => {
         state.schema = schema;
+      });
+    }
+    if (results[1].ok) {
+      uiSchema = await results[1].json();
+      User.commit((state) => {
+        state.uiSchema = uiSchema;
+      });
+    }
+    if (results[2].ok) {
+      schemaDefaults = await results[2].json();
+      User.commit((state) => {
+        state.schemaDefaults = schemaDefaults;
       });
     }
   }
 
   static async submit(data: any) {
-    console.log(data);
     const response: Response = await fetch(`${ENDPOINTS.submit}`, {
       method: "POST",
       headers: {
@@ -174,5 +203,21 @@ export default class User extends Model {
       body: JSON.stringify(data),
     });
     return response.ok;
+  }
+
+  static async fetchDataset(id: string) {
+    const response: Response = await fetch(`${ENDPOINTS.dataset}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.accessToken}`,
+      },
+    });
+
+    console.log(response);
+    if (response.ok) {
+      const result = await response.json();
+      return result;
+    }
   }
 }
