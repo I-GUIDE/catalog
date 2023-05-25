@@ -56,7 +56,7 @@
         "properties": {
           "@id": {
             "title": "@Id",
-            "description": "TODO",
+            "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
             "minLength": 1,
             "maxLength": 2083,
             "type": "string",
@@ -67,7 +67,7 @@
           },
           "@type": {
             "title": "@Type",
-            "description": "TODO",
+            "description": "Specifies that the type of the structured data object is a PropertyValue.",
             "default": "PropertyValue",
             "const": "PropertyValue",
             "type": "string",
@@ -78,12 +78,12 @@
           },
           "name": {
             "title": "Name",
-            "description": "TODO",
+            "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
             "type": "string"
           },
           "propertyID": {
             "title": "Propertyid",
-            "description": "TODO",
+            "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
             "minLength": 1,
             "maxLength": 2083,
             "type": "string",
@@ -94,12 +94,12 @@
           },
           "value": {
             "title": "Value",
-            "description": "TODO",
+            "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
             "type": "string"
           },
           "url": {
             "title": "Url",
-            "description": "TODO",
+            "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
             "minLength": 1,
             "maxLength": 2083,
             "type": "string",
@@ -126,7 +126,7 @@
         "properties": {
           "@type": {
             "title": "@Type",
-            "description": "TODO",
+            "description": "Describe the author(s) of a creative work",
             "default": "Person",
             "const": "Person",
             "type": "string",
@@ -137,18 +137,18 @@
           },
           "name": {
             "title": "Name",
-            "description": "TODO",
+            "description": "The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc.",
             "type": "string"
           },
           "email": {
             "title": "Email",
-            "description": "TODO",
+            "description": "The email address of the individual who is listed as a contributor.",
             "type": "string",
             "format": "email"
           },
           "identifier": {
             "title": "Identifier",
-            "description": "TODO",
+            "description": "The unique identifier for the person.",
             "type": "array",
             "items": {
               "title": "PropertyValue",
@@ -156,7 +156,7 @@
               "properties": {
                 "@id": {
                   "title": "@Id",
-                  "description": "TODO",
+                  "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -167,7 +167,7 @@
                 },
                 "@type": {
                   "title": "@Type",
-                  "description": "TODO",
+                  "description": "Specifies that the type of the structured data object is a PropertyValue.",
                   "default": "PropertyValue",
                   "const": "PropertyValue",
                   "type": "string",
@@ -178,12 +178,12 @@
                 },
                 "name": {
                   "title": "Name",
-                  "description": "TODO",
+                  "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                   "type": "string"
                 },
                 "propertyID": {
                   "title": "Propertyid",
-                  "description": "TODO",
+                  "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -194,12 +194,12 @@
                 },
                 "value": {
                   "title": "Value",
-                  "description": "TODO",
+                  "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                   "type": "string"
                 },
                 "url": {
                   "title": "Url",
-                  "description": "TODO",
+                  "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -295,7 +295,7 @@
           "properties": {
             "@type": {
               "title": "@Type",
-              "description": "TODO",
+              "description": "All records in the IGUIDE data catalog are considered creative works. Creative works can encompass various forms of content, such as datasets, software source code, digital documents, etc.",
               "default": "CreativeWork",
               "const": "CreativeWork",
               "type": "string",
@@ -306,7 +306,7 @@
             },
             "name": {
               "title": "Name",
-              "description": "TODO",
+              "description": "Record's title",
               "type": "string"
             },
             "url": {
@@ -344,7 +344,7 @@
           "properties": {
             "@type": {
               "title": "@Type",
-              "description": "TODO",
+              "description": "Describe the organization(s) contributed to a creative work",
               "default": "Organization",
               "const": "Organization",
               "type": "string",
@@ -355,12 +355,12 @@
             },
             "name": {
               "title": "Name",
-              "description": "TODO",
+              "description": "The organization name who contributed to this creative work.",
               "type": "string"
             },
             "url": {
               "title": "Url",
-              "description": "TODO",
+              "description": "Indicates the URL associated with the organizatino who contributed to this work.",
               "minLength": 1,
               "maxLength": 2083,
               "type": "string",
@@ -371,7 +371,7 @@
             },
             "identifier": {
               "title": "Identifier",
-              "description": "TODO",
+              "description": "The unique identifier for the organization.",
               "type": "array",
               "items": {
                 "title": "PropertyValue",
@@ -379,7 +379,7 @@
                 "properties": {
                   "@id": {
                     "title": "@Id",
-                    "description": "TODO",
+                    "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -390,7 +390,7 @@
                   },
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Specifies that the type of the structured data object is a PropertyValue.",
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
@@ -401,12 +401,12 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                     "type": "string"
                   },
                   "propertyID": {
                     "title": "Propertyid",
-                    "description": "TODO",
+                    "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -417,12 +417,12 @@
                   },
                   "value": {
                     "title": "Value",
-                    "description": "TODO",
+                    "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                     "type": "string"
                   },
                   "url": {
                     "title": "Url",
-                    "description": "TODO",
+                    "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -441,12 +441,12 @@
             },
             "address": {
               "title": "Address",
-              "description": "TODO",
+              "description": "The mailing address for the organization.",
               "type": "string"
             },
             "parentOrganization": {
               "title": "Parentorganization",
-              "description": "TODO",
+              "description": "The larger organization that the provider or publisher organization is a subOrganization of.",
               "allOf": [
                 {
                   "title": "Organization",
@@ -454,7 +454,7 @@
                   "properties": {
                     "@type": {
                       "title": "@Type",
-                      "description": "TODO",
+                      "description": "Describe the organization(s) contributed to a creative work",
                       "default": "Organization",
                       "const": "Organization",
                       "type": "string",
@@ -465,12 +465,12 @@
                     },
                     "name": {
                       "title": "Name",
-                      "description": "TODO",
+                      "description": "The organization name who contributed to this creative work.",
                       "type": "string"
                     },
                     "url": {
                       "title": "Url",
-                      "description": "TODO",
+                      "description": "Indicates the URL associated with the organizatino who contributed to this work.",
                       "minLength": 1,
                       "maxLength": 2083,
                       "type": "string",
@@ -481,7 +481,7 @@
                     },
                     "identifier": {
                       "title": "Identifier",
-                      "description": "TODO",
+                      "description": "The unique identifier for the organization.",
                       "type": "array",
                       "items": {
                         "title": "PropertyValue",
@@ -489,7 +489,7 @@
                         "properties": {
                           "@id": {
                             "title": "@Id",
-                            "description": "TODO",
+                            "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                             "minLength": 1,
                             "maxLength": 2083,
                             "type": "string",
@@ -500,7 +500,7 @@
                           },
                           "@type": {
                             "title": "@Type",
-                            "description": "TODO",
+                            "description": "Specifies that the type of the structured data object is a PropertyValue.",
                             "default": "PropertyValue",
                             "const": "PropertyValue",
                             "type": "string",
@@ -511,12 +511,12 @@
                           },
                           "name": {
                             "title": "Name",
-                            "description": "TODO",
+                            "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                             "type": "string"
                           },
                           "propertyID": {
                             "title": "Propertyid",
-                            "description": "TODO",
+                            "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                             "minLength": 1,
                             "maxLength": 2083,
                             "type": "string",
@@ -527,12 +527,12 @@
                           },
                           "value": {
                             "title": "Value",
-                            "description": "TODO",
+                            "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                             "type": "string"
                           },
                           "url": {
                             "title": "Url",
-                            "description": "TODO",
+                            "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                             "minLength": 1,
                             "maxLength": 2083,
                             "type": "string",
@@ -551,7 +551,7 @@
                     },
                     "address": {
                       "title": "Address",
-                      "description": "TODO",
+                      "description": "The mailing address for the organization.",
                       "type": "string"
                     }
                   },
@@ -572,7 +572,7 @@
           "properties": {
             "@type": {
               "title": "@Type",
-              "description": "TODO",
+              "description": "Describe the author(s) of a creative work",
               "default": "Person",
               "const": "Person",
               "type": "string",
@@ -583,18 +583,18 @@
             },
             "name": {
               "title": "Name",
-              "description": "TODO",
+              "description": "The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc.",
               "type": "string"
             },
             "email": {
               "title": "Email",
-              "description": "TODO",
+              "description": "The email address of the individual who is listed as a contributor.",
               "type": "string",
               "format": "email"
             },
             "identifier": {
               "title": "Identifier",
-              "description": "TODO",
+              "description": "The unique identifier for the person.",
               "type": "array",
               "items": {
                 "title": "PropertyValue",
@@ -602,7 +602,7 @@
                 "properties": {
                   "@id": {
                     "title": "@Id",
-                    "description": "TODO",
+                    "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -613,7 +613,7 @@
                   },
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Specifies that the type of the structured data object is a PropertyValue.",
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
@@ -624,12 +624,12 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                     "type": "string"
                   },
                   "propertyID": {
                     "title": "Propertyid",
-                    "description": "TODO",
+                    "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -640,12 +640,12 @@
                   },
                   "value": {
                     "title": "Value",
-                    "description": "TODO",
+                    "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                     "type": "string"
                   },
                   "url": {
                     "title": "Url",
-                    "description": "TODO",
+                    "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -673,7 +673,7 @@
           "properties": {
             "@id": {
               "title": "@Id",
-              "description": "TODO",
+              "description": "The URL of a provider. For example, the URL to the HydroShare data repository that is considered as a provider for a creatiev work.",
               "minLength": 1,
               "maxLength": 2083,
               "type": "string",
@@ -699,7 +699,7 @@
           "properties": {
             "@type": {
               "title": "@Type",
-              "description": "TODO",
+              "description": "Describe the organization(s) contributed to a creative work",
               "default": "Organization",
               "const": "Organization",
               "type": "string",
@@ -710,12 +710,12 @@
             },
             "name": {
               "title": "Name",
-              "description": "TODO",
+              "description": "The organization name who contributed to this creative work.",
               "type": "string"
             },
             "url": {
               "title": "Url",
-              "description": "TODO",
+              "description": "Indicates the URL associated with the organizatino who contributed to this work.",
               "minLength": 1,
               "maxLength": 2083,
               "type": "string",
@@ -726,7 +726,7 @@
             },
             "identifier": {
               "title": "Identifier",
-              "description": "TODO",
+              "description": "The unique identifier for the organization.",
               "type": "array",
               "items": {
                 "title": "PropertyValue",
@@ -734,7 +734,7 @@
                 "properties": {
                   "@id": {
                     "title": "@Id",
-                    "description": "TODO",
+                    "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -745,7 +745,7 @@
                   },
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Specifies that the type of the structured data object is a PropertyValue.",
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
@@ -756,12 +756,12 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                     "type": "string"
                   },
                   "propertyID": {
                     "title": "Propertyid",
-                    "description": "TODO",
+                    "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -772,12 +772,12 @@
                   },
                   "value": {
                     "title": "Value",
-                    "description": "TODO",
+                    "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                     "type": "string"
                   },
                   "url": {
                     "title": "Url",
-                    "description": "TODO",
+                    "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -796,12 +796,12 @@
             },
             "address": {
               "title": "Address",
-              "description": "TODO",
+              "description": "The mailing address for the organization.",
               "type": "string"
             },
             "parentOrganization": {
               "title": "Parentorganization",
-              "description": "TODO",
+              "description": "The larger organization that the provider or publisher organization is a subOrganization of.",
               "allOf": [
                 {
                   "title": "Organization",
@@ -809,7 +809,7 @@
                   "properties": {
                     "@type": {
                       "title": "@Type",
-                      "description": "TODO",
+                      "description": "Describe the organization(s) contributed to a creative work",
                       "default": "Organization",
                       "const": "Organization",
                       "type": "string",
@@ -820,12 +820,12 @@
                     },
                     "name": {
                       "title": "Name",
-                      "description": "TODO",
+                      "description": "The organization name who contributed to this creative work.",
                       "type": "string"
                     },
                     "url": {
                       "title": "Url",
-                      "description": "TODO",
+                      "description": "Indicates the URL associated with the organizatino who contributed to this work.",
                       "minLength": 1,
                       "maxLength": 2083,
                       "type": "string",
@@ -836,7 +836,7 @@
                     },
                     "identifier": {
                       "title": "Identifier",
-                      "description": "TODO",
+                      "description": "The unique identifier for the organization.",
                       "type": "array",
                       "items": {
                         "title": "PropertyValue",
@@ -844,7 +844,7 @@
                         "properties": {
                           "@id": {
                             "title": "@Id",
-                            "description": "TODO",
+                            "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                             "minLength": 1,
                             "maxLength": 2083,
                             "type": "string",
@@ -855,7 +855,7 @@
                           },
                           "@type": {
                             "title": "@Type",
-                            "description": "TODO",
+                            "description": "Specifies that the type of the structured data object is a PropertyValue.",
                             "default": "PropertyValue",
                             "const": "PropertyValue",
                             "type": "string",
@@ -866,12 +866,12 @@
                           },
                           "name": {
                             "title": "Name",
-                            "description": "TODO",
+                            "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                             "type": "string"
                           },
                           "propertyID": {
                             "title": "Propertyid",
-                            "description": "TODO",
+                            "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                             "minLength": 1,
                             "maxLength": 2083,
                             "type": "string",
@@ -882,12 +882,12 @@
                           },
                           "value": {
                             "title": "Value",
-                            "description": "TODO",
+                            "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                             "type": "string"
                           },
                           "url": {
                             "title": "Url",
-                            "description": "TODO",
+                            "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                             "minLength": 1,
                             "maxLength": 2083,
                             "type": "string",
@@ -906,7 +906,7 @@
                     },
                     "address": {
                       "title": "Address",
-                      "description": "TODO",
+                      "description": "The mailing address for the organization.",
                       "type": "string"
                     }
                   },
@@ -927,7 +927,7 @@
           "properties": {
             "@type": {
               "title": "@Type",
-              "description": "TODO",
+              "description": "Describe the author(s) of a creative work",
               "default": "Person",
               "const": "Person",
               "type": "string",
@@ -938,18 +938,18 @@
             },
             "name": {
               "title": "Name",
-              "description": "TODO",
+              "description": "The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc.",
               "type": "string"
             },
             "email": {
               "title": "Email",
-              "description": "TODO",
+              "description": "The email address of the individual who is listed as a contributor.",
               "type": "string",
               "format": "email"
             },
             "identifier": {
               "title": "Identifier",
-              "description": "TODO",
+              "description": "The unique identifier for the person.",
               "type": "array",
               "items": {
                 "title": "PropertyValue",
@@ -957,7 +957,7 @@
                 "properties": {
                   "@id": {
                     "title": "@Id",
-                    "description": "TODO",
+                    "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -968,7 +968,7 @@
                   },
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Specifies that the type of the structured data object is a PropertyValue.",
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
@@ -979,12 +979,12 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                     "type": "string"
                   },
                   "propertyID": {
                     "title": "Propertyid",
-                    "description": "TODO",
+                    "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -995,12 +995,12 @@
                   },
                   "value": {
                     "title": "Value",
-                    "description": "TODO",
+                    "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                     "type": "string"
                   },
                   "url": {
                     "title": "Url",
-                    "description": "TODO",
+                    "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -1028,7 +1028,7 @@
           "properties": {
             "@id": {
               "title": "@Id",
-              "description": "TODO",
+              "description": "The URL of a provider. For example, the URL to the HydroShare data repository that is considered as a provider for a creatiev work.",
               "minLength": 1,
               "maxLength": 2083,
               "type": "string",
@@ -1068,7 +1068,7 @@
         "properties": {
           "@type": {
             "title": "@Type",
-            "description": "TODO",
+            "description": "All records in the IGUIDE data catalog are considered creative works. Creative works can encompass various forms of content, such as datasets, software source code, digital documents, etc.",
             "default": "CreativeWork",
             "const": "CreativeWork",
             "type": "string",
@@ -1079,7 +1079,7 @@
           },
           "name": {
             "title": "Name",
-            "description": "TODO",
+            "description": "Record's title",
             "type": "string"
           },
           "url": {
@@ -1235,7 +1235,7 @@
                 "properties": {
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Describe the author(s) of a creative work",
                     "default": "Person",
                     "const": "Person",
                     "type": "string",
@@ -1246,18 +1246,18 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc.",
                     "type": "string"
                   },
                   "email": {
                     "title": "Email",
-                    "description": "TODO",
+                    "description": "The email address of the individual who is listed as a contributor.",
                     "type": "string",
                     "format": "email"
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "description": "TODO",
+                    "description": "The unique identifier for the person.",
                     "type": "array",
                     "items": {
                       "title": "PropertyValue",
@@ -1265,7 +1265,7 @@
                       "properties": {
                         "@id": {
                           "title": "@Id",
-                          "description": "TODO",
+                          "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -1276,7 +1276,7 @@
                         },
                         "@type": {
                           "title": "@Type",
-                          "description": "TODO",
+                          "description": "Specifies that the type of the structured data object is a PropertyValue.",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
@@ -1287,12 +1287,12 @@
                         },
                         "name": {
                           "title": "Name",
-                          "description": "TODO",
+                          "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                           "type": "string"
                         },
                         "propertyID": {
                           "title": "Propertyid",
-                          "description": "TODO",
+                          "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -1303,12 +1303,12 @@
                         },
                         "value": {
                           "title": "Value",
-                          "description": "TODO",
+                          "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                           "type": "string"
                         },
                         "url": {
                           "title": "Url",
-                          "description": "TODO",
+                          "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -1336,7 +1336,7 @@
                 "properties": {
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Describe the organization(s) contributed to a creative work",
                     "default": "Organization",
                     "const": "Organization",
                     "type": "string",
@@ -1347,12 +1347,12 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The organization name who contributed to this creative work.",
                     "type": "string"
                   },
                   "url": {
                     "title": "Url",
-                    "description": "TODO",
+                    "description": "Indicates the URL associated with the organizatino who contributed to this work.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -1363,7 +1363,7 @@
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "description": "TODO",
+                    "description": "The unique identifier for the organization.",
                     "type": "array",
                     "items": {
                       "title": "PropertyValue",
@@ -1371,7 +1371,7 @@
                       "properties": {
                         "@id": {
                           "title": "@Id",
-                          "description": "TODO",
+                          "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -1382,7 +1382,7 @@
                         },
                         "@type": {
                           "title": "@Type",
-                          "description": "TODO",
+                          "description": "Specifies that the type of the structured data object is a PropertyValue.",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
@@ -1393,12 +1393,12 @@
                         },
                         "name": {
                           "title": "Name",
-                          "description": "TODO",
+                          "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                           "type": "string"
                         },
                         "propertyID": {
                           "title": "Propertyid",
-                          "description": "TODO",
+                          "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -1409,12 +1409,12 @@
                         },
                         "value": {
                           "title": "Value",
-                          "description": "TODO",
+                          "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                           "type": "string"
                         },
                         "url": {
                           "title": "Url",
-                          "description": "TODO",
+                          "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -1433,7 +1433,7 @@
                   },
                   "address": {
                     "title": "Address",
-                    "description": "TODO",
+                    "description": "The mailing address for the organization.",
                     "type": "string"
                   }
                 },
@@ -1586,7 +1586,7 @@
         "properties": {
           "@type": {
             "title": "@Type",
-            "description": "TODO",
+            "description": "All records in the IGUIDE data catalog are considered creative works. Creative works can encompass various forms of content, such as datasets, software source code, digital documents, etc.",
             "default": "CreativeWork",
             "const": "CreativeWork",
             "type": "string",
@@ -1597,7 +1597,7 @@
           },
           "name": {
             "title": "Name",
-            "description": "TODO",
+            "description": "Record's title",
             "type": "string"
           },
           "description": {
@@ -1615,7 +1615,7 @@
                 "properties": {
                   "@id": {
                     "title": "@Id",
-                    "description": "TODO",
+                    "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -1626,7 +1626,7 @@
                   },
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Specifies that the type of the structured data object is a PropertyValue.",
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
@@ -1637,12 +1637,12 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                     "type": "string"
                   },
                   "propertyID": {
                     "title": "Propertyid",
-                    "description": "TODO",
+                    "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -1653,12 +1653,12 @@
                   },
                   "value": {
                     "title": "Value",
-                    "description": "TODO",
+                    "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                     "type": "string"
                   },
                   "url": {
                     "title": "Url",
-                    "description": "TODO",
+                    "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -1686,7 +1686,7 @@
                 "properties": {
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Describe the author(s) of a creative work",
                     "default": "Person",
                     "const": "Person",
                     "type": "string",
@@ -1697,18 +1697,18 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc.",
                     "type": "string"
                   },
                   "email": {
                     "title": "Email",
-                    "description": "TODO",
+                    "description": "The email address of the individual who is listed as a contributor.",
                     "type": "string",
                     "format": "email"
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "description": "TODO",
+                    "description": "The unique identifier for the person.",
                     "type": "array",
                     "items": {
                       "title": "PropertyValue",
@@ -1716,7 +1716,7 @@
                       "properties": {
                         "@id": {
                           "title": "@Id",
-                          "description": "TODO",
+                          "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -1727,7 +1727,7 @@
                         },
                         "@type": {
                           "title": "@Type",
-                          "description": "TODO",
+                          "description": "Specifies that the type of the structured data object is a PropertyValue.",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
@@ -1738,12 +1738,12 @@
                         },
                         "name": {
                           "title": "Name",
-                          "description": "TODO",
+                          "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                           "type": "string"
                         },
                         "propertyID": {
                           "title": "Propertyid",
-                          "description": "TODO",
+                          "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -1754,12 +1754,12 @@
                         },
                         "value": {
                           "title": "Value",
-                          "description": "TODO",
+                          "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                           "type": "string"
                         },
                         "url": {
                           "title": "Url",
-                          "description": "TODO",
+                          "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -1787,7 +1787,7 @@
                 "properties": {
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Describe the organization(s) contributed to a creative work",
                     "default": "Organization",
                     "const": "Organization",
                     "type": "string",
@@ -1798,12 +1798,12 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The organization name who contributed to this creative work.",
                     "type": "string"
                   },
                   "url": {
                     "title": "Url",
-                    "description": "TODO",
+                    "description": "Indicates the URL associated with the organizatino who contributed to this work.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -1814,7 +1814,7 @@
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "description": "TODO",
+                    "description": "The unique identifier for the organization.",
                     "type": "array",
                     "items": {
                       "title": "PropertyValue",
@@ -1822,7 +1822,7 @@
                       "properties": {
                         "@id": {
                           "title": "@Id",
-                          "description": "TODO",
+                          "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -1833,7 +1833,7 @@
                         },
                         "@type": {
                           "title": "@Type",
-                          "description": "TODO",
+                          "description": "Specifies that the type of the structured data object is a PropertyValue.",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
@@ -1844,12 +1844,12 @@
                         },
                         "name": {
                           "title": "Name",
-                          "description": "TODO",
+                          "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                           "type": "string"
                         },
                         "propertyID": {
                           "title": "Propertyid",
-                          "description": "TODO",
+                          "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -1860,12 +1860,12 @@
                         },
                         "value": {
                           "title": "Value",
-                          "description": "TODO",
+                          "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                           "type": "string"
                         },
                         "url": {
                           "title": "Url",
-                          "description": "TODO",
+                          "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -1884,7 +1884,7 @@
                   },
                   "address": {
                     "title": "Address",
-                    "description": "TODO",
+                    "description": "The mailing address for the organization.",
                     "type": "string"
                   }
                 },
@@ -1912,7 +1912,7 @@
         "properties": {
           "@type": {
             "title": "@Type",
-            "description": "TODO",
+            "description": "All records in the IGUIDE data catalog are considered creative works. Creative works can encompass various forms of content, such as datasets, software source code, digital documents, etc.",
             "default": "CreativeWork",
             "const": "CreativeWork",
             "type": "string",
@@ -1923,7 +1923,7 @@
           },
           "name": {
             "title": "Name",
-            "description": "TODO",
+            "description": "Record's title",
             "type": "string"
           },
           "description": {
@@ -1941,7 +1941,7 @@
                 "properties": {
                   "@id": {
                     "title": "@Id",
-                    "description": "TODO",
+                    "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -1952,7 +1952,7 @@
                   },
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Specifies that the type of the structured data object is a PropertyValue.",
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
@@ -1963,12 +1963,12 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                     "type": "string"
                   },
                   "propertyID": {
                     "title": "Propertyid",
-                    "description": "TODO",
+                    "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -1979,12 +1979,12 @@
                   },
                   "value": {
                     "title": "Value",
-                    "description": "TODO",
+                    "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                     "type": "string"
                   },
                   "url": {
                     "title": "Url",
-                    "description": "TODO",
+                    "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -2012,7 +2012,7 @@
                 "properties": {
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Describe the author(s) of a creative work",
                     "default": "Person",
                     "const": "Person",
                     "type": "string",
@@ -2023,18 +2023,18 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc.",
                     "type": "string"
                   },
                   "email": {
                     "title": "Email",
-                    "description": "TODO",
+                    "description": "The email address of the individual who is listed as a contributor.",
                     "type": "string",
                     "format": "email"
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "description": "TODO",
+                    "description": "The unique identifier for the person.",
                     "type": "array",
                     "items": {
                       "title": "PropertyValue",
@@ -2042,7 +2042,7 @@
                       "properties": {
                         "@id": {
                           "title": "@Id",
-                          "description": "TODO",
+                          "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -2053,7 +2053,7 @@
                         },
                         "@type": {
                           "title": "@Type",
-                          "description": "TODO",
+                          "description": "Specifies that the type of the structured data object is a PropertyValue.",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
@@ -2064,12 +2064,12 @@
                         },
                         "name": {
                           "title": "Name",
-                          "description": "TODO",
+                          "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                           "type": "string"
                         },
                         "propertyID": {
                           "title": "Propertyid",
-                          "description": "TODO",
+                          "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -2080,12 +2080,12 @@
                         },
                         "value": {
                           "title": "Value",
-                          "description": "TODO",
+                          "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                           "type": "string"
                         },
                         "url": {
                           "title": "Url",
-                          "description": "TODO",
+                          "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -2113,7 +2113,7 @@
                 "properties": {
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Describe the organization(s) contributed to a creative work",
                     "default": "Organization",
                     "const": "Organization",
                     "type": "string",
@@ -2124,12 +2124,12 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The organization name who contributed to this creative work.",
                     "type": "string"
                   },
                   "url": {
                     "title": "Url",
-                    "description": "TODO",
+                    "description": "Indicates the URL associated with the organizatino who contributed to this work.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -2140,7 +2140,7 @@
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "description": "TODO",
+                    "description": "The unique identifier for the organization.",
                     "type": "array",
                     "items": {
                       "title": "PropertyValue",
@@ -2148,7 +2148,7 @@
                       "properties": {
                         "@id": {
                           "title": "@Id",
-                          "description": "TODO",
+                          "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -2159,7 +2159,7 @@
                         },
                         "@type": {
                           "title": "@Type",
-                          "description": "TODO",
+                          "description": "Specifies that the type of the structured data object is a PropertyValue.",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
@@ -2170,12 +2170,12 @@
                         },
                         "name": {
                           "title": "Name",
-                          "description": "TODO",
+                          "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                           "type": "string"
                         },
                         "propertyID": {
                           "title": "Propertyid",
-                          "description": "TODO",
+                          "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -2186,12 +2186,12 @@
                         },
                         "value": {
                           "title": "Value",
-                          "description": "TODO",
+                          "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                           "type": "string"
                         },
                         "url": {
                           "title": "Url",
-                          "description": "TODO",
+                          "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -2210,7 +2210,7 @@
                   },
                   "address": {
                     "title": "Address",
-                    "description": "TODO",
+                    "description": "The mailing address for the organization.",
                     "type": "string"
                   }
                 },
@@ -2422,7 +2422,7 @@
                 "properties": {
                   "@id": {
                     "title": "@Id",
-                    "description": "TODO",
+                    "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -2433,7 +2433,7 @@
                   },
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Specifies that the type of the structured data object is a PropertyValue.",
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
@@ -2444,12 +2444,12 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                     "type": "string"
                   },
                   "propertyID": {
                     "title": "Propertyid",
-                    "description": "TODO",
+                    "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -2460,12 +2460,12 @@
                   },
                   "value": {
                     "title": "Value",
-                    "description": "TODO",
+                    "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                     "type": "string"
                   },
                   "url": {
                     "title": "Url",
-                    "description": "TODO",
+                    "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -2493,7 +2493,7 @@
                 "properties": {
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Describe the author(s) of a creative work",
                     "default": "Person",
                     "const": "Person",
                     "type": "string",
@@ -2504,18 +2504,18 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc.",
                     "type": "string"
                   },
                   "email": {
                     "title": "Email",
-                    "description": "TODO",
+                    "description": "The email address of the individual who is listed as a contributor.",
                     "type": "string",
                     "format": "email"
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "description": "TODO",
+                    "description": "The unique identifier for the person.",
                     "type": "array",
                     "items": {
                       "title": "PropertyValue",
@@ -2523,7 +2523,7 @@
                       "properties": {
                         "@id": {
                           "title": "@Id",
-                          "description": "TODO",
+                          "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -2534,7 +2534,7 @@
                         },
                         "@type": {
                           "title": "@Type",
-                          "description": "TODO",
+                          "description": "Specifies that the type of the structured data object is a PropertyValue.",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
@@ -2545,12 +2545,12 @@
                         },
                         "name": {
                           "title": "Name",
-                          "description": "TODO",
+                          "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                           "type": "string"
                         },
                         "propertyID": {
                           "title": "Propertyid",
-                          "description": "TODO",
+                          "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -2561,12 +2561,12 @@
                         },
                         "value": {
                           "title": "Value",
-                          "description": "TODO",
+                          "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                           "type": "string"
                         },
                         "url": {
                           "title": "Url",
-                          "description": "TODO",
+                          "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -2594,7 +2594,7 @@
                 "properties": {
                   "@type": {
                     "title": "@Type",
-                    "description": "TODO",
+                    "description": "Describe the organization(s) contributed to a creative work",
                     "default": "Organization",
                     "const": "Organization",
                     "type": "string",
@@ -2605,12 +2605,12 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "TODO",
+                    "description": "The organization name who contributed to this creative work.",
                     "type": "string"
                   },
                   "url": {
                     "title": "Url",
-                    "description": "TODO",
+                    "description": "Indicates the URL associated with the organizatino who contributed to this work.",
                     "minLength": 1,
                     "maxLength": 2083,
                     "type": "string",
@@ -2621,7 +2621,7 @@
                   },
                   "identifier": {
                     "title": "Identifier",
-                    "description": "TODO",
+                    "description": "The unique identifier for the organization.",
                     "type": "array",
                     "items": {
                       "title": "PropertyValue",
@@ -2629,7 +2629,7 @@
                       "properties": {
                         "@id": {
                           "title": "@Id",
-                          "description": "TODO",
+                          "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -2640,7 +2640,7 @@
                         },
                         "@type": {
                           "title": "@Type",
-                          "description": "TODO",
+                          "description": "Specifies that the type of the structured data object is a PropertyValue.",
                           "default": "PropertyValue",
                           "const": "PropertyValue",
                           "type": "string",
@@ -2651,12 +2651,12 @@
                         },
                         "name": {
                           "title": "Name",
-                          "description": "TODO",
+                          "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                           "type": "string"
                         },
                         "propertyID": {
                           "title": "Propertyid",
-                          "description": "TODO",
+                          "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -2667,12 +2667,12 @@
                         },
                         "value": {
                           "title": "Value",
-                          "description": "TODO",
+                          "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                           "type": "string"
                         },
                         "url": {
                           "title": "Url",
-                          "description": "TODO",
+                          "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                           "minLength": 1,
                           "maxLength": 2083,
                           "type": "string",
@@ -2691,7 +2691,7 @@
                   },
                   "address": {
                     "title": "Address",
-                    "description": "TODO",
+                    "description": "The mailing address for the organization.",
                     "type": "string"
                   }
                 },
@@ -2732,7 +2732,7 @@
       "properties": {
         "@id": {
           "title": "@Id",
-          "description": "TODO",
+          "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
           "minLength": 1,
           "maxLength": 2083,
           "type": "string",
@@ -2743,7 +2743,7 @@
         },
         "@type": {
           "title": "@Type",
-          "description": "TODO",
+          "description": "Specifies that the type of the structured data object is a PropertyValue.",
           "default": "PropertyValue",
           "const": "PropertyValue",
           "type": "string",
@@ -2754,12 +2754,12 @@
         },
         "name": {
           "title": "Name",
-          "description": "TODO",
+          "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
           "type": "string"
         },
         "propertyID": {
           "title": "Propertyid",
-          "description": "TODO",
+          "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
           "minLength": 1,
           "maxLength": 2083,
           "type": "string",
@@ -2770,12 +2770,12 @@
         },
         "value": {
           "title": "Value",
-          "description": "TODO",
+          "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
           "type": "string"
         },
         "url": {
           "title": "Url",
-          "description": "TODO",
+          "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
           "minLength": 1,
           "maxLength": 2083,
           "type": "string",
@@ -2797,7 +2797,7 @@
       "properties": {
         "@type": {
           "title": "@Type",
-          "description": "TODO",
+          "description": "Describe the author(s) of a creative work",
           "default": "Person",
           "const": "Person",
           "type": "string",
@@ -2808,18 +2808,18 @@
         },
         "name": {
           "title": "Name",
-          "description": "TODO",
+          "description": "The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc.",
           "type": "string"
         },
         "email": {
           "title": "Email",
-          "description": "TODO",
+          "description": "The email address of the individual who is listed as a contributor.",
           "type": "string",
           "format": "email"
         },
         "identifier": {
           "title": "Identifier",
-          "description": "TODO",
+          "description": "The unique identifier for the person.",
           "type": "array",
           "items": {
             "title": "PropertyValue",
@@ -2827,7 +2827,7 @@
             "properties": {
               "@id": {
                 "title": "@Id",
-                "description": "TODO",
+                "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                 "minLength": 1,
                 "maxLength": 2083,
                 "type": "string",
@@ -2838,7 +2838,7 @@
               },
               "@type": {
                 "title": "@Type",
-                "description": "TODO",
+                "description": "Specifies that the type of the structured data object is a PropertyValue.",
                 "default": "PropertyValue",
                 "const": "PropertyValue",
                 "type": "string",
@@ -2849,12 +2849,12 @@
               },
               "name": {
                 "title": "Name",
-                "description": "TODO",
+                "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                 "type": "string"
               },
               "propertyID": {
                 "title": "Propertyid",
-                "description": "TODO",
+                "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                 "minLength": 1,
                 "maxLength": 2083,
                 "type": "string",
@@ -2865,12 +2865,12 @@
               },
               "value": {
                 "title": "Value",
-                "description": "TODO",
+                "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                 "type": "string"
               },
               "url": {
                 "title": "Url",
-                "description": "TODO",
+                "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                 "minLength": 1,
                 "maxLength": 2083,
                 "type": "string",
@@ -2941,7 +2941,7 @@
       "properties": {
         "@type": {
           "title": "@Type",
-          "description": "TODO",
+          "description": "All records in the IGUIDE data catalog are considered creative works. Creative works can encompass various forms of content, such as datasets, software source code, digital documents, etc.",
           "default": "CreativeWork",
           "const": "CreativeWork",
           "type": "string",
@@ -2952,7 +2952,7 @@
         },
         "name": {
           "title": "Name",
-          "description": "TODO",
+          "description": "Record's title",
           "type": "string"
         },
         "url": {
@@ -2978,7 +2978,7 @@
       "properties": {
         "@type": {
           "title": "@Type",
-          "description": "TODO",
+          "description": "Describe the organization(s) contributed to a creative work",
           "default": "Organization",
           "const": "Organization",
           "type": "string",
@@ -2989,12 +2989,12 @@
         },
         "name": {
           "title": "Name",
-          "description": "TODO",
+          "description": "The organization name who contributed to this creative work.",
           "type": "string"
         },
         "url": {
           "title": "Url",
-          "description": "TODO",
+          "description": "Indicates the URL associated with the organizatino who contributed to this work.",
           "minLength": 1,
           "maxLength": 2083,
           "type": "string",
@@ -3005,7 +3005,7 @@
         },
         "identifier": {
           "title": "Identifier",
-          "description": "TODO",
+          "description": "The unique identifier for the organization.",
           "type": "array",
           "items": {
             "title": "PropertyValue",
@@ -3013,7 +3013,7 @@
             "properties": {
               "@id": {
                 "title": "@Id",
-                "description": "TODO",
+                "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                 "minLength": 1,
                 "maxLength": 2083,
                 "type": "string",
@@ -3024,7 +3024,7 @@
               },
               "@type": {
                 "title": "@Type",
-                "description": "TODO",
+                "description": "Specifies that the type of the structured data object is a PropertyValue.",
                 "default": "PropertyValue",
                 "const": "PropertyValue",
                 "type": "string",
@@ -3035,12 +3035,12 @@
               },
               "name": {
                 "title": "Name",
-                "description": "TODO",
+                "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                 "type": "string"
               },
               "propertyID": {
                 "title": "Propertyid",
-                "description": "TODO",
+                "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                 "minLength": 1,
                 "maxLength": 2083,
                 "type": "string",
@@ -3051,12 +3051,12 @@
               },
               "value": {
                 "title": "Value",
-                "description": "TODO",
+                "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                 "type": "string"
               },
               "url": {
                 "title": "Url",
-                "description": "TODO",
+                "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                 "minLength": 1,
                 "maxLength": 2083,
                 "type": "string",
@@ -3075,7 +3075,7 @@
         },
         "address": {
           "title": "Address",
-          "description": "TODO",
+          "description": "The mailing address for the organization.",
           "type": "string"
         }
       },
@@ -3089,7 +3089,7 @@
       "properties": {
         "@type": {
           "title": "@Type",
-          "description": "TODO",
+          "description": "Describe the organization(s) contributed to a creative work",
           "default": "Organization",
           "const": "Organization",
           "type": "string",
@@ -3100,12 +3100,12 @@
         },
         "name": {
           "title": "Name",
-          "description": "TODO",
+          "description": "The organization name who contributed to this creative work.",
           "type": "string"
         },
         "url": {
           "title": "Url",
-          "description": "TODO",
+          "description": "Indicates the URL associated with the organizatino who contributed to this work.",
           "minLength": 1,
           "maxLength": 2083,
           "type": "string",
@@ -3116,7 +3116,7 @@
         },
         "identifier": {
           "title": "Identifier",
-          "description": "TODO",
+          "description": "The unique identifier for the organization.",
           "type": "array",
           "items": {
             "title": "PropertyValue",
@@ -3124,7 +3124,7 @@
             "properties": {
               "@id": {
                 "title": "@Id",
-                "description": "TODO",
+                "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                 "minLength": 1,
                 "maxLength": 2083,
                 "type": "string",
@@ -3135,7 +3135,7 @@
               },
               "@type": {
                 "title": "@Type",
-                "description": "TODO",
+                "description": "Specifies that the type of the structured data object is a PropertyValue.",
                 "default": "PropertyValue",
                 "const": "PropertyValue",
                 "type": "string",
@@ -3146,12 +3146,12 @@
               },
               "name": {
                 "title": "Name",
-                "description": "TODO",
+                "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                 "type": "string"
               },
               "propertyID": {
                 "title": "Propertyid",
-                "description": "TODO",
+                "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                 "minLength": 1,
                 "maxLength": 2083,
                 "type": "string",
@@ -3162,12 +3162,12 @@
               },
               "value": {
                 "title": "Value",
-                "description": "TODO",
+                "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                 "type": "string"
               },
               "url": {
                 "title": "Url",
-                "description": "TODO",
+                "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                 "minLength": 1,
                 "maxLength": 2083,
                 "type": "string",
@@ -3186,12 +3186,12 @@
         },
         "address": {
           "title": "Address",
-          "description": "TODO",
+          "description": "The mailing address for the organization.",
           "type": "string"
         },
         "parentOrganization": {
           "title": "Parentorganization",
-          "description": "TODO",
+          "description": "The larger organization that the provider or publisher organization is a subOrganization of.",
           "allOf": [
             {
               "title": "Organization",
@@ -3199,7 +3199,7 @@
               "properties": {
                 "@type": {
                   "title": "@Type",
-                  "description": "TODO",
+                  "description": "Describe the organization(s) contributed to a creative work",
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
@@ -3210,12 +3210,12 @@
                 },
                 "name": {
                   "title": "Name",
-                  "description": "TODO",
+                  "description": "The organization name who contributed to this creative work.",
                   "type": "string"
                 },
                 "url": {
                   "title": "Url",
-                  "description": "TODO",
+                  "description": "Indicates the URL associated with the organizatino who contributed to this work.",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -3226,7 +3226,7 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "description": "TODO",
+                  "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
                     "title": "PropertyValue",
@@ -3234,7 +3234,7 @@
                     "properties": {
                       "@id": {
                         "title": "@Id",
-                        "description": "TODO",
+                        "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -3245,7 +3245,7 @@
                       },
                       "@type": {
                         "title": "@Type",
-                        "description": "TODO",
+                        "description": "Specifies that the type of the structured data object is a PropertyValue.",
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
@@ -3256,12 +3256,12 @@
                       },
                       "name": {
                         "title": "Name",
-                        "description": "TODO",
+                        "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                         "type": "string"
                       },
                       "propertyID": {
                         "title": "Propertyid",
-                        "description": "TODO",
+                        "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -3272,12 +3272,12 @@
                       },
                       "value": {
                         "title": "Value",
-                        "description": "TODO",
+                        "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                         "type": "string"
                       },
                       "url": {
                         "title": "Url",
-                        "description": "TODO",
+                        "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -3296,7 +3296,7 @@
                 },
                 "address": {
                   "title": "Address",
-                  "description": "TODO",
+                  "description": "The mailing address for the organization.",
                   "type": "string"
                 }
               },
@@ -3317,7 +3317,7 @@
       "properties": {
         "@id": {
           "title": "@Id",
-          "description": "TODO",
+          "description": "The URL of a provider. For example, the URL to the HydroShare data repository that is considered as a provider for a creatiev work.",
           "minLength": 1,
           "maxLength": 2083,
           "type": "string",
@@ -3337,7 +3337,7 @@
       "properties": {
         "@type": {
           "title": "@Type",
-          "description": "TODO",
+          "description": "All records in the IGUIDE data catalog are considered creative works. Creative works can encompass various forms of content, such as datasets, software source code, digital documents, etc.",
           "default": "CreativeWork",
           "const": "CreativeWork",
           "type": "string",
@@ -3348,7 +3348,7 @@
         },
         "name": {
           "title": "Name",
-          "description": "TODO",
+          "description": "Record's title",
           "type": "string"
         },
         "url": {
@@ -3455,7 +3455,7 @@
               "properties": {
                 "@type": {
                   "title": "@Type",
-                  "description": "TODO",
+                  "description": "Describe the author(s) of a creative work",
                   "default": "Person",
                   "const": "Person",
                   "type": "string",
@@ -3466,18 +3466,18 @@
                 },
                 "name": {
                   "title": "Name",
-                  "description": "TODO",
+                  "description": "The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc.",
                   "type": "string"
                 },
                 "email": {
                   "title": "Email",
-                  "description": "TODO",
+                  "description": "The email address of the individual who is listed as a contributor.",
                   "type": "string",
                   "format": "email"
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "description": "TODO",
+                  "description": "The unique identifier for the person.",
                   "type": "array",
                   "items": {
                     "title": "PropertyValue",
@@ -3485,7 +3485,7 @@
                     "properties": {
                       "@id": {
                         "title": "@Id",
-                        "description": "TODO",
+                        "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -3496,7 +3496,7 @@
                       },
                       "@type": {
                         "title": "@Type",
-                        "description": "TODO",
+                        "description": "Specifies that the type of the structured data object is a PropertyValue.",
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
@@ -3507,12 +3507,12 @@
                       },
                       "name": {
                         "title": "Name",
-                        "description": "TODO",
+                        "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                         "type": "string"
                       },
                       "propertyID": {
                         "title": "Propertyid",
-                        "description": "TODO",
+                        "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -3523,12 +3523,12 @@
                       },
                       "value": {
                         "title": "Value",
-                        "description": "TODO",
+                        "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                         "type": "string"
                       },
                       "url": {
                         "title": "Url",
-                        "description": "TODO",
+                        "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -3556,7 +3556,7 @@
               "properties": {
                 "@type": {
                   "title": "@Type",
-                  "description": "TODO",
+                  "description": "Describe the organization(s) contributed to a creative work",
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
@@ -3567,12 +3567,12 @@
                 },
                 "name": {
                   "title": "Name",
-                  "description": "TODO",
+                  "description": "The organization name who contributed to this creative work.",
                   "type": "string"
                 },
                 "url": {
                   "title": "Url",
-                  "description": "TODO",
+                  "description": "Indicates the URL associated with the organizatino who contributed to this work.",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -3583,7 +3583,7 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "description": "TODO",
+                  "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
                     "title": "PropertyValue",
@@ -3591,7 +3591,7 @@
                     "properties": {
                       "@id": {
                         "title": "@Id",
-                        "description": "TODO",
+                        "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -3602,7 +3602,7 @@
                       },
                       "@type": {
                         "title": "@Type",
-                        "description": "TODO",
+                        "description": "Specifies that the type of the structured data object is a PropertyValue.",
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
@@ -3613,12 +3613,12 @@
                       },
                       "name": {
                         "title": "Name",
-                        "description": "TODO",
+                        "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                         "type": "string"
                       },
                       "propertyID": {
                         "title": "Propertyid",
-                        "description": "TODO",
+                        "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -3629,12 +3629,12 @@
                       },
                       "value": {
                         "title": "Value",
-                        "description": "TODO",
+                        "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                         "type": "string"
                       },
                       "url": {
                         "title": "Url",
-                        "description": "TODO",
+                        "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -3653,7 +3653,7 @@
                 },
                 "address": {
                   "title": "Address",
-                  "description": "TODO",
+                  "description": "The mailing address for the organization.",
                   "type": "string"
                 }
               },
@@ -3871,7 +3871,7 @@
       "properties": {
         "@type": {
           "title": "@Type",
-          "description": "TODO",
+          "description": "All records in the IGUIDE data catalog are considered creative works. Creative works can encompass various forms of content, such as datasets, software source code, digital documents, etc.",
           "default": "CreativeWork",
           "const": "CreativeWork",
           "type": "string",
@@ -3882,7 +3882,7 @@
         },
         "name": {
           "title": "Name",
-          "description": "TODO",
+          "description": "Record's title",
           "type": "string"
         },
         "description": {
@@ -3900,7 +3900,7 @@
               "properties": {
                 "@id": {
                   "title": "@Id",
-                  "description": "TODO",
+                  "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -3911,7 +3911,7 @@
                 },
                 "@type": {
                   "title": "@Type",
-                  "description": "TODO",
+                  "description": "Specifies that the type of the structured data object is a PropertyValue.",
                   "default": "PropertyValue",
                   "const": "PropertyValue",
                   "type": "string",
@@ -3922,12 +3922,12 @@
                 },
                 "name": {
                   "title": "Name",
-                  "description": "TODO",
+                  "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                   "type": "string"
                 },
                 "propertyID": {
                   "title": "Propertyid",
-                  "description": "TODO",
+                  "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -3938,12 +3938,12 @@
                 },
                 "value": {
                   "title": "Value",
-                  "description": "TODO",
+                  "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                   "type": "string"
                 },
                 "url": {
                   "title": "Url",
-                  "description": "TODO",
+                  "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -3971,7 +3971,7 @@
               "properties": {
                 "@type": {
                   "title": "@Type",
-                  "description": "TODO",
+                  "description": "Describe the author(s) of a creative work",
                   "default": "Person",
                   "const": "Person",
                   "type": "string",
@@ -3982,18 +3982,18 @@
                 },
                 "name": {
                   "title": "Name",
-                  "description": "TODO",
+                  "description": "The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc.",
                   "type": "string"
                 },
                 "email": {
                   "title": "Email",
-                  "description": "TODO",
+                  "description": "The email address of the individual who is listed as a contributor.",
                   "type": "string",
                   "format": "email"
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "description": "TODO",
+                  "description": "The unique identifier for the person.",
                   "type": "array",
                   "items": {
                     "title": "PropertyValue",
@@ -4001,7 +4001,7 @@
                     "properties": {
                       "@id": {
                         "title": "@Id",
-                        "description": "TODO",
+                        "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4012,7 +4012,7 @@
                       },
                       "@type": {
                         "title": "@Type",
-                        "description": "TODO",
+                        "description": "Specifies that the type of the structured data object is a PropertyValue.",
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
@@ -4023,12 +4023,12 @@
                       },
                       "name": {
                         "title": "Name",
-                        "description": "TODO",
+                        "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                         "type": "string"
                       },
                       "propertyID": {
                         "title": "Propertyid",
-                        "description": "TODO",
+                        "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4039,12 +4039,12 @@
                       },
                       "value": {
                         "title": "Value",
-                        "description": "TODO",
+                        "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                         "type": "string"
                       },
                       "url": {
                         "title": "Url",
-                        "description": "TODO",
+                        "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4072,7 +4072,7 @@
               "properties": {
                 "@type": {
                   "title": "@Type",
-                  "description": "TODO",
+                  "description": "Describe the organization(s) contributed to a creative work",
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
@@ -4083,12 +4083,12 @@
                 },
                 "name": {
                   "title": "Name",
-                  "description": "TODO",
+                  "description": "The organization name who contributed to this creative work.",
                   "type": "string"
                 },
                 "url": {
                   "title": "Url",
-                  "description": "TODO",
+                  "description": "Indicates the URL associated with the organizatino who contributed to this work.",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -4099,7 +4099,7 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "description": "TODO",
+                  "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
                     "title": "PropertyValue",
@@ -4107,7 +4107,7 @@
                     "properties": {
                       "@id": {
                         "title": "@Id",
-                        "description": "TODO",
+                        "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4118,7 +4118,7 @@
                       },
                       "@type": {
                         "title": "@Type",
-                        "description": "TODO",
+                        "description": "Specifies that the type of the structured data object is a PropertyValue.",
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
@@ -4129,12 +4129,12 @@
                       },
                       "name": {
                         "title": "Name",
-                        "description": "TODO",
+                        "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                         "type": "string"
                       },
                       "propertyID": {
                         "title": "Propertyid",
-                        "description": "TODO",
+                        "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4145,12 +4145,12 @@
                       },
                       "value": {
                         "title": "Value",
-                        "description": "TODO",
+                        "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                         "type": "string"
                       },
                       "url": {
                         "title": "Url",
-                        "description": "TODO",
+                        "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4169,7 +4169,7 @@
                 },
                 "address": {
                   "title": "Address",
-                  "description": "TODO",
+                  "description": "The mailing address for the organization.",
                   "type": "string"
                 }
               },
@@ -4192,7 +4192,7 @@
       "properties": {
         "@type": {
           "title": "@Type",
-          "description": "TODO",
+          "description": "All records in the IGUIDE data catalog are considered creative works. Creative works can encompass various forms of content, such as datasets, software source code, digital documents, etc.",
           "default": "CreativeWork",
           "const": "CreativeWork",
           "type": "string",
@@ -4203,7 +4203,7 @@
         },
         "name": {
           "title": "Name",
-          "description": "TODO",
+          "description": "Record's title",
           "type": "string"
         },
         "description": {
@@ -4221,7 +4221,7 @@
               "properties": {
                 "@id": {
                   "title": "@Id",
-                  "description": "TODO",
+                  "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -4232,7 +4232,7 @@
                 },
                 "@type": {
                   "title": "@Type",
-                  "description": "TODO",
+                  "description": "Specifies that the type of the structured data object is a PropertyValue.",
                   "default": "PropertyValue",
                   "const": "PropertyValue",
                   "type": "string",
@@ -4243,12 +4243,12 @@
                 },
                 "name": {
                   "title": "Name",
-                  "description": "TODO",
+                  "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                   "type": "string"
                 },
                 "propertyID": {
                   "title": "Propertyid",
-                  "description": "TODO",
+                  "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -4259,12 +4259,12 @@
                 },
                 "value": {
                   "title": "Value",
-                  "description": "TODO",
+                  "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                   "type": "string"
                 },
                 "url": {
                   "title": "Url",
-                  "description": "TODO",
+                  "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -4292,7 +4292,7 @@
               "properties": {
                 "@type": {
                   "title": "@Type",
-                  "description": "TODO",
+                  "description": "Describe the author(s) of a creative work",
                   "default": "Person",
                   "const": "Person",
                   "type": "string",
@@ -4303,18 +4303,18 @@
                 },
                 "name": {
                   "title": "Name",
-                  "description": "TODO",
+                  "description": "The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc.",
                   "type": "string"
                 },
                 "email": {
                   "title": "Email",
-                  "description": "TODO",
+                  "description": "The email address of the individual who is listed as a contributor.",
                   "type": "string",
                   "format": "email"
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "description": "TODO",
+                  "description": "The unique identifier for the person.",
                   "type": "array",
                   "items": {
                     "title": "PropertyValue",
@@ -4322,7 +4322,7 @@
                     "properties": {
                       "@id": {
                         "title": "@Id",
-                        "description": "TODO",
+                        "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4333,7 +4333,7 @@
                       },
                       "@type": {
                         "title": "@Type",
-                        "description": "TODO",
+                        "description": "Specifies that the type of the structured data object is a PropertyValue.",
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
@@ -4344,12 +4344,12 @@
                       },
                       "name": {
                         "title": "Name",
-                        "description": "TODO",
+                        "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                         "type": "string"
                       },
                       "propertyID": {
                         "title": "Propertyid",
-                        "description": "TODO",
+                        "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4360,12 +4360,12 @@
                       },
                       "value": {
                         "title": "Value",
-                        "description": "TODO",
+                        "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                         "type": "string"
                       },
                       "url": {
                         "title": "Url",
-                        "description": "TODO",
+                        "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4393,7 +4393,7 @@
               "properties": {
                 "@type": {
                   "title": "@Type",
-                  "description": "TODO",
+                  "description": "Describe the organization(s) contributed to a creative work",
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
@@ -4404,12 +4404,12 @@
                 },
                 "name": {
                   "title": "Name",
-                  "description": "TODO",
+                  "description": "The organization name who contributed to this creative work.",
                   "type": "string"
                 },
                 "url": {
                   "title": "Url",
-                  "description": "TODO",
+                  "description": "Indicates the URL associated with the organizatino who contributed to this work.",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -4420,7 +4420,7 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "description": "TODO",
+                  "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
                     "title": "PropertyValue",
@@ -4428,7 +4428,7 @@
                     "properties": {
                       "@id": {
                         "title": "@Id",
-                        "description": "TODO",
+                        "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4439,7 +4439,7 @@
                       },
                       "@type": {
                         "title": "@Type",
-                        "description": "TODO",
+                        "description": "Specifies that the type of the structured data object is a PropertyValue.",
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
@@ -4450,12 +4450,12 @@
                       },
                       "name": {
                         "title": "Name",
-                        "description": "TODO",
+                        "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                         "type": "string"
                       },
                       "propertyID": {
                         "title": "Propertyid",
-                        "description": "TODO",
+                        "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4466,12 +4466,12 @@
                       },
                       "value": {
                         "title": "Value",
-                        "description": "TODO",
+                        "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                         "type": "string"
                       },
                       "url": {
                         "title": "Url",
-                        "description": "TODO",
+                        "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4490,7 +4490,7 @@
                 },
                 "address": {
                   "title": "Address",
-                  "description": "TODO",
+                  "description": "The mailing address for the organization.",
                   "type": "string"
                 }
               },
@@ -4682,7 +4682,7 @@
               "properties": {
                 "@id": {
                   "title": "@Id",
-                  "description": "TODO",
+                  "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -4693,7 +4693,7 @@
                 },
                 "@type": {
                   "title": "@Type",
-                  "description": "TODO",
+                  "description": "Specifies that the type of the structured data object is a PropertyValue.",
                   "default": "PropertyValue",
                   "const": "PropertyValue",
                   "type": "string",
@@ -4704,12 +4704,12 @@
                 },
                 "name": {
                   "title": "Name",
-                  "description": "TODO",
+                  "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                   "type": "string"
                 },
                 "propertyID": {
                   "title": "Propertyid",
-                  "description": "TODO",
+                  "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -4720,12 +4720,12 @@
                 },
                 "value": {
                   "title": "Value",
-                  "description": "TODO",
+                  "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                   "type": "string"
                 },
                 "url": {
                   "title": "Url",
-                  "description": "TODO",
+                  "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -4753,7 +4753,7 @@
               "properties": {
                 "@type": {
                   "title": "@Type",
-                  "description": "TODO",
+                  "description": "Describe the author(s) of a creative work",
                   "default": "Person",
                   "const": "Person",
                   "type": "string",
@@ -4764,18 +4764,18 @@
                 },
                 "name": {
                   "title": "Name",
-                  "description": "TODO",
+                  "description": "The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc.",
                   "type": "string"
                 },
                 "email": {
                   "title": "Email",
-                  "description": "TODO",
+                  "description": "The email address of the individual who is listed as a contributor.",
                   "type": "string",
                   "format": "email"
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "description": "TODO",
+                  "description": "The unique identifier for the person.",
                   "type": "array",
                   "items": {
                     "title": "PropertyValue",
@@ -4783,7 +4783,7 @@
                     "properties": {
                       "@id": {
                         "title": "@Id",
-                        "description": "TODO",
+                        "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4794,7 +4794,7 @@
                       },
                       "@type": {
                         "title": "@Type",
-                        "description": "TODO",
+                        "description": "Specifies that the type of the structured data object is a PropertyValue.",
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
@@ -4805,12 +4805,12 @@
                       },
                       "name": {
                         "title": "Name",
-                        "description": "TODO",
+                        "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                         "type": "string"
                       },
                       "propertyID": {
                         "title": "Propertyid",
-                        "description": "TODO",
+                        "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4821,12 +4821,12 @@
                       },
                       "value": {
                         "title": "Value",
-                        "description": "TODO",
+                        "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                         "type": "string"
                       },
                       "url": {
                         "title": "Url",
-                        "description": "TODO",
+                        "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4854,7 +4854,7 @@
               "properties": {
                 "@type": {
                   "title": "@Type",
-                  "description": "TODO",
+                  "description": "Describe the organization(s) contributed to a creative work",
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
@@ -4865,12 +4865,12 @@
                 },
                 "name": {
                   "title": "Name",
-                  "description": "TODO",
+                  "description": "The organization name who contributed to this creative work.",
                   "type": "string"
                 },
                 "url": {
                   "title": "Url",
-                  "description": "TODO",
+                  "description": "Indicates the URL associated with the organizatino who contributed to this work.",
                   "minLength": 1,
                   "maxLength": 2083,
                   "type": "string",
@@ -4881,7 +4881,7 @@
                 },
                 "identifier": {
                   "title": "Identifier",
-                  "description": "TODO",
+                  "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
                     "title": "PropertyValue",
@@ -4889,7 +4889,7 @@
                     "properties": {
                       "@id": {
                         "title": "@Id",
-                        "description": "TODO",
+                        "description": "The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4900,7 +4900,7 @@
                       },
                       "@type": {
                         "title": "@Type",
-                        "description": "TODO",
+                        "description": "Specifies that the type of the structured data object is a PropertyValue.",
                         "default": "PropertyValue",
                         "const": "PropertyValue",
                         "type": "string",
@@ -4911,12 +4911,12 @@
                       },
                       "name": {
                         "title": "Name",
-                        "description": "TODO",
+                        "description": "The name of the property that is related to a specific creative work. For example, DOI of a person who created the creatiev work or the varibale name that is measured for a research work.",
                         "type": "string"
                       },
                       "propertyID": {
                         "title": "Propertyid",
-                        "description": "TODO",
+                        "description": "Specifies the property ID. For example, this can be the ORCID registry identifier.",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4927,12 +4927,12 @@
                       },
                       "value": {
                         "title": "Value",
-                        "description": "TODO",
+                        "description": "Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001.",
                         "type": "string"
                       },
                       "url": {
                         "title": "Url",
-                        "description": "TODO",
+                        "description": "Indicates the URL associated with the property value. For example, the ORCID profile URL",
                         "minLength": 1,
                         "maxLength": 2083,
                         "type": "string",
@@ -4951,7 +4951,7 @@
                 },
                 "address": {
                   "title": "Address",
-                  "description": "TODO",
+                  "description": "The mailing address for the organization.",
                   "type": "string"
                 }
               },
