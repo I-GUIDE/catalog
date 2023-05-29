@@ -58,7 +58,7 @@ export default class User extends Model {
     const params = {
       response_type: "token",
       client_id: "local_iguide_api",
-      redirect_uri: "https://localhost/auth-redirect",
+      redirect_uri: "https://iguide.cuahsi.io/auth-redirect",
       window_close: "True",
     };
     const loginUrl = `https://auth.cuahsi.io/realms/HydroShare/protocol/openid-connect/auth`;
@@ -73,7 +73,7 @@ export default class User extends Model {
       this.isLoginListenerSet = true; // Prevents registering the listener more than once
       console.info(`User: listening to login window...`);
       window.addEventListener("message", async (event: MessageEvent) => {
-        if (event.type !== "message" || event.origin !== "https://localhost") {
+        if (event.type !== "message" || event.origin !== "https://iguide.cuahsi.io") {
           Notifications.toast({
             message: "Failed to Log In",
             type: "error",
