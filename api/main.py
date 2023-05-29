@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from motor.motor_asyncio import AsyncIOMotorClient
 
@@ -39,6 +40,11 @@ async def startup_db_client():
 @app.on_event("shutdown")
 async def shutdown_db_client():
     app.mongodb_client.close()
+
+
+@app.get("/")
+async def health_check():
+    return JSONResponse(status_code=200, content={"status": "healthy"})
 
 
 app.include_router(catalog_router, tags=["Dataset"], prefix="/api/catalog")
