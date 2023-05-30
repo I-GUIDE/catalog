@@ -2,15 +2,19 @@
   <v-container class="cd-contribute">
     <div class="display-1">Contribute</div>
     <v-divider class="my-4"></v-divider>
-    <div class="text-body-1 text-emphasis-medium mb-4">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </div>
+    <v-alert
+      class="mb-8"
+      border="left"
+      colored-border
+      type="info"
+      elevation="2"
+    >
+      <div><b>Instructions</b></div>
+      <p class="text-body-2">
+        Fill in the required fields (marked with * and highlighted in red).
+        Press the "Save" button to upload your submission.
+      </p>
+    </v-alert>
 
     <cz-form
       :schema="schema"

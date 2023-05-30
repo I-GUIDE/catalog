@@ -22,6 +22,9 @@ export const routes: RouteConfig[] = [
       content: CdSearchResults,
       footer: CdFooter,
     },
+    meta: {
+      title: "Search",
+    },
   },
   {
     name: "contribute",
@@ -34,12 +37,16 @@ export const routes: RouteConfig[] = [
       hasLoggedInGuard: true,
       hasAccessTokenGuard: true,
       hasUnsavedChangesGuard: true,
+      title: "Contribute",
     },
   },
   {
     name: "dataset",
     path: "/dataset/:id",
     components: { content: CdDataset, footer: CdFooter },
+    meta: {
+      title: "Dataset",
+    },
   },
   {
     name: "auth-redirect",
