@@ -13,13 +13,25 @@ jobs:
     - name: code checkout
       uses: actions/checkout@v2
 
-    - name: Install gcloud cli
+    - name: Install the gcloud CLI
       uses: google-github-actions/setup-gcloud@v0
       with:
         project_id: ${{ secrets.GOOGLE_PROJECT }}
         service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         install_components: 'gke-gcloud-auth-plugin'
         export_default_credentials: true
+
+    - name: Build and Push Docker Images
+      env:
+        GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+      run: |
+        gcloud auth configure-docker us-central1-docker.pkg.dev
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:latest -f docker/Dockerfile .
+        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:latest
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest -f docker/Dockerfile-frontend .
+        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:latest -f docker/Dockerfile-triggers .
+        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:latest
 
     - name: Deploy to GKE
       env:
