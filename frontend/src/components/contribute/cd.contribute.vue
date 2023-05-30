@@ -15,10 +15,10 @@
     <cz-form
       :schema="schema"
       :uischema="uiSchema"
-      :schemaDefaults="schemaDefaults"
-      :isReadOnly="isReadonly"
+      :schemaDefaults="undefined"
       :errors.sync="errors"
-      :data="data"
+      :isReadOnly="isReadonly"
+      :data.sync="data"
       @update:data="onDataChange"
       ref="form"
     />
