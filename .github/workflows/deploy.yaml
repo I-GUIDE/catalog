@@ -13,7 +13,7 @@ jobs:
     - name: code checkout
       uses: actions/checkout@v2
 
-    - name: Install the gcloud CLI
+    - name: Install the gcloud cli
       uses: google-github-actions/setup-gcloud@v0
       with:
         project_id: ${{ secrets.GOOGLE_PROJECT }}
@@ -21,7 +21,43 @@ jobs:
         install_components: 'gke-gcloud-auth-plugin'
         export_default_credentials: true
 
-    - name: Build and Push Docker Images
+    - name: Compile the root env file
+      env:
+        KEYCLOAK_ISSUER: ${{ secrets.KEYCLOAK_ISSUER }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+        DB_PROTOCOL: ${{ secrets.DB_PROTOCOL }}
+        TESTING: ${{ secrets.TESTING }}
+      run: |
+        variables=("KEYCLOAK_ISSUER" "DB_USERNAME" "DB_PASSWORD" "DB_HOST" "DATABASE_NAME" "DB_PROTOCOL" "TESTING")
+
+        # Empty the .env file
+        > .env
+
+        # Loop through the variables and add them to the .env file
+        for var in "${variables[@]}"; do
+          echo "$var=${!var}" >> .env
+        done
+
+    - name: Compile the frontend env file
+      env:
+        VUE_APP_NAME: ${{ secrets.VUE_APP_NAME }}
+        VUE_APP_API_URL: ${{ secrets.VUE_APP_API_URL }}
+        VUE_APP_SUPPORT_EMAIL: ${{ secrets.VUE_APP_SUPPORT_EMAIL }}
+      run: |
+        variables=("VUE_APP_NAME" "VUE_APP_API_URL" "VUE_APP_SUPPORT_EMAIL")
+
+        # Empty the .env file
+        > frontend/.env
+
+        # Loop through the variables and add them to the .env file
+        for var in "${variables[@]}"; do
+          echo "$var=${!var}" >> frontend/.env
+        done
+
+    - name: Build and push docker images
       env:
         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
       run: |
