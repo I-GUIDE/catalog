@@ -144,37 +144,6 @@ export default class CdFeaturedDatasets extends Vue {
       this.isLoading = false;
     }
   }
-
-  // public getResultCreationDate(result) {
-  //   if (!result.dateCreated) {
-  //     return ''
-  //   }
-  //   return new Date(result.dateCreated).toLocaleDateString("en-us", {
-  //     year: "numeric",
-  //     month: "long",
-  //     day: "numeric",
-  //   });
-  // }
-
-  // public getResultPublicationDate(result) {
-  //   return new Date(result.datePublished).toLocaleDateString("en-us", {
-  //     year: "numeric",
-  //     month: "long",
-  //     day: "numeric",
-  //   });
-  // }
-
-  // public getResultKeywords(result) {
-  //   return result.keywords.join(", ");
-  // }
-
-  // public getResultFunding(result) {
-  //   if (result.funding) {
-  //     return result.funding.map((f) => f.name || f.funder.name).join(", ");
-  //   }
-
-  //   return "";
-  // }
 }
 </script>
 

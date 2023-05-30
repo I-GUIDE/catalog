@@ -11,12 +11,14 @@
       cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
       est laborum.
     </div>
+
     <cz-form
       :schema="schema"
       :uischema="uiSchema"
       :schemaDefaults="schemaDefaults"
       :isReadOnly="isReadonly"
       :errors.sync="errors"
+      :data="data"
       @update:data="onDataChange"
       ref="form"
     />
@@ -144,7 +146,7 @@ export default class CdContribute extends Vue {
   }
 
   protected onDataChange(data) {
-    this.data = data;
+    // this.data = data;
 
     // Pristine/dirty checks are currently not supported in jsonforms.
     // We use onChange event for now by ignoring the two times it is called when the form is rendered.

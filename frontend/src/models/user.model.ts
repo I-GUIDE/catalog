@@ -206,6 +206,7 @@ export default class User extends Model {
   }
 
   static async fetchDataset(id: string) {
+    console.log(id);
     const response: Response = await fetch(`${ENDPOINTS.dataset}/${id}`, {
       method: "GET",
       headers: {
@@ -214,7 +215,6 @@ export default class User extends Model {
       },
     });
 
-    console.log(response);
     if (response.ok) {
       const result = await response.json();
       return result;

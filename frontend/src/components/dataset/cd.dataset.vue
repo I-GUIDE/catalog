@@ -6,8 +6,15 @@
       v-if="!isLoading"
       :schema="schema"
       :uischema="uiSchema"
-      :isReadOnly="true"
+      :data="data"
+      :isViewMode="true"
     />
+
+    <!-- <v-card>
+      <v-card-text>
+        <pre>{{ JSON.stringify(data, null, 2) }}</pre>
+      </v-card-text>
+    </v-card> -->
   </v-container>
 </template>
 
@@ -31,7 +38,6 @@ export default class CdDataset extends Vue {
 
   protected async loadDataset() {
     const id = this.$route.params.id;
-    console.log(id);
     this.data = await User.fetchDataset(id);
     this.isLoading = false;
   }
