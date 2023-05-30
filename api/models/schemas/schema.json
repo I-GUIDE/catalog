@@ -140,6 +140,9 @@
       "description": "Person or organization that created the work.",
       "type": "array",
       "items": {
+        "options": {
+          "flat": true
+        },
         "anyOf": [
           {
             "title": "Person",
@@ -172,6 +175,9 @@
                 "description": "The unique identifier for the person.",
                 "type": "array",
                 "items": {
+                  "options": {
+                    "flat": true
+                  },
                   "anyOf": [
                     {
                       "type": "string",
@@ -291,6 +297,9 @@
                 "description": "The unique identifier for the organization.",
                 "type": "array",
                 "items": {
+                  "options": {
+                    "flat": true
+                  },
                   "anyOf": [
                     {
                       "type": "string",
@@ -402,6 +411,9 @@
       "minItems": 1,
       "type": "array",
       "items": {
+        "options": {
+          "flat": true
+        },
         "anyOf": [
           {
             "type": "string"
@@ -547,6 +559,9 @@
               "description": "The unique identifier for the organization.",
               "type": "array",
               "items": {
+                "options": {
+                  "flat": true
+                },
                 "anyOf": [
                   {
                     "type": "string",
@@ -670,6 +685,9 @@
                       "description": "The unique identifier for the organization.",
                       "type": "array",
                       "items": {
+                        "options": {
+                          "flat": true
+                        },
                         "anyOf": [
                           {
                             "type": "string",
@@ -796,6 +814,9 @@
               "description": "The unique identifier for the person.",
               "type": "array",
               "items": {
+                "options": {
+                  "flat": true
+                },
                 "anyOf": [
                   {
                     "type": "string",
@@ -941,6 +962,9 @@
               "description": "The unique identifier for the organization.",
               "type": "array",
               "items": {
+                "options": {
+                  "flat": true
+                },
                 "anyOf": [
                   {
                     "type": "string",
@@ -1064,6 +1088,9 @@
                       "description": "The unique identifier for the organization.",
                       "type": "array",
                       "items": {
+                        "options": {
+                          "flat": true
+                        },
                         "anyOf": [
                           {
                             "type": "string",
@@ -1190,6 +1217,9 @@
               "description": "The unique identifier for the person.",
               "type": "array",
               "items": {
+                "options": {
+                  "flat": true
+                },
                 "anyOf": [
                   {
                     "type": "string",
@@ -1511,6 +1541,9 @@
                     "description": "The unique identifier for the person.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -1630,6 +1663,9 @@
                     "description": "The unique identifier for the organization.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -2023,6 +2059,9 @@
                     "description": "The unique identifier for the person.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -2142,6 +2181,9 @@
                     "description": "The unique identifier for the organization.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -2384,6 +2426,9 @@
                     "description": "The unique identifier for the person.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -2503,6 +2548,9 @@
                     "description": "The unique identifier for the organization.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -2910,6 +2958,9 @@
                     "description": "The unique identifier for the person.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -3029,6 +3080,9 @@
                     "description": "The unique identifier for the organization.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -3240,6 +3294,9 @@
           "description": "The unique identifier for the person.",
           "type": "array",
           "items": {
+            "options": {
+              "flat": true
+            },
             "anyOf": [
               {
                 "type": "string",
@@ -3359,6 +3416,9 @@
           "description": "The unique identifier for the organization.",
           "type": "array",
           "items": {
+            "options": {
+              "flat": true
+            },
             "anyOf": [
               {
                 "type": "string",
@@ -3563,6 +3623,9 @@
           "description": "The unique identifier for the organization.",
           "type": "array",
           "items": {
+            "options": {
+              "flat": true
+            },
             "anyOf": [
               {
                 "type": "string",
@@ -3686,6 +3749,9 @@
                   "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -3950,6 +4016,9 @@
                   "description": "The unique identifier for the person.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -4069,6 +4138,9 @@
                   "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -4501,6 +4573,9 @@
                   "description": "The unique identifier for the person.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -4620,6 +4695,9 @@
                   "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -4857,6 +4935,9 @@
                   "description": "The unique identifier for the person.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -4976,6 +5057,9 @@
                   "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -5353,6 +5437,9 @@
                   "description": "The unique identifier for the person.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -5472,6 +5559,9 @@
                   "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
