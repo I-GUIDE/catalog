@@ -24,7 +24,10 @@ jobs:
     - name: Deploy to GKE
       env:
         USE_GKE_GCLOUD_AUTH_PLUGIN: True
+        GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
       run: |
         gcloud container clusters get-credentials iguide --region us-central1
         find ./kubernetes -type f | xargs -i sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" {}
         kubectl apply -f kubernetes/
+        # Refresh pods
+        kubectl delete pods --all
