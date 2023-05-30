@@ -54,6 +54,9 @@
       "description": "Any kind of identifier for the record.",
       "type": "array",
       "items": {
+        "options": {
+          "flat": true
+        },
         "anyOf": [
           {
             "type": "string",
@@ -1733,153 +1736,148 @@
     "spatialCoverage": {
       "title": "Spatialcoverage",
       "description": "The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. It is a subproperty of contentLocation intended primarily for more technical and detailed materials. For example with a Dataset, it indicates areas that the dataset describes: a dataset of New York weather would have spatialCoverage which was the place: the state of New York.",
-      "allOf": [
-        {
-          "title": "Place",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "title": "@Type",
-              "description": "TODO",
-              "default": "Place",
-              "const": "Place",
-              "type": "string",
-              "readOnly": true,
-              "options": {
-                "hidden": true
-              }
-            },
-            "name": {
-              "title": "Name",
-              "description": "TODO",
-              "type": "string"
-            },
-            "address": {
-              "title": "Address",
-              "description": "TODO",
-              "type": "string"
-            },
-            "geo": {
-              "title": "Geo",
-              "description": "TODO",
-              "anyOf": [
-                {
-                  "title": "Line",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "title": "@Type",
-                      "description": "TODO",
-                      "default": "GeoShape",
-                      "const": "GeoShape",
-                      "type": "string",
-                      "readOnly": true,
-                      "options": {
-                        "hidden": true
-                      }
-                    },
-                    "line": {
-                      "title": "Line",
-                      "description": "TODO",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "line"
-                  ]
-                },
-                {
-                  "title": "Polygon",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "title": "@Type",
-                      "description": "TODO",
-                      "default": "GeoShape",
-                      "const": "GeoShape",
-                      "type": "string",
-                      "readOnly": true,
-                      "options": {
-                        "hidden": true
-                      }
-                    },
-                    "polygon": {
-                      "title": "Polygon",
-                      "description": "TODO",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "polygon"
-                  ]
-                },
-                {
-                  "title": "GeoCoordinates",
-                  "type": "object",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "@Type",
+          "description": "TODO",
+          "default": "Place",
+          "const": "Place",
+          "type": "string",
+          "readOnly": true,
+          "options": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "Name",
+          "description": "TODO",
+          "type": "string"
+        },
+        "address": {
+          "title": "Address",
+          "description": "TODO",
+          "type": "string"
+        },
+        "geo": {
+          "title": "Geo",
+          "description": "TODO",
+          "anyOf": [
+            {
+              "title": "Line",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "@Type",
+                  "description": "TODO",
+                  "default": "GeoShape",
+                  "const": "GeoShape",
+                  "type": "string",
+                  "readOnly": true,
                   "options": {
-                    "detail": {
-                      "type": "VerticalLayout",
+                    "hidden": true
+                  }
+                },
+                "line": {
+                  "title": "Line",
+                  "description": "TODO",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "line"
+              ]
+            },
+            {
+              "title": "Polygon",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "@Type",
+                  "description": "TODO",
+                  "default": "GeoShape",
+                  "const": "GeoShape",
+                  "type": "string",
+                  "readOnly": true,
+                  "options": {
+                    "hidden": true
+                  }
+                },
+                "polygon": {
+                  "title": "Polygon",
+                  "description": "TODO",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "polygon"
+              ]
+            },
+            {
+              "title": "GeoCoordinates",
+              "type": "object",
+              "options": {
+                "detail": {
+                  "type": "VerticalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/@type"
+                    },
+                    {
+                      "type": "MapLayout",
+                      "options": {
+                        "map": {
+                          "type": "point",
+                          "north": "latitude",
+                          "east": "longitude"
+                        }
+                      },
                       "elements": [
                         {
                           "type": "Control",
-                          "scope": "#/properties/@type"
+                          "scope": "#/properties/latitude"
                         },
                         {
-                          "type": "MapLayout",
-                          "options": {
-                            "map": {
-                              "type": "point",
-                              "north": "latitude",
-                              "east": "longitude"
-                            }
-                          },
-                          "elements": [
-                            {
-                              "type": "Control",
-                              "scope": "#/properties/latitude"
-                            },
-                            {
-                              "type": "Control",
-                              "scope": "#/properties/longitude"
-                            }
-                          ]
+                          "type": "Control",
+                          "scope": "#/properties/longitude"
                         }
                       ]
                     }
-                  },
-                  "properties": {
-                    "@type": {
-                      "title": "@Type",
-                      "description": "TODO",
-                      "default": "GeoCoordinates",
-                      "const": "GeoCoordinates",
-                      "type": "string",
-                      "readOnly": true,
-                      "options": {
-                        "hidden": true
-                      }
-                    },
-                    "latitude": {
-                      "title": "Latitude",
-                      "description": "TODO",
-                      "type": "number"
-                    },
-                    "longitude": {
-                      "title": "Longitude",
-                      "description": "TODO",
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "latitude",
-                    "longitude"
                   ]
                 }
+              },
+              "properties": {
+                "@type": {
+                  "title": "@Type",
+                  "description": "TODO",
+                  "default": "GeoCoordinates",
+                  "const": "GeoCoordinates",
+                  "type": "string",
+                  "readOnly": true,
+                  "options": {
+                    "hidden": true
+                  }
+                },
+                "latitude": {
+                  "title": "Latitude",
+                  "description": "TODO",
+                  "type": "number"
+                },
+                "longitude": {
+                  "title": "Longitude",
+                  "description": "TODO",
+                  "type": "number"
+                }
+              },
+              "required": [
+                "latitude",
+                "longitude"
               ]
             }
-          }
+          ]
         }
-      ]
+      }
     },
     "hasPart": {
       "title": "Haspart",
@@ -2716,6 +2714,9 @@
       "description": "The variableMeasured property can indicate (repeated as necessary) the variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue.",
       "type": "array",
       "items": {
+        "options": {
+          "flat": true
+        },
         "anyOf": [
           {
             "type": "string"
