@@ -1,0 +1,300 @@
+{
+  "type": "VerticalLayout",
+  "elements": [
+    {
+      "type": "Group",
+      "label": "Basic Information",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/@context"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/@type"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/name"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/url"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/description",
+          "options": {
+            "multi": true
+          }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/keywords"
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/dateCreated",
+              "options": {
+                "flat": true
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/dateModified"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/datePublished"
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/version"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/inLanguage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/creator"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/identifier"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/provider"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/distribution",
+      "options": {
+        "elementLabelProp": [
+          "name"
+        ],
+        "detail": {
+          "type": "VerticalLayout",
+          "elements": [
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/name"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/contentUrl"
+                }
+              ]
+            },
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/encodingFormat"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/contentSize"
+                }
+              ]
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/comment",
+              "options": {
+                "multi": true
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/temporalCoverage"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/spatialCoverage",
+      "options": {
+        "detail": {
+          "type": "VerticalLayout",
+          "elements": [
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/name"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/address",
+                  "options": {
+                    "multi": true
+                  }
+                }
+              ]
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/geo"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Group",
+      "label": "Related Resources",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/includedInDataCatalog",
+          "options": {
+            "detail": {
+              "type": "VerticalLayout",
+              "elements": [
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/url"
+                    }
+                  ]
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/description",
+                  "options": {
+                    "multi": true
+                  }
+                },
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/creator"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/identifier"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/subjectOf",
+          "options": {
+            "elementLabelProp": [
+              "name"
+            ],
+            "detail": {
+              "type": "HorizontalLayout",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/name"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/url"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/encodingFormat"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/isPartOf"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/hasPart"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/associatedMedia"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/creativeWorkStatus"
+        }
+      ]
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/license"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/funding",
+      "options": {
+        "elementLabelProp": [
+          "name"
+        ],
+        "detail": {
+          "type": "VerticalLayout",
+          "elements": [
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/name"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/url"
+                }
+              ]
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/funder"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/publisher"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/variableMeasured"
+    }
+  ]
+}

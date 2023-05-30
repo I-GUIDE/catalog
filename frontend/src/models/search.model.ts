@@ -79,19 +79,32 @@ export default class Search extends Model {
   /** Transform raw result data from API into `IResult` shaped objects */
   private static _parseResult(rawResult: any): IResult {
     return {
-      creator: rawResult.creator?.["@list"]?.map((c) => c.name) || [],
+      creator: rawResult.creator.map((c) => c.name) || [],
       dateCreated: rawResult.dateCreated || "",
       datePublished: rawResult.datePublished || "",
       description: rawResult.description || "",
       funding: rawResult.funding?.map((f) => f.name || f.funder.name) || [],
       highlights: rawResult.highlights || [],
-      id: rawResult["@id"],
-      keywords: rawResult.keywords || [],
-      license: rawResult.license?.text || "",
+      id: rawResult["_id"],
+      keywords: Search._getKeywords(rawResult.keywords),
+      license: rawResult.license?.name || "",
       name: rawResult.name || "",
       score: rawResult.score || 0,
-      spatialCoverage: rawResult.spatialCoverage?.geojson || [],
+      spatialCoverage: rawResult.spatialCoverage?.geo || [],
       url: rawResult.url || "",
     };
+  }
+
+  private static _getKeywords(rawKeywords: any): string[] {
+    return (
+      rawKeywords.map((k) => {
+        if (typeof k === "string") {
+          return k;
+        }
+        if (typeof k === "object") {
+          return k.name;
+        }
+      }) || []
+    );
   }
 }

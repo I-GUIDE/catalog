@@ -63,31 +63,36 @@
                 <div class="mb-8">No results found.</div>
                 <v-icon x-large>mdi-book-remove-multiple</v-icon>
               </div>
+
               <div
-                v-for="result of results"
+                v-for="(result, index) of results"
                 class="mb-16 text-body-2"
                 :key="result.id"
               >
                 <a
+                  @click="goToDataset(result.id)"
                   class="result-title text-body-1 text-decoration-none"
-                  :href="result.url"
-                  target="_blank"
                   v-html="highlight(result, 'name')"
                 ></a>
-                <div class="my-1" v-html="highlightCreators(result)"></div>
-                <div class="my-1" v-if="result.dateCreated">
-                  {{ formatDate(result.dateCreated) }}
-                </div>
-                <div class="my-1" v-if="result.datePublished">
-                  Publication Date: {{ formatDate(result.datePublished) }}
-                </div>
+
                 <p
+                  ref="description"
                   class="mt-4 mb-1"
-                  :class="{ 'snip-3': !result.showMore }"
-                  v-html="highlight(result, 'description')"
+                  :class="{
+                    'snip-3': !result.showMore,
+                  }"
+                  v-html="
+                    `<span class='text--secondary text-body-2'>${formatDate(
+                      result.dateCreated
+                    )}</span>${result.dateCreated ? ' - ' : ''}${highlight(
+                      result,
+                      'description'
+                    )}`
+                  "
                 ></p>
 
                 <v-btn
+                  v-if="hasShowMoreButton(index)"
                   x-small
                   text
                   color="primary"
@@ -95,13 +100,19 @@
                   >Show {{ result.showMore ? "less" : "more" }}...</v-btn
                 >
 
+                <div class="my-1" v-if="result.datePublished">
+                  Publication Date: {{ formatDate(result.datePublished) }}
+                </div>
+                <div class="my-2" v-html="highlightCreators(result)"></div>
+
                 <div
                   class="d-flex gap-1 justify-space-between flex-wrap flex-lg-nowrap mt-2"
                 >
                   <div>
-                    <a class="mb-2 d-block" :href="result.url">{{
-                      result.url
-                    }}</a>
+                    <span class="d-flex align-center mb-2"
+                      ><a :href="result.url" target="_blank">{{ result.url }}</a
+                      ><v-icon class="ml-2" small>mdi-open-in-new</v-icon></span
+                    >
                     <div class="mb-2">
                       <strong>Keywords: </strong
                       ><span v-html="highlight(result, 'keywords')"></span>
@@ -155,7 +166,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Ref, Vue, Watch } from "vue-property-decorator";
 import { sameRouteNavigationErrorHandler } from "@/constants";
 import { Loader, LoaderOptions } from "google-maps";
 import { formatDate } from "@/util";
@@ -189,6 +200,7 @@ export default class CdSearchResults extends Vue {
   public sort: "name" | "dateCreated" | "relevance" = "relevance";
   // public view: 'list' | 'map' = 'list'
   public formatDate = formatDate;
+  protected descriptionRefs: any = [];
 
   public get publicationYear() {
     return SearchResults.$state.publicationYear;
@@ -236,6 +248,10 @@ export default class CdSearchResults extends Vue {
     return queryParams;
   }
 
+  protected displayRefs() {
+    this.descriptionRefs = this.$refs["description"];
+  }
+
   /** Route query parameters with short keys. These are parameters needed to replicate a search. */
   public get routeParams() {
     return {
@@ -244,11 +260,32 @@ export default class CdSearchResults extends Vue {
     };
   }
 
+  protected hasShowMoreButton(index) {
+    const lines = this._countLines(this.descriptionRefs[index]);
+    return lines >= 3;
+  }
+
+  private _countLines(el) {
+    if (el && document.defaultView) {
+      const divHeight = el.offsetHeight;
+      const lineHeight = +document.defaultView
+        .getComputedStyle(el, null)
+        .lineHeight.replace("px", "");
+      return divHeight / lineHeight;
+    }
+
+    return 0;
+  }
+
   created() {
     this._loadRouteParams();
     if (this.$route.query["q"]) {
       this.onSearch();
     }
+  }
+
+  protected goToDataset(id: string) {
+    this.$router.push({ path: `dataset/${id}` });
   }
 
   public onIntersect(entries, observer) {
@@ -263,7 +300,6 @@ export default class CdSearchResults extends Vue {
       this.fetchMore();
     }
   }
-
   @Watch("sort")
   public onSortChange() {
     this.onSearch();
@@ -299,6 +335,9 @@ export default class CdSearchResults extends Vue {
       });
     }
     this.isSearching = false;
+    this.$nextTick(() => {
+      this.displayRefs();
+    });
   }
 
   /** Get the next page of results. */
@@ -378,7 +417,9 @@ export default class CdSearchResults extends Vue {
   }
 
   public hasSpatialFeatures(result: IResult): boolean {
-    return result.spatialCoverage?.some((feature) => feature.geometry);
+    // TODO: agree on spatial coverage schema and adjust mapping
+    return false;
+    // return result.spatialCoverage?.some((feature) => feature.geometry);
   }
 }
 </script>

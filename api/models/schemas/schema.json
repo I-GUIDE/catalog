@@ -6,6 +6,9 @@
       "title": "@Context",
       "description": "TODO",
       "default": "https://schema.org",
+      "options": {
+        "hidden": true
+      },
       "minLength": 1,
       "maxLength": 2083,
       "type": "string",
@@ -20,8 +23,8 @@
       "default": "Dataset",
       "const": "Dataset",
       "type": "string",
-      "readonly": true,
-      "option": {
+      "readOnly": true,
+      "options": {
         "hidden": true
       }
     },
@@ -51,6 +54,9 @@
       "description": "Any kind of identifier for the record.",
       "type": "array",
       "items": {
+        "options": {
+          "flat": true
+        },
         "anyOf": [
           {
             "type": "string",
@@ -134,6 +140,9 @@
       "description": "Person or organization that created the work.",
       "type": "array",
       "items": {
+        "options": {
+          "flat": true
+        },
         "anyOf": [
           {
             "title": "Person",
@@ -166,6 +175,9 @@
                 "description": "The unique identifier for the person.",
                 "type": "array",
                 "items": {
+                  "options": {
+                    "flat": true
+                  },
                   "anyOf": [
                     {
                       "type": "string",
@@ -285,6 +297,9 @@
                 "description": "The unique identifier for the organization.",
                 "type": "array",
                 "items": {
+                  "options": {
+                    "flat": true
+                  },
                   "anyOf": [
                     {
                       "type": "string",
@@ -396,6 +411,9 @@
       "minItems": 1,
       "type": "array",
       "items": {
+        "options": {
+          "flat": true
+        },
         "anyOf": [
           {
             "type": "string"
@@ -466,8 +484,8 @@
               "default": "CreativeWork",
               "const": "CreativeWork",
               "type": "string",
-              "readonly": true,
-              "option": {
+              "readOnly": true,
+              "options": {
                 "hidden": true
               }
             },
@@ -515,8 +533,8 @@
               "default": "Organization",
               "const": "Organization",
               "type": "string",
-              "readonly": true,
-              "option": {
+              "readOnly": true,
+              "options": {
                 "hidden": true
               }
             },
@@ -541,6 +559,9 @@
               "description": "The unique identifier for the organization.",
               "type": "array",
               "items": {
+                "options": {
+                  "flat": true
+                },
                 "anyOf": [
                   {
                     "type": "string",
@@ -638,8 +659,8 @@
                       "default": "Organization",
                       "const": "Organization",
                       "type": "string",
-                      "readonly": true,
-                      "option": {
+                      "readOnly": true,
+                      "options": {
                         "hidden": true
                       }
                     },
@@ -664,6 +685,9 @@
                       "description": "The unique identifier for the organization.",
                       "type": "array",
                       "items": {
+                        "options": {
+                          "flat": true
+                        },
                         "anyOf": [
                           {
                             "type": "string",
@@ -769,8 +793,8 @@
               "default": "Person",
               "const": "Person",
               "type": "string",
-              "readonly": true,
-              "option": {
+              "readOnly": true,
+              "options": {
                 "hidden": true
               }
             },
@@ -790,6 +814,9 @@
               "description": "The unique identifier for the person.",
               "type": "array",
               "items": {
+                "options": {
+                  "flat": true
+                },
                 "anyOf": [
                   {
                     "type": "string",
@@ -909,8 +936,8 @@
               "default": "Organization",
               "const": "Organization",
               "type": "string",
-              "readonly": true,
-              "option": {
+              "readOnly": true,
+              "options": {
                 "hidden": true
               }
             },
@@ -935,6 +962,9 @@
               "description": "The unique identifier for the organization.",
               "type": "array",
               "items": {
+                "options": {
+                  "flat": true
+                },
                 "anyOf": [
                   {
                     "type": "string",
@@ -1032,8 +1062,8 @@
                       "default": "Organization",
                       "const": "Organization",
                       "type": "string",
-                      "readonly": true,
-                      "option": {
+                      "readOnly": true,
+                      "options": {
                         "hidden": true
                       }
                     },
@@ -1058,6 +1088,9 @@
                       "description": "The unique identifier for the organization.",
                       "type": "array",
                       "items": {
+                        "options": {
+                          "flat": true
+                        },
                         "anyOf": [
                           {
                             "type": "string",
@@ -1163,8 +1196,8 @@
               "default": "Person",
               "const": "Person",
               "type": "string",
-              "readonly": true,
-              "option": {
+              "readOnly": true,
+              "options": {
                 "hidden": true
               }
             },
@@ -1184,6 +1217,9 @@
               "description": "The unique identifier for the person.",
               "type": "array",
               "items": {
+                "options": {
+                  "flat": true
+                },
                 "anyOf": [
                   {
                     "type": "string",
@@ -1317,8 +1353,8 @@
             "default": "CreativeWork",
             "const": "CreativeWork",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -1395,8 +1431,8 @@
               "default": "DefinedTerm",
               "const": "DefinedTerm",
               "type": "string",
-              "readonly": true,
-              "option": {
+              "readOnly": true,
+              "options": {
                 "hidden": true
               }
             },
@@ -1449,8 +1485,8 @@
             "default": "MonetaryGrant",
             "const": "MonetaryGrant",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -1484,8 +1520,8 @@
                     "default": "Person",
                     "const": "Person",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -1505,6 +1541,9 @@
                     "description": "The unique identifier for the person.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -1598,8 +1637,8 @@
                     "default": "Organization",
                     "const": "Organization",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -1624,6 +1663,9 @@
                     "description": "The unique identifier for the organization.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -1730,122 +1772,148 @@
     "spatialCoverage": {
       "title": "Spatialcoverage",
       "description": "The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. It is a subproperty of contentLocation intended primarily for more technical and detailed materials. For example with a Dataset, it indicates areas that the dataset describes: a dataset of New York weather would have spatialCoverage which was the place: the state of New York.",
-      "allOf": [
-        {
-          "title": "Place",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "title": "@Type",
-              "description": "TODO",
-              "default": "Place",
-              "const": "Place",
-              "type": "string",
-              "readonly": true,
-              "option": {
-                "hidden": true
-              }
-            },
-            "name": {
-              "title": "Name",
-              "description": "TODO",
-              "type": "string"
-            },
-            "address": {
-              "title": "Address",
-              "description": "TODO",
-              "type": "string"
-            },
-            "geo": {
-              "title": "Geo",
-              "description": "TODO",
-              "anyOf": [
-                {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "@Type",
+          "description": "TODO",
+          "default": "Place",
+          "const": "Place",
+          "type": "string",
+          "readOnly": true,
+          "options": {
+            "hidden": true
+          }
+        },
+        "name": {
+          "title": "Name",
+          "description": "TODO",
+          "type": "string"
+        },
+        "address": {
+          "title": "Address",
+          "description": "TODO",
+          "type": "string"
+        },
+        "geo": {
+          "title": "Geo",
+          "description": "TODO",
+          "anyOf": [
+            {
+              "title": "Line",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "@Type",
+                  "description": "TODO",
+                  "default": "GeoShape",
+                  "const": "GeoShape",
+                  "type": "string",
+                  "readOnly": true,
+                  "options": {
+                    "hidden": true
+                  }
+                },
+                "line": {
                   "title": "Line",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "title": "@Type",
-                      "description": "TODO",
-                      "default": "GeoShape",
-                      "const": "GeoShape",
-                      "type": "string",
-                      "readonly": true,
-                      "option": {
-                        "hidden": true
-                      }
-                    },
-                    "line": {
-                      "title": "Line",
-                      "description": "TODO",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "line"
-                  ]
+                  "description": "TODO",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "line"
+              ]
+            },
+            {
+              "title": "Polygon",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "@Type",
+                  "description": "TODO",
+                  "default": "GeoShape",
+                  "const": "GeoShape",
+                  "type": "string",
+                  "readOnly": true,
+                  "options": {
+                    "hidden": true
+                  }
                 },
-                {
+                "polygon": {
                   "title": "Polygon",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "title": "@Type",
-                      "description": "TODO",
-                      "default": "GeoShape",
-                      "const": "GeoShape",
-                      "type": "string",
-                      "readonly": true,
-                      "option": {
-                        "hidden": true
-                      }
+                  "description": "TODO",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "polygon"
+              ]
+            },
+            {
+              "title": "GeoCoordinates",
+              "type": "object",
+              "options": {
+                "detail": {
+                  "type": "VerticalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/@type"
                     },
-                    "polygon": {
-                      "title": "Polygon",
-                      "description": "TODO",
-                      "type": "string"
+                    {
+                      "type": "MapLayout",
+                      "options": {
+                        "map": {
+                          "type": "point",
+                          "north": "latitude",
+                          "east": "longitude"
+                        }
+                      },
+                      "elements": [
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/latitude"
+                        },
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/longitude"
+                        }
+                      ]
                     }
-                  },
-                  "required": [
-                    "polygon"
-                  ]
-                },
-                {
-                  "title": "GeoCoordinates",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "title": "@Type",
-                      "description": "TODO",
-                      "default": "GeoCoordinates",
-                      "const": "GeoCoordinates",
-                      "type": "string",
-                      "readonly": true,
-                      "option": {
-                        "hidden": true
-                      }
-                    },
-                    "latitude": {
-                      "title": "Latitude",
-                      "description": "TODO",
-                      "type": "number"
-                    },
-                    "longitude": {
-                      "title": "Longitude",
-                      "description": "TODO",
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "latitude",
-                    "longitude"
                   ]
                 }
+              },
+              "properties": {
+                "@type": {
+                  "title": "@Type",
+                  "description": "TODO",
+                  "default": "GeoCoordinates",
+                  "const": "GeoCoordinates",
+                  "type": "string",
+                  "readOnly": true,
+                  "options": {
+                    "hidden": true
+                  }
+                },
+                "latitude": {
+                  "title": "Latitude",
+                  "description": "TODO",
+                  "type": "number"
+                },
+                "longitude": {
+                  "title": "Longitude",
+                  "description": "TODO",
+                  "type": "number"
+                }
+              },
+              "required": [
+                "latitude",
+                "longitude"
               ]
             }
-          }
+          ]
         }
-      ]
+      }
     },
     "hasPart": {
       "title": "Haspart",
@@ -1861,8 +1929,8 @@
             "default": "CreativeWork",
             "const": "CreativeWork",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -1910,8 +1978,8 @@
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -1970,8 +2038,8 @@
                     "default": "Person",
                     "const": "Person",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -1991,6 +2059,9 @@
                     "description": "The unique identifier for the person.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -2084,8 +2155,8 @@
                     "default": "Organization",
                     "const": "Organization",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -2110,6 +2181,9 @@
                     "description": "The unique identifier for the organization.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -2222,8 +2296,8 @@
             "default": "CreativeWork",
             "const": "CreativeWork",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -2271,8 +2345,8 @@
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -2331,8 +2405,8 @@
                     "default": "Person",
                     "const": "Person",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -2352,6 +2426,9 @@
                     "description": "The unique identifier for the person.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -2445,8 +2522,8 @@
                     "default": "Organization",
                     "const": "Organization",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -2471,6 +2548,9 @@
                     "description": "The unique identifier for the organization.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -2632,8 +2712,8 @@
             "default": "DataDownload",
             "const": "DataDownload",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -2682,6 +2762,9 @@
       "description": "The variableMeasured property can indicate (repeated as necessary) the variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue.",
       "type": "array",
       "items": {
+        "options": {
+          "flat": true
+        },
         "anyOf": [
           {
             "type": "string"
@@ -2734,8 +2817,8 @@
             "default": "DataCatalog",
             "const": "DataCatalog",
             "type": "string",
-            "readonly": true,
-            "option": {
+            "readOnly": true,
+            "options": {
               "hidden": true
             }
           },
@@ -2794,8 +2877,8 @@
                     "default": "PropertyValue",
                     "const": "PropertyValue",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -2854,8 +2937,8 @@
                     "default": "Person",
                     "const": "Person",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -2875,6 +2958,9 @@
                     "description": "The unique identifier for the person.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -2968,8 +3054,8 @@
                     "default": "Organization",
                     "const": "Organization",
                     "type": "string",
-                    "readonly": true,
-                    "option": {
+                    "readOnly": true,
+                    "options": {
                       "hidden": true
                     }
                   },
@@ -2994,6 +3080,9 @@
                     "description": "The unique identifier for the organization.",
                     "type": "array",
                     "items": {
+                      "options": {
+                        "flat": true
+                      },
                       "anyOf": [
                         {
                           "type": "string",
@@ -3130,8 +3219,8 @@
           "default": "PropertyValue",
           "const": "PropertyValue",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3184,8 +3273,8 @@
           "default": "Person",
           "const": "Person",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3205,6 +3294,9 @@
           "description": "The unique identifier for the person.",
           "type": "array",
           "items": {
+            "options": {
+              "flat": true
+            },
             "anyOf": [
               {
                 "type": "string",
@@ -3298,8 +3390,8 @@
           "default": "Organization",
           "const": "Organization",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3324,6 +3416,9 @@
           "description": "The unique identifier for the organization.",
           "type": "array",
           "items": {
+            "options": {
+              "flat": true
+            },
             "anyOf": [
               {
                 "type": "string",
@@ -3422,8 +3517,8 @@
           "default": "DefinedTerm",
           "const": "DefinedTerm",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3465,8 +3560,8 @@
           "default": "CreativeWork",
           "const": "CreativeWork",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3502,8 +3597,8 @@
           "default": "Organization",
           "const": "Organization",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3528,6 +3623,9 @@
           "description": "The unique identifier for the organization.",
           "type": "array",
           "items": {
+            "options": {
+              "flat": true
+            },
             "anyOf": [
               {
                 "type": "string",
@@ -3625,8 +3723,8 @@
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -3651,6 +3749,9 @@
                   "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -3776,8 +3877,8 @@
           "default": "CreativeWork",
           "const": "CreativeWork",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3828,8 +3929,8 @@
           "default": "DefinedTerm",
           "const": "DefinedTerm",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3859,8 +3960,8 @@
           "default": "MonetaryGrant",
           "const": "MonetaryGrant",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -3894,8 +3995,8 @@
                   "default": "Person",
                   "const": "Person",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -3915,6 +4016,9 @@
                   "description": "The unique identifier for the person.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -4008,8 +4112,8 @@
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4034,6 +4138,9 @@
                   "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -4141,8 +4248,8 @@
           "default": "GeoShape",
           "const": "GeoShape",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -4166,8 +4273,8 @@
           "default": "GeoShape",
           "const": "GeoShape",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -4191,8 +4298,8 @@
           "default": "GeoCoordinates",
           "const": "GeoCoordinates",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -4222,8 +4329,8 @@
           "default": "Place",
           "const": "Place",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -4251,8 +4358,8 @@
                   "default": "GeoShape",
                   "const": "GeoShape",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4276,8 +4383,8 @@
                   "default": "GeoShape",
                   "const": "GeoShape",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4301,8 +4408,8 @@
                   "default": "GeoCoordinates",
                   "const": "GeoCoordinates",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4336,8 +4443,8 @@
           "default": "CreativeWork",
           "const": "CreativeWork",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -4385,8 +4492,8 @@
                   "default": "PropertyValue",
                   "const": "PropertyValue",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4445,8 +4552,8 @@
                   "default": "Person",
                   "const": "Person",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4466,6 +4573,9 @@
                   "description": "The unique identifier for the person.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -4559,8 +4669,8 @@
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4585,6 +4695,9 @@
                   "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -4692,8 +4805,8 @@
           "default": "CreativeWork",
           "const": "CreativeWork",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -4741,8 +4854,8 @@
                   "default": "PropertyValue",
                   "const": "PropertyValue",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4801,8 +4914,8 @@
                   "default": "Person",
                   "const": "Person",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4822,6 +4935,9 @@
                   "description": "The unique identifier for the person.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -4915,8 +5031,8 @@
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -4941,6 +5057,9 @@
                   "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -5092,8 +5211,8 @@
           "default": "DataDownload",
           "const": "DataDownload",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -5146,8 +5265,8 @@
           "default": "PropertyValue",
           "const": "PropertyValue",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -5177,8 +5296,8 @@
           "default": "DataCatalog",
           "const": "DataCatalog",
           "type": "string",
-          "readonly": true,
-          "option": {
+          "readOnly": true,
+          "options": {
             "hidden": true
           }
         },
@@ -5237,8 +5356,8 @@
                   "default": "PropertyValue",
                   "const": "PropertyValue",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -5297,8 +5416,8 @@
                   "default": "Person",
                   "const": "Person",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -5318,6 +5437,9 @@
                   "description": "The unique identifier for the person.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
@@ -5411,8 +5533,8 @@
                   "default": "Organization",
                   "const": "Organization",
                   "type": "string",
-                  "readonly": true,
-                  "option": {
+                  "readOnly": true,
+                  "options": {
                     "hidden": true
                   }
                 },
@@ -5437,6 +5559,9 @@
                   "description": "The unique identifier for the organization.",
                   "type": "array",
                   "items": {
+                    "options": {
+                      "flat": true
+                    },
                     "anyOf": [
                       {
                         "type": "string",
