@@ -277,7 +277,7 @@ class CoreMetadata(SchemaBaseModel):
     creator: List[Person] = Field(description="Person or organization that created the work.")
     dateCreated: Union[date, datetime] = Field(description="The date on which the work was created.")
     keywords: List[KeywordTerm] = Field(
-        min_items=1, description="Keywords or tags used to describe the creative work, delimited by commas."
+        min_items=1, description="Keywords or tags used to describe the dataset, delimited by commas."
     )
     license: Union[License, HttpUrl] = Field(
         description="A license document that applies to the content, typically indicated by a URL."
