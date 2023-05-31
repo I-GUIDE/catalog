@@ -135,6 +135,33 @@
             <span>{{ path.label }}</span>
           </v-list-item>
         </v-list-item-group>
+        <v-divider class="my-4"></v-divider>
+
+        <v-list-item-group class="text-body-1">
+          <v-list-item
+            id="drawer-nav-login"
+            v-if="!isLoggedIn"
+            @click="
+              openLogInDialog();
+              showMobileNavigation = false;
+            "
+          >
+            <v-icon class="mr-2">mdi-login</v-icon>
+            <span>Log In</span>
+          </v-list-item>
+
+          <template v-else>
+            <v-list-item :to="{ path: '/profile' }">
+              <v-icon class="mr-2">mdi-account-circle</v-icon>
+              <span>Account & Settings</span>
+            </v-list-item>
+
+            <v-list-item id="drawer-nav-logout" @click="logOut()">
+              <v-icon class="mr-2">mdi-logout</v-icon>
+              <span>Log Out</span>
+            </v-list-item>
+          </template>
+        </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
 
@@ -219,7 +246,7 @@ export default class App extends Vue {
   async created() {
     document.title = APP_NAME;
 
-    User.fetchSchema();
+    User.fetchSchemas();
     // Guards are setup after checking authorization and loading access tokens
     // because they depend on user logged in status
     setupRouteGuards();

@@ -147,7 +147,7 @@ class SearchQuery(BaseModel):
             stages.append({'$sort': {self.sortBy: 1}})
         stages.append({'$skip': (self.pageNumber - 1) * self.pageSize})
         stages.append({'$limit': self.pageSize})
-        stages.append({'$unset': ['_id', '_class_id']})
+        #stages.append({'$unset': ['_id', '_class_id']})
         stages.append(
             {'$set': {'score': {'$meta': 'searchScore'}, 'highlights': {'$meta': 'searchHighlights'}}},
         )
@@ -158,7 +158,9 @@ class SearchQuery(BaseModel):
 async def search(request: Request, search_query: SearchQuery = Depends()):
     stages = search_query.stages
     result = await request.app.mongodb["discovery"].aggregate(stages).to_list(search_query.pageSize)
-    return result
+    import json
+    json_str = json.dumps(result, default=str)
+    return json.loads(json_str)
 
 
 @router.get("/typeahead")

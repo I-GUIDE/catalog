@@ -2,7 +2,7 @@
   <v-parallax
     dark
     class="cd-home-search"
-    alt="Snowy mountains over landscape with pine trees and a river"
+    alt="Road with surrounding trees"
     :src="require('@/assets/img/bg2.jpg')"
     height="450"
   >
@@ -10,7 +10,8 @@
       class="d-flex flex-column justify-center align-center full-height pa-12"
       :style="{
         'background-image':
-          'linear-gradient(rgb(60 113 162 / 88%), rgb(40 74 64 / 7%))',
+          'linear-gradient(rgb(48 41 21 / 45%), rgba(40, 74, 64, 0.07))',
+        'backdrop-filter': 'blur(1px)',
       }"
     >
       <div class="text-h3 my-4 text-center has-text-shadow">

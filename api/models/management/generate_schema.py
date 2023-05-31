@@ -6,7 +6,7 @@ import typer
 from api.models.schema import DatasetSchema
 
 
-def main(output_name: str = "api/models/schemas/dataset.json"):
+def main(output_name: str = "api/models/schemas/schema.json"):
     schema = DatasetSchema.schema()
     json_schema = DatasetSchema.schema_json(indent=2)
     # Have to run it a few times for the definitions to get updated before inserted into another model
