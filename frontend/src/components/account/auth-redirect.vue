@@ -25,8 +25,6 @@ export default class AuthRedirect extends Vue {
       return acc;
     }, dict);
 
-    console.log(window.opener);
-
     // window.opener references our original window from where the login popup was opened
     window.opener.postMessage(
       { accessToken: dict.access_token || "" },

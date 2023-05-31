@@ -1,13 +1,28 @@
 <template>
   <v-container class="cd-contribute">
-    <div class="text-h4">Contribute</div>
-    <v-divider class="mt-4 mb-12"></v-divider>
+    <div class="display-1">Contribute</div>
+    <v-divider class="my-4"></v-divider>
+    <v-alert
+      class="mb-8"
+      border="left"
+      colored-border
+      type="info"
+      elevation="2"
+    >
+      <div><b>Instructions</b></div>
+      <p class="text-body-2">
+        Fill in the required fields (marked with * and highlighted in red).
+        Press the "Save" button to upload your submission.
+      </p>
+    </v-alert>
+
     <cz-form
       :schema="schema"
-      :uischema="uischema"
-      :schemaDefaults="schemaDefaults"
-      :isReadOnly="isReadonly"
+      :uischema="uiSchema"
+      :schemaDefaults="undefined"
       :errors.sync="errors"
+      :isReadOnly="isReadonly"
+      :data.sync="data"
       @update:data="onDataChange"
       ref="form"
     />
@@ -69,32 +84,27 @@ import { Notifications, CzForm } from "@cznethub/cznet-vue-core";
 
 import User from "@/models/user.model";
 
-// const schema = require("@/schemas/schema.json");
-const uischema = require("@/schemas/uischema.json");
-const schemaDefaults = require("@/schemas/uischema.json");
-
 @Component({
   name: "cd-contribute",
   components: { CzForm },
 })
 export default class CdContribute extends Vue {
-  // protected schema = null;
-  protected uischema = null;
-  protected schemaDefaults = null;
   protected isReadonly = false;
   protected errors = [];
   protected data = {};
   protected timesChanged = 0;
   protected isSaving = false;
 
-  // beforeCreate() {
-  //   this.schema = schema;
-  //   this.uischema = uischema;
-  //   this.schemaDefaults = schemaDefaults;
-  // }
-
   protected get schema() {
     return User.$state.schema;
+  }
+
+  protected get uiSchema() {
+    return User.$state.uiSchema;
+  }
+
+  protected get schemaDefaults() {
+    return User.$state.schemaDefaults;
   }
 
   protected get hasUnsavedChanges(): boolean {
@@ -140,7 +150,7 @@ export default class CdContribute extends Vue {
   }
 
   protected onDataChange(data) {
-    this.data = data;
+    // this.data = data;
 
     // Pristine/dirty checks are currently not supported in jsonforms.
     // We use onChange event for now by ignoring the two times it is called when the form is rendered.
