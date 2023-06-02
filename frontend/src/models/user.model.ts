@@ -3,7 +3,7 @@ import { Model } from "@vuex-orm/core";
 import { Subject } from "rxjs";
 import { RawLocation } from "vue-router";
 import { getQueryString } from "@/util";
-import { ENDPOINTS } from "@/constants";
+import { APP_URL, ENDPOINTS } from "@/constants";
 import { Notifications } from "@cznethub/cznet-vue-core";
 
 export interface ICzCurrentUserState {
@@ -62,7 +62,7 @@ export default class User extends Model {
     const params = {
       response_type: "token",
       client_id: "local_iguide_api",
-      redirect_uri: "https://localhost/auth-redirect",
+      redirect_uri: `${APP_URL}/auth-redirect`,
       window_close: "True",
     };
     const loginUrl = `https://auth.cuahsi.io/realms/HydroShare/protocol/openid-connect/auth`;
@@ -77,7 +77,7 @@ export default class User extends Model {
       this.isLoginListenerSet = true; // Prevents registering the listener more than once
       console.info(`User: listening to login window...`);
       window.addEventListener("message", async (event: MessageEvent) => {
-        if (event.type !== "message" || event.origin !== "https://localhost") {
+        if (event.type !== "message" || event.origin !== APP_URL) {
           Notifications.toast({
             message: "Failed to Log In",
             type: "error",
@@ -174,6 +174,8 @@ export default class User extends Model {
     let schemaDefaults = null;
 
     if (results[0].ok) {
+      try {
+      } catch (e) {}
       schema = await results[0].json();
       User.commit((state) => {
         state.schema = schema;
@@ -206,7 +208,6 @@ export default class User extends Model {
   }
 
   static async fetchDataset(id: string) {
-    console.log(id);
     const response: Response = await fetch(`${ENDPOINTS.dataset}/${id}`, {
       method: "GET",
       headers: {

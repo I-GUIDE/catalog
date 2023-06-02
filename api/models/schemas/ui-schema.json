@@ -37,10 +37,7 @@
           "elements": [
             {
               "type": "Control",
-              "scope": "#/properties/dateCreated",
-              "options": {
-                "flat": true
-              }
+              "scope": "#/properties/dateCreated"
             },
             {
               "type": "Control",
@@ -241,7 +238,41 @@
         },
         {
           "type": "Control",
-          "scope": "#/properties/hasPart"
+          "scope": "#/properties/hasPart",
+          "options": {
+            "elementLabelProp": [
+              "name"
+            ],
+            "detail": {
+              "type": "VerticalLayout",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/name"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/description",
+                  "options": {
+                    "multi": true
+                  }
+                },
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/identifier"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/creator"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
         },
         {
           "type": "Control",
