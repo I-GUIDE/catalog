@@ -7,19 +7,20 @@
       "elements": [
         {
           "type": "Control",
-          "scope": "#/properties/@context"
-        },
-        {
-          "type": "Control",
           "scope": "#/properties/@type"
         },
         {
-          "type": "Control",
-          "scope": "#/properties/name"
-        },
-        {
-          "type": "Control",
-          "scope": "#/properties/url"
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/url"
+            }
+          ]
         },
         {
           "type": "Control",
@@ -55,6 +56,10 @@
             {
               "type": "Control",
               "scope": "#/properties/version"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/@context"
             },
             {
               "type": "Control",
