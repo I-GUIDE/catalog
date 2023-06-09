@@ -316,7 +316,7 @@ class CoreMetadata(SchemaBaseModel):
     name: str = Field(description="A text string with a descriptive name or title for the resource.")
     description: str = Field(description="A text string containing a description/abstract for the resource.")
     url: HttpUrl = Field(description="A URL for the landing page that describes the resource and where the content of the resource can be accessed. If there is no landing page, provide the URL of the content.")
-    identifier: List[Identifier] = Field(description="Any kind of identifier for the record.")
+    identifier: List[Identifier] = Field(description="Any kind of identifier for the resource. Multiple identifiers can be entered. Where identifiers can be encoded as URLs, enter URLs here.")
     creator: List[Union[Person, Organization]] = Field(description="Person or organization that created the work.")
     dateCreated: Union[date, datetime] = Field(description="The date on which the work was created.")
     keywords: List[Union[str, HttpUrl, KeywordTerm]] = Field(
