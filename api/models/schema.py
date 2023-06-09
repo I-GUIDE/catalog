@@ -30,9 +30,9 @@ class CreativeWork(SchemaBaseModel):
         alias="@type",
         const=True,
         default="CreativeWork",
-        description="All records in the IGUIDE data catalog are considered creative works. Creative works can encompass various forms of content, such as datasets, software source code, digital documents, etc.",
+        description="Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
     )
-    name: str = Field(description="Record's title")
+    name: str = Field(description="Submission's name or title")
 
 
 class PropertyValue(SchemaBaseModel):
@@ -309,10 +309,10 @@ class MediaObject(SchemaBaseModel):
 
 class CoreMetadata(SchemaBaseModel):
     context: HttpUrl = Field(alias='@context', default='https://schema.org', description="Specifies the vocabulary employed for understanding the structured data markup.")
-    type: str = Field(alias="@type", const=True, default="Dataset", description="A specific vocabulary that applies to a specific piece of data.")
-    name: str = Field(description="The name or title of the record.")
-    description: str = Field(description="The description or abstract of the record.")
-    url: HttpUrl = Field(description="The url of the record.")
+    type: str = Field(alias="@type", const=True, default="Dataset", description="Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.")
+    name: str = Field(description="A text string with a descriptive name or title for the resource.")
+    description: str = Field(description="A text string containing a description/abstract for the resource.")
+    url: HttpUrl = Field(description="A URL for the landing page that describes the resource and where the content of the resource can be accessed. If there is no landing page, provide the URL of the content.")
     identifier: List[Identifier] = Field(description="Any kind of identifier for the record.")
     creator: List[Union[Person, Organization]] = Field(description="Person or organization that created the work.")
     dateCreated: Union[date, datetime] = Field(description="The date on which the work was created.")
@@ -333,9 +333,9 @@ class CoreMetadata(SchemaBaseModel):
         description="A CreativeWork about the record - e.g., a related metadata document describing the record.",
     )
     version: Optional[Union[float, str]] = Field(
-        description="The version of the record."
+        description="A text string indicating the version of the resource."
     )  # TODO find something better than float for number
-    inLanguage: Optional[Union[LanguageEnum, str]] = Field(description="The language of the content of the record.")
+    inLanguage: Optional[Union[LanguageEnum, str]] = Field(description="The language of the content of the resource.")
     creativeWorkStatus: Optional[Union[DefinedTerm, str]] = Field(
         description="The status of a creative work in terms of its stage in a lifecycle. Example terms include Incomplete, Draft, Published, Obsolete. Some organizations define a set of terms for the stages of their publication lifecycle.",
     )
@@ -363,7 +363,7 @@ class CoreMetadata(SchemaBaseModel):
 
 
 class Distribution(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, default="DataDownload", description="Represents the general availability of a dataset and describes how the content related to the catalog record may be obtained")
+    type: str = Field(alias="@type", const=True, default="DataDownload", description="Represents the general availability of a dataset and describes how the content related to the catalog record may be obtained.")
     name: str = Field(description="The name of the downloadable file.")
     contentUrl: Optional[HttpUrl] = Field(description="The direct URL link to download the dataset.")
     encodingFormat: Optional[list[str]] = Field(description="Represents the file format in which the dataset is encoded.")
