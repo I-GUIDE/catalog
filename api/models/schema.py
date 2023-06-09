@@ -38,7 +38,7 @@ class CreativeWork(SchemaBaseModel):
 class PropertyValue(SchemaBaseModel):
     id: HttpUrl = Field(
         alias="@id",
-        description="The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
+        description="Unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
     )
     type: str = Field(
         alias="@type",
@@ -65,13 +65,16 @@ Identifier = Union[str, HttpUrl, PropertyValue]
 
 class Person(SchemaBaseModel):
     type: str = Field(
-        alias="@type", const=True, default="Person", description="Describe the author(s) of a creative work"
+        alias="@type", 
+        const=True, 
+        default="Person", 
+        description="DELETEME"
     )
     name: str = Field(
-        description="The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc."
+        description="A string containing the full name of the person. Personal name format: Family Name, Given Name"
     )
-    email: Optional[EmailStr] = Field(description="The email address of the individual who is listed as a contributor.")
-    identifier: Optional[List[Union[HttpUrl, Identifier]]] = Field(description="The unique identifier for the person.")
+    email: Optional[EmailStr] = Field(description="A string containing an email address for the creator")
+    identifier: Optional[List[Union[HttpUrl, Identifier]]] = Field(description="Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.")
 
 
 class Organization(SchemaBaseModel):
@@ -79,17 +82,17 @@ class Organization(SchemaBaseModel):
         alias="@type",
         const=True,
         default="Organization",
-        description="Describe the organization(s) contributed to a creative work",
+        description="DELETEME",
     )
-    name: str = Field(description="The organization name who contributed to this creative work.")
+    name: str = Field(description="A string containing the name of the organization")
     url: Optional[HttpUrl] = Field(
-        description="Indicates the URL associated with the organizatino who contributed to this work."
+        description="A URL to the homepage for the organization"
     )
     identifier: Optional[List[Union[HttpUrl, Identifier]]] = Field(
-        description="The unique identifier for the organization."
+        description="Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here."
     )
     address: Optional[str] = Field(
-        description="The mailing address for the organization."
+        description="Full address for the organization - e.g., “8200 Old Main Hill, Logan, UT 84322-8200"
     )  # Should address be a string or another constrained type?
 
 
