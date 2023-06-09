@@ -326,7 +326,7 @@ class CoreMetadata(SchemaBaseModel):
         description="A license document that applies to the content, typically indicated by a URL."
     )
     provider: Union[ProviderOrganization, Person, ProviderID] = Field(
-        description="The service provider, service operator, or service performer."
+        description="The repository, service provider, organization, person, or service performer that provides access to the resource."
     )
     publisher: Optional[Union[ProviderOrganization, Person, ProviderID]] = Field(
         description="The publisher of the record."
@@ -366,12 +366,12 @@ class CoreMetadata(SchemaBaseModel):
 
 
 class Distribution(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, default="DataDownload", description="Represents the general availability of a dataset and describes how the content related to the catalog record may be obtained.")
-    name: str = Field(description="The name of the downloadable file.")
-    contentUrl: Optional[HttpUrl] = Field(description="The direct URL link to download the dataset.")
-    encodingFormat: Optional[list[str]] = Field(description="Represents the file format in which the dataset is encoded.")
-    contentSize: Optional[str] = Field(description="Represents the file size, expressed in bytes, kilobytes, megabytes, or another unit of measurement.")
-    comment: Optional[str] = Field(description="An explanation providing additional information on how the dataset is being accessed or downloaded.")
+    type: str = Field(alias="@type", const=True, default="DataDownload", description="A downloadable form of the resource, at a specific location, in a specific format. Repeat if multiple files or if different formats/variations are available.")
+    name: str = Field(description="A text string indicating the name of the content to be downloaded. This could be a file name or a descriptive name for the content file.")
+    contentUrl: Optional[HttpUrl] = Field(description="A URL for the content to be downloaded.")
+    encodingFormat: Optional[list[str]] = Field(description="Text string indicating the file or media type, usually expressed using a MIME format.")
+    contentSize: Optional[str] = Field(description="A text string indicating the file size in megabytes")
+    comment: Optional[str] = Field(description="A text string with comments about the resource. For example, an explanation that provides additional information on how the dataset is being accessed or downloaded.")
 
 
 class VariableMeasured(SchemaBaseModel):
