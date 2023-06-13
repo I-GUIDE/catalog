@@ -1,4 +1,4 @@
-# catalogapi
+# I-GUIDE catalog API
 I-GUIDE Catalog API
 
 ### Getting Started
