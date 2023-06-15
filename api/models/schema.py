@@ -30,15 +30,15 @@ class CreativeWork(SchemaBaseModel):
         alias="@type",
         const=True,
         default="CreativeWork",
-        description="All records in the IGUIDE data catalog are considered creative works. Creative works can encompass various forms of content, such as datasets, software source code, digital documents, etc.",
+        description="Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
     )
-    name: str = Field(description="Record's title")
+    name: str = Field(description="Submission's name or title")
 
 
 class PropertyValue(SchemaBaseModel):
     id: HttpUrl = Field(
         alias="@id",
-        description="The unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
+        description="Unique identifier for the property value. For example, this can be an ORCID identifier for a person who created a creative work.",
     )
     type: str = Field(
         alias="@type",
@@ -65,13 +65,16 @@ Identifier = Union[str, HttpUrl, PropertyValue]
 
 class Person(SchemaBaseModel):
     type: str = Field(
-        alias="@type", const=True, default="Person", description="Describe the author(s) of a creative work"
+        alias="@type", 
+        const=True, 
+        default="Person", 
+        description="DELETEME"
     )
     name: str = Field(
-        description="The name of individual who contributed to this creative work. Contribution can include being an author, editor, publisher, etc."
+        description="A string containing the full name of the person. Personal name format: Family Name, Given Name"
     )
-    email: Optional[EmailStr] = Field(description="The email address of the individual who is listed as a contributor.")
-    identifier: Optional[List[Union[HttpUrl, Identifier]]] = Field(description="The unique identifier for the person.")
+    email: Optional[EmailStr] = Field(description="A string containing an email address for the creator")
+    identifier: Optional[List[Union[HttpUrl, Identifier]]] = Field(description="Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.")
 
 
 class Organization(SchemaBaseModel):
@@ -79,17 +82,17 @@ class Organization(SchemaBaseModel):
         alias="@type",
         const=True,
         default="Organization",
-        description="Describe the organization(s) contributed to a creative work",
+        description="DELETEME",
     )
-    name: str = Field(description="The organization name who contributed to this creative work.")
+    name: str = Field(description="A string containing the name of the organization")
     url: Optional[HttpUrl] = Field(
-        description="Indicates the URL associated with the organizatino who contributed to this work."
+        description="A URL to the homepage for the organization"
     )
     identifier: Optional[List[Union[HttpUrl, Identifier]]] = Field(
-        description="The unique identifier for the organization."
+        description="Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here."
     )
     address: Optional[str] = Field(
-        description="The mailing address for the organization."
+        description="Full address for the organization - e.g., “8200 Old Main Hill, Logan, UT 84322-8200"
     )  # Should address be a string or another constrained type?
 
 
@@ -107,19 +110,19 @@ class ProviderOrganization(Organization):
 
 
 class DefinedTerm(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, default="DefinedTerm", description="TODO")
-    name: str = Field(description="TODO")
-    description: str = Field(description="TODO")
+    type: str = Field(alias="@type", const=True, default="DefinedTerm", description="A formal definition of a word, name, acronym, phrase, or similar. Often used in the context of category or subject classification, glossaries or dictionaries, product or creative work types, etc.")
+    name: str = Field(description="The name of the term or item being defined.")
+    description: str = Field(description="The description of the item being defined.")
 
 
 class KeywordTerm(DefinedTerm):
-    inDefinedTermSet: HttpUrl = Field(description="TODO")
+    inDefinedTermSet: HttpUrl = Field(description="Keywords or tags with a formal definition used to describe the creative work.")
 
 
 class HasPart(CreativeWork):
-    description: str = Field(description="TODO")
-    identifier: Identifier = Field(description="TODO")
-    creator: Optional[Union[Person, Organization]] = Field(description="TODO")
+    description: str = Field(description="A creative work that is part of this record. This metadata is used to show specific relationships between a collection record and its member records.")
+    identifier: Identifier = Field(description="The unique identifier for the creative work.")
+    creator: Optional[Union[Person, Organization]] = Field(description="The creator of this creative work. The creator could be a person, a list of people, or an organization(s).")
 
 
 class IsPartOf(HasPart):
@@ -127,12 +130,12 @@ class IsPartOf(HasPart):
 
 
 class SubjectOf(CreativeWork):
-    url: HttpUrl = Field(description="TODO")
-    encodingFormat: str = Field(description="TODO")
+    url: HttpUrl = Field(description="The URL address that serves as a reference to access additional details related to the record. It is important to note that this type of metadata solely pertains to the record itself and may not necessarily be an integral component of the record, unlike the HasPart metadata.")
+    encodingFormat: str = Field(description="This metadata indicates the format of the creative work that provides details about the record.")
 
 
 class License(CreativeWork):
-    url: HttpUrl = Field(description="TODO")
+    url: HttpUrl = Field(description="The URL address to the specific license that governs the usage and permissions associated with the record.")
 
 
 class LanguageEnum(str, Enum):
@@ -141,10 +144,10 @@ class LanguageEnum(str, Enum):
 
 
 class Grant(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, default="MonetaryGrant", description="TODO")
-    name: str = Field(description="TODO")
-    url: HttpUrl = Field(description="TODO")
-    funder: Union[Person, Organization] = Field(description="TODO")
+    type: str = Field(alias="@type", const=True, default="MonetaryGrant", description="This metadata represents details about a grant or financial assistance provided to an individual(s) or organization(s) for supporting the work related to the record.")
+    name: str = Field(description="The project or grant name that funds or sponsors the work presented in the record.")
+    url: HttpUrl = Field(description="The URL address to the awarded project.")
+    funder: Union[Person, Organization] = Field(description="The funder's name (entity or organization) that provides financial resources for the creation and execution of the work documented in the record.")
 
 
 class TimeInterval(str):
@@ -196,9 +199,9 @@ class TimeInterval(str):
 
 
 class GeoCoordinates(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, default="GeoCoordinates", description="TODO")
-    latitude: float = Field(description="TODO")
-    longitude: float = Field(description="TODO")
+    type: str = Field(alias="@type", const=True, default="GeoCoordinates", description="Geographic coordinates that represent a specific location on the Earth's surface. GeoCoordinates typically consists of two components: latitude and longitude.")
+    latitude: float = Field(description="Represents the angular distance of a location north or south of the equator, measured in degrees and ranges from -90 to +90 degrees.")
+    longitude: float = Field(description="Represents the angular distance of a location east or west of the Prime Meridian, measured in degrees and ranges from -180 to +180 degrees.")
 
     @validator('latitude')
     def validate_latitude(cls, v):
@@ -214,11 +217,11 @@ class GeoCoordinates(SchemaBaseModel):
 
 
 class GeoShape(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, default="GeoShape", description="TODO")
+    type: str = Field(alias="@type", const=True, default="GeoShape", description="A structured representation that describes the coordinates of a geographic feature (line or polygon).")
 
 
 class Line(GeoShape):
-    line: str = Field(description="TODO")
+    line: str = Field(description="A line that is expressed as a series of two or more point objects separated by space.")
 
     @validator('line')
     def validate_line(cls, v):
@@ -242,7 +245,7 @@ class Line(GeoShape):
 
 
 class Polygon(GeoShape):
-    polygon: str = Field(description="TODO")
+    polygon: str = Field(description="A polygon outlines the boundary of a specific region by a point-to-point path for which the starting and ending points are the same.")
 
     @validator('polygon')
     def validate_polygon(cls, v):
@@ -266,18 +269,18 @@ class Polygon(GeoShape):
 
 
 class Place(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, default="Place", description="TODO")
-    name: Optional[str] = Field(description="TODO")
-    address: Optional[str] = Field(description="TODO")
-    geo: Optional[Union[Line, Polygon, GeoCoordinates]] = Field(description="TODO")
+    type: str = Field(alias="@type", const=True, default="Place", description="Represents the focus area of the record's content.")
+    name: Optional[str] = Field(description="The name of the focus area of the record's content.")
+    address: Optional[str] = Field(description="The address of the focus area.")
+    geo: Optional[Union[Line, Polygon, GeoCoordinates]] = Field(description="Specifies the geographic coordinates of the place in the form of a point location, line, or area coverage extent.")
 
 
 class MediaObject(SchemaBaseModel):
-    type: str = Field(alias="@type", const=False, default="MediaObject", description="TODO")
-    contentUrl: HttpUrl = Field(description="TODO")
-    encodingFormat: str = Field(description="TODO")  # TODO enum for encoding formats
-    contentSize: str = Field(description="TODO")
-    name: str = Field(description="TODO")
+    type: str = Field(alias="@type", const=False, default="MediaObject", description="An item that encodes the record.")
+    contentUrl: HttpUrl = Field(description="The direct URL link to access or download the actual content of the media object.")
+    encodingFormat: str = Field(description="Represents the specific file format in which the media is encoded.")  # TODO enum for encoding formats
+    contentSize: str = Field(description="Represents the file size, expressed in bytes, kilobytes, megabytes, or another unit of measurement.")
+    name: str = Field(description="The name of the media object (file).")
 
     @validator('contentSize')
     def validate_content_size(cls, v):
@@ -308,12 +311,12 @@ class MediaObject(SchemaBaseModel):
 
 
 class CoreMetadata(SchemaBaseModel):
-    context: HttpUrl = Field(alias='@context', default='https://schema.org', description="TODO")
-    type: str = Field(alias="@type", const=True, default="Dataset", description="TODO")
-    name: str = Field(description="The name or title of the record.")
-    description: str = Field(description="The description or abstract of the record.")
-    url: HttpUrl = Field(description="The url of the record.")
-    identifier: List[Identifier] = Field(description="Any kind of identifier for the record.")
+    context: HttpUrl = Field(alias='@context', default='https://schema.org', description="Specifies the vocabulary employed for understanding the structured data markup.")
+    type: str = Field(alias="@type", const=True, default="Dataset", description="Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.")
+    name: str = Field(description="A text string with a descriptive name or title for the resource.")
+    description: str = Field(description="A text string containing a description/abstract for the resource.")
+    url: HttpUrl = Field(description="A URL for the landing page that describes the resource and where the content of the resource can be accessed. If there is no landing page, provide the URL of the content.")
+    identifier: List[Identifier] = Field(description="Any kind of identifier for the resource. Multiple identifiers can be entered. Where identifiers can be encoded as URLs, enter URLs here.")
     creator: List[Union[Person, Organization]] = Field(description="Person or organization that created the work.")
     dateCreated: Union[date, datetime] = Field(description="The date on which the work was created.")
     keywords: List[Union[str, HttpUrl, KeywordTerm]] = Field(
@@ -323,7 +326,7 @@ class CoreMetadata(SchemaBaseModel):
         description="A license document that applies to the content, typically indicated by a URL."
     )
     provider: Union[ProviderOrganization, Person, ProviderID] = Field(
-        description="The service provider, service operator, or service performer."
+        description="The repository, service provider, organization, person, or service performer that provides access to the resource."
     )
     publisher: Optional[Union[ProviderOrganization, Person, ProviderID]] = Field(
         description="The publisher of the record."
@@ -333,9 +336,9 @@ class CoreMetadata(SchemaBaseModel):
         description="A CreativeWork about the record - e.g., a related metadata document describing the record.",
     )
     version: Optional[Union[float, str]] = Field(
-        description="The version of the record."
+        description="A text string indicating the version of the resource."
     )  # TODO find something better than float for number
-    inLanguage: Optional[Union[LanguageEnum, str]] = Field(description="The language of the content of the record.")
+    inLanguage: Optional[Union[LanguageEnum, str]] = Field(description="The language of the content of the resource.")
     creativeWorkStatus: Optional[Union[DefinedTerm, str]] = Field(
         description="The status of a creative work in terms of its stage in a lifecycle. Example terms include Incomplete, Draft, Published, Obsolete. Some organizations define a set of terms for the stages of their publication lifecycle.",
     )
@@ -363,27 +366,27 @@ class CoreMetadata(SchemaBaseModel):
 
 
 class Distribution(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, default="DataDownload", description="TODO")
-    name: str = Field(description="TODO")
-    contentUrl: Optional[HttpUrl] = Field(description="TODO")
-    encodingFormat: Optional[List[str]] = Field(description="TODO")
-    contentSize: Optional[str] = Field(description="TODO")
-    comment: Optional[str] = Field(description="TODO")
+    type: str = Field(alias="@type", const=True, default="DataDownload", description="A downloadable form of the resource, at a specific location, in a specific format. Repeat if multiple files or if different formats/variations are available.")
+    name: str = Field(description="A text string indicating the name of the content to be downloaded. This could be a file name or a descriptive name for the content file.")
+    contentUrl: Optional[HttpUrl] = Field(description="A URL for the content to be downloaded.")
+    encodingFormat: Optional[list[str]] = Field(description="Text string indicating the file or media type, usually expressed using a MIME format.")
+    contentSize: Optional[str] = Field(description="A text string indicating the file size in megabytes")
+    comment: Optional[str] = Field(description="A text string with comments about the resource. For example, an explanation that provides additional information on how the dataset is being accessed or downloaded.")
 
 
 class VariableMeasured(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, default="PropertyValue", description="TODO")
-    name: str = Field(description="TODO")
-    unitText: str = Field(description="TODO")
+    type: str = Field(alias="@type", const=True, default="PropertyValue", description="Indicates specific information about the variable being measured in a particular dataset, study, or observation.")
+    name: str = Field(description="The name of the variable being measured.")
+    unitText: str = Field(description="Indicate the unit of measurement for the variable.")
 
 
 class IncludedInDataCatalog(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, default="DataCatalog", description="TODO")
-    name: str = Field(description="TODO")
-    description: str = Field(description="TODO")
-    url: HttpUrl = Field(description="TODO")
-    identifier: Identifier = Field(description="TODO")
-    creator: Union[Person, Organization] = Field(description="TODO")
+    type: str = Field(alias="@type", const=True, default="DataCatalog", description="A data catalog which contains this dataset.")
+    name: str = Field(description="The name of the data catalog containing this dataset.")
+    description: str = Field(description="The description of the data catalog.")
+    url: HttpUrl = Field(description="The URL address to the data catalog.")
+    identifier: Identifier = Field(description="The unique identifier for the data catalog. This is generated automatically by the system.")
+    creator: Union[Person, Organization] = Field(description="The creator, owner, or provider of the data catalog.")
 
 
 class Dataset(SchemaBaseModel):
