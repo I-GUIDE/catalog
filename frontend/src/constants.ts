@@ -1,5 +1,6 @@
 export const APP_NAME = process.env.VUE_APP_NAME || "";
 export const APP_URL = process.env.VUE_APP_URL || "";
+export const LOGIN_URL = process.env.VUE_APP_LOGIN_URL || "";
 export const SUPPORT_EMAIL = process.env.VUE_APP_SUPPORT_EMAIL || "";
 export const DEFAULT_TOAST_DURATION = 3500;
 

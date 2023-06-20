@@ -19,10 +19,11 @@
     <cz-form
       :schema="schema"
       :uischema="uiSchema"
-      :schemaDefaults="undefined"
-      :errors.sync="errors"
       :isReadOnly="isReadonly"
+      :errors.sync="errors"
+      :isValid.sync="isValid"
       :data.sync="data"
+      :config="config"
       @update:data="onDataChange"
       ref="form"
     />
@@ -32,7 +33,7 @@
     >
       <v-spacer></v-spacer>
       <v-btn @click="onCancel">Cancel</v-btn>
-      <v-menu :disabled="!errors.length" open-on-hover bottom left offset-y>
+      <v-menu :disabled="isValid" open-on-hover bottom left offset-y>
         <template v-slot:activator="{ on, attrs }">
           <div
             v-bind="attrs"
@@ -40,7 +41,6 @@
             class="d-flex form-controls flex-column flex-sm-row"
           >
             <v-badge
-              :value="!!errors.length"
               bordered
               color="error"
               icon="mdi-exclamation-thick"
@@ -51,12 +51,9 @@
                 depressed
                 @click="submit"
                 :disabled="
-                  isSaving ||
-                  isReadonly ||
-                  !!errors.length ||
-                  !hasUnsavedChanges
+                  isSaving || isReadonly || !isValid || !hasUnsavedChanges
                 "
-                >Submit</v-btn
+                >Save</v-btn
               >
             </v-badge>
           </div>
@@ -84,16 +81,38 @@ import { Notifications, CzForm } from "@cznethub/cznet-vue-core";
 
 import User from "@/models/user.model";
 
+const initialData = {};
+
 @Component({
   name: "cd-contribute",
   components: { CzForm },
 })
 export default class CdContribute extends Vue {
   protected isReadonly = false;
+  protected isValid = false;
   protected errors = [];
-  protected data = {};
+  protected data = initialData;
   protected timesChanged = 0;
   protected isSaving = false;
+  protected config = {
+    restrict: true,
+    trim: false,
+    showUnfocusedDescription: false,
+    hideRequiredAsterisk: false,
+    collapseNewItems: false,
+    breakHorizontal: false,
+    initCollapsed: false,
+    hideAvatar: false,
+    hideArraySummaryValidation: false,
+    vuetify: {
+      commonAttrs: {
+        dense: true,
+        outlined: true,
+        "persistent-hint": true,
+        "hide-details": false,
+      },
+    },
+  };
 
   protected get schema() {
     return User.$state.schema;
@@ -103,9 +122,9 @@ export default class CdContribute extends Vue {
     return User.$state.uiSchema;
   }
 
-  protected get schemaDefaults() {
-    return User.$state.schemaDefaults;
-  }
+  // protected get schemaDefaults() {
+  //   return User.$state.schemaDefaults;
+  // }
 
   protected get hasUnsavedChanges(): boolean {
     return User.$state.hasUnsavedChanges;
@@ -150,14 +169,8 @@ export default class CdContribute extends Vue {
   }
 
   protected onDataChange(data) {
-    // this.data = data;
-
-    // Pristine/dirty checks are currently not supported in jsonforms.
-    // We use onChange event for now by ignoring the two times it is called when the form is rendered.
-    // https://spectrum.chat/jsonforms/general/pristine-and-dirty-checking~2ece93ab-7783-41cb-8ba1-804414eb1da4?m=MTU2MzM0OTY0NDQxNg==
-
-    // json-forms emits 'change' event 3 times during instantioation.
-    const changesDuringInstantiation = 3;
+    // cz-form emits 'change' event 2 times during instantioation.
+    const changesDuringInstantiation = 2;
 
     if (this.timesChanged <= changesDuringInstantiation) {
       this.timesChanged = this.timesChanged + 1;
