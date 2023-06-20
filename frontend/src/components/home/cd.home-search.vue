@@ -2,9 +2,8 @@
   <v-parallax
     dark
     class="cd-home-search"
-    alt="Road with surrounding trees"
+    alt="Landscape with a river and trees during fall"
     :src="require('@/assets/img/bg2.jpg')"
-    height="450"
   >
     <v-container
       class="d-flex flex-column justify-center align-center full-height pa-12"

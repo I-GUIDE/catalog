@@ -400,7 +400,7 @@ class IncludedInDataCatalog(SchemaBaseModel):
     name: str = Field(description="The name of the data catalog containing this dataset.")
     description: str = Field(description="The description of the data catalog.")
     url: HttpUrl = Field(description="The URL address to the data catalog.")
-    identifier: Identifier = Field(description="The unique identifier for the data catalog. This is generated automatically by the system.")
+    identifier: str = Field(description="The unique identifier for the data catalog. This is generated automatically by the system.")
     creator: Union[Person, Organization] = Field(description="The creator, owner, or provider of the data catalog.")
 
 
