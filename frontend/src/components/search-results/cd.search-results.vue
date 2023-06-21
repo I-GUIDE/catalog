@@ -200,7 +200,7 @@ export default class CdSearchResults extends Vue {
   public sort: "name" | "dateCreated" | "relevance" = "relevance";
   // public view: 'list' | 'map' = 'list'
   public formatDate = formatDate;
-  protected descriptionRefs: any = [];
+  protected descriptionRefs: any[] = [];
 
   public get publicationYear() {
     return SearchResults.$state.publicationYear;
@@ -249,7 +249,7 @@ export default class CdSearchResults extends Vue {
   }
 
   protected displayRefs() {
-    this.descriptionRefs = this.$refs["description"];
+    this.descriptionRefs = (this.$refs["description"] as any[]) || [];
   }
 
   /** Route query parameters with short keys. These are parameters needed to replicate a search. */
