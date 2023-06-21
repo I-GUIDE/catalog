@@ -30,8 +30,9 @@ jobs:
         DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
         DB_PROTOCOL: ${{ secrets.DB_PROTOCOL }}
         TESTING: ${{ secrets.TESTING }}
+        VUE_APP_LOGIN_URL: ${{ secrets.VUE_APP_LOGIN_URL }}
       run: |
-        variables=("KEYCLOAK_ISSUER" "DB_USERNAME" "DB_PASSWORD" "DB_HOST" "DATABASE_NAME" "DB_PROTOCOL" "TESTING")
+        variables=("KEYCLOAK_ISSUER" "DB_USERNAME" "DB_PASSWORD" "DB_HOST" "DATABASE_NAME" "DB_PROTOCOL" "TESTING" "VUE_APP_LOGIN_URL")
 
         # Empty the .env file
         > .env
