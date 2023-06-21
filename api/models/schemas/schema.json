@@ -169,155 +169,140 @@
     "license": {
       "title": "License",
       "description": "A license document that applies to the content, typically indicated by a URL.",
-      "allOf": [
-        {
-          "title": "License",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "title": "@Type",
-              "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
-              "default": "CreativeWork",
-              "const": "CreativeWork",
-              "options": {
-                "hidden": true
-              },
-              "type": "string"
-            },
-            "name": {
-              "title": "Name",
-              "description": "A text string indicating the name of the license under which the resource is shared.",
-              "type": "string"
-            },
-            "url": {
-              "title": "URL",
-              "description": "A URL for a web page that describes the license.",
-              "minLength": 1,
-              "maxLength": 2083,
-              "type": "string",
-              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-              "errorMessage": {
-                "pattern": "must match format \"url\""
-              }
-            },
-            "description": {
-              "title": "Description",
-              "description": "A text string describing the license or containing the text of the license itself.",
-              "type": "string"
-            }
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "@Type",
+          "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
+          "default": "CreativeWork",
+          "const": "CreativeWork",
+          "options": {
+            "hidden": true
           },
-          "required": [
-            "name"
-          ]
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "description": "A text string indicating the name of the license under which the resource is shared.",
+          "type": "string"
+        },
+        "url": {
+          "title": "URL",
+          "description": "A URL for a web page that describes the license.",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "description": {
+          "title": "Description",
+          "description": "A text string describing the license or containing the text of the license itself.",
+          "type": "string"
         }
+      },
+      "required": [
+        "name"
       ]
     },
     "provider": {
-      "title": "Provider",
+      "title": "Organization",
       "description": "The repository, service provider, organization, person, or service performer that provides access to the resource.",
-      "allOf": [
-        {
-          "title": "Organization",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "title": "@Type",
-              "description": "DELETEME",
-              "default": "Organization",
-              "const": "Organization",
-              "options": {
-                "hidden": true
-              },
-              "type": "string"
-            },
-            "name": {
-              "title": "Name",
-              "description": "A string containing the name of the organization.",
-              "type": "string"
-            },
-            "url": {
-              "title": "URL",
-              "description": "A URL to the homepage for the organization.",
-              "minLength": 1,
-              "maxLength": 2083,
-              "type": "string",
-              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-              "errorMessage": {
-                "pattern": "must match format \"url\""
-              }
-            },
-            "identifier": {
-              "title": "Identifier",
-              "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "address": {
-              "title": "Address",
-              "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
-              "type": "string"
-            }
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "@Type",
+          "description": "DELETEME",
+          "default": "Organization",
+          "const": "Organization",
+          "options": {
+            "hidden": true
           },
-          "required": [
-            "name"
-          ]
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "description": "A string containing the name of the organization.",
+          "type": "string"
+        },
+        "url": {
+          "title": "URL",
+          "description": "A URL to the homepage for the organization.",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "identifier": {
+          "title": "Identifier",
+          "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "address": {
+          "title": "Address",
+          "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
+          "type": "string"
         }
+      },
+      "required": [
+        "name"
       ]
     },
     "publisher": {
-      "title": "Publisher",
+      "title": "PublisherOrganization",
       "description": "The publisher of the record.",
-      "allOf": [
-        {
-          "title": "PublisherOrganization",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "title": "@Type",
-              "description": "DELETEME",
-              "default": "Organization",
-              "const": "Organization",
-              "options": {
-                "hidden": true
-              },
-              "type": "string"
-            },
-            "name": {
-              "title": "Name",
-              "description": "A string containing the name of the organization.",
-              "type": "string"
-            },
-            "url": {
-              "title": "URL",
-              "description": "A URL to the homepage for the organization.",
-              "minLength": 1,
-              "maxLength": 2083,
-              "type": "string",
-              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-              "errorMessage": {
-                "pattern": "must match format \"url\""
-              }
-            },
-            "identifier": {
-              "title": "Identifier",
-              "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "address": {
-              "title": "Address",
-              "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
-              "type": "string"
-            }
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "@Type",
+          "description": "DELETEME",
+          "default": "Organization",
+          "const": "Organization",
+          "options": {
+            "hidden": true
           },
-          "required": [
-            "name"
-          ]
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "description": "A string containing the name of the organization.",
+          "type": "string"
+        },
+        "url": {
+          "title": "URL",
+          "description": "A URL to the homepage for the organization.",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "identifier": {
+          "title": "Identifier",
+          "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "address": {
+          "title": "Address",
+          "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
+          "type": "string"
         }
+      },
+      "required": [
+        "name"
       ]
     },
     "datePublished": {
@@ -576,142 +561,137 @@
       "type": "string"
     },
     "spatialCoverage": {
-      "title": "Spatialcoverage",
+      "title": "Place",
       "description": "The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. It is a subproperty of contentLocation intended primarily for more technical and detailed materials. For example with a Dataset, it indicates areas that the dataset describes: a dataset of New York weather would have spatialCoverage which was the place: the state of New York.",
-      "allOf": [
-        {
-          "title": "Place",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "title": "@Type",
-              "description": "Represents the focus area of the record's content.",
-              "default": "Place",
-              "const": "Place",
-              "options": {
-                "hidden": true
-              },
-              "type": "string"
-            },
-            "name": {
-              "title": "Name",
-              "description": "The name of the focus area of the record's content.",
-              "type": "string"
-            },
-            "address": {
-              "title": "Address",
-              "description": "The address of the focus area.",
-              "type": "string"
-            },
-            "geo": {
-              "title": "Geo",
-              "description": "Specifies the geographic coordinates of the place in the form of a point location, line, or area coverage extent.",
-              "anyOf": [
-                {
-                  "title": "Line",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "title": "@Type",
-                      "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
-                      "default": "GeoShape",
-                      "const": "GeoShape",
-                      "options": {
-                        "hidden": true
-                      },
-                      "type": "string"
-                    },
-                    "line": {
-                      "title": "Line",
-                      "description": "A line that is expressed as a series of two or more point objects separated by space.",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "line"
-                  ]
-                },
-                {
-                  "title": "Polygon",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "title": "@Type",
-                      "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
-                      "default": "GeoShape",
-                      "const": "GeoShape",
-                      "options": {
-                        "hidden": true
-                      },
-                      "type": "string"
-                    },
-                    "polygon": {
-                      "title": "Polygon",
-                      "description": "A polygon outlines the boundary of a specific region by a point-to-point path for which the starting and ending points are the same.",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "polygon"
-                  ]
-                },
-                {
-                  "title": "GeoCoordinates",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "title": "@Type",
-                      "description": "Geographic coordinates that represent a specific location on the Earth's surface. GeoCoordinates typically consists of two components: latitude and longitude.",
-                      "default": "GeoCoordinates",
-                      "const": "GeoCoordinates",
-                      "options": {
-                        "hidden": true
-                      },
-                      "type": "string"
-                    },
-                    "latitude": {
-                      "title": "Latitude",
-                      "description": "Represents the angular distance of a location north or south of the equator, measured in degrees and ranges from -90 to +90 degrees.",
-                      "type": "number"
-                    },
-                    "longitude": {
-                      "title": "Longitude",
-                      "description": "Represents the angular distance of a location east or west of the Prime Meridian, measured in degrees and ranges from -180 to +180 degrees.",
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "latitude",
-                    "longitude"
-                  ],
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "@Type",
+          "description": "Represents the focus area of the record's content.",
+          "default": "Place",
+          "const": "Place",
+          "options": {
+            "hidden": true
+          },
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "description": "The name of the focus area of the record's content.",
+          "type": "string"
+        },
+        "address": {
+          "title": "Address",
+          "description": "The address of the focus area.",
+          "type": "string"
+        },
+        "geo": {
+          "title": "Geo",
+          "description": "Specifies the geographic coordinates of the place in the form of a point location, line, or area coverage extent.",
+          "anyOf": [
+            {
+              "title": "Line",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "@Type",
+                  "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
+                  "default": "GeoShape",
+                  "const": "GeoShape",
                   "options": {
-                    "detail": {
-                      "type": "MapLayout",
-                      "options": {
-                        "map": {
-                          "type": "point",
-                          "north": "latitude",
-                          "east": "longitude"
-                        }
-                      },
-                      "elements": [
-                        {
-                          "type": "Control",
-                          "scope": "#/properties/latitude"
-                        },
-                        {
-                          "type": "Control",
-                          "scope": "#/properties/longitude"
-                        }
-                      ]
-                    }
-                  }
+                    "hidden": true
+                  },
+                  "type": "string"
+                },
+                "line": {
+                  "title": "Line",
+                  "description": "A line that is expressed as a series of two or more point objects separated by space.",
+                  "type": "string"
                 }
+              },
+              "required": [
+                "line"
               ]
+            },
+            {
+              "title": "Polygon",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "@Type",
+                  "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
+                  "default": "GeoShape",
+                  "const": "GeoShape",
+                  "options": {
+                    "hidden": true
+                  },
+                  "type": "string"
+                },
+                "polygon": {
+                  "title": "Polygon",
+                  "description": "A polygon outlines the boundary of a specific region by a point-to-point path for which the starting and ending points are the same.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "polygon"
+              ]
+            },
+            {
+              "title": "GeoCoordinates",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "@Type",
+                  "description": "Geographic coordinates that represent a specific location on the Earth's surface. GeoCoordinates typically consists of two components: latitude and longitude.",
+                  "default": "GeoCoordinates",
+                  "const": "GeoCoordinates",
+                  "options": {
+                    "hidden": true
+                  },
+                  "type": "string"
+                },
+                "latitude": {
+                  "title": "Latitude",
+                  "description": "Represents the angular distance of a location north or south of the equator, measured in degrees and ranges from -90 to +90 degrees.",
+                  "type": "number"
+                },
+                "longitude": {
+                  "title": "Longitude",
+                  "description": "Represents the angular distance of a location east or west of the Prime Meridian, measured in degrees and ranges from -180 to +180 degrees.",
+                  "type": "number"
+                }
+              },
+              "required": [
+                "latitude",
+                "longitude"
+              ],
+              "options": {
+                "detail": {
+                  "type": "MapLayout",
+                  "options": {
+                    "map": {
+                      "type": "point",
+                      "north": "latitude",
+                      "east": "longitude"
+                    }
+                  },
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/latitude"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/longitude"
+                    }
+                  ]
+                }
+              }
             }
-          }
+          ]
         }
-      ]
+      }
     },
     "hasPart": {
       "title": "Haspart",
