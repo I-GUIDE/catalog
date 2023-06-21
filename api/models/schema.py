@@ -58,9 +58,6 @@ class PropertyValue(SchemaBaseModel):
     )
 
 
-Identifier = Union[str, HttpUrl, PropertyValue]
-
-
 class Person(SchemaBaseModel):
     type: str = Field(
         alias="@type", 
@@ -97,21 +94,7 @@ class Organization(SchemaBaseModel):
 
 
 class PublisherOrganization(Organization):
-    name: str = Field(description="Name of the publishing organization")
-    url: Optional[HttpUrl] = Field(title="URL",
-        description="A URL to the homepage for the publisher organization or repository."
-    )
-    identifier: Optional[List[str]] = Field(
-        description="Unique identifiers for the publisher organization. Where identifiers can be encoded as URLs, enter URLs here."
-    )
-    
-
-
-class ProviderID(SchemaBaseModel):
-    id: HttpUrl = Field(
-        alias="@id",
-        description="The URL of a provider. For example, the URL to the HydroShare data repository that is considered as a provider for a creatiev work.",
-    )
+    pass
 
 
 class ProviderOrganization(Organization):
@@ -216,6 +199,31 @@ class GeoCoordinates(SchemaBaseModel):
     type: str = Field(alias="@type", const=True, options={'hidden': True}, default="GeoCoordinates", description="Geographic coordinates that represent a specific location on the Earth's surface. GeoCoordinates typically consists of two components: latitude and longitude.")
     latitude: float = Field(description="Represents the angular distance of a location north or south of the equator, measured in degrees and ranges from -90 to +90 degrees.")
     longitude: float = Field(description="Represents the angular distance of a location east or west of the Prime Meridian, measured in degrees and ranges from -180 to +180 degrees.")
+
+
+    class Config:
+        @staticmethod
+        def schema_extra(schema: dict[str, Any], model) -> None:
+            # TODO: @Scott, figure out how to use super to extend method in base class
+            # Specify UI schema for map layout
+            schema['options'] = {
+                'detail': {
+                    'type': 'MapLayout',
+                    'options': { 
+                        'map': {'type': 'point', 'north': 'latitude', 'east': 'longitude'}
+                    },
+                    'elements':[
+                        {
+                            'type': 'Control',
+                            'scope': '#/properties/latitude'
+                        },
+                        {
+                            'type': 'Control',
+                            'scope': '#/properties/longitude'
+                        }
+                    ]
+                }
+            }
 
     @validator('latitude')
     def validate_latitude(cls, v):

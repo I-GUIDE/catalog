@@ -11,15 +11,20 @@
       "elements": [
         {
           "type": "Control",
-          "scope": "#/properties/@type"
-        },
-        {
-          "type": "Control",
           "scope": "#/properties/name"
         },
         {
-          "type": "Control",
-          "scope": "#/properties/url"
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/url"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/@type"
+            }
+          ]
         },
         {
           "type": "Control",
@@ -410,6 +415,87 @@
       }
     },
     {
+      "type": "Group",
+      "label": "Provider and Publisher Information",
+      "description": "Where the resource is permanently published, indicate the organization that published the resource - e.g., CUAHSI HydroShare",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/provider",
+          "options": {
+            "detail": {
+              "type": "VerticalLayout",
+              "elements": [
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/url"
+                    }
+                  ]
+                },
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/identifier"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/address"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/publisher",
+          "options": {
+            "detail": {
+              "type": "VerticalLayout",
+              "elements": [
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/url"
+                    }
+                  ]
+                },
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/identifier"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/address"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
       "type": "Control",
       "scope": "#/properties/funding",
       "options": {
@@ -446,21 +532,6 @@
           ]
         }
       }
-    },
-    {
-      "type": "Group",
-      "label": "Provider and Publisher Information",
-      "description": "Where the resource is permanently published, indicate the organization that published the resource - e.g., CUAHSI HydroShare",
-      "elements": [
-        {
-          "type": "Control",
-          "scope": "#/properties/provider"
-        },
-        {
-          "type": "Control",
-          "scope": "#/properties/publisher"
-        }
-      ]
     }
   ]
 }

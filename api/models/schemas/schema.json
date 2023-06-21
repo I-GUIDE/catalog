@@ -286,12 +286,12 @@
             },
             "name": {
               "title": "Name",
-              "description": "Name of the publishing organization",
+              "description": "A string containing the name of the organization.",
               "type": "string"
             },
             "url": {
               "title": "URL",
-              "description": "A URL to the homepage for the publisher organization or repository.",
+              "description": "A URL to the homepage for the organization.",
               "minLength": 1,
               "maxLength": 2083,
               "type": "string",
@@ -302,7 +302,7 @@
             },
             "identifier": {
               "title": "Identifier",
-              "description": "Unique identifiers for the publisher organization. Where identifiers can be encoded as URLs, enter URLs here.",
+              "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
               "type": "array",
               "items": {
                 "type": "string"
@@ -683,7 +683,29 @@
                   "required": [
                     "latitude",
                     "longitude"
-                  ]
+                  ],
+                  "options": {
+                    "detail": {
+                      "type": "MapLayout",
+                      "options": {
+                        "map": {
+                          "type": "point",
+                          "north": "latitude",
+                          "east": "longitude"
+                        }
+                      },
+                      "elements": [
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/latitude"
+                        },
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/longitude"
+                        }
+                      ]
+                    }
+                  }
                 }
               ]
             }
@@ -1198,12 +1220,12 @@
         },
         "name": {
           "title": "Name",
-          "description": "Name of the publishing organization",
+          "description": "A string containing the name of the organization.",
           "type": "string"
         },
         "url": {
           "title": "URL",
-          "description": "A URL to the homepage for the publisher organization or repository.",
+          "description": "A URL to the homepage for the organization.",
           "minLength": 1,
           "maxLength": 2083,
           "type": "string",
@@ -1214,7 +1236,7 @@
         },
         "identifier": {
           "title": "Identifier",
-          "description": "Unique identifiers for the publisher organization. Where identifiers can be encoded as URLs, enter URLs here.",
+          "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
           "type": "array",
           "items": {
             "type": "string"
@@ -1511,7 +1533,29 @@
       "required": [
         "latitude",
         "longitude"
-      ]
+      ],
+      "options": {
+        "detail": {
+          "type": "MapLayout",
+          "options": {
+            "map": {
+              "type": "point",
+              "north": "latitude",
+              "east": "longitude"
+            }
+          },
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/latitude"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/longitude"
+            }
+          ]
+        }
+      }
     },
     "Place": {
       "title": "Place",
@@ -1617,7 +1661,29 @@
               "required": [
                 "latitude",
                 "longitude"
-              ]
+              ],
+              "options": {
+                "detail": {
+                  "type": "MapLayout",
+                  "options": {
+                    "map": {
+                      "type": "point",
+                      "north": "latitude",
+                      "east": "longitude"
+                    }
+                  },
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/latitude"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/longitude"
+                    }
+                  ]
+                }
+              }
             }
           ]
         }
