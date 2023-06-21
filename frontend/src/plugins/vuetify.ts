@@ -1,6 +1,6 @@
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib/framework';
-import colors from 'vuetify/lib/util/colors';
+import Vue from "vue";
+import Vuetify from "vuetify/lib/framework";
+import colors from "vuetify/lib/util/colors";
 
 Vue.use(Vuetify);
 
@@ -8,13 +8,13 @@ export default new Vuetify({
   theme: {
     themes: {
       light: {
-        primary: colors.blue.darken2,
+        primary: colors.teal,
         secondary: colors.blueGrey,
         accent: colors.blue,
         error: colors.red.accent3,
         success: colors.teal.accent4,
         info: colors.blueGrey,
-        navbar: colors.blueGrey.lighten4
+        navbar: colors.blueGrey.darken2,
       },
       dark: {
         primary: colors.blueGrey,

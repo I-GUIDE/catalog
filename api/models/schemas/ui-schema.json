@@ -2,24 +2,29 @@
   "type": "VerticalLayout",
   "elements": [
     {
+      "type": "Control",
+      "scope": "#/properties/@context"
+    },
+    {
       "type": "Group",
       "label": "Basic Information",
       "elements": [
         {
           "type": "Control",
-          "scope": "#/properties/@context"
-        },
-        {
-          "type": "Control",
-          "scope": "#/properties/@type"
-        },
-        {
-          "type": "Control",
           "scope": "#/properties/name"
         },
         {
-          "type": "Control",
-          "scope": "#/properties/url"
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/url"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/@type"
+            }
+          ]
         },
         {
           "type": "Control",
@@ -33,14 +38,15 @@
           "scope": "#/properties/keywords"
         },
         {
+          "type": "Control",
+          "scope": "#/properties/variableMeasured"
+        },
+        {
           "type": "HorizontalLayout",
           "elements": [
             {
               "type": "Control",
-              "scope": "#/properties/dateCreated",
-              "options": {
-                "flat": true
-              }
+              "scope": "#/properties/dateCreated"
             },
             {
               "type": "Control",
@@ -64,6 +70,10 @@
               "scope": "#/properties/inLanguage"
             }
           ]
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/creativeWorkStatus"
         }
       ]
     },
@@ -73,11 +83,21 @@
     },
     {
       "type": "Control",
-      "scope": "#/properties/identifier"
-    },
-    {
-      "type": "Control",
-      "scope": "#/properties/provider"
+      "scope": "#/properties/identifier",
+      "options": {
+        "detail": {
+          "type": "VerticalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#"
+            }
+          ],
+          "options": {
+            "flat": true
+          }
+        }
+      }
     },
     {
       "type": "Control",
@@ -127,39 +147,45 @@
       }
     },
     {
-      "type": "Control",
-      "scope": "#/properties/temporalCoverage"
-    },
-    {
-      "type": "Control",
-      "scope": "#/properties/spatialCoverage",
-      "options": {
-        "detail": {
-          "type": "VerticalLayout",
-          "elements": [
-            {
-              "type": "HorizontalLayout",
+      "type": "Group",
+      "label": "Coverage Information",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/temporalCoverage"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/spatialCoverage",
+          "options": {
+            "detail": {
+              "type": "VerticalLayout",
               "elements": [
                 {
-                  "type": "Control",
-                  "scope": "#/properties/name"
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/address",
+                      "options": {
+                        "multi": true
+                      }
+                    }
+                  ]
                 },
                 {
                   "type": "Control",
-                  "scope": "#/properties/address",
-                  "options": {
-                    "multi": true
-                  }
+                  "scope": "#/properties/geo"
                 }
               ]
-            },
-            {
-              "type": "Control",
-              "scope": "#/properties/geo"
             }
-          ]
+          }
         }
-      }
+      ]
     },
     {
       "type": "Group",
@@ -217,6 +243,154 @@
               "name"
             ],
             "detail": {
+              "type": "VerticalLayout",
+              "elements": [
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/url"
+                    }
+                  ]
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/description",
+                  "options": {
+                    "multi": true
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/isPartOf",
+          "options": {
+            "elementLabelProp": [
+              "name"
+            ],
+            "detail": {
+              "type": "VerticalLayout",
+              "elements": [
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/url"
+                    }
+                  ]
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/description",
+                  "options": {
+                    "multi": true
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/hasPart",
+          "options": {
+            "elementLabelProp": [
+              "name"
+            ],
+            "detail": {
+              "type": "VerticalLayout",
+              "elements": [
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/url"
+                    }
+                  ]
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/description",
+                  "options": {
+                    "multi": true
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/associatedMedia",
+          "options": {
+            "elementLabelProp": [
+              "name"
+            ],
+            "detail": {
+              "type": "VerticalLayout",
+              "elements": [
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/contentUrl"
+                    }
+                  ]
+                },
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/contentSize"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/encodingFormat"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/@type"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/license",
+      "options": {
+        "detail": {
+          "type": "VerticalLayout",
+          "elements": [
+            {
               "type": "HorizontalLayout",
               "elements": [
                 {
@@ -226,10 +400,57 @@
                 {
                   "type": "Control",
                   "scope": "#/properties/url"
+                }
+              ]
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/description",
+              "options": {
+                "multi": true
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Group",
+      "label": "Provider and Publisher Information",
+      "description": "Where the resource is permanently published, indicate the organization that published the resource - e.g., CUAHSI HydroShare",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/provider",
+          "options": {
+            "detail": {
+              "type": "VerticalLayout",
+              "elements": [
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/url"
+                    }
+                  ]
                 },
                 {
-                  "type": "Control",
-                  "scope": "#/properties/encodingFormat"
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/identifier"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/address"
+                    }
+                  ]
                 }
               ]
             }
@@ -237,25 +458,42 @@
         },
         {
           "type": "Control",
-          "scope": "#/properties/isPartOf"
-        },
-        {
-          "type": "Control",
-          "scope": "#/properties/hasPart"
-        },
-        {
-          "type": "Control",
-          "scope": "#/properties/associatedMedia"
-        },
-        {
-          "type": "Control",
-          "scope": "#/properties/creativeWorkStatus"
+          "scope": "#/properties/publisher",
+          "options": {
+            "detail": {
+              "type": "VerticalLayout",
+              "elements": [
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/url"
+                    }
+                  ]
+                },
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/identifier"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/address"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
         }
       ]
-    },
-    {
-      "type": "Control",
-      "scope": "#/properties/license"
     },
     {
       "type": "Control",
@@ -276,9 +514,16 @@
                 },
                 {
                   "type": "Control",
-                  "scope": "#/properties/url"
+                  "scope": "#/properties/identifier"
                 }
               ]
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/description",
+              "options": {
+                "multi": true
+              }
             },
             {
               "type": "Control",
@@ -287,14 +532,6 @@
           ]
         }
       }
-    },
-    {
-      "type": "Control",
-      "scope": "#/properties/publisher"
-    },
-    {
-      "type": "Control",
-      "scope": "#/properties/variableMeasured"
     }
   ]
 }

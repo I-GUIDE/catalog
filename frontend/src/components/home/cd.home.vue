@@ -13,20 +13,6 @@
       >
         {{ $t("home.contribute.subtitle") }}
       </v-subheader>
-      <br />
-
-      <div class="text-body-1 mt-4 d-inline-block" style="max-width: 30rem">
-        {{ $t("home.contribute.body") }}
-      </div>
-      <br />
-
-      <v-btn
-        :href="$t('home.contribute.buttonUrl')"
-        class="my-4"
-        small
-        color="accent"
-        >{{ $t("home.contribute.buttonText") }}</v-btn
-      >
     </v-container>
   </div>
 </template>

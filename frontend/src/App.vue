@@ -11,7 +11,7 @@
     >
       <v-container class="d-flex align-end full-height pa-0 align-center">
         <router-link :to="{ path: `/` }" class="logo">
-          <img :src="require('@/assets/img/logo.png')" alt="home" />
+          <img :src="require('@/assets/img/logo-w.png')" alt="home" />
         </router-link>
         <div class="spacer"></div>
         <v-card
@@ -109,7 +109,7 @@
       </v-container>
     </v-main>
 
-    <v-footer class="mt-8 navbar lighten-1">
+    <v-footer class="mt-8 secondary lighten-4">
       <router-view name="footer" />
     </v-footer>
 
