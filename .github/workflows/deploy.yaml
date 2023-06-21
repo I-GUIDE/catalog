@@ -1,0 +1,81 @@
+name: Deploy I-GUIDE to GKE Autopilot
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - 'productionalization'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: code checkout
+      uses: actions/checkout@v2
+
+    - name: Install the gcloud cli
+      uses: google-github-actions/setup-gcloud@v0
+      with:
+        project_id: ${{ secrets.GOOGLE_PROJECT }}
+        service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        install_components: 'gke-gcloud-auth-plugin'
+        export_default_credentials: true
+
+    - name: Compile the root env file
+      env:
+        KEYCLOAK_ISSUER: ${{ secrets.KEYCLOAK_ISSUER }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+        DB_PROTOCOL: ${{ secrets.DB_PROTOCOL }}
+        TESTING: ${{ secrets.TESTING }}
+      run: |
+        variables=("KEYCLOAK_ISSUER" "DB_USERNAME" "DB_PASSWORD" "DB_HOST" "DATABASE_NAME" "DB_PROTOCOL" "TESTING")
+
+        # Empty the .env file
+        > .env
+
+        # Loop through the variables and add them to the .env file
+        for var in "${variables[@]}"; do
+          echo "$var=${!var}" >> .env
+        done
+
+    - name: Compile the frontend env file
+      env:
+        VUE_APP_NAME: ${{ secrets.VUE_APP_NAME }}
+        VUE_APP_API_URL: ${{ secrets.VUE_APP_API_URL }}
+        VUE_APP_SUPPORT_EMAIL: ${{ secrets.VUE_APP_SUPPORT_EMAIL }}
+      run: |
+        variables=("VUE_APP_NAME" "VUE_APP_API_URL" "VUE_APP_SUPPORT_EMAIL")
+
+        # Empty the .env file
+        > frontend/.env
+
+        # Loop through the variables and add them to the .env file
+        for var in "${variables[@]}"; do
+          echo "$var=${!var}" >> frontend/.env
+        done
+
+    - name: Build and push docker images
+      env:
+        GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+      run: |
+        gcloud auth configure-docker us-central1-docker.pkg.dev
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:latest -f docker/Dockerfile .
+        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:latest
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest -f docker/Dockerfile-frontend .
+        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:latest -f docker/Dockerfile-triggers .
+        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:latest
+
+    - name: Deploy to GKE
+      env:
+        USE_GKE_GCLOUD_AUTH_PLUGIN: True
+        GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+      run: |
+        gcloud container clusters get-credentials iguide --region us-central1
+        find ./kubernetes -type f | xargs -i sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" {}
+        kubectl apply -f kubernetes/
+        # Refresh pods
+        kubectl delete pods --all

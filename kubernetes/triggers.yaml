@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: typeahead-trigger
+  labels:
+    app: typeahead-trigger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: typeahead-trigger
+  template:
+    metadata:
+      labels:
+        app: typeahead-trigger
+    spec:
+      containers:
+      - name: typeahead-trigger
+        image: us-central1-docker.pkg.dev/GOOGLE_PROJECT/iguide/trigger:latest
+        command: ["/bin/sh", "-c"]
+        args: ["python triggers/update_typeahead.py"]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-trigger
+  labels:
+    app: catalog-trigger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog-trigger
+  template:
+    metadata:
+      labels:
+        app: catalog-trigger
+    spec:
+      containers:
+      - name: catalog-trigger
+        image: us-central1-docker.pkg.dev/GOOGLE_PROJECT/iguide/trigger:latest
+        command: ["/bin/sh", "-c"]
+        args: ["python triggers/update_catalog.py"]
