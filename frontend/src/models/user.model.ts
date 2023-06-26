@@ -202,7 +202,8 @@ export default class User extends Model {
       },
       body: JSON.stringify(data),
     });
-    return response.ok;
+    const result = await response.json();
+    return response.ok ? result._id : false;
   }
 
   static async fetchDataset(id: string) {
@@ -217,6 +218,11 @@ export default class User extends Model {
     if (response.ok) {
       const result = await response.json();
       return result;
+    } else {
+      Notifications.toast({
+        message: "Failed to load dataset",
+        type: "error",
+      });
     }
   }
 }

@@ -3,7 +3,11 @@
   "elements": [
     {
       "type": "Control",
-      "scope": "#/properties/@context"
+      "scope": "#/properties/@context",
+      "rule": {
+        "effect": "HIDE",
+        "condition": {}
+      }
     },
     {
       "type": "Group",
@@ -79,24 +83,94 @@
     },
     {
       "type": "Control",
-      "scope": "#/properties/creator"
+      "scope": "#/properties/creator",
+      "options": {
+        "detail": {
+          "type": "Control",
+          "scope": "#",
+          "options": {
+            "flat": true,
+            "detail": {
+              "0": {
+                "type": "VerticalLayout",
+                "elements": [
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/@type",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
+                    "type": "HorizontalLayout",
+                    "elements": [
+                      {
+                        "type": "Control",
+                        "scope": "#/properties/name"
+                      },
+                      {
+                        "type": "Control",
+                        "scope": "#/properties/email"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/identifier"
+                  }
+                ]
+              },
+              "1": {
+                "type": "VerticalLayout",
+                "elements": [
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/@type",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
+                    "type": "HorizontalLayout",
+                    "elements": [
+                      {
+                        "type": "Control",
+                        "scope": "#/properties/name"
+                      },
+                      {
+                        "type": "Control",
+                        "scope": "#/properties/url"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "HorizontalLayout",
+                    "elements": [
+                      {
+                        "type": "Control",
+                        "scope": "#/properties/identifier"
+                      },
+                      {
+                        "type": "Control",
+                        "scope": "#/properties/address"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     },
     {
       "type": "Control",
       "scope": "#/properties/identifier",
       "options": {
-        "detail": {
-          "type": "VerticalLayout",
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#"
-            }
-          ],
-          "options": {
-            "flat": true
-          }
-        }
+        "useTableLayout": true,
+        "showSortButtons": true
       }
     },
     {
@@ -179,7 +253,73 @@
                 },
                 {
                   "type": "Control",
-                  "scope": "#/properties/geo"
+                  "scope": "#/properties/geo",
+                  "options": {
+                    "detail": {
+                      "0": {
+                        "type": "VerticalLayout",
+                        "elements": [
+                          {
+                            "type": "Control",
+                            "scope": "#/properties/@type",
+                            "rule": {
+                              "effect": "HIDE",
+                              "condition": {}
+                            }
+                          },
+                          {
+                            "type": "Control",
+                            "scope": "#/properties/line"
+                          }
+                        ]
+                      },
+                      "1": {
+                        "type": "VerticalLayout",
+                        "elements": [
+                          {
+                            "type": "Control",
+                            "scope": "#/properties/@type",
+                            "rule": {
+                              "effect": "HIDE",
+                              "condition": {}
+                            }
+                          },
+                          {
+                            "type": "Control",
+                            "scope": "#/properties/polygon"
+                          }
+                        ]
+                      },
+                      "2": {
+                        "type": "MapLayout",
+                        "options": {
+                          "map": {
+                            "type": "point",
+                            "north": "latitude",
+                            "east": "longitude"
+                          }
+                        },
+                        "elements": [
+                          {
+                            "type": "Control",
+                            "scope": "#/properties/@type",
+                            "rule": {
+                              "effect": "HIDE",
+                              "condition": {}
+                            }
+                          },
+                          {
+                            "type": "Control",
+                            "scope": "#/properties/latitude"
+                          },
+                          {
+                            "type": "Control",
+                            "scope": "#/properties/longitude"
+                          }
+                        ]
+                      }
+                    }
+                  }
                 }
               ]
             }
