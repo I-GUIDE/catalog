@@ -19,7 +19,6 @@
     <cz-form
       :schema="schema"
       :uischema="uiSchema"
-      :isReadOnly="isReadonly"
       :errors.sync="errors"
       :isValid.sync="isValid"
       :data.sync="data"
@@ -33,6 +32,7 @@
     >
       <v-spacer></v-spacer>
       <v-btn @click="onCancel">Cancel</v-btn>
+
       <v-menu :disabled="isValid" open-on-hover bottom left offset-y>
         <template v-slot:activator="{ on, attrs }">
           <div
@@ -41,6 +41,7 @@
             class="d-flex form-controls flex-column flex-sm-row"
           >
             <v-badge
+              :value="!!errors.length"
               bordered
               color="error"
               icon="mdi-exclamation-thick"
@@ -50,9 +51,7 @@
                 color="primary"
                 depressed
                 @click="submit"
-                :disabled="
-                  isSaving || isReadonly || !isValid || !hasUnsavedChanges
-                "
+                :disabled="isSaving || !isValid || !hasUnsavedChanges"
                 >Save</v-btn
               >
             </v-badge>
@@ -88,7 +87,6 @@ const initialData = {};
   components: { CzForm },
 })
 export default class CdContribute extends Vue {
-  protected isReadonly = false;
   protected isValid = false;
   protected errors = [];
   protected data = initialData;
@@ -143,15 +141,15 @@ export default class CdContribute extends Vue {
   protected async submit() {
     try {
       this.isSaving = true;
-      const wasSaved = await User.submit(this.data);
+      const savedDatasetId = await User.submit(this.data);
       this.isSaving = false;
-      if (wasSaved) {
+      if (savedDatasetId) {
         this.hasUnsavedChanges = false;
         Notifications.toast({
           message: `Your submission has been saved!`,
           type: "success",
         });
-        this.$router.push({ name: "home" });
+        this.$router.push({ name: "dataset", params: { id: savedDatasetId } });
       } else {
         // Failed to save
         Notifications.toast({
