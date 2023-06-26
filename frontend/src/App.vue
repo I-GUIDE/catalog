@@ -215,7 +215,7 @@ export default class App extends Vue {
       isActive: () => this.$route.name === "search",
     },
     {
-      attrs: { to: "contribute" },
+      attrs: { to: "/contribute" },
       label: "Contribute",
       icon: "mdi-book-plus",
       isActive: () => this.$route.name === "contribute",
