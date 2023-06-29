@@ -24,8 +24,6 @@ class SchemaBaseModel(BaseModel):
 class CreativeWork(SchemaBaseModel):
     type: str = Field(
         alias="@type",
-        const=True,
-        options={'hidden': True},
         default="CreativeWork",
         description="Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
     )
@@ -39,8 +37,6 @@ class PropertyValue(SchemaBaseModel):
     )
     type: str = Field(
         alias="@type",
-        const=True,
-        options={'hidden': True},
         default="PropertyValue",
         description="Specifies that the type of the structured data object is a PropertyValue.",
     )
@@ -61,8 +57,6 @@ class PropertyValue(SchemaBaseModel):
 class Person(SchemaBaseModel):
     type: str = Field(
         alias="@type", 
-        const=True,
-        options={'hidden': True}, 
         default="Person", 
         description="DELETEME"
     )
@@ -76,8 +70,6 @@ class Person(SchemaBaseModel):
 class Organization(SchemaBaseModel):
     type: str = Field(
         alias="@type",
-        const=True,
-        options={'hidden': True},
         default="Organization",
         description="DELETEME",
     )
@@ -104,7 +96,7 @@ class ProviderOrganization(Organization):
 
 
 class DefinedTerm(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, options={'hidden': True}, default="DefinedTerm", description="A formal definition of a word, name, acronym, phrase, or similar. Often used in the context of category or subject classification, glossaries or dictionaries, product or creative work types, etc.")
+    type: str = Field(alias="@type", default="DefinedTerm", description="A formal definition of a word, name, acronym, phrase, or similar. Often used in the context of category or subject classification, glossaries or dictionaries, product or creative work types, etc.")
     name: str = Field(description="The name of the term or item being defined.")
     description: str = Field(description="The description of the item being defined.")
 
@@ -140,7 +132,7 @@ class LanguageEnum(str, Enum):
 
 
 class Grant(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, options={'hidden': True}, default="MonetaryGrant", description="This metadata represents details about a grant or financial assistance provided to an individual(s) or organization(s) for supporting the work related to the record.")
+    type: str = Field(alias="@type", default="MonetaryGrant", description="This metadata represents details about a grant or financial assistance provided to an individual(s) or organization(s) for supporting the work related to the record.")
     name: str = Field(title="Name or Title", description="A text string indicating the name or title of the grant or financial assistance.")
     description: Optional[str] = Field(description="A text string describing the grant or financial assistance.")
     identifier: Optional[str] = Field(title="Funding Identifier", description="Grant award number or other identifier.")
@@ -196,34 +188,9 @@ class TimeInterval(str):
 
 
 class GeoCoordinates(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, options={'hidden': True}, default="GeoCoordinates", description="Geographic coordinates that represent a specific location on the Earth's surface. GeoCoordinates typically consists of two components: latitude and longitude.")
+    type: str = Field(alias="@type", default="GeoCoordinates", description="Geographic coordinates that represent a specific location on the Earth's surface. GeoCoordinates typically consists of two components: latitude and longitude.")
     latitude: float = Field(description="Represents the angular distance of a location north or south of the equator, measured in degrees and ranges from -90 to +90 degrees.")
     longitude: float = Field(description="Represents the angular distance of a location east or west of the Prime Meridian, measured in degrees and ranges from -180 to +180 degrees.")
-
-
-    class Config:
-        @staticmethod
-        def schema_extra(schema: dict[str, Any], model) -> None:
-            # TODO: @Scott, figure out how to use super to extend method in base class
-            # Specify UI schema for map layout
-            schema['options'] = {
-                'detail': {
-                    'type': 'MapLayout',
-                    'options': { 
-                        'map': {'type': 'point', 'north': 'latitude', 'east': 'longitude'}
-                    },
-                    'elements':[
-                        {
-                            'type': 'Control',
-                            'scope': '#/properties/latitude'
-                        },
-                        {
-                            'type': 'Control',
-                            'scope': '#/properties/longitude'
-                        }
-                    ]
-                }
-            }
 
     @validator('latitude')
     def validate_latitude(cls, v):
@@ -239,7 +206,7 @@ class GeoCoordinates(SchemaBaseModel):
 
 
 class GeoShape(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, options={'hidden': True}, default="GeoShape", description="A structured representation that describes the coordinates of a geographic feature (line or polygon).")
+    type: str = Field(alias="@type", default="GeoShape", description="A structured representation that describes the coordinates of a geographic feature (line or polygon).")
 
 
 class Line(GeoShape):
@@ -291,14 +258,14 @@ class Polygon(GeoShape):
 
 
 class Place(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, options={'hidden': True}, default="Place", description="Represents the focus area of the record's content.")
+    type: str = Field(alias="@type", default="Place", description="Represents the focus area of the record's content.")
     name: Optional[str] = Field(description="The name of the focus area of the record's content.")
     address: Optional[str] = Field(description="The address of the focus area.")
     geo: Optional[Union[Line, Polygon, GeoCoordinates]] = Field(description="Specifies the geographic coordinates of the place in the form of a point location, line, or area coverage extent.")
 
 
 class MediaObject(SchemaBaseModel):
-    type: str = Field(alias="@type", const=False, default="MediaObject", description="An item that encodes the record.")
+    type: str = Field(alias="@type", default="MediaObject", description="An item that encodes the record.")
     contentUrl: HttpUrl = Field(description="The direct URL link to access or download the actual content of the media object.")
     encodingFormat: str = Field(description="Represents the specific file format in which the media is encoded.")  # TODO enum for encoding formats
     contentSize: str = Field(description="Represents the file size, expressed in bytes, kilobytes, megabytes, or another unit of measurement.")
@@ -333,12 +300,12 @@ class MediaObject(SchemaBaseModel):
 
 
 class CoreMetadata(SchemaBaseModel):
-    context: HttpUrl = Field(alias='@context', default='https://schema.org', description="Specifies the vocabulary employed for understanding the structured data markup.", const=True, options={'hidden': True})
-    type: str = Field(alias="@type", title="Submission Type", options={'hidden': True}, default="Dataset", description="Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.")
+    context: HttpUrl = Field(alias='@context', default='https://schema.org', description="Specifies the vocabulary employed for understanding the structured data markup.")
+    type: str = Field(alias="@type", title="Submission Type", default="Dataset", description="Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.")
     name: str = Field(title="Name or Title", description="A text string with a descriptive name or title for the resource.")
     description: str = Field(title="Description or Abstract", description="A text string containing a description/abstract for the resource.")
     url: HttpUrl = Field(title="URL", description="A URL for the landing page that describes the resource and where the content of the resource can be accessed. If there is no landing page, provide the URL of the content.")
-    identifier: List[str] = Field(description="Any kind of identifier for the resource. Multiple identifiers can be entered. Where identifiers can be encoded as URLs, enter URLs here.")
+    identifier: List[str] = Field(title="Identifiers", description="Any kind of identifier for the resource. Multiple identifiers can be entered. Where identifiers can be encoded as URLs, enter URLs here.")
     creator: List[Union[Person, Organization]] = Field(description="Person or organization that created the work.")
     dateCreated: datetime = Field(description="The date on which the work was created.")
     keywords: List[str] = Field(
@@ -389,7 +356,7 @@ class CoreMetadata(SchemaBaseModel):
 
 
 class Distribution(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, options={'hidden': True}, default="DataDownload", description="A downloadable form of the resource, at a specific location, in a specific format. Repeat if multiple files or if different formats/variations are available.")
+    type: str = Field(alias="@type", default="DataDownload", description="A downloadable form of the resource, at a specific location, in a specific format. Repeat if multiple files or if different formats/variations are available.")
     name: Optional[str] = Field(description="A text string indicating the name of the content to be downloaded. This could be a file name or a descriptive name for the content file.")
     contentUrl: HttpUrl = Field(title="Content URL", description="A URL for the content to be downloaded.")
     encodingFormat: Optional[str] = Field(description="Text string indicating the file or media type, usually expressed using a MIME format.")
@@ -398,13 +365,13 @@ class Distribution(SchemaBaseModel):
 
 
 class VariableMeasured(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, options={'hidden': True}, default="PropertyValue", description="Indicates specific information about the variable being measured in a particular dataset, study, or observation.")
+    type: str = Field(alias="@type", default="PropertyValue", description="Indicates specific information about the variable being measured in a particular dataset, study, or observation.")
     name: str = Field(description="The name of the variable being measured.")
     unitText: str = Field(description="Indicate the unit of measurement for the variable.")
 
 
 class IncludedInDataCatalog(SchemaBaseModel):
-    type: str = Field(alias="@type", const=True, options={'hidden': True}, default="DataCatalog", description="A data catalog which contains this dataset.")
+    type: str = Field(alias="@type", default="DataCatalog", description="A data catalog which contains this dataset.")
     name: str = Field(description="The name of the data catalog containing this dataset.")
     description: str = Field(description="The description of the data catalog.")
     url: HttpUrl = Field(description="The URL address to the data catalog.")

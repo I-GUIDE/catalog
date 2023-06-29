@@ -6,10 +6,6 @@
       "title": "@Context",
       "description": "Specifies the vocabulary employed for understanding the structured data markup.",
       "default": "https://schema.org",
-      "const": "https://schema.org",
-      "options": {
-        "hidden": true
-      },
       "minLength": 1,
       "maxLength": 2083,
       "type": "string",
@@ -22,9 +18,6 @@
       "title": "Submission Type",
       "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
       "default": "Dataset",
-      "options": {
-        "hidden": true
-      },
       "type": "string"
     },
     "name": {
@@ -49,7 +42,7 @@
       }
     },
     "identifier": {
-      "title": "Identifier",
+      "title": "Identifiers",
       "description": "Any kind of identifier for the resource. Multiple identifiers can be entered. Where identifiers can be encoded as URLs, enter URLs here.",
       "type": "array",
       "items": {
@@ -70,10 +63,6 @@
                 "title": "@Type",
                 "description": "DELETEME",
                 "default": "Person",
-                "const": "Person",
-                "options": {
-                  "hidden": true
-                },
                 "type": "string"
               },
               "name": {
@@ -108,10 +97,6 @@
                 "title": "@Type",
                 "description": "DELETEME",
                 "default": "Organization",
-                "const": "Organization",
-                "options": {
-                  "hidden": true
-                },
                 "type": "string"
               },
               "name": {
@@ -175,10 +160,6 @@
           "title": "@Type",
           "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
           "default": "CreativeWork",
-          "const": "CreativeWork",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -216,10 +197,6 @@
           "title": "@Type",
           "description": "DELETEME",
           "default": "Organization",
-          "const": "Organization",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -265,10 +242,6 @@
           "title": "@Type",
           "description": "DELETEME",
           "default": "Organization",
-          "const": "Organization",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -323,10 +296,6 @@
             "title": "@Type",
             "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
             "default": "CreativeWork",
-            "const": "CreativeWork",
-            "options": {
-              "hidden": true
-            },
             "type": "string"
           },
           "name": {
@@ -391,10 +360,6 @@
               "title": "@Type",
               "description": "A formal definition of a word, name, acronym, phrase, or similar. Often used in the context of category or subject classification, glossaries or dictionaries, product or creative work types, etc.",
               "default": "DefinedTerm",
-              "const": "DefinedTerm",
-              "options": {
-                "hidden": true
-              },
               "type": "string"
             },
             "name": {
@@ -436,10 +401,6 @@
             "title": "@Type",
             "description": "This metadata represents details about a grant or financial assistance provided to an individual(s) or organization(s) for supporting the work related to the record.",
             "default": "MonetaryGrant",
-            "const": "MonetaryGrant",
-            "options": {
-              "hidden": true
-            },
             "type": "string"
           },
           "name": {
@@ -469,10 +430,6 @@
                     "title": "@Type",
                     "description": "DELETEME",
                     "default": "Person",
-                    "const": "Person",
-                    "options": {
-                      "hidden": true
-                    },
                     "type": "string"
                   },
                   "name": {
@@ -507,10 +464,6 @@
                     "title": "@Type",
                     "description": "DELETEME",
                     "default": "Organization",
-                    "const": "Organization",
-                    "options": {
-                      "hidden": true
-                    },
                     "type": "string"
                   },
                   "name": {
@@ -569,10 +522,6 @@
           "title": "@Type",
           "description": "Represents the focus area of the record's content.",
           "default": "Place",
-          "const": "Place",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -597,10 +546,6 @@
                   "title": "@Type",
                   "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
                   "default": "GeoShape",
-                  "const": "GeoShape",
-                  "options": {
-                    "hidden": true
-                  },
                   "type": "string"
                 },
                 "line": {
@@ -621,10 +566,6 @@
                   "title": "@Type",
                   "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
                   "default": "GeoShape",
-                  "const": "GeoShape",
-                  "options": {
-                    "hidden": true
-                  },
                   "type": "string"
                 },
                 "polygon": {
@@ -645,10 +586,6 @@
                   "title": "@Type",
                   "description": "Geographic coordinates that represent a specific location on the Earth's surface. GeoCoordinates typically consists of two components: latitude and longitude.",
                   "default": "GeoCoordinates",
-                  "const": "GeoCoordinates",
-                  "options": {
-                    "hidden": true
-                  },
                   "type": "string"
                 },
                 "latitude": {
@@ -665,29 +602,7 @@
               "required": [
                 "latitude",
                 "longitude"
-              ],
-              "options": {
-                "detail": {
-                  "type": "MapLayout",
-                  "options": {
-                    "map": {
-                      "type": "point",
-                      "north": "latitude",
-                      "east": "longitude"
-                    }
-                  },
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/latitude"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/longitude"
-                    }
-                  ]
-                }
-              }
+              ]
             }
           ]
         }
@@ -705,10 +620,6 @@
             "title": "@Type",
             "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
             "default": "CreativeWork",
-            "const": "CreativeWork",
-            "options": {
-              "hidden": true
-            },
             "type": "string"
           },
           "name": {
@@ -750,10 +661,6 @@
             "title": "@Type",
             "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
             "default": "CreativeWork",
-            "const": "CreativeWork",
-            "options": {
-              "hidden": true
-            },
             "type": "string"
           },
           "name": {
@@ -844,10 +751,6 @@
             "title": "@Type",
             "description": "A downloadable form of the resource, at a specific location, in a specific format. Repeat if multiple files or if different formats/variations are available.",
             "default": "DataDownload",
-            "const": "DataDownload",
-            "options": {
-              "hidden": true
-            },
             "type": "string"
           },
           "name": {
@@ -910,10 +813,6 @@
             "title": "@Type",
             "description": "A data catalog which contains this dataset.",
             "default": "DataCatalog",
-            "const": "DataCatalog",
-            "options": {
-              "hidden": true
-            },
             "type": "string"
           },
           "name": {
@@ -954,10 +853,6 @@
                     "title": "@Type",
                     "description": "DELETEME",
                     "default": "Person",
-                    "const": "Person",
-                    "options": {
-                      "hidden": true
-                    },
                     "type": "string"
                   },
                   "name": {
@@ -992,10 +887,6 @@
                     "title": "@Type",
                     "description": "DELETEME",
                     "default": "Organization",
-                    "const": "Organization",
-                    "options": {
-                      "hidden": true
-                    },
                     "type": "string"
                   },
                   "name": {
@@ -1066,10 +957,6 @@
           "title": "@Type",
           "description": "DELETEME",
           "default": "Person",
-          "const": "Person",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -1104,10 +991,6 @@
           "title": "@Type",
           "description": "DELETEME",
           "default": "Organization",
-          "const": "Organization",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -1152,10 +1035,6 @@
           "title": "@Type",
           "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
           "default": "CreativeWork",
-          "const": "CreativeWork",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -1192,10 +1071,6 @@
           "title": "@Type",
           "description": "DELETEME",
           "default": "Organization",
-          "const": "Organization",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -1240,10 +1115,6 @@
           "title": "@Type",
           "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
           "default": "CreativeWork",
-          "const": "CreativeWork",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -1289,10 +1160,6 @@
           "title": "@Type",
           "description": "A formal definition of a word, name, acronym, phrase, or similar. Often used in the context of category or subject classification, glossaries or dictionaries, product or creative work types, etc.",
           "default": "DefinedTerm",
-          "const": "DefinedTerm",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -1319,10 +1186,6 @@
           "title": "@Type",
           "description": "This metadata represents details about a grant or financial assistance provided to an individual(s) or organization(s) for supporting the work related to the record.",
           "default": "MonetaryGrant",
-          "const": "MonetaryGrant",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -1352,10 +1215,6 @@
                   "title": "@Type",
                   "description": "DELETEME",
                   "default": "Person",
-                  "const": "Person",
-                  "options": {
-                    "hidden": true
-                  },
                   "type": "string"
                 },
                 "name": {
@@ -1390,10 +1249,6 @@
                   "title": "@Type",
                   "description": "DELETEME",
                   "default": "Organization",
-                  "const": "Organization",
-                  "options": {
-                    "hidden": true
-                  },
                   "type": "string"
                 },
                 "name": {
@@ -1445,10 +1300,6 @@
           "title": "@Type",
           "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
           "default": "GeoShape",
-          "const": "GeoShape",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "line": {
@@ -1469,10 +1320,6 @@
           "title": "@Type",
           "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
           "default": "GeoShape",
-          "const": "GeoShape",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "polygon": {
@@ -1493,10 +1340,6 @@
           "title": "@Type",
           "description": "Geographic coordinates that represent a specific location on the Earth's surface. GeoCoordinates typically consists of two components: latitude and longitude.",
           "default": "GeoCoordinates",
-          "const": "GeoCoordinates",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "latitude": {
@@ -1513,29 +1356,7 @@
       "required": [
         "latitude",
         "longitude"
-      ],
-      "options": {
-        "detail": {
-          "type": "MapLayout",
-          "options": {
-            "map": {
-              "type": "point",
-              "north": "latitude",
-              "east": "longitude"
-            }
-          },
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#/properties/latitude"
-            },
-            {
-              "type": "Control",
-              "scope": "#/properties/longitude"
-            }
-          ]
-        }
-      }
+      ]
     },
     "Place": {
       "title": "Place",
@@ -1545,10 +1366,6 @@
           "title": "@Type",
           "description": "Represents the focus area of the record's content.",
           "default": "Place",
-          "const": "Place",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -1573,10 +1390,6 @@
                   "title": "@Type",
                   "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
                   "default": "GeoShape",
-                  "const": "GeoShape",
-                  "options": {
-                    "hidden": true
-                  },
                   "type": "string"
                 },
                 "line": {
@@ -1597,10 +1410,6 @@
                   "title": "@Type",
                   "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
                   "default": "GeoShape",
-                  "const": "GeoShape",
-                  "options": {
-                    "hidden": true
-                  },
                   "type": "string"
                 },
                 "polygon": {
@@ -1621,10 +1430,6 @@
                   "title": "@Type",
                   "description": "Geographic coordinates that represent a specific location on the Earth's surface. GeoCoordinates typically consists of two components: latitude and longitude.",
                   "default": "GeoCoordinates",
-                  "const": "GeoCoordinates",
-                  "options": {
-                    "hidden": true
-                  },
                   "type": "string"
                 },
                 "latitude": {
@@ -1641,29 +1446,7 @@
               "required": [
                 "latitude",
                 "longitude"
-              ],
-              "options": {
-                "detail": {
-                  "type": "MapLayout",
-                  "options": {
-                    "map": {
-                      "type": "point",
-                      "north": "latitude",
-                      "east": "longitude"
-                    }
-                  },
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/latitude"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/longitude"
-                    }
-                  ]
-                }
-              }
+              ]
             }
           ]
         }
@@ -1677,10 +1460,6 @@
           "title": "@Type",
           "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
           "default": "CreativeWork",
-          "const": "CreativeWork",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -1717,10 +1496,6 @@
           "title": "@Type",
           "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
           "default": "CreativeWork",
-          "const": "CreativeWork",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -1801,10 +1576,6 @@
           "title": "@Type",
           "description": "A downloadable form of the resource, at a specific location, in a specific format. Repeat if multiple files or if different formats/variations are available.",
           "default": "DataDownload",
-          "const": "DataDownload",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -1854,10 +1625,6 @@
           "title": "@Type",
           "description": "A data catalog which contains this dataset.",
           "default": "DataCatalog",
-          "const": "DataCatalog",
-          "options": {
-            "hidden": true
-          },
           "type": "string"
         },
         "name": {
@@ -1898,10 +1665,6 @@
                   "title": "@Type",
                   "description": "DELETEME",
                   "default": "Person",
-                  "const": "Person",
-                  "options": {
-                    "hidden": true
-                  },
                   "type": "string"
                 },
                 "name": {
@@ -1936,10 +1699,6 @@
                   "title": "@Type",
                   "description": "DELETEME",
                   "default": "Organization",
-                  "const": "Organization",
-                  "options": {
-                    "hidden": true
-                  },
                   "type": "string"
                 },
                 "name": {
