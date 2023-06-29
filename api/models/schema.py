@@ -73,7 +73,7 @@ class Organization(SchemaBaseModel):
         default="Organization",
         description="DELETEME",
     )
-    name: str = Field(description="A string containing the name of the organization.")
+    name: str = Field(description="Name of the provider organization or repository.")
     url: Optional[HttpUrl] = Field(title="URL",
         description="A URL to the homepage for the organization."
     )
@@ -86,13 +86,7 @@ class Organization(SchemaBaseModel):
 
 
 class PublisherOrganization(Organization):
-    pass
-
-
-class ProviderOrganization(Organization):
-    parentOrganization: Optional[Organization] = Field(
-        description="The larger organization that the provider or publisher organization is a subOrganization of."
-    )
+    name: str = Field(description="Name of the publishing organization.")
 
 
 class DefinedTerm(SchemaBaseModel):
@@ -301,38 +295,43 @@ class MediaObject(SchemaBaseModel):
 
 class CoreMetadata(SchemaBaseModel):
     context: HttpUrl = Field(alias='@context', default='https://schema.org', description="Specifies the vocabulary employed for understanding the structured data markup.")
-    type: str = Field(alias="@type", title="Submission Type", default="Dataset", description="Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.")
+    type: str = Field(alias="@type", title="Submission Type", default="Dataset", 
+                      description="Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.", 
+                      enum=["Dataset", "Notebook", "Software Source Code"])
     name: str = Field(title="Name or Title", description="A text string with a descriptive name or title for the resource.")
     description: str = Field(title="Description or Abstract", description="A text string containing a description/abstract for the resource.")
     url: HttpUrl = Field(title="URL", description="A URL for the landing page that describes the resource and where the content of the resource can be accessed. If there is no landing page, provide the URL of the content.")
     identifier: List[str] = Field(title="Identifiers", description="Any kind of identifier for the resource. Multiple identifiers can be entered. Where identifiers can be encoded as URLs, enter URLs here.")
     creator: List[Union[Person, Organization]] = Field(description="Person or organization that created the work.")
-    dateCreated: datetime = Field(description="The date on which the work was created.")
+    dateCreated: datetime = Field(title="Date Created", description="The date on which the work was created.")
     keywords: List[str] = Field(
         min_items=1, description="Keywords or tags used to describe the dataset, delimited by commas."
     )
     license: License = Field(
         description="A license document that applies to the content, typically indicated by a URL."
     )
-    provider: Organization = Field(
+    provider: Union[Organization, Person] = Field(
         description="The repository, service provider, organization, person, or service performer that provides access to the resource."
     )
     publisher: Optional[PublisherOrganization] = Field(
+        title="Publisher",
         description="The publisher of the record."
     )
-    datePublished: Optional[datetime] = Field(description="Date of first publication for the record.")
+    datePublished: Optional[datetime] = Field(title="Date Published", description="Date of first publication for the record.")
     subjectOf: Optional[List[SubjectOf]] = Field(
         description="A CreativeWork about the record - e.g., a related metadata document describing the record.",
     )
     version: Optional[str] = Field(
         description="A text string indicating the version of the resource."
     )  # TODO find something better than float for number
-    inLanguage: Optional[Union[LanguageEnum, str]] = Field(description="The language of the content of the resource.")
+    inLanguage: Optional[Union[LanguageEnum, str]] = Field(title="Language", description="The language of the content of the resource.")
+    # TODO: find a way to modify fields inside Unions so we can add titles, descriptions, options, etc.
     creativeWorkStatus: Optional[Union[DefinedTerm, str]] = Field(
         title="Resource Status",
         description="The status of this resource in terms of its stage in a lifecycle. Example terms include Incomplete, Draft, Published, and Obsolete.",
     )
     dateModified: Optional[datetime] = Field(
+        title="Date Modified",
         description="The date on which the CreativeWork was most recently modified or updated."
     )
     funding: Optional[List[Grant]] = Field(
@@ -384,6 +383,7 @@ class Dataset(SchemaBaseModel):
         description="A downloadable form of the resource, at a specific location, in a specific format. Repeat if multiple files or if different formats/variations are available.",
     )
     variableMeasured: Optional[List[str]] = Field(
+        title="Variable Measured",
         description="The variableMeasured property can indicate (repeated as necessary) the variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue.",
     )
     includedInDataCatalog: Optional[List[IncludedInDataCatalog]] = Field(
