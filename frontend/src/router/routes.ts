@@ -34,8 +34,8 @@ export const routes: RouteConfig[] = [
       footer: CdFooter,
     },
     meta: {
-      hasLoggedInGuard: true,
-      hasAccessTokenGuard: true,
+      // hasLoggedInGuard: true,
+      // hasAccessTokenGuard: true,
       hasUnsavedChangesGuard: true,
       title: "Contribute",
     },
