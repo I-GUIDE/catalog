@@ -37,15 +37,26 @@ class _HydroshareRequestHandler(RepositoryRequestHandler):
         hs_meta_url = self.settings.hydroshare_meta_read_url % record_id
         hs_file_url = self.settings.hydroshare_file_read_url % record_id
 
-        def make_request(url):
+        def make_request(url, file_list=False):
             response = requests.get(url)
             if response.status_code != 200:
                 raise HTTPException(status_code=response.status_code, detail=response.text)
-            return response.json()
+            if not file_list:
+                return response.json()
+
+            content_files = []
+            content_files.extend(response.json()["results"])
+            # check if there are more results to fetch - by default, 100 files are returned from HydroShare
+            while response.json()["next"]:
+                response = requests.get(response.json()["next"])
+                if response.status_code != 200:
+                    raise HTTPException(status_code=response.status_code, detail=response.text)
+                content_files.extend(response.json()["results"])
+            return content_files
 
         metadata = make_request(hs_meta_url)
-        files_metadata = make_request(hs_file_url)
-        metadata["content_files"] = files_metadata["results"]
+        files_metadata = make_request(hs_file_url, file_list=True)
+        metadata["content_files"] = files_metadata
         return metadata
 
 
