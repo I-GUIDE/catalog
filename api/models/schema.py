@@ -121,6 +121,11 @@ class License(CreativeWork):
 
 
 class LanguageEnum(str, Enum):
+    """TODO - write description here"""
+
+    def __init__(self, abc):
+        self.__class__.__name__ = 'TODO - write title here'
+
     eng = 'eng'
     esp = 'esp'
 
