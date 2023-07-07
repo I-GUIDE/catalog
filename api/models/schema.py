@@ -128,7 +128,7 @@ class LanguageEnum(str, Enum):
     eng = 'eng'
     esp = 'esp'
 
-class InLanguageStr(BaseModel):
+class InLanguageStr(str):
     @classmethod
     def __modify_schema__(cls, field_schema: Dict[str, Any]) -> None:
         field_schema.update(type='string', title='TODO - title here', description="TODO - description here")
