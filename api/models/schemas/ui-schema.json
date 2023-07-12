@@ -10,6 +10,14 @@
       }
     },
     {
+      "type": "Control",
+      "scope": "#/properties/@type",
+      "rule": {
+        "effect": "HIDE",
+        "condition": {}
+      }
+    },
+    {
       "type": "Group",
       "label": "Basic Information",
       "elements": [
@@ -18,17 +26,8 @@
           "scope": "#/properties/name"
         },
         {
-          "type": "HorizontalLayout",
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#/properties/url"
-            },
-            {
-              "type": "Control",
-              "scope": "#/properties/@type"
-            }
-          ]
+          "type": "Control",
+          "scope": "#/properties/url"
         },
         {
           "type": "Control",
@@ -79,9 +78,11 @@
           "type": "Control",
           "scope": "#/properties/creativeWorkStatus",
           "options": {
+            "dropdown": true,
+            "title": "Name",
+            "description": "The name of the term or item being defined.",
             "detail": {
               "0": {
-                "label": "Defined Term",
                 "type": "VerticalLayout",
                 "elements": [
                   {
@@ -94,21 +95,92 @@
                   },
                   {
                     "type": "Control",
-                    "scope": "#/properties/name"
+                    "scope": "#/properties/name",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
                   },
                   {
                     "type": "Control",
-                    "scope": "#/properties/description",
-                    "options": {
-                      "multi": true
-                    }
+                    "scope": "#/properties/description"
                   }
                 ]
               },
               "1": {
-                "type": "Control",
-                "scope": "#",
-                "label": "Other"
+                "type": "VerticalLayout",
+                "elements": [
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/@type",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/name",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/description"
+                  }
+                ]
+              },
+              "2": {
+                "type": "VerticalLayout",
+                "elements": [
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/@type",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/name",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/description"
+                  }
+                ]
+              },
+              "3": {
+                "type": "VerticalLayout",
+                "elements": [
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/@type",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/name",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/description"
+                  }
+                ]
               }
             }
           }
@@ -127,6 +199,7 @@
             "detail": {
               "0": {
                 "type": "VerticalLayout",
+                "label": "Creator",
                 "elements": [
                   {
                     "type": "Control",
@@ -150,8 +223,21 @@
                     ]
                   },
                   {
-                    "type": "Control",
-                    "scope": "#/properties/identifier"
+                    "type": "HorizontalLayout",
+                    "elements": [
+                      {
+                        "type": "Control",
+                        "scope": "#/properties/identifier",
+                        "options": {
+                          "useTableLayout": true,
+                          "showSortButtons": true
+                        }
+                      },
+                      {
+                        "type": "Control",
+                        "scope": "#/properties/organization"
+                      }
+                    ]
                   }
                 ]
               },
@@ -184,7 +270,12 @@
                     "elements": [
                       {
                         "type": "Control",
-                        "scope": "#/properties/identifier"
+                        "scope": "#/properties/identifier",
+                        "label": "ORCID",
+                        "options": {
+                          "useTableLayout": true,
+                          "showSortButtons": true
+                        }
                       },
                       {
                         "type": "Control",
@@ -591,7 +682,7 @@
     {
       "type": "Group",
       "label": "Provider and Publisher Information",
-      "description": "Where the resource is permanently published, indicate the organization that published the resource - e.g., CUAHSI HydroShare",
+      "description": "Where the resource is permanently published, indicate the organization that published the resource - e.g., CUAHSI HydroShare.",
       "elements": [
         {
           "type": "Control",

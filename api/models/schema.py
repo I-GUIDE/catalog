@@ -67,6 +67,10 @@ class Person(SchemaBaseModel):
     identifier: Optional[List[str]] = Field(description="Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.")
 
 
+class Creator(Person):
+    organization: Optional[str] = Field(description="The organization that the creator is associated with.")
+
+
 class Organization(SchemaBaseModel):
     type: str = Field(
         alias="@type",
@@ -90,13 +94,29 @@ class PublisherOrganization(Organization):
 
 
 class DefinedTerm(SchemaBaseModel):
-    type: str = Field(alias="@type", default="DefinedTerm", description="A formal definition of a word, name, acronym, phrase, or similar. Often used in the context of category or subject classification, glossaries or dictionaries, product or creative work types, etc.")
+    type: str = Field(alias="@type", default="DefinedTerm")
     name: str = Field(description="The name of the term or item being defined.")
     description: str = Field(description="The description of the item being defined.")
 
 
-class KeywordTerm(DefinedTerm):
-    inDefinedTermSet: HttpUrl = Field(description="Keywords or tags with a formal definition used to describe the creative work.")
+class Draft(DefinedTerm):
+    name: str = Field(default="Draft")
+    description: str = Field(default="The resource is in draft state and should not be considered final. Content and metadata may change", readOnly=True, description="The description of the item being defined.")
+
+
+class Incomplete(DefinedTerm):
+    name: str = Field(default="Incomplete")
+    description: str = Field(default="Data collection is ongoing or the resource is not completed", readOnly=True, description="The description of the item being defined.")
+
+
+class Obsolete(DefinedTerm):
+    name: str = Field(default="Obsolete")
+    description: str = Field(default="The resource has been replaced by a newer version, or the resource is no longer considered applicable", description="The description of the item being defined.")
+
+
+class Published(DefinedTerm):
+    name: str = Field(default="Published")
+    description: str = Field(default="The resource has been permanently published and should be considered final and complete", description="The description of the item being defined.")
 
 
 class HasPart(CreativeWork):
@@ -302,8 +322,8 @@ class CoreMetadata(SchemaBaseModel):
     description: str = Field(title="Description or Abstract", description="A text string containing a description/abstract for the resource.")
     url: HttpUrl = Field(title="URL", description="A URL for the landing page that describes the resource and where the content of the resource can be accessed. If there is no landing page, provide the URL of the content.")
     identifier: List[str] = Field(title="Identifiers", description="Any kind of identifier for the resource. Multiple identifiers can be entered. Where identifiers can be encoded as URLs, enter URLs here.")
-    creator: List[Union[Person, Organization]] = Field(description="Person or organization that created the work.")
-    dateCreated: datetime = Field(title="Date Created", description="The date on which the work was created.")
+    creator: List[Union[Creator, Organization]] = Field(description="Person or Organization that created the resource.")
+    dateCreated: datetime = Field(title="Date Created", description="The date on which the resource was created.")
     keywords: List[str] = Field(
         min_items=1, description="Keywords or tags used to describe the dataset, delimited by commas."
     )
@@ -317,7 +337,7 @@ class CoreMetadata(SchemaBaseModel):
         title="Publisher",
         description="The publisher of the record."
     )
-    datePublished: Optional[datetime] = Field(title="Date Published", description="Date of first publication for the record.")
+    datePublished: Optional[datetime] = Field(title="Date Published", description="Date of first publication for the resource.")
     subjectOf: Optional[List[SubjectOf]] = Field(
         description="A CreativeWork about the record - e.g., a related metadata document describing the record.",
     )
@@ -326,13 +346,13 @@ class CoreMetadata(SchemaBaseModel):
     )  # TODO find something better than float for number
     inLanguage: Optional[Union[LanguageEnum, str]] = Field(title="Language", description="The language of the content of the resource.")
     # TODO: find a way to modify fields inside Unions so we can add titles, descriptions, options, etc.
-    creativeWorkStatus: Optional[Union[DefinedTerm, str]] = Field(
+    creativeWorkStatus: Optional[Union[Draft, Incomplete, Obsolete, Published]] = Field(
         title="Resource Status",
         description="The status of this resource in terms of its stage in a lifecycle. Example terms include Incomplete, Draft, Published, and Obsolete.",
     )
     dateModified: Optional[datetime] = Field(
         title="Date Modified",
-        description="The date on which the CreativeWork was most recently modified or updated."
+        description="The date on which the resource was most recently modified or updated."
     )
     funding: Optional[List[Grant]] = Field(
         description="A Grant that directly or indirectly provide funding or sponsorship for creation of the dataset.",

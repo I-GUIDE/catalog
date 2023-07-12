@@ -1,20 +1,6 @@
 <template>
   <v-container class="cd-contribute">
     <div class="display-1">Contribute</div>
-    <v-divider class="my-4"></v-divider>
-    <v-alert
-      class="mb-8"
-      border="left"
-      colored-border
-      type="info"
-      elevation="2"
-    >
-      <div><b>Instructions</b></div>
-      <p class="text-body-2">
-        Fill in the required fields (marked with * and highlighted in red).
-        Press the "Save" button to upload your submission.
-      </p>
-    </v-alert>
 
     <cz-form
       :schema="schema"
@@ -49,6 +35,7 @@
             >
               <v-btn
                 color="primary"
+                block
                 depressed
                 @click="submit"
                 :disabled="isSaving || !isValid || !hasUnsavedChanges"

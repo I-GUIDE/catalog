@@ -102,7 +102,7 @@
         <v-sheet
           min-height="70vh"
           rounded
-          :elevation="$route.meta.hideNavigation ? 0 : 2"
+          :elevation="$route.meta.hideNavigation || $route.meta.flat ? 0 : 2"
         >
           <router-view name="content" />
         </v-sheet>
@@ -114,7 +114,7 @@
     </v-footer>
 
     <v-navigation-drawer
-      v-if="!$route.meta.hideNavigation"
+      v-if="!$route.meta.hideNavigation || $route.meta.flat"
       class="mobile-nav-items"
       v-model="showMobileNavigation"
       temporary
