@@ -171,22 +171,22 @@ export default class User extends Model {
     let uiSchema = null;
     let schemaDefaults = null;
 
-    if (results[0].ok) {
+    if (results[0]?.ok) {
       try {
       } catch (e) {}
-      schema = await results[0].json();
+      schema = await results[0]?.json();
       User.commit((state) => {
         state.schema = schema;
       });
     }
-    if (results[1].ok) {
-      uiSchema = await results[1].json();
+    if (results[1]?.ok) {
+      uiSchema = await results[1]?.json();
       User.commit((state) => {
         state.uiSchema = uiSchema;
       });
     }
-    if (results[2].ok) {
-      schemaDefaults = await results[2].json();
+    if (results[2]?.ok) {
+      schemaDefaults = await results[2]?.json();
       User.commit((state) => {
         state.schemaDefaults = schemaDefaults;
       });

@@ -41,10 +41,6 @@
           "scope": "#/properties/keywords"
         },
         {
-          "type": "Control",
-          "scope": "#/properties/variableMeasured"
-        },
-        {
           "type": "HorizontalLayout",
           "elements": [
             {
@@ -349,7 +345,7 @@
         {
           "type": "Control",
           "scope": "#/properties/temporalCoverage",
-          "label": "Temporal Coverage",
+          "label": "Temporal coverage",
           "options": {
             "detail": {
               "type": "HorizontalLayout",
@@ -369,25 +365,22 @@
         {
           "type": "Control",
           "scope": "#/properties/spatialCoverage",
+          "label": "Spatial coverage",
           "options": {
             "detail": {
               "type": "VerticalLayout",
               "elements": [
                 {
-                  "type": "HorizontalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/name"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/address",
-                      "options": {
-                        "multi": true
-                      }
-                    }
-                  ]
+                  "type": "Control",
+                  "scope": "#/properties/@type",
+                  "rule": {
+                    "effect": "HIDE",
+                    "condition": {}
+                  }
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/name"
                 },
                 {
                   "type": "Control",
@@ -395,40 +388,6 @@
                   "options": {
                     "detail": {
                       "0": {
-                        "type": "VerticalLayout",
-                        "elements": [
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/@type",
-                            "rule": {
-                              "effect": "HIDE",
-                              "condition": {}
-                            }
-                          },
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/line"
-                          }
-                        ]
-                      },
-                      "1": {
-                        "type": "VerticalLayout",
-                        "elements": [
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/@type",
-                            "rule": {
-                              "effect": "HIDE",
-                              "condition": {}
-                            }
-                          },
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/polygon"
-                          }
-                        ]
-                      },
-                      "2": {
                         "type": "MapLayout",
                         "options": {
                           "map": {
@@ -453,6 +412,19 @@
                           {
                             "type": "Control",
                             "scope": "#/properties/longitude"
+                          }
+                        ]
+                      },
+                      "1": {
+                        "type": "VerticalLayout",
+                        "elements": [
+                          {
+                            "type": "Control",
+                            "scope": "#/properties/@type",
+                            "rule": {
+                              "effect": "HIDE",
+                              "condition": {}
+                            }
                           }
                         ]
                       }
@@ -654,6 +626,14 @@
                 "type": "VerticalLayout",
                 "elements": [
                   {
+                    "type": "Control",
+                    "scope": "#/properties/@type",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
                     "type": "HorizontalLayout",
                     "elements": [
                       {
@@ -685,19 +665,28 @@
                     }
                   },
                   {
-                    "type": "Control",
-                    "scope": "#/properties/name"
+                    "type": "HorizontalLayout",
+                    "elements": [
+                      {
+                        "type": "Control",
+                        "scope": "#/properties/name"
+                      },
+                      {
+                        "type": "Control",
+                        "scope": "#/properties/email"
+                      }
+                    ]
                   },
                   {
                     "type": "HorizontalLayout",
                     "elements": [
                       {
                         "type": "Control",
-                        "scope": "#/properties/email"
+                        "scope": "#/properties/identifier"
                       },
                       {
                         "type": "Control",
-                        "scope": "#/properties/identifier"
+                        "scope": "#/properties/organization"
                       }
                     ]
                   }

@@ -53,7 +53,7 @@ class PropertyValue(SchemaBaseModel):
         description="Represents the actual value assigned to the property. For example,  the ORCID identifier: 0000-0000-0000-0001."
     )
     url: HttpUrl = Field(
-        description="Indicates the URL associated with the property value. For example, the ORCID profile URL"
+        description="Indicates the URL associated with the property value. For example, the ORCID profile URL."
     )
 
 
@@ -64,15 +64,17 @@ class Person(SchemaBaseModel):
         description="DELETEME"
     )
     name: str = Field(
-        description="A string containing the full name of the person. Personal name format: Family Name, Given Name"
+        description="A string containing the full name of the person. Personal name format: Family Name, Given Name."
     )
-    email: Optional[EmailStr] = Field(description="A string containing an email address for the person")
+    email: Optional[EmailStr] = Field(description="A string containing an email address for the person.")
     identifier: Optional[List[str]] = Field(description="Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.")
 
 
 class Provider(Person):
     identifier: Optional[str] = Field(description="ORCID identifier for the person.", pattern=orcid_pattern, options={ "placeholder": orcid_pattern_placeholder}, errorMessage={"pattern": orcid_pattern_error})
     organization: Optional[str] = Field(description="The organization that the person is associated with.")
+    email: Optional[EmailStr] = Field(description="A string containing an email address for the provider.")
+    organization: Optional[str] = Field(description="The organization that the provider is associated with.")
 
 
 class Creator(Person):
@@ -100,6 +102,9 @@ class FunderOrganization(Organization):
 
 class PublisherOrganization(Organization):
     name: str = Field(description="Name of the publishing organization.")
+    url: Optional[HttpUrl] = Field(title="URL",
+        description="A URL to the homepage for the publisher organization or repository."
+    )
 
 
 class DefinedTerm(SchemaBaseModel):
@@ -249,59 +254,58 @@ class GeoShape(SchemaBaseModel):
     type: str = Field(alias="@type", default="GeoShape", description="A structured representation that describes the coordinates of a geographic feature (line or polygon).")
 
 
-class Line(GeoShape):
-    line: str = Field(description="A line that is expressed as a series of two or more point objects separated by space.")
+# class Line(GeoShape):
+#     line: str = Field(description="A line that is expressed as a series of two or more point objects separated by space.")
 
-    @validator('line')
-    def validate_line(cls, v):
-        if not isinstance(v, str):
-            raise TypeError('string required')
-        v = v.strip()
-        if not v:
-            raise ValueError('empty string')
-        v_parts = v.split(' ')
-        if len(v_parts) < 2:
-            raise ValueError('Line must have at least 2 points')
-        for item in v_parts:
-            try:
-                item = float(item)
-            except ValueError:
-                raise ValueError('Line point is not a number')
-            item = abs(item)
-            if item > 180:
-                raise ValueError('Line point must be between -180 and 180')
-        return v
+#     @validator('line')
+#     def validate_line(cls, v):
+#         if not isinstance(v, str):
+#             raise TypeError('string required')
+#         v = v.strip()
+#         if not v:
+#             raise ValueError('empty string')
+#         v_parts = v.split(' ')
+#         if len(v_parts) < 2:
+#             raise ValueError('Line must have at least 2 points')
+#         for item in v_parts:
+#             try:
+#                 item = float(item)
+#             except ValueError:
+#                 raise ValueError('Line point is not a number')
+#             item = abs(item)
+#             if item > 180:
+#                 raise ValueError('Line point must be between -180 and 180')
+#         return v
 
 
-class Polygon(GeoShape):
-    polygon: str = Field(description="A polygon outlines the boundary of a specific region by a point-to-point path for which the starting and ending points are the same.")
+# class Polygon(GeoShape):
+#     polygon: str = Field(description="A polygon outlines the boundary of a specific region by a point-to-point path for which the starting and ending points are the same.")
 
-    @validator('polygon')
-    def validate_polygon(cls, v):
-        if not isinstance(v, str):
-            raise TypeError('string required')
-        v = v.strip()
-        if not v:
-            raise ValueError('empty string')
-        v_parts = v.split(' ')
-        if len(v_parts) < 3:
-            raise ValueError('Polygon must have at least 3 points')
-        for item in v_parts:
-            try:
-                item = float(item)
-            except ValueError:
-                raise ValueError('Polygon point is not a number')
-            item = abs(item)
-            if item > 180:
-                raise ValueError('Polygon point must be between -180 and 180')
-        return v
+#     @validator('polygon')
+#     def validate_polygon(cls, v):
+#         if not isinstance(v, str):
+#             raise TypeError('string required')
+#         v = v.strip()
+#         if not v:
+#             raise ValueError('empty string')
+#         v_parts = v.split(' ')
+#         if len(v_parts) < 3:
+#             raise ValueError('Polygon must have at least 3 points')
+#         for item in v_parts:
+#             try:
+#                 item = float(item)
+#             except ValueError:
+#                 raise ValueError('Polygon point is not a number')
+#             item = abs(item)
+#             if item > 180:
+#                 raise ValueError('Polygon point must be between -180 and 180')
+#         return v
 
 
 class Place(SchemaBaseModel):
     type: str = Field(alias="@type", default="Place", description="Represents the focus area of the record's content.")
-    name: Optional[str] = Field(description="The name of the focus area of the record's content.")
-    address: Optional[str] = Field(description="The address of the focus area.")
-    geo: Optional[Union[Line, Polygon, GeoCoordinates]] = Field(description="Specifies the geographic coordinates of the place in the form of a point location, line, or area coverage extent.")
+    name: Optional[str] = Field(description="Name of the place.")
+    geo: Optional[Union[GeoCoordinates, GeoShape]] = Field(description="Specifies the geographic coordinates of the place in the form of a point location, line, or area coverage extent.")
 
 
 class MediaObject(SchemaBaseModel):
@@ -408,10 +412,10 @@ class CoreMetadata(SchemaBaseModel):
     )
 
 
-class VariableMeasured(SchemaBaseModel):
-    type: str = Field(alias="@type", default="PropertyValue", description="Indicates specific information about the variable being measured in a particular dataset, study, or observation.")
-    name: str = Field(description="The name of the variable being measured.")
-    unitText: str = Field(description="Indicate the unit of measurement for the variable.")
+# class VariableMeasured(SchemaBaseModel):
+#     type: str = Field(alias="@type", default="PropertyValue", description="Indicates specific information about the variable being measured in a particular dataset, study, or observation.")
+#     name: str = Field(description="The name of the variable being measured.")
+#     unitText: str = Field(description="Indicate the unit of measurement for the variable.")
 
 
 class IncludedInDataCatalog(SchemaBaseModel):
@@ -422,10 +426,10 @@ class IncludedInDataCatalog(SchemaBaseModel):
 
 
 class Dataset(SchemaBaseModel):
-    variableMeasured: Optional[List[str]] = Field(
-        title="Variable measured",
-        description="The variableMeasured property can indicate (repeated as necessary) the variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue.",
-    )
+    # variableMeasured: Optional[List[str]] = Field(
+    #     title="Variable measured",
+    #     description="The Variable Measured property can indicate (repeated as necessary) the variables that are measured or observed in some dataset.",
+    # )
     includedInDataCatalog: Optional[List[IncludedInDataCatalog]] = Field(
         title="Included in data catalog",
         description="Any other data catalog that contains a description of this resource.",

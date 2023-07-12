@@ -72,12 +72,12 @@
               },
               "name": {
                 "title": "Name",
-                "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name",
+                "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name.",
                 "type": "string"
               },
               "email": {
                 "title": "Email",
-                "description": "A string containing an email address for the person",
+                "description": "A string containing an email address for the person.",
                 "type": "string",
                 "format": "email"
               },
@@ -244,12 +244,12 @@
             },
             "name": {
               "title": "Name",
-              "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name",
+              "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name.",
               "type": "string"
             },
             "email": {
               "title": "Email",
-              "description": "A string containing an email address for the person",
+              "description": "A string containing an email address for the provider.",
               "type": "string",
               "format": "email"
             },
@@ -267,7 +267,7 @@
             },
             "organization": {
               "title": "Organization",
-              "description": "The organization that the person is associated with.",
+              "description": "The organization that the provider is associated with.",
               "type": "string"
             }
           },
@@ -294,7 +294,7 @@
         },
         "url": {
           "title": "URL",
-          "description": "A URL to the homepage for the organization.",
+          "description": "A URL to the homepage for the publisher organization or repository.",
           "minLength": 1,
           "maxLength": 2083,
           "type": "string",
@@ -534,12 +534,12 @@
                   },
                   "name": {
                     "title": "Name",
-                    "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name",
+                    "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name.",
                     "type": "string"
                   },
                   "email": {
                     "title": "Email",
-                    "description": "A string containing an email address for the person",
+                    "description": "A string containing an email address for the person.",
                     "type": "string",
                     "format": "email"
                   },
@@ -638,58 +638,13 @@
         },
         "name": {
           "title": "Name",
-          "description": "The name of the focus area of the record's content.",
-          "type": "string"
-        },
-        "address": {
-          "title": "Address",
-          "description": "The address of the focus area.",
+          "description": "Name of the place.",
           "type": "string"
         },
         "geo": {
           "title": "Geo",
           "description": "Specifies the geographic coordinates of the place in the form of a point location, line, or area coverage extent.",
           "anyOf": [
-            {
-              "title": "Line",
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "title": "@Type",
-                  "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
-                  "default": "GeoShape",
-                  "type": "string"
-                },
-                "line": {
-                  "title": "Line",
-                  "description": "A line that is expressed as a series of two or more point objects separated by space.",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "line"
-              ]
-            },
-            {
-              "title": "Polygon",
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "title": "@Type",
-                  "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
-                  "default": "GeoShape",
-                  "type": "string"
-                },
-                "polygon": {
-                  "title": "Polygon",
-                  "description": "A polygon outlines the boundary of a specific region by a point-to-point path for which the starting and ending points are the same.",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "polygon"
-              ]
-            },
             {
               "title": "GeoCoordinates",
               "type": "object",
@@ -715,6 +670,18 @@
                 "latitude",
                 "longitude"
               ]
+            },
+            {
+              "title": "GeoShape",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "@Type",
+                  "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
+                  "default": "GeoShape",
+                  "type": "string"
+                }
+              }
             }
           ]
         }
@@ -851,14 +818,6 @@
         ]
       }
     },
-    "variableMeasured": {
-      "title": "Variable measured",
-      "description": "The variableMeasured property can indicate (repeated as necessary) the variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue.",
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
     "includedInDataCatalog": {
       "title": "Included in data catalog",
       "description": "Any other data catalog that contains a description of this resource.",
@@ -925,12 +884,12 @@
         },
         "name": {
           "title": "Name",
-          "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name",
+          "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name.",
           "type": "string"
         },
         "email": {
           "title": "Email",
-          "description": "A string containing an email address for the person",
+          "description": "A string containing an email address for the person.",
           "type": "string",
           "format": "email"
         },
@@ -1039,12 +998,12 @@
         },
         "name": {
           "title": "Name",
-          "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name",
+          "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name.",
           "type": "string"
         },
         "email": {
           "title": "Email",
-          "description": "A string containing an email address for the person",
+          "description": "A string containing an email address for the provider.",
           "type": "string",
           "format": "email"
         },
@@ -1062,7 +1021,7 @@
         },
         "organization": {
           "title": "Organization",
-          "description": "The organization that the person is associated with.",
+          "description": "The organization that the provider is associated with.",
           "type": "string"
         }
       },
@@ -1086,7 +1045,7 @@
         },
         "url": {
           "title": "URL",
-          "description": "A URL to the homepage for the organization.",
+          "description": "A URL to the homepage for the publisher organization or repository.",
           "minLength": 1,
           "maxLength": 2083,
           "type": "string",
@@ -1254,12 +1213,12 @@
         },
         "name": {
           "title": "Name",
-          "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name",
+          "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name.",
           "type": "string"
         },
         "email": {
           "title": "Email",
-          "description": "A string containing an email address for the person",
+          "description": "A string containing an email address for the person.",
           "type": "string",
           "format": "email"
         },
@@ -1352,12 +1311,12 @@
                 },
                 "name": {
                   "title": "Name",
-                  "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name",
+                  "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name.",
                   "type": "string"
                 },
                 "email": {
                   "title": "Email",
-                  "description": "A string containing an email address for the person",
+                  "description": "A string containing an email address for the person.",
                   "type": "string",
                   "format": "email"
                 },
@@ -1441,46 +1400,6 @@
         "end"
       ]
     },
-    "Line": {
-      "title": "Line",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "title": "@Type",
-          "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
-          "default": "GeoShape",
-          "type": "string"
-        },
-        "line": {
-          "title": "Line",
-          "description": "A line that is expressed as a series of two or more point objects separated by space.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "line"
-      ]
-    },
-    "Polygon": {
-      "title": "Polygon",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "title": "@Type",
-          "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
-          "default": "GeoShape",
-          "type": "string"
-        },
-        "polygon": {
-          "title": "Polygon",
-          "description": "A polygon outlines the boundary of a specific region by a point-to-point path for which the starting and ending points are the same.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "polygon"
-      ]
-    },
     "GeoCoordinates": {
       "title": "GeoCoordinates",
       "type": "object",
@@ -1507,6 +1426,18 @@
         "longitude"
       ]
     },
+    "GeoShape": {
+      "title": "GeoShape",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "@Type",
+          "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
+          "default": "GeoShape",
+          "type": "string"
+        }
+      }
+    },
     "Place": {
       "title": "Place",
       "type": "object",
@@ -1519,58 +1450,13 @@
         },
         "name": {
           "title": "Name",
-          "description": "The name of the focus area of the record's content.",
-          "type": "string"
-        },
-        "address": {
-          "title": "Address",
-          "description": "The address of the focus area.",
+          "description": "Name of the place.",
           "type": "string"
         },
         "geo": {
           "title": "Geo",
           "description": "Specifies the geographic coordinates of the place in the form of a point location, line, or area coverage extent.",
           "anyOf": [
-            {
-              "title": "Line",
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "title": "@Type",
-                  "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
-                  "default": "GeoShape",
-                  "type": "string"
-                },
-                "line": {
-                  "title": "Line",
-                  "description": "A line that is expressed as a series of two or more point objects separated by space.",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "line"
-              ]
-            },
-            {
-              "title": "Polygon",
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "title": "@Type",
-                  "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
-                  "default": "GeoShape",
-                  "type": "string"
-                },
-                "polygon": {
-                  "title": "Polygon",
-                  "description": "A polygon outlines the boundary of a specific region by a point-to-point path for which the starting and ending points are the same.",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "polygon"
-              ]
-            },
             {
               "title": "GeoCoordinates",
               "type": "object",
@@ -1596,6 +1482,18 @@
                 "latitude",
                 "longitude"
               ]
+            },
+            {
+              "title": "GeoShape",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "@Type",
+                  "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
+                  "default": "GeoShape",
+                  "type": "string"
+                }
+              }
             }
           ]
         }
