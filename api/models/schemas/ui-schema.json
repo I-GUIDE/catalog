@@ -10,6 +10,14 @@
       }
     },
     {
+      "type": "Control",
+      "scope": "#/properties/@type",
+      "rule": {
+        "effect": "HIDE",
+        "condition": {}
+      }
+    },
+    {
       "type": "Group",
       "label": "Basic Information",
       "elements": [
@@ -18,17 +26,8 @@
           "scope": "#/properties/name"
         },
         {
-          "type": "HorizontalLayout",
-          "elements": [
-            {
-              "type": "Control",
-              "scope": "#/properties/url"
-            },
-            {
-              "type": "Control",
-              "scope": "#/properties/@type"
-            }
-          ]
+          "type": "Control",
+          "scope": "#/properties/url"
         },
         {
           "type": "Control",
@@ -40,10 +39,6 @@
         {
           "type": "Control",
           "scope": "#/properties/keywords"
-        },
-        {
-          "type": "Control",
-          "scope": "#/properties/variableMeasured"
         },
         {
           "type": "HorizontalLayout",
@@ -71,7 +66,20 @@
             },
             {
               "type": "Control",
-              "scope": "#/properties/inLanguage"
+              "scope": "#/properties/inLanguage",
+              "options": {
+                "detail": {
+                  "0": {
+                    "type": "Control",
+                    "scope": "#",
+                    "label": "Select one"
+                  },
+                  "1": {
+                    "type": "Control",
+                    "scope": "#"
+                  }
+                }
+              }
             }
           ]
         },
@@ -79,9 +87,11 @@
           "type": "Control",
           "scope": "#/properties/creativeWorkStatus",
           "options": {
+            "dropdown": true,
+            "title": "Name",
+            "description": "The name of the term or item being defined.",
             "detail": {
               "0": {
-                "label": "Defined Term",
                 "type": "VerticalLayout",
                 "elements": [
                   {
@@ -94,21 +104,92 @@
                   },
                   {
                     "type": "Control",
-                    "scope": "#/properties/name"
+                    "scope": "#/properties/name",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
                   },
                   {
                     "type": "Control",
-                    "scope": "#/properties/description",
-                    "options": {
-                      "multi": true
-                    }
+                    "scope": "#/properties/description"
                   }
                 ]
               },
               "1": {
-                "type": "Control",
-                "scope": "#",
-                "label": "Other"
+                "type": "VerticalLayout",
+                "elements": [
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/@type",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/name",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/description"
+                  }
+                ]
+              },
+              "2": {
+                "type": "VerticalLayout",
+                "elements": [
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/@type",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/name",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/description"
+                  }
+                ]
+              },
+              "3": {
+                "type": "VerticalLayout",
+                "elements": [
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/@type",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/name",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/description"
+                  }
+                ]
               }
             }
           }
@@ -127,6 +208,7 @@
             "detail": {
               "0": {
                 "type": "VerticalLayout",
+                "label": "Person",
                 "elements": [
                   {
                     "type": "Control",
@@ -150,8 +232,17 @@
                     ]
                   },
                   {
-                    "type": "Control",
-                    "scope": "#/properties/identifier"
+                    "type": "HorizontalLayout",
+                    "elements": [
+                      {
+                        "type": "Control",
+                        "scope": "#/properties/identifier"
+                      },
+                      {
+                        "type": "Control",
+                        "scope": "#/properties/organization"
+                      }
+                    ]
                   }
                 ]
               },
@@ -180,17 +271,8 @@
                     ]
                   },
                   {
-                    "type": "HorizontalLayout",
-                    "elements": [
-                      {
-                        "type": "Control",
-                        "scope": "#/properties/identifier"
-                      },
-                      {
-                        "type": "Control",
-                        "scope": "#/properties/address"
-                      }
-                    ]
+                    "type": "Control",
+                    "scope": "#/properties/address"
                   }
                 ]
               }
@@ -209,14 +291,23 @@
     },
     {
       "type": "Control",
-      "scope": "#/properties/distribution",
+      "scope": "#/properties/associatedMedia",
       "options": {
         "elementLabelProp": [
           "name"
         ],
+        "flat": true,
         "detail": {
           "type": "VerticalLayout",
           "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/@type",
+              "rule": {
+                "effect": "HIDE",
+                "condition": {}
+              }
+            },
             {
               "type": "HorizontalLayout",
               "elements": [
@@ -235,20 +326,13 @@
               "elements": [
                 {
                   "type": "Control",
-                  "scope": "#/properties/encodingFormat"
+                  "scope": "#/properties/contentSize"
                 },
                 {
                   "type": "Control",
-                  "scope": "#/properties/contentSize"
+                  "scope": "#/properties/encodingFormat"
                 }
               ]
-            },
-            {
-              "type": "Control",
-              "scope": "#/properties/comment",
-              "options": {
-                "multi": true
-              }
             }
           ]
         }
@@ -260,30 +344,43 @@
       "elements": [
         {
           "type": "Control",
-          "scope": "#/properties/temporalCoverage"
+          "scope": "#/properties/temporalCoverage",
+          "label": "Temporal coverage",
+          "options": {
+            "detail": {
+              "type": "HorizontalLayout",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/start"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/end"
+                }
+              ]
+            }
+          }
         },
         {
           "type": "Control",
           "scope": "#/properties/spatialCoverage",
+          "label": "Spatial coverage",
           "options": {
             "detail": {
               "type": "VerticalLayout",
               "elements": [
                 {
-                  "type": "HorizontalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/name"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/address",
-                      "options": {
-                        "multi": true
-                      }
-                    }
-                  ]
+                  "type": "Control",
+                  "scope": "#/properties/@type",
+                  "rule": {
+                    "effect": "HIDE",
+                    "condition": {}
+                  }
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/name"
                 },
                 {
                   "type": "Control",
@@ -291,40 +388,6 @@
                   "options": {
                     "detail": {
                       "0": {
-                        "type": "VerticalLayout",
-                        "elements": [
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/@type",
-                            "rule": {
-                              "effect": "HIDE",
-                              "condition": {}
-                            }
-                          },
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/line"
-                          }
-                        ]
-                      },
-                      "1": {
-                        "type": "VerticalLayout",
-                        "elements": [
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/@type",
-                            "rule": {
-                              "effect": "HIDE",
-                              "condition": {}
-                            }
-                          },
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/polygon"
-                          }
-                        ]
-                      },
-                      "2": {
                         "type": "MapLayout",
                         "options": {
                           "map": {
@@ -351,6 +414,19 @@
                             "scope": "#/properties/longitude"
                           }
                         ]
+                      },
+                      "1": {
+                        "type": "VerticalLayout",
+                        "elements": [
+                          {
+                            "type": "Control",
+                            "scope": "#/properties/@type",
+                            "rule": {
+                              "effect": "HIDE",
+                              "condition": {}
+                            }
+                          }
+                        ]
                       }
                     }
                   }
@@ -369,9 +445,20 @@
           "type": "Control",
           "scope": "#/properties/includedInDataCatalog",
           "options": {
+            "elementLabelProp": [
+              "name"
+            ],
             "detail": {
               "type": "VerticalLayout",
               "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/@type",
+                  "rule": {
+                    "effect": "HIDE",
+                    "condition": {}
+                  }
+                },
                 {
                   "type": "HorizontalLayout",
                   "elements": [
@@ -391,19 +478,6 @@
                   "options": {
                     "multi": true
                   }
-                },
-                {
-                  "type": "HorizontalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/creator"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/identifier"
-                    }
-                  ]
                 }
               ]
             }
@@ -420,17 +494,12 @@
               "type": "VerticalLayout",
               "elements": [
                 {
-                  "type": "HorizontalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/name"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/url"
-                    }
-                  ]
+                  "type": "Control",
+                  "scope": "#/properties/name"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/url"
                 },
                 {
                   "type": "Control",
@@ -510,50 +579,6 @@
               ]
             }
           }
-        },
-        {
-          "type": "Control",
-          "scope": "#/properties/associatedMedia",
-          "options": {
-            "elementLabelProp": [
-              "name"
-            ],
-            "detail": {
-              "type": "VerticalLayout",
-              "elements": [
-                {
-                  "type": "HorizontalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/name"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/contentUrl"
-                    }
-                  ]
-                },
-                {
-                  "type": "HorizontalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/contentSize"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/encodingFormat"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/@type"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
         }
       ]
     },
@@ -591,7 +616,6 @@
     {
       "type": "Group",
       "label": "Provider and Publisher Information",
-      "description": "Where the resource is permanently published, indicate the organization that published the resource - e.g., CUAHSI HydroShare",
       "elements": [
         {
           "type": "Control",
@@ -601,6 +625,14 @@
               "0": {
                 "type": "VerticalLayout",
                 "elements": [
+                  {
+                    "type": "Control",
+                    "scope": "#/properties/@type",
+                    "rule": {
+                      "effect": "HIDE",
+                      "condition": {}
+                    }
+                  },
                   {
                     "type": "HorizontalLayout",
                     "elements": [
@@ -615,21 +647,13 @@
                     ]
                   },
                   {
-                    "type": "HorizontalLayout",
-                    "elements": [
-                      {
-                        "type": "Control",
-                        "scope": "#/properties/identifier"
-                      },
-                      {
-                        "type": "Control",
-                        "scope": "#/properties/address"
-                      }
-                    ]
+                    "type": "Control",
+                    "scope": "#/properties/address"
                   }
                 ]
               },
               "1": {
+                "label": "Person",
                 "type": "VerticalLayout",
                 "elements": [
                   {
@@ -641,19 +665,28 @@
                     }
                   },
                   {
-                    "type": "Control",
-                    "scope": "#/properties/name"
+                    "type": "HorizontalLayout",
+                    "elements": [
+                      {
+                        "type": "Control",
+                        "scope": "#/properties/name"
+                      },
+                      {
+                        "type": "Control",
+                        "scope": "#/properties/email"
+                      }
+                    ]
                   },
                   {
                     "type": "HorizontalLayout",
                     "elements": [
                       {
                         "type": "Control",
-                        "scope": "#/properties/email"
+                        "scope": "#/properties/identifier"
                       },
                       {
                         "type": "Control",
-                        "scope": "#/properties/identifier"
+                        "scope": "#/properties/organization"
                       }
                     ]
                   }
@@ -684,17 +717,8 @@
                   ]
                 },
                 {
-                  "type": "HorizontalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/identifier"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/address"
-                    }
-                  ]
+                  "type": "Control",
+                  "scope": "#/properties/address"
                 }
               ]
             }
@@ -768,6 +792,7 @@
                     ]
                   },
                   "1": {
+                    "label": "Organization",
                     "type": "VerticalLayout",
                     "elements": [
                       {
@@ -792,17 +817,8 @@
                         ]
                       },
                       {
-                        "type": "HorizontalLayout",
-                        "elements": [
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/address"
-                          },
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/identifier"
-                          }
-                        ]
+                        "type": "Control",
+                        "scope": "#/properties/address"
                       }
                     ]
                   }

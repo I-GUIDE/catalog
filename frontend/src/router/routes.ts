@@ -38,6 +38,7 @@ export const routes: RouteConfig[] = [
       // hasAccessTokenGuard: true,
       hasUnsavedChangesGuard: true,
       title: "Contribute",
+      flat: true,
     },
   },
   {
