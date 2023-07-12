@@ -252,6 +252,30 @@ class GeoCoordinates(SchemaBaseModel):
 
 class GeoShape(SchemaBaseModel):
     type: str = Field(alias="@type", default="GeoShape", description="A structured representation that describes the coordinates of a geographic feature (line or polygon).")
+    northlimit: float = Field(
+        title= "North limit",
+        description="A floating point value containing the constant coordinate for the northernmost face or edge of the bounding box (between -90 and 90).",
+        exclusiveMinimum= -90,
+        exclusiveMaximum= 90
+    )
+    eastlimit: float = Field(
+        title= "East limit",
+        description="A floating point value containing the constant coordinate for the easternmost face or edge of the bounding box (between -180 and 180).",
+        exclusiveMinimum= -180,
+        exclusiveMaximum= 180
+    )                     
+    southlimit: float = Field(
+        title= "South limit",
+        description="A floating point value containing the constant coordinate for the southernmost face or edge of the bounding box (between -90 and 90).",
+        exclusiveMinimum= -90,
+        exclusiveMaximum= 90
+    )
+    westlimit: float = Field(
+        title= "West limit",
+        description="A floating point value containing the constant coordinate for the westernmost face or edge of the bounding box (between -180 and 180).",
+        exclusiveMinimum= -180,
+        exclusiveMaximum= 180
+    )
 
 
 # class Line(GeoShape):

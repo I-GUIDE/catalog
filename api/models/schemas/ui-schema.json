@@ -416,15 +416,32 @@
                         ]
                       },
                       "1": {
-                        "type": "VerticalLayout",
+                        "type": "MapLayout",
+                        "options": {
+                          "map": {
+                            "type": "box",
+                            "northlimit": "northlimit",
+                            "eastlimit": "eastlimit",
+                            "southlimit": "southlimit",
+                            "westlimit": "westlimit"
+                          }
+                        },
                         "elements": [
                           {
                             "type": "Control",
-                            "scope": "#/properties/@type",
-                            "rule": {
-                              "effect": "HIDE",
-                              "condition": {}
-                            }
+                            "scope": "#/properties/northlimit"
+                          },
+                          {
+                            "type": "Control",
+                            "scope": "#/properties/eastlimit"
+                          },
+                          {
+                            "type": "Control",
+                            "scope": "#/properties/southlimit"
+                          },
+                          {
+                            "type": "Control",
+                            "scope": "#/properties/westlimit"
                           }
                         ]
                       }

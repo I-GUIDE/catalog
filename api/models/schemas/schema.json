@@ -680,8 +680,42 @@
                   "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
                   "default": "GeoShape",
                   "type": "string"
+                },
+                "northlimit": {
+                  "title": "North limit",
+                  "description": "A floating point value containing the constant coordinate for the northernmost face or edge of the bounding box (between -90 and 90).",
+                  "exclusiveMinimum": -90,
+                  "exclusiveMaximum": 90,
+                  "type": "number"
+                },
+                "eastlimit": {
+                  "title": "East limit",
+                  "description": "A floating point value containing the constant coordinate for the easternmost face or edge of the bounding box (between -180 and 180).",
+                  "exclusiveMinimum": -180,
+                  "exclusiveMaximum": 180,
+                  "type": "number"
+                },
+                "southlimit": {
+                  "title": "South limit",
+                  "description": "A floating point value containing the constant coordinate for the southernmost face or edge of the bounding box (between -90 and 90).",
+                  "exclusiveMinimum": -90,
+                  "exclusiveMaximum": 90,
+                  "type": "number"
+                },
+                "westlimit": {
+                  "title": "West limit",
+                  "description": "A floating point value containing the constant coordinate for the westernmost face or edge of the bounding box (between -180 and 180).",
+                  "exclusiveMinimum": -180,
+                  "exclusiveMaximum": 180,
+                  "type": "number"
                 }
-              }
+              },
+              "required": [
+                "northlimit",
+                "eastlimit",
+                "southlimit",
+                "westlimit"
+              ]
             }
           ]
         }
@@ -1435,8 +1469,42 @@
           "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
           "default": "GeoShape",
           "type": "string"
+        },
+        "northlimit": {
+          "title": "North limit",
+          "description": "A floating point value containing the constant coordinate for the northernmost face or edge of the bounding box (between -90 and 90).",
+          "exclusiveMinimum": -90,
+          "exclusiveMaximum": 90,
+          "type": "number"
+        },
+        "eastlimit": {
+          "title": "East limit",
+          "description": "A floating point value containing the constant coordinate for the easternmost face or edge of the bounding box (between -180 and 180).",
+          "exclusiveMinimum": -180,
+          "exclusiveMaximum": 180,
+          "type": "number"
+        },
+        "southlimit": {
+          "title": "South limit",
+          "description": "A floating point value containing the constant coordinate for the southernmost face or edge of the bounding box (between -90 and 90).",
+          "exclusiveMinimum": -90,
+          "exclusiveMaximum": 90,
+          "type": "number"
+        },
+        "westlimit": {
+          "title": "West limit",
+          "description": "A floating point value containing the constant coordinate for the westernmost face or edge of the bounding box (between -180 and 180).",
+          "exclusiveMinimum": -180,
+          "exclusiveMaximum": 180,
+          "type": "number"
         }
-      }
+      },
+      "required": [
+        "northlimit",
+        "eastlimit",
+        "southlimit",
+        "westlimit"
+      ]
     },
     "Place": {
       "title": "Place",
@@ -1492,8 +1560,42 @@
                   "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
                   "default": "GeoShape",
                   "type": "string"
+                },
+                "northlimit": {
+                  "title": "North limit",
+                  "description": "A floating point value containing the constant coordinate for the northernmost face or edge of the bounding box (between -90 and 90).",
+                  "exclusiveMinimum": -90,
+                  "exclusiveMaximum": 90,
+                  "type": "number"
+                },
+                "eastlimit": {
+                  "title": "East limit",
+                  "description": "A floating point value containing the constant coordinate for the easternmost face or edge of the bounding box (between -180 and 180).",
+                  "exclusiveMinimum": -180,
+                  "exclusiveMaximum": 180,
+                  "type": "number"
+                },
+                "southlimit": {
+                  "title": "South limit",
+                  "description": "A floating point value containing the constant coordinate for the southernmost face or edge of the bounding box (between -90 and 90).",
+                  "exclusiveMinimum": -90,
+                  "exclusiveMaximum": 90,
+                  "type": "number"
+                },
+                "westlimit": {
+                  "title": "West limit",
+                  "description": "A floating point value containing the constant coordinate for the westernmost face or edge of the bounding box (between -180 and 180).",
+                  "exclusiveMinimum": -180,
+                  "exclusiveMaximum": 180,
+                  "type": "number"
                 }
-              }
+              },
+              "required": [
+                "northlimit",
+                "eastlimit",
+                "southlimit",
+                "westlimit"
+              ]
             }
           ]
         }
