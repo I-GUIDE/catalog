@@ -5,6 +5,9 @@ from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel, EmailStr, Field, HttpUrl, validator
 
+orcid_pattern = "\\b\\d{4}-\\d{4}-\\d{4}-\\d{3}[0-9X]\\b"
+orcid_pattern_placeholder = "e.g. '0000-0001-2345-6789'"
+orcid_pattern_error = "must match the ORCID pattern. e.g. '0000-0001-2345-6789'"
 
 class SchemaBaseModel(BaseModel):
     class Config:
@@ -27,7 +30,7 @@ class CreativeWork(SchemaBaseModel):
         default="CreativeWork",
         description="Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
     )
-    name: str = Field(description="Submission's name or title", title="Name or Title")
+    name: str = Field(description="Submission's name or title", title="Name or title")
 
 
 class PropertyValue(SchemaBaseModel):
@@ -67,26 +70,32 @@ class Person(SchemaBaseModel):
     identifier: Optional[List[str]] = Field(description="Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.")
 
 
+class Provider(Person):
+    identifier: Optional[str] = Field(description="ORCID identifier for the person.", pattern=orcid_pattern, options={ "placeholder": orcid_pattern_placeholder}, errorMessage={"pattern": orcid_pattern_error})
+    organization: Optional[str] = Field(description="The organization that the person is associated with.")
+
+
 class Creator(Person):
-    organization: Optional[str] = Field(description="The organization that the creator is associated with.")
+    identifier: Optional[str] = Field(description="ORCID identifier for creator.", pattern=orcid_pattern, options={ "placeholder": orcid_pattern_placeholder}, errorMessage={"pattern": orcid_pattern_error})
+    organization: Optional[str] = Field(description="The organization that creator is associated with.")
 
 
 class Organization(SchemaBaseModel):
     type: str = Field(
         alias="@type",
-        default="Organization",
-        description="DELETEME",
+        default="Organization"
     )
     name: str = Field(description="Name of the provider organization or repository.")
     url: Optional[HttpUrl] = Field(title="URL",
         description="A URL to the homepage for the organization."
     )
-    identifier: Optional[List[str]] = Field(
-        description="Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here."
-    )
     address: Optional[str] = Field(
         description="Full address for the organization - e.g., “8200 Old Main Hill, Logan, UT 84322-8200”."
     )  # Should address be a string or another constrained type?
+
+
+class FunderOrganization(Organization):
+    name: str = Field(description="Name of the organization.")
 
 
 class PublisherOrganization(Organization):
@@ -111,21 +120,21 @@ class Incomplete(DefinedTerm):
 
 class Obsolete(DefinedTerm):
     name: str = Field(default="Obsolete")
-    description: str = Field(default="The resource has been replaced by a newer version, or the resource is no longer considered applicable", description="The description of the item being defined.")
+    description: str = Field(default="The resource has been replaced by a newer version, or the resource is no longer considered applicable", readOnly=True, description="The description of the item being defined.")
 
 
 class Published(DefinedTerm):
     name: str = Field(default="Published")
-    description: str = Field(default="The resource has been permanently published and should be considered final and complete", description="The description of the item being defined.")
+    description: str = Field(default="The resource has been permanently published and should be considered final and complete", readOnly=True, description="The description of the item being defined.")
 
 
 class HasPart(CreativeWork):
-    url: Optional[HttpUrl] = Field(title="URL", description="TODO")
+    url: Optional[HttpUrl] = Field(title="URL", description="The URL address to the data resource.")
     description: Optional[str] = Field(description="Information about a related resource that is part of this resource.")
 
 
 class IsPartOf(CreativeWork):
-    url: Optional[HttpUrl] = Field(title="URL", description="TODO")
+    url: Optional[HttpUrl] = Field(title="URL", description="The URL address to the data resource.")
     description: Optional[str] = Field(description="Information about a related resource that this resource is a part of - e.g., a related collection.")
 
 
@@ -143,7 +152,7 @@ class License(CreativeWork):
 class LanguageEnum(str, Enum):
     @classmethod
     def __modify_schema__(cls, field_schema: Dict[str, Any]) -> None:
-        field_schema.update(type='string', title='TODO - title here', description="TODO - description here")
+        field_schema.update(type='string', title='Language')
 
     eng = 'eng'
     esp = 'esp'
@@ -151,16 +160,16 @@ class LanguageEnum(str, Enum):
 class InLanguageStr(str):
     @classmethod
     def __modify_schema__(cls, field_schema: Dict[str, Any]) -> None:
-        field_schema.update(type='string', title='TODO - title here', description="TODO - description here")
+        field_schema.update(type='string', title='Other', description="Please specify another language.")
 
 
 
 class Grant(SchemaBaseModel):
     type: str = Field(alias="@type", default="MonetaryGrant", description="This metadata represents details about a grant or financial assistance provided to an individual(s) or organization(s) for supporting the work related to the record.")
-    name: str = Field(title="Name or Title", description="A text string indicating the name or title of the grant or financial assistance.")
+    name: str = Field(title="Name or title", description="A text string indicating the name or title of the grant or financial assistance.")
     description: Optional[str] = Field(description="A text string describing the grant or financial assistance.")
-    identifier: Optional[str] = Field(title="Funding Identifier", description="Grant award number or other identifier.")
-    funder: Optional[Union[Person, Organization]] = Field(description="A Grant or monetary assistance that directly or indirectly provided funding or sponsorship for creation of the resource.")
+    identifier: Optional[str] = Field(title="Funding identifier", description="Grant award number or other identifier.")
+    funder: Optional[Union[Person, FunderOrganization]] = Field(description="The person or organization that provided the funding or sponsorship.")
 
 
 class TimeInterval(str):
@@ -210,6 +219,13 @@ class TimeInterval(str):
     def __repr__(self):
         return f'TimeInterval({super().__repr__()})'
 
+
+class TemporalCoverage(SchemaBaseModel):
+    start: datetime = Field(description="A date/time object containing the instant corresponding to the commencement of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM).")
+    end: datetime = Field(
+        description="A date/time object containing the instant corresponding to the termination of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, that means the temporal coverage is ongoing.",
+        formatMinimum={"$data": "1/start"}
+      )
 
 class GeoCoordinates(SchemaBaseModel):
     type: str = Field(alias="@type", default="GeoCoordinates", description="Geographic coordinates that represent a specific location on the Earth's surface. GeoCoordinates typically consists of two components: latitude and longitude.")
@@ -290,9 +306,13 @@ class Place(SchemaBaseModel):
 
 class MediaObject(SchemaBaseModel):
     type: str = Field(alias="@type", default="MediaObject", description="An item that encodes the record.")
-    contentUrl: HttpUrl = Field(description="The direct URL link to access or download the actual content of the media object.")
-    encodingFormat: str = Field(description="Represents the specific file format in which the media is encoded.")  # TODO enum for encoding formats
-    contentSize: str = Field(description="Represents the file size, expressed in bytes, kilobytes, megabytes, or another unit of measurement.")
+    contentUrl: HttpUrl = Field(
+        title="Content URL",
+        description="The direct URL link to access or download the actual content of the media object.")
+    encodingFormat: str = Field(
+        title="Encoding format",
+        description="Represents the specific file format in which the media is encoded.")  # TODO enum for encoding formats
+    contentSize: str = Field(title="Content size", description="Represents the file size, expressed in bytes, kilobytes, megabytes, or another unit of measurement.")
     name: str = Field(description="The name of the media object (file).")
 
     @validator('contentSize')
@@ -325,72 +345,67 @@ class MediaObject(SchemaBaseModel):
 
 class CoreMetadata(SchemaBaseModel):
     context: HttpUrl = Field(alias='@context', default='https://schema.org', description="Specifies the vocabulary employed for understanding the structured data markup.")
-    type: str = Field(alias="@type", title="Submission Type", default="Dataset", 
+    type: str = Field(alias="@type", title="Submission type", default="Dataset", 
                       description="Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.", 
                       enum=["Dataset", "Notebook", "Software Source Code"])
-    name: str = Field(title="Name or Title", description="A text string with a descriptive name or title for the resource.")
-    description: str = Field(title="Description or Abstract", description="A text string containing a description/abstract for the resource.")
+    name: str = Field(title="Name or title", description="A text string with a descriptive name or title for the resource.")
+    description: str = Field(title="Description or abstract", description="A text string containing a description/abstract for the resource.")
     url: HttpUrl = Field(title="URL", description="A URL for the landing page that describes the resource and where the content of the resource can be accessed. If there is no landing page, provide the URL of the content.")
-    identifier: List[str] = Field(title="Identifiers", description="Any kind of identifier for the resource. Multiple identifiers can be entered. Where identifiers can be encoded as URLs, enter URLs here.")
+    identifier: Optional[List[str]] = Field(title="Identifiers", description="Any kind of identifier for the resource. Identifiers may be DOIs or unique strings assigned by a repository. Multiple identifiers can be entered. Where identifiers can be encoded as URLs, enter URLs here.")
     creator: List[Union[Creator, Organization]] = Field(description="Person or Organization that created the resource.")
-    dateCreated: datetime = Field(title="Date Created", description="The date on which the resource was created.")
+    dateCreated: datetime = Field(title="Date created", description="The date on which the resource was created.")
     keywords: List[str] = Field(
         min_items=1, description="Keywords or tags used to describe the dataset, delimited by commas."
     )
     license: License = Field(
-        description="A license document that applies to the content, typically indicated by a URL."
+        description="A license document that applies to the resource."
     )
-    provider: Union[Organization, Person] = Field(
+    provider: Union[Organization, Provider] = Field(
         description="The repository, service provider, organization, person, or service performer that provides access to the resource."
     )
     publisher: Optional[PublisherOrganization] = Field(
         title="Publisher",
-        description="The publisher of the record."
+        description="Where the resource is permanently published, indicated the repository, service provider, or organization that published the resource - e.g., CUAHSI HydroShare. This may be the same as Provider."
     )
-    datePublished: Optional[datetime] = Field(title="Date Published", description="Date of first publication for the resource.")
+    datePublished: Optional[datetime] = Field(title="Date published", description="Date of first publication for the resource.")
     subjectOf: Optional[List[SubjectOf]] = Field(
-        description="A CreativeWork about the record - e.g., a related metadata document describing the record.",
+        title="Subject of",
+        description="Link to or citation for a related resource that is about or describes this resource - e.g., a journal paper that describes this resource or a related metadata document describing the resource.",
     )
     version: Optional[str] = Field(
         description="A text string indicating the version of the resource."
     )  # TODO find something better than float for number
     inLanguage: Optional[Union[LanguageEnum, InLanguageStr]] = Field(title="Language", description="The language of the content of the resource.")
-    # TODO: find a way to modify fields inside Unions so we can add titles, descriptions, options, etc.
     creativeWorkStatus: Optional[Union[Draft, Incomplete, Obsolete, Published]] = Field(
-        title="Resource Status",
+        title="Resource status",
         description="The status of this resource in terms of its stage in a lifecycle. Example terms include Incomplete, Draft, Published, and Obsolete.",
     )
     dateModified: Optional[datetime] = Field(
-        title="Date Modified",
+        title="Date modified",
         description="The date on which the resource was most recently modified or updated."
     )
     funding: Optional[List[Grant]] = Field(
-        description="A Grant that directly or indirectly provide funding or sponsorship for creation of the dataset.",
+        description="A Grant or monetary assistance that directly or indirectly provided funding or sponsorship for creation of the resource.",
     )
-    temporalCoverage: Optional[TimeInterval] = Field(
-        description="The time period that the resource content applies to.",
+    temporalCoverage: Optional[TemporalCoverage] = Field(
+        title="Temporal coverage",
+        description="The time period that applies to all of the content within the resource.",
     )
     spatialCoverage: Optional[Place] = Field(
         description="The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. It is a subproperty of contentLocation intended primarily for more technical and detailed materials. For example with a Dataset, it indicates areas that the dataset describes: a dataset of New York weather would have spatialCoverage which was the place: the state of New York.",
     )
     hasPart: Optional[List[HasPart]] = Field(
-        description="Indicates an record or CreativeWork that is part of this record."
+        title="Has part",
+        description="Link to or citation for a related resource that is part of this resource."
     )
     isPartOf: Optional[List[IsPartOf]] = Field(
-        description="Indicates an record or CreativeWork that this record, or CreativeWork (in some sense), is part of.",
+        title="Is part of",
+        description="Link to or citation for a related resource that this resource is a part of - e.g., a related collection.",
     )
     associatedMedia: Optional[List[MediaObject]] = Field(
+        title="Resource content",
         description="A media object that encodes this CreativeWork. This property is a synonym for encoding.",
     )
-
-
-class Distribution(SchemaBaseModel):
-    type: str = Field(alias="@type", default="DataDownload", description="A downloadable form of the resource, at a specific location, in a specific format. Repeat if multiple files or if different formats/variations are available.")
-    name: Optional[str] = Field(description="A text string indicating the name of the content to be downloaded. This could be a file name or a descriptive name for the content file.")
-    contentUrl: HttpUrl = Field(title="Content URL", description="A URL for the content to be downloaded.")
-    encodingFormat: Optional[list[str]] = Field(description="Text string indicating the file or media type, usually expressed using a MIME format.")
-    contentSize: Optional[str] = Field(description="A text string indicating the file size in megabytes")
-    comment: Optional[str] = Field(description="A text string with comments about the resource. For example, an explanation that provides additional information on how the dataset is being accessed or downloaded.")
 
 
 class VariableMeasured(SchemaBaseModel):
@@ -402,21 +417,17 @@ class VariableMeasured(SchemaBaseModel):
 class IncludedInDataCatalog(SchemaBaseModel):
     type: str = Field(alias="@type", default="DataCatalog", description="A data catalog which contains this dataset.")
     name: str = Field(description="The name of the data catalog containing this dataset.")
-    description: str = Field(description="The description of the data catalog.")
+    description: Optional[str] = Field(description="The description of the data catalog.")
     url: HttpUrl = Field(description="The URL address to the data catalog.")
-    identifier: str = Field(description="The unique identifier for the data catalog. This is generated automatically by the system.")
-    creator: Union[Person, Organization] = Field(description="The creator, owner, or provider of the data catalog.")
 
 
 class Dataset(SchemaBaseModel):
-    distribution: List[Distribution] = Field(
-        description="A downloadable form of the resource, at a specific location, in a specific format. Repeat if multiple files or if different formats/variations are available.",
-    )
     variableMeasured: Optional[List[str]] = Field(
-        title="Variable Measured",
+        title="Variable measured",
         description="The variableMeasured property can indicate (repeated as necessary) the variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue.",
     )
     includedInDataCatalog: Optional[List[IncludedInDataCatalog]] = Field(
+        title="Included in data catalog",
         description="Any other data catalog that contains a description of this resource.",
     )
 

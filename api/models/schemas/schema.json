@@ -15,7 +15,7 @@
       }
     },
     "@type": {
-      "title": "Submission Type",
+      "title": "Submission type",
       "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
       "default": "Dataset",
       "enum": [
@@ -26,12 +26,12 @@
       "type": "string"
     },
     "name": {
-      "title": "Name or Title",
+      "title": "Name or title",
       "description": "A text string with a descriptive name or title for the resource.",
       "type": "string"
     },
     "description": {
-      "title": "Description or Abstract",
+      "title": "Description or abstract",
       "description": "A text string containing a description/abstract for the resource.",
       "type": "string"
     },
@@ -48,7 +48,7 @@
     },
     "identifier": {
       "title": "Identifiers",
-      "description": "Any kind of identifier for the resource. Multiple identifiers can be entered. Where identifiers can be encoded as URLs, enter URLs here.",
+      "description": "Any kind of identifier for the resource. Identifiers may be DOIs or unique strings assigned by a repository. Multiple identifiers can be entered. Where identifiers can be encoded as URLs, enter URLs here.",
       "type": "array",
       "items": {
         "type": "string"
@@ -61,7 +61,7 @@
       "items": {
         "anyOf": [
           {
-            "title": "Creator_Person",
+            "title": "Creator",
             "type": "object",
             "properties": {
               "@type": {
@@ -83,15 +83,19 @@
               },
               "identifier": {
                 "title": "Identifier",
-                "description": "Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.",
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
+                "description": "ORCID identifier for creator.",
+                "pattern": "\\b\\d{4}-\\d{4}-\\d{4}-\\d{3}[0-9X]\\b",
+                "options": {
+                  "placeholder": "e.g. '0000-0001-2345-6789'"
+                },
+                "errorMessage": {
+                  "pattern": "must match the ORCID pattern. e.g. '0000-0001-2345-6789'"
+                },
+                "type": "string"
               },
               "organization": {
                 "title": "Organization",
-                "description": "The organization that the creator is associated with.",
+                "description": "The organization that creator is associated with.",
                 "type": "string"
               }
             },
@@ -105,7 +109,6 @@
             "properties": {
               "@type": {
                 "title": "@Type",
-                "description": "DELETEME",
                 "default": "Organization",
                 "type": "string"
               },
@@ -125,14 +128,6 @@
                   "pattern": "must match format \"url\""
                 }
               },
-              "identifier": {
-                "title": "Identifier",
-                "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
               "address": {
                 "title": "Address",
                 "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
@@ -147,7 +142,7 @@
       }
     },
     "dateCreated": {
-      "title": "Date Created",
+      "title": "Date created",
       "description": "The date on which the resource was created.",
       "type": "string",
       "format": "date-time"
@@ -163,7 +158,7 @@
     },
     "license": {
       "title": "License",
-      "description": "A license document that applies to the content, typically indicated by a URL.",
+      "description": "A license document that applies to the resource.",
       "type": "object",
       "properties": {
         "@type": {
@@ -208,7 +203,6 @@
           "properties": {
             "@type": {
               "title": "@Type",
-              "description": "DELETEME",
               "default": "Organization",
               "type": "string"
             },
@@ -228,14 +222,6 @@
                 "pattern": "must match format \"url\""
               }
             },
-            "identifier": {
-              "title": "Identifier",
-              "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
             "address": {
               "title": "Address",
               "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
@@ -247,7 +233,7 @@
           ]
         },
         {
-          "title": "Person",
+          "title": "Provider",
           "type": "object",
           "properties": {
             "@type": {
@@ -269,11 +255,20 @@
             },
             "identifier": {
               "title": "Identifier",
-              "description": "Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.",
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "description": "ORCID identifier for the person.",
+              "pattern": "\\b\\d{4}-\\d{4}-\\d{4}-\\d{3}[0-9X]\\b",
+              "options": {
+                "placeholder": "e.g. '0000-0001-2345-6789'"
+              },
+              "errorMessage": {
+                "pattern": "must match the ORCID pattern. e.g. '0000-0001-2345-6789'"
+              },
+              "type": "string"
+            },
+            "organization": {
+              "title": "Organization",
+              "description": "The organization that the person is associated with.",
+              "type": "string"
             }
           },
           "required": [
@@ -284,12 +279,11 @@
     },
     "publisher": {
       "title": "PublisherOrganization",
-      "description": "The publisher of the record.",
+      "description": "Where the resource is permanently published, indicated the repository, service provider, or organization that published the resource - e.g., CUAHSI HydroShare. This may be the same as Provider.",
       "type": "object",
       "properties": {
         "@type": {
           "title": "@Type",
-          "description": "DELETEME",
           "default": "Organization",
           "type": "string"
         },
@@ -309,14 +303,6 @@
             "pattern": "must match format \"url\""
           }
         },
-        "identifier": {
-          "title": "Identifier",
-          "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "address": {
           "title": "Address",
           "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
@@ -328,14 +314,14 @@
       ]
     },
     "datePublished": {
-      "title": "Date Published",
+      "title": "Date published",
       "description": "Date of first publication for the resource.",
       "type": "string",
       "format": "date-time"
     },
     "subjectOf": {
-      "title": "Subjectof",
-      "description": "A CreativeWork about the record - e.g., a related metadata document describing the record.",
+      "title": "Subject of",
+      "description": "Link to or citation for a related resource that is about or describes this resource - e.g., a journal paper that describes this resource or a related metadata document describing the resource.",
       "type": "array",
       "items": {
         "title": "SubjectOf",
@@ -348,7 +334,7 @@
             "type": "string"
           },
           "name": {
-            "title": "Name or Title",
+            "title": "Name or title",
             "description": "Submission's name or title",
             "type": "string"
           },
@@ -384,7 +370,7 @@
       "description": "The language of the content of the resource.",
       "anyOf": [
         {
-          "title": "LanguageEnum",
+          "title": "Language",
           "description": "An enumeration.",
           "enum": [
             "eng",
@@ -393,14 +379,14 @@
           "type": "string"
         },
         {
+          "type": "string",
           "title": "Other",
-          "description": "Specify another language",
-          "type": "string"
+          "description": "Please specify another language."
         }
       ]
     },
     "creativeWorkStatus": {
-      "title": "Resource Status",
+      "title": "Resource status",
       "description": "The status of this resource in terms of its stage in a lifecycle. Example terms include Incomplete, Draft, Published, and Obsolete.",
       "anyOf": [
         {
@@ -467,6 +453,7 @@
               "title": "Description",
               "description": "The description of the item being defined.",
               "default": "The resource has been replaced by a newer version, or the resource is no longer considered applicable",
+              "readOnly": true,
               "type": "string"
             }
           }
@@ -489,6 +476,7 @@
               "title": "Description",
               "description": "The description of the item being defined.",
               "default": "The resource has been permanently published and should be considered final and complete",
+              "readOnly": true,
               "type": "string"
             }
           }
@@ -496,14 +484,14 @@
       ]
     },
     "dateModified": {
-      "title": "Date Modified",
+      "title": "Date modified",
       "description": "The date on which the resource was most recently modified or updated.",
       "type": "string",
       "format": "date-time"
     },
     "funding": {
       "title": "Funding",
-      "description": "A Grant that directly or indirectly provide funding or sponsorship for creation of the dataset.",
+      "description": "A Grant or monetary assistance that directly or indirectly provided funding or sponsorship for creation of the resource.",
       "type": "array",
       "items": {
         "title": "Grant",
@@ -516,7 +504,7 @@
             "type": "string"
           },
           "name": {
-            "title": "Name or Title",
+            "title": "Name or title",
             "description": "A text string indicating the name or title of the grant or financial assistance.",
             "type": "string"
           },
@@ -526,13 +514,13 @@
             "type": "string"
           },
           "identifier": {
-            "title": "Funding Identifier",
+            "title": "Funding identifier",
             "description": "Grant award number or other identifier.",
             "type": "string"
           },
           "funder": {
             "title": "Funder",
-            "description": "A Grant or monetary assistance that directly or indirectly provided funding or sponsorship for creation of the resource.",
+            "description": "The person or organization that provided the funding or sponsorship.",
             "anyOf": [
               {
                 "title": "Person",
@@ -569,18 +557,17 @@
                 ]
               },
               {
-                "title": "Organization",
+                "title": "FunderOrganization",
                 "type": "object",
                 "properties": {
                   "@type": {
                     "title": "@Type",
-                    "description": "DELETEME",
                     "default": "Organization",
                     "type": "string"
                   },
                   "name": {
                     "title": "Name",
-                    "description": "Name of the provider organization or repository.",
+                    "description": "Name of the organization.",
                     "type": "string"
                   },
                   "url": {
@@ -592,14 +579,6 @@
                     "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
                     "errorMessage": {
                       "pattern": "must match format \"url\""
-                    }
-                  },
-                  "identifier": {
-                    "title": "Identifier",
-                    "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
-                    "type": "array",
-                    "items": {
-                      "type": "string"
                     }
                   },
                   "address": {
@@ -621,9 +600,30 @@
       }
     },
     "temporalCoverage": {
-      "title": "Temporalcoverage",
-      "description": "The time period that the resource content applies to.",
-      "type": "string"
+      "title": "TemporalCoverage",
+      "description": "The time period that applies to all of the content within the resource.",
+      "type": "object",
+      "properties": {
+        "start": {
+          "title": "Start",
+          "description": "A date/time object containing the instant corresponding to the commencement of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM).",
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "title": "End",
+          "description": "A date/time object containing the instant corresponding to the termination of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, that means the temporal coverage is ongoing.",
+          "formatMinimum": {
+            "$data": "1/start"
+          },
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ]
     },
     "spatialCoverage": {
       "title": "Place",
@@ -721,8 +721,8 @@
       }
     },
     "hasPart": {
-      "title": "Haspart",
-      "description": "Indicates an record or CreativeWork that is part of this record.",
+      "title": "Has part",
+      "description": "Link to or citation for a related resource that is part of this resource.",
       "type": "array",
       "items": {
         "title": "HasPart",
@@ -735,13 +735,13 @@
             "type": "string"
           },
           "name": {
-            "title": "Name or Title",
+            "title": "Name or title",
             "description": "Submission's name or title",
             "type": "string"
           },
           "url": {
             "title": "URL",
-            "description": "TODO",
+            "description": "The URL address to the data resource.",
             "minLength": 1,
             "maxLength": 2083,
             "type": "string",
@@ -762,8 +762,8 @@
       }
     },
     "isPartOf": {
-      "title": "Ispartof",
-      "description": "Indicates an record or CreativeWork that this record, or CreativeWork (in some sense), is part of.",
+      "title": "Is part of",
+      "description": "Link to or citation for a related resource that this resource is a part of - e.g., a related collection.",
       "type": "array",
       "items": {
         "title": "IsPartOf",
@@ -776,13 +776,13 @@
             "type": "string"
           },
           "name": {
-            "title": "Name or Title",
+            "title": "Name or title",
             "description": "Submission's name or title",
             "type": "string"
           },
           "url": {
             "title": "URL",
-            "description": "TODO",
+            "description": "The URL address to the data resource.",
             "minLength": 1,
             "maxLength": 2083,
             "type": "string",
@@ -803,7 +803,7 @@
       }
     },
     "associatedMedia": {
-      "title": "Associatedmedia",
+      "title": "Resource content",
       "description": "A media object that encodes this CreativeWork. This property is a synonym for encoding.",
       "type": "array",
       "items": {
@@ -817,7 +817,7 @@
             "type": "string"
           },
           "contentUrl": {
-            "title": "Contenturl",
+            "title": "Content URL",
             "description": "The direct URL link to access or download the actual content of the media object.",
             "minLength": 1,
             "maxLength": 2083,
@@ -828,12 +828,12 @@
             }
           },
           "encodingFormat": {
-            "title": "Encodingformat",
+            "title": "Encoding format",
             "description": "Represents the specific file format in which the media is encoded.",
             "type": "string"
           },
           "contentSize": {
-            "title": "Contentsize",
+            "title": "Content size",
             "description": "Represents the file size, expressed in bytes, kilobytes, megabytes, or another unit of measurement.",
             "type": "string"
           },
@@ -851,62 +851,8 @@
         ]
       }
     },
-    "distribution": {
-      "title": "Distribution",
-      "description": "A downloadable form of the resource, at a specific location, in a specific format. Repeat if multiple files or if different formats/variations are available.",
-      "type": "array",
-      "items": {
-        "title": "Distribution",
-        "type": "object",
-        "properties": {
-          "@type": {
-            "title": "@Type",
-            "description": "A downloadable form of the resource, at a specific location, in a specific format. Repeat if multiple files or if different formats/variations are available.",
-            "default": "DataDownload",
-            "type": "string"
-          },
-          "name": {
-            "title": "Name",
-            "description": "A text string indicating the name of the content to be downloaded. This could be a file name or a descriptive name for the content file.",
-            "type": "string"
-          },
-          "contentUrl": {
-            "title": "Content URL",
-            "description": "A URL for the content to be downloaded.",
-            "minLength": 1,
-            "maxLength": 2083,
-            "type": "string",
-            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-            "errorMessage": {
-              "pattern": "must match format \"url\""
-            }
-          },
-          "encodingFormat": {
-            "title": "Encodingformat",
-            "description": "Text string indicating the file or media type, usually expressed using a MIME format.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "contentSize": {
-            "title": "Contentsize",
-            "description": "A text string indicating the file size in megabytes",
-            "type": "string"
-          },
-          "comment": {
-            "title": "Comment",
-            "description": "A text string with comments about the resource. For example, an explanation that provides additional information on how the dataset is being accessed or downloaded.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "contentUrl"
-        ]
-      }
-    },
     "variableMeasured": {
-      "title": "Variable Measured",
+      "title": "Variable measured",
       "description": "The variableMeasured property can indicate (repeated as necessary) the variables that are measured in some dataset, either described as text or as pairs of identifier and description using PropertyValue.",
       "type": "array",
       "items": {
@@ -914,7 +860,7 @@
       }
     },
     "includedInDataCatalog": {
-      "title": "Includedindatacatalog",
+      "title": "Included in data catalog",
       "description": "Any other data catalog that contains a description of this resource.",
       "type": "array",
       "items": {
@@ -947,103 +893,11 @@
             "errorMessage": {
               "pattern": "must match format \"url\""
             }
-          },
-          "identifier": {
-            "title": "Identifier",
-            "description": "The unique identifier for the data catalog. This is generated automatically by the system.",
-            "type": "string"
-          },
-          "creator": {
-            "title": "Creator",
-            "description": "The creator, owner, or provider of the data catalog.",
-            "anyOf": [
-              {
-                "title": "Person",
-                "type": "object",
-                "properties": {
-                  "@type": {
-                    "title": "@Type",
-                    "description": "DELETEME",
-                    "default": "Person",
-                    "type": "string"
-                  },
-                  "name": {
-                    "title": "Name",
-                    "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name",
-                    "type": "string"
-                  },
-                  "email": {
-                    "title": "Email",
-                    "description": "A string containing an email address for the person",
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "identifier": {
-                    "title": "Identifier",
-                    "description": "Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.",
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "required": [
-                  "name"
-                ]
-              },
-              {
-                "title": "Organization",
-                "type": "object",
-                "properties": {
-                  "@type": {
-                    "title": "@Type",
-                    "description": "DELETEME",
-                    "default": "Organization",
-                    "type": "string"
-                  },
-                  "name": {
-                    "title": "Name",
-                    "description": "Name of the provider organization or repository.",
-                    "type": "string"
-                  },
-                  "url": {
-                    "title": "URL",
-                    "description": "A URL to the homepage for the organization.",
-                    "minLength": 1,
-                    "maxLength": 2083,
-                    "type": "string",
-                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-                    "errorMessage": {
-                      "pattern": "must match format \"url\""
-                    }
-                  },
-                  "identifier": {
-                    "title": "Identifier",
-                    "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "address": {
-                    "title": "Address",
-                    "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "name"
-                ]
-              }
-            ]
           }
         },
         "required": [
           "name",
-          "description",
-          "url",
-          "identifier",
-          "creator"
+          "url"
         ]
       }
     }
@@ -1052,17 +906,15 @@
     "name",
     "description",
     "url",
-    "identifier",
     "creator",
     "dateCreated",
     "keywords",
     "license",
-    "provider",
-    "distribution"
+    "provider"
   ],
   "definitions": {
-    "Creator_Person": {
-      "title": "Creator_Person",
+    "Creator": {
+      "title": "Creator",
       "type": "object",
       "properties": {
         "@type": {
@@ -1084,15 +936,19 @@
         },
         "identifier": {
           "title": "Identifier",
-          "description": "Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "description": "ORCID identifier for creator.",
+          "pattern": "\\b\\d{4}-\\d{4}-\\d{4}-\\d{3}[0-9X]\\b",
+          "options": {
+            "placeholder": "e.g. '0000-0001-2345-6789'"
+          },
+          "errorMessage": {
+            "pattern": "must match the ORCID pattern. e.g. '0000-0001-2345-6789'"
+          },
+          "type": "string"
         },
         "organization": {
           "title": "Organization",
-          "description": "The organization that the creator is associated with.",
+          "description": "The organization that creator is associated with.",
           "type": "string"
         }
       },
@@ -1106,7 +962,6 @@
       "properties": {
         "@type": {
           "title": "@Type",
-          "description": "DELETEME",
           "default": "Organization",
           "type": "string"
         },
@@ -1124,14 +979,6 @@
           "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
           "errorMessage": {
             "pattern": "must match format \"url\""
-          }
-        },
-        "identifier": {
-          "title": "Identifier",
-          "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
-          "type": "array",
-          "items": {
-            "type": "string"
           }
         },
         "address": {
@@ -1180,8 +1027,8 @@
         "name"
       ]
     },
-    "Person": {
-      "title": "Person",
+    "Provider": {
+      "title": "Provider",
       "type": "object",
       "properties": {
         "@type": {
@@ -1203,11 +1050,20 @@
         },
         "identifier": {
           "title": "Identifier",
-          "description": "Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "description": "ORCID identifier for the person.",
+          "pattern": "\\b\\d{4}-\\d{4}-\\d{4}-\\d{3}[0-9X]\\b",
+          "options": {
+            "placeholder": "e.g. '0000-0001-2345-6789'"
+          },
+          "errorMessage": {
+            "pattern": "must match the ORCID pattern. e.g. '0000-0001-2345-6789'"
+          },
+          "type": "string"
+        },
+        "organization": {
+          "title": "Organization",
+          "description": "The organization that the person is associated with.",
+          "type": "string"
         }
       },
       "required": [
@@ -1220,7 +1076,6 @@
       "properties": {
         "@type": {
           "title": "@Type",
-          "description": "DELETEME",
           "default": "Organization",
           "type": "string"
         },
@@ -1238,14 +1093,6 @@
           "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
           "errorMessage": {
             "pattern": "must match format \"url\""
-          }
-        },
-        "identifier": {
-          "title": "Identifier",
-          "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
-          "type": "array",
-          "items": {
-            "type": "string"
           }
         },
         "address": {
@@ -1269,7 +1116,7 @@
           "type": "string"
         },
         "name": {
-          "title": "Name or Title",
+          "title": "Name or title",
           "description": "Submission's name or title",
           "type": "string"
         },
@@ -1295,7 +1142,7 @@
       ]
     },
     "LanguageEnum": {
-      "title": "LanguageEnum",
+      "title": "Language",
       "description": "An enumeration.",
       "enum": [
         "eng",
@@ -1367,6 +1214,7 @@
           "title": "Description",
           "description": "The description of the item being defined.",
           "default": "The resource has been replaced by a newer version, or the resource is no longer considered applicable",
+          "readOnly": true,
           "type": "string"
         }
       }
@@ -1389,9 +1237,79 @@
           "title": "Description",
           "description": "The description of the item being defined.",
           "default": "The resource has been permanently published and should be considered final and complete",
+          "readOnly": true,
           "type": "string"
         }
       }
+    },
+    "Person": {
+      "title": "Person",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "@Type",
+          "description": "DELETEME",
+          "default": "Person",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name",
+          "type": "string"
+        },
+        "email": {
+          "title": "Email",
+          "description": "A string containing an email address for the person",
+          "type": "string",
+          "format": "email"
+        },
+        "identifier": {
+          "title": "Identifier",
+          "description": "Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "FunderOrganization": {
+      "title": "FunderOrganization",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "@Type",
+          "default": "Organization",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "description": "Name of the organization.",
+          "type": "string"
+        },
+        "url": {
+          "title": "URL",
+          "description": "A URL to the homepage for the organization.",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "address": {
+          "title": "Address",
+          "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
     },
     "Grant": {
       "title": "Grant",
@@ -1404,7 +1322,7 @@
           "type": "string"
         },
         "name": {
-          "title": "Name or Title",
+          "title": "Name or title",
           "description": "A text string indicating the name or title of the grant or financial assistance.",
           "type": "string"
         },
@@ -1414,13 +1332,13 @@
           "type": "string"
         },
         "identifier": {
-          "title": "Funding Identifier",
+          "title": "Funding identifier",
           "description": "Grant award number or other identifier.",
           "type": "string"
         },
         "funder": {
           "title": "Funder",
-          "description": "A Grant or monetary assistance that directly or indirectly provided funding or sponsorship for creation of the resource.",
+          "description": "The person or organization that provided the funding or sponsorship.",
           "anyOf": [
             {
               "title": "Person",
@@ -1457,18 +1375,17 @@
               ]
             },
             {
-              "title": "Organization",
+              "title": "FunderOrganization",
               "type": "object",
               "properties": {
                 "@type": {
                   "title": "@Type",
-                  "description": "DELETEME",
                   "default": "Organization",
                   "type": "string"
                 },
                 "name": {
                   "title": "Name",
-                  "description": "Name of the provider organization or repository.",
+                  "description": "Name of the organization.",
                   "type": "string"
                 },
                 "url": {
@@ -1480,14 +1397,6 @@
                   "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
                   "errorMessage": {
                     "pattern": "must match format \"url\""
-                  }
-                },
-                "identifier": {
-                  "title": "Identifier",
-                  "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
-                  "type": "array",
-                  "items": {
-                    "type": "string"
                   }
                 },
                 "address": {
@@ -1505,6 +1414,31 @@
       },
       "required": [
         "name"
+      ]
+    },
+    "TemporalCoverage": {
+      "title": "TemporalCoverage",
+      "type": "object",
+      "properties": {
+        "start": {
+          "title": "Start",
+          "description": "A date/time object containing the instant corresponding to the commencement of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM).",
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "title": "End",
+          "description": "A date/time object containing the instant corresponding to the termination of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, that means the temporal coverage is ongoing.",
+          "formatMinimum": {
+            "$data": "1/start"
+          },
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "start",
+        "end"
       ]
     },
     "Line": {
@@ -1678,13 +1612,13 @@
           "type": "string"
         },
         "name": {
-          "title": "Name or Title",
+          "title": "Name or title",
           "description": "Submission's name or title",
           "type": "string"
         },
         "url": {
           "title": "URL",
-          "description": "TODO",
+          "description": "The URL address to the data resource.",
           "minLength": 1,
           "maxLength": 2083,
           "type": "string",
@@ -1714,13 +1648,13 @@
           "type": "string"
         },
         "name": {
-          "title": "Name or Title",
+          "title": "Name or title",
           "description": "Submission's name or title",
           "type": "string"
         },
         "url": {
           "title": "URL",
-          "description": "TODO",
+          "description": "The URL address to the data resource.",
           "minLength": 1,
           "maxLength": 2083,
           "type": "string",
@@ -1750,7 +1684,7 @@
           "type": "string"
         },
         "contentUrl": {
-          "title": "Contenturl",
+          "title": "Content URL",
           "description": "The direct URL link to access or download the actual content of the media object.",
           "minLength": 1,
           "maxLength": 2083,
@@ -1761,12 +1695,12 @@
           }
         },
         "encodingFormat": {
-          "title": "Encodingformat",
+          "title": "Encoding format",
           "description": "Represents the specific file format in which the media is encoded.",
           "type": "string"
         },
         "contentSize": {
-          "title": "Contentsize",
+          "title": "Content size",
           "description": "Represents the file size, expressed in bytes, kilobytes, megabytes, or another unit of measurement.",
           "type": "string"
         },
@@ -1781,55 +1715,6 @@
         "encodingFormat",
         "contentSize",
         "name"
-      ]
-    },
-    "Distribution": {
-      "title": "Distribution",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "title": "@Type",
-          "description": "A downloadable form of the resource, at a specific location, in a specific format. Repeat if multiple files or if different formats/variations are available.",
-          "default": "DataDownload",
-          "type": "string"
-        },
-        "name": {
-          "title": "Name",
-          "description": "A text string indicating the name of the content to be downloaded. This could be a file name or a descriptive name for the content file.",
-          "type": "string"
-        },
-        "contentUrl": {
-          "title": "Content URL",
-          "description": "A URL for the content to be downloaded.",
-          "minLength": 1,
-          "maxLength": 2083,
-          "type": "string",
-          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-          "errorMessage": {
-            "pattern": "must match format \"url\""
-          }
-        },
-        "encodingFormat": {
-          "title": "Encodingformat",
-          "description": "Text string indicating the file or media type, usually expressed using a MIME format.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "contentSize": {
-          "title": "Contentsize",
-          "description": "A text string indicating the file size in megabytes",
-          "type": "string"
-        },
-        "comment": {
-          "title": "Comment",
-          "description": "A text string with comments about the resource. For example, an explanation that provides additional information on how the dataset is being accessed or downloaded.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "contentUrl"
       ]
     },
     "IncludedInDataCatalog": {
@@ -1862,103 +1747,11 @@
           "errorMessage": {
             "pattern": "must match format \"url\""
           }
-        },
-        "identifier": {
-          "title": "Identifier",
-          "description": "The unique identifier for the data catalog. This is generated automatically by the system.",
-          "type": "string"
-        },
-        "creator": {
-          "title": "Creator",
-          "description": "The creator, owner, or provider of the data catalog.",
-          "anyOf": [
-            {
-              "title": "Person",
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "title": "@Type",
-                  "description": "DELETEME",
-                  "default": "Person",
-                  "type": "string"
-                },
-                "name": {
-                  "title": "Name",
-                  "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name",
-                  "type": "string"
-                },
-                "email": {
-                  "title": "Email",
-                  "description": "A string containing an email address for the person",
-                  "type": "string",
-                  "format": "email"
-                },
-                "identifier": {
-                  "title": "Identifier",
-                  "description": "Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.",
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "required": [
-                "name"
-              ]
-            },
-            {
-              "title": "Organization",
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "title": "@Type",
-                  "description": "DELETEME",
-                  "default": "Organization",
-                  "type": "string"
-                },
-                "name": {
-                  "title": "Name",
-                  "description": "Name of the provider organization or repository.",
-                  "type": "string"
-                },
-                "url": {
-                  "title": "URL",
-                  "description": "A URL to the homepage for the organization.",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "type": "string",
-                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-                  "errorMessage": {
-                    "pattern": "must match format \"url\""
-                  }
-                },
-                "identifier": {
-                  "title": "Identifier",
-                  "description": "Unique identifiers for the person or organization. Where identifiers can be encoded as URLs, enter URLs here.",
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "address": {
-                  "title": "Address",
-                  "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "name"
-              ]
-            }
-          ]
         }
       },
       "required": [
         "name",
-        "description",
-        "url",
-        "identifier",
-        "creator"
+        "url"
       ]
     }
   }

@@ -70,7 +70,20 @@
             },
             {
               "type": "Control",
-              "scope": "#/properties/inLanguage"
+              "scope": "#/properties/inLanguage",
+              "options": {
+                "detail": {
+                  "0": {
+                    "type": "Control",
+                    "scope": "#",
+                    "label": "Select one"
+                  },
+                  "1": {
+                    "type": "Control",
+                    "scope": "#"
+                  }
+                }
+              }
             }
           ]
         },
@@ -199,7 +212,7 @@
             "detail": {
               "0": {
                 "type": "VerticalLayout",
-                "label": "Creator",
+                "label": "Person",
                 "elements": [
                   {
                     "type": "Control",
@@ -227,11 +240,7 @@
                     "elements": [
                       {
                         "type": "Control",
-                        "scope": "#/properties/identifier",
-                        "options": {
-                          "useTableLayout": true,
-                          "showSortButtons": true
-                        }
+                        "scope": "#/properties/identifier"
                       },
                       {
                         "type": "Control",
@@ -266,22 +275,8 @@
                     ]
                   },
                   {
-                    "type": "HorizontalLayout",
-                    "elements": [
-                      {
-                        "type": "Control",
-                        "scope": "#/properties/identifier",
-                        "label": "ORCID",
-                        "options": {
-                          "useTableLayout": true,
-                          "showSortButtons": true
-                        }
-                      },
-                      {
-                        "type": "Control",
-                        "scope": "#/properties/address"
-                      }
-                    ]
+                    "type": "Control",
+                    "scope": "#/properties/address"
                   }
                 ]
               }
@@ -300,14 +295,23 @@
     },
     {
       "type": "Control",
-      "scope": "#/properties/distribution",
+      "scope": "#/properties/associatedMedia",
       "options": {
         "elementLabelProp": [
           "name"
         ],
+        "flat": true,
         "detail": {
           "type": "VerticalLayout",
           "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/@type",
+              "rule": {
+                "effect": "HIDE",
+                "condition": {}
+              }
+            },
             {
               "type": "HorizontalLayout",
               "elements": [
@@ -326,20 +330,13 @@
               "elements": [
                 {
                   "type": "Control",
-                  "scope": "#/properties/encodingFormat"
+                  "scope": "#/properties/contentSize"
                 },
                 {
                   "type": "Control",
-                  "scope": "#/properties/contentSize"
+                  "scope": "#/properties/encodingFormat"
                 }
               ]
-            },
-            {
-              "type": "Control",
-              "scope": "#/properties/comment",
-              "options": {
-                "multi": true
-              }
             }
           ]
         }
@@ -351,7 +348,23 @@
       "elements": [
         {
           "type": "Control",
-          "scope": "#/properties/temporalCoverage"
+          "scope": "#/properties/temporalCoverage",
+          "label": "Temporal Coverage",
+          "options": {
+            "detail": {
+              "type": "HorizontalLayout",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/start"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/end"
+                }
+              ]
+            }
+          }
         },
         {
           "type": "Control",
@@ -460,9 +473,20 @@
           "type": "Control",
           "scope": "#/properties/includedInDataCatalog",
           "options": {
+            "elementLabelProp": [
+              "name"
+            ],
             "detail": {
               "type": "VerticalLayout",
               "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/@type",
+                  "rule": {
+                    "effect": "HIDE",
+                    "condition": {}
+                  }
+                },
                 {
                   "type": "HorizontalLayout",
                   "elements": [
@@ -482,19 +506,6 @@
                   "options": {
                     "multi": true
                   }
-                },
-                {
-                  "type": "HorizontalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/creator"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/identifier"
-                    }
-                  ]
                 }
               ]
             }
@@ -511,17 +522,12 @@
               "type": "VerticalLayout",
               "elements": [
                 {
-                  "type": "HorizontalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/name"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/url"
-                    }
-                  ]
+                  "type": "Control",
+                  "scope": "#/properties/name"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/url"
                 },
                 {
                   "type": "Control",
@@ -601,50 +607,6 @@
               ]
             }
           }
-        },
-        {
-          "type": "Control",
-          "scope": "#/properties/associatedMedia",
-          "options": {
-            "elementLabelProp": [
-              "name"
-            ],
-            "detail": {
-              "type": "VerticalLayout",
-              "elements": [
-                {
-                  "type": "HorizontalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/name"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/contentUrl"
-                    }
-                  ]
-                },
-                {
-                  "type": "HorizontalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/contentSize"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/encodingFormat"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/@type"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
         }
       ]
     },
@@ -682,7 +644,6 @@
     {
       "type": "Group",
       "label": "Provider and Publisher Information",
-      "description": "Where the resource is permanently published, indicate the organization that published the resource - e.g., CUAHSI HydroShare.",
       "elements": [
         {
           "type": "Control",
@@ -706,21 +667,13 @@
                     ]
                   },
                   {
-                    "type": "HorizontalLayout",
-                    "elements": [
-                      {
-                        "type": "Control",
-                        "scope": "#/properties/identifier"
-                      },
-                      {
-                        "type": "Control",
-                        "scope": "#/properties/address"
-                      }
-                    ]
+                    "type": "Control",
+                    "scope": "#/properties/address"
                   }
                 ]
               },
               "1": {
+                "label": "Person",
                 "type": "VerticalLayout",
                 "elements": [
                   {
@@ -775,17 +728,8 @@
                   ]
                 },
                 {
-                  "type": "HorizontalLayout",
-                  "elements": [
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/identifier"
-                    },
-                    {
-                      "type": "Control",
-                      "scope": "#/properties/address"
-                    }
-                  ]
+                  "type": "Control",
+                  "scope": "#/properties/address"
                 }
               ]
             }
@@ -859,6 +803,7 @@
                     ]
                   },
                   "1": {
+                    "label": "Organization",
                     "type": "VerticalLayout",
                     "elements": [
                       {
@@ -883,17 +828,8 @@
                         ]
                       },
                       {
-                        "type": "HorizontalLayout",
-                        "elements": [
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/address"
-                          },
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/identifier"
-                          }
-                        ]
+                        "type": "Control",
+                        "scope": "#/properties/address"
                       }
                     ]
                   }
