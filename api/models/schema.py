@@ -1,7 +1,7 @@
 import re
-from datetime import date, datetime
+from datetime import datetime
 from enum import Enum
-from typing import Any, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel, EmailStr, Field, HttpUrl, validator
 
@@ -141,8 +141,18 @@ class License(CreativeWork):
 
 
 class LanguageEnum(str, Enum):
+    @classmethod
+    def __modify_schema__(cls, field_schema: Dict[str, Any]) -> None:
+        field_schema.update(type='string', title='TODO - title here', description="TODO - description here")
+
     eng = 'eng'
     esp = 'esp'
+
+class InLanguageStr(str):
+    @classmethod
+    def __modify_schema__(cls, field_schema: Dict[str, Any]) -> None:
+        field_schema.update(type='string', title='TODO - title here', description="TODO - description here")
+
 
 
 class Grant(SchemaBaseModel):
@@ -344,7 +354,7 @@ class CoreMetadata(SchemaBaseModel):
     version: Optional[str] = Field(
         description="A text string indicating the version of the resource."
     )  # TODO find something better than float for number
-    inLanguage: Optional[Union[LanguageEnum, str]] = Field(title="Language", description="The language of the content of the resource.")
+    inLanguage: Optional[Union[LanguageEnum, InLanguageStr]] = Field(title="Language", description="The language of the content of the resource.")
     # TODO: find a way to modify fields inside Unions so we can add titles, descriptions, options, etc.
     creativeWorkStatus: Optional[Union[Draft, Incomplete, Obsolete, Published]] = Field(
         title="Resource Status",
