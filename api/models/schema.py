@@ -278,9 +278,9 @@ class GeoShape(SchemaBaseModel):
             except ValueError:
                 raise ValueError('Bounding box coordinate is not a number')
             item = abs(item)
-            if index % 2 == 0 and (180 < item < -180):
+            if index % 2 == 0 and item > 180:
                 raise ValueError('Bounding box coordinate must be between -180 and 180')
-            elif 90 < item < -90:
+            elif item > 90:
                 raise ValueError('Bounding box coordinate must be between -90 and 90')
 
         return v
