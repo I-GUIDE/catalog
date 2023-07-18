@@ -4,7 +4,7 @@ from beanie import Document
 
 from api.models.user import Submission
 
-from .schema import CoreMetadata, Dataset
+from .schema import CoreMetadata
 
 
 class CoreMetadataDOC(Document, CoreMetadata):
@@ -29,5 +29,5 @@ class CoreMetadataDOC(Document, CoreMetadata):
         )
 
 
-class DatasetMetadataDOC(Dataset, CoreMetadataDOC):
+class DatasetMetadataDOC(CoreMetadataDOC):
     pass
