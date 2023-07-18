@@ -66,7 +66,7 @@
             "properties": {
               "@type": {
                 "title": "@Type",
-                "description": "DELETEME",
+                "description": "A person.",
                 "default": "Person",
                 "type": "string"
               },
@@ -77,7 +77,7 @@
               },
               "email": {
                 "title": "Email",
-                "description": "A string containing an email address for the person.",
+                "description": "A string containing an email address for the creator.",
                 "type": "string",
                 "format": "email"
               },
@@ -95,8 +95,44 @@
               },
               "organization": {
                 "title": "Organization",
-                "description": "The organization that creator is associated with.",
+                "description": "The organization that the creator is associated with.",
                 "type": "string"
+              },
+              "affiliation": {
+                "title": "Affiliation",
+                "description": "The affiliation of the creator with the organization.",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "title": "@Type",
+                    "default": "Organization",
+                    "type": "string"
+                  },
+                  "name": {
+                    "title": "Name",
+                    "description": "Name of the organization the creator is affiliated with.",
+                    "type": "string"
+                  },
+                  "url": {
+                    "title": "URL",
+                    "description": "A URL to the homepage for the organization.",
+                    "minLength": 1,
+                    "maxLength": 2083,
+                    "type": "string",
+                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                    "errorMessage": {
+                      "pattern": "must match format \"url\""
+                    }
+                  },
+                  "address": {
+                    "title": "Address",
+                    "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
               }
             },
             "required": [
@@ -238,7 +274,7 @@
           "properties": {
             "@type": {
               "title": "@Type",
-              "description": "DELETEME",
+              "description": "A person.",
               "default": "Person",
               "type": "string"
             },
@@ -265,10 +301,41 @@
               },
               "type": "string"
             },
-            "organization": {
-              "title": "Organization",
-              "description": "The organization that the provider is associated with.",
-              "type": "string"
+            "affiliation": {
+              "title": "Affiliation",
+              "description": "The affiliation of the creator with the organization.",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "@Type",
+                  "default": "Organization",
+                  "type": "string"
+                },
+                "name": {
+                  "title": "Name",
+                  "description": "Name of the organization the creator is affiliated with.",
+                  "type": "string"
+                },
+                "url": {
+                  "title": "URL",
+                  "description": "A URL to the homepage for the organization.",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "address": {
+                  "title": "Address",
+                  "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
             }
           },
           "required": [
@@ -528,7 +595,7 @@
                 "properties": {
                   "@type": {
                     "title": "@Type",
-                    "description": "DELETEME",
+                    "description": "A person.",
                     "default": "Person",
                     "type": "string"
                   },
@@ -604,30 +671,29 @@
       "description": "The time period that applies to all of the content within the resource.",
       "type": "object",
       "properties": {
-        "start": {
-          "title": "Start",
+        "startDate": {
+          "title": "Start date",
           "description": "A date/time object containing the instant corresponding to the commencement of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM).",
           "type": "string",
           "format": "date-time"
         },
-        "end": {
-          "title": "End",
+        "endDate": {
+          "title": "End date",
           "description": "A date/time object containing the instant corresponding to the termination of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, that means the temporal coverage is ongoing.",
           "formatMinimum": {
-            "$data": "1/start"
+            "$data": "1/startDate"
           },
           "type": "string",
           "format": "date-time"
         }
       },
       "required": [
-        "start",
-        "end"
+        "startDate"
       ]
     },
     "spatialCoverage": {
       "title": "Place",
-      "description": "The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. It is a subproperty of contentLocation intended primarily for more technical and detailed materials. For example with a Dataset, it indicates areas that the dataset describes: a dataset of New York weather would have spatialCoverage which was the place: the state of New York.",
+      "description": "The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. It is a sub property of contentLocation intended primarily for more technical and detailed materials. For example with a Dataset, it indicates areas that the dataset describes: a dataset of New York weather would have spatialCoverage which was the place: the state of New York.",
       "type": "object",
       "properties": {
         "@type": {
@@ -677,44 +743,18 @@
               "properties": {
                 "@type": {
                   "title": "@Type",
-                  "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
+                  "description": "A structured representation that describes the coordinates of a geographic feature.",
                   "default": "GeoShape",
                   "type": "string"
                 },
-                "northlimit": {
-                  "title": "North limit",
-                  "description": "A floating point value containing the constant coordinate for the northernmost face or edge of the bounding box (between -90 and 90).",
-                  "exclusiveMinimum": -90,
-                  "exclusiveMaximum": 90,
-                  "type": "number"
-                },
-                "eastlimit": {
-                  "title": "East limit",
-                  "description": "A floating point value containing the constant coordinate for the easternmost face or edge of the bounding box (between -180 and 180).",
-                  "exclusiveMinimum": -180,
-                  "exclusiveMaximum": 180,
-                  "type": "number"
-                },
-                "southlimit": {
-                  "title": "South limit",
-                  "description": "A floating point value containing the constant coordinate for the southernmost face or edge of the bounding box (between -90 and 90).",
-                  "exclusiveMinimum": -90,
-                  "exclusiveMaximum": 90,
-                  "type": "number"
-                },
-                "westlimit": {
-                  "title": "West limit",
-                  "description": "A floating point value containing the constant coordinate for the westernmost face or edge of the bounding box (between -180 and 180).",
-                  "exclusiveMinimum": -180,
-                  "exclusiveMaximum": 180,
-                  "type": "number"
+                "box": {
+                  "title": "Box",
+                  "description": "A box is a rectangular region defined by a pair of coordinates representing the southwest and northeast corners of the box.",
+                  "type": "string"
                 }
               },
               "required": [
-                "northlimit",
-                "eastlimit",
-                "southlimit",
-                "westlimit"
+                "box"
               ]
             }
           ]
@@ -852,46 +892,12 @@
         ]
       }
     },
-    "includedInDataCatalog": {
-      "title": "Included in data catalog",
-      "description": "Any other data catalog that contains a description of this resource.",
+    "citation": {
+      "title": "Citation",
+      "description": "A bibliographic citation for the resource.",
       "type": "array",
       "items": {
-        "title": "IncludedInDataCatalog",
-        "type": "object",
-        "properties": {
-          "@type": {
-            "title": "@Type",
-            "description": "A data catalog which contains this dataset.",
-            "default": "DataCatalog",
-            "type": "string"
-          },
-          "name": {
-            "title": "Name",
-            "description": "The name of the data catalog containing this dataset.",
-            "type": "string"
-          },
-          "description": {
-            "title": "Description",
-            "description": "The description of the data catalog.",
-            "type": "string"
-          },
-          "url": {
-            "title": "Url",
-            "description": "The URL address to the data catalog.",
-            "minLength": 1,
-            "maxLength": 2083,
-            "type": "string",
-            "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-            "errorMessage": {
-              "pattern": "must match format \"url\""
-            }
-          }
-        },
-        "required": [
-          "name",
-          "url"
-        ]
+        "type": "string"
       }
     }
   },
@@ -906,13 +912,48 @@
     "provider"
   ],
   "definitions": {
+    "Affiliation": {
+      "title": "Affiliation",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "@Type",
+          "default": "Organization",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "description": "Name of the organization the creator is affiliated with.",
+          "type": "string"
+        },
+        "url": {
+          "title": "URL",
+          "description": "A URL to the homepage for the organization.",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "address": {
+          "title": "Address",
+          "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
     "Creator": {
       "title": "Creator",
       "type": "object",
       "properties": {
         "@type": {
           "title": "@Type",
-          "description": "DELETEME",
+          "description": "A person.",
           "default": "Person",
           "type": "string"
         },
@@ -923,7 +964,7 @@
         },
         "email": {
           "title": "Email",
-          "description": "A string containing an email address for the person.",
+          "description": "A string containing an email address for the creator.",
           "type": "string",
           "format": "email"
         },
@@ -941,8 +982,44 @@
         },
         "organization": {
           "title": "Organization",
-          "description": "The organization that creator is associated with.",
+          "description": "The organization that the creator is associated with.",
           "type": "string"
+        },
+        "affiliation": {
+          "title": "Affiliation",
+          "description": "The affiliation of the creator with the organization.",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "title": "@Type",
+              "default": "Organization",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "description": "Name of the organization the creator is affiliated with.",
+              "type": "string"
+            },
+            "url": {
+              "title": "URL",
+              "description": "A URL to the homepage for the organization.",
+              "minLength": 1,
+              "maxLength": 2083,
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
+              }
+            },
+            "address": {
+              "title": "Address",
+              "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
         }
       },
       "required": [
@@ -1026,7 +1103,7 @@
       "properties": {
         "@type": {
           "title": "@Type",
-          "description": "DELETEME",
+          "description": "A person.",
           "default": "Person",
           "type": "string"
         },
@@ -1053,10 +1130,41 @@
           },
           "type": "string"
         },
-        "organization": {
-          "title": "Organization",
-          "description": "The organization that the provider is associated with.",
-          "type": "string"
+        "affiliation": {
+          "title": "Affiliation",
+          "description": "The affiliation of the creator with the organization.",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "title": "@Type",
+              "default": "Organization",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "description": "Name of the organization the creator is affiliated with.",
+              "type": "string"
+            },
+            "url": {
+              "title": "URL",
+              "description": "A URL to the homepage for the organization.",
+              "minLength": 1,
+              "maxLength": 2083,
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
+              }
+            },
+            "address": {
+              "title": "Address",
+              "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
         }
       },
       "required": [
@@ -1241,7 +1349,7 @@
       "properties": {
         "@type": {
           "title": "@Type",
-          "description": "DELETEME",
+          "description": "A person.",
           "default": "Person",
           "type": "string"
         },
@@ -1339,7 +1447,7 @@
               "properties": {
                 "@type": {
                   "title": "@Type",
-                  "description": "DELETEME",
+                  "description": "A person.",
                   "default": "Person",
                   "type": "string"
                 },
@@ -1413,25 +1521,24 @@
       "title": "TemporalCoverage",
       "type": "object",
       "properties": {
-        "start": {
-          "title": "Start",
+        "startDate": {
+          "title": "Start date",
           "description": "A date/time object containing the instant corresponding to the commencement of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM).",
           "type": "string",
           "format": "date-time"
         },
-        "end": {
-          "title": "End",
+        "endDate": {
+          "title": "End date",
           "description": "A date/time object containing the instant corresponding to the termination of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, that means the temporal coverage is ongoing.",
           "formatMinimum": {
-            "$data": "1/start"
+            "$data": "1/startDate"
           },
           "type": "string",
           "format": "date-time"
         }
       },
       "required": [
-        "start",
-        "end"
+        "startDate"
       ]
     },
     "GeoCoordinates": {
@@ -1466,44 +1573,18 @@
       "properties": {
         "@type": {
           "title": "@Type",
-          "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
+          "description": "A structured representation that describes the coordinates of a geographic feature.",
           "default": "GeoShape",
           "type": "string"
         },
-        "northlimit": {
-          "title": "North limit",
-          "description": "A floating point value containing the constant coordinate for the northernmost face or edge of the bounding box (between -90 and 90).",
-          "exclusiveMinimum": -90,
-          "exclusiveMaximum": 90,
-          "type": "number"
-        },
-        "eastlimit": {
-          "title": "East limit",
-          "description": "A floating point value containing the constant coordinate for the easternmost face or edge of the bounding box (between -180 and 180).",
-          "exclusiveMinimum": -180,
-          "exclusiveMaximum": 180,
-          "type": "number"
-        },
-        "southlimit": {
-          "title": "South limit",
-          "description": "A floating point value containing the constant coordinate for the southernmost face or edge of the bounding box (between -90 and 90).",
-          "exclusiveMinimum": -90,
-          "exclusiveMaximum": 90,
-          "type": "number"
-        },
-        "westlimit": {
-          "title": "West limit",
-          "description": "A floating point value containing the constant coordinate for the westernmost face or edge of the bounding box (between -180 and 180).",
-          "exclusiveMinimum": -180,
-          "exclusiveMaximum": 180,
-          "type": "number"
+        "box": {
+          "title": "Box",
+          "description": "A box is a rectangular region defined by a pair of coordinates representing the southwest and northeast corners of the box.",
+          "type": "string"
         }
       },
       "required": [
-        "northlimit",
-        "eastlimit",
-        "southlimit",
-        "westlimit"
+        "box"
       ]
     },
     "Place": {
@@ -1557,44 +1638,18 @@
               "properties": {
                 "@type": {
                   "title": "@Type",
-                  "description": "A structured representation that describes the coordinates of a geographic feature (line or polygon).",
+                  "description": "A structured representation that describes the coordinates of a geographic feature.",
                   "default": "GeoShape",
                   "type": "string"
                 },
-                "northlimit": {
-                  "title": "North limit",
-                  "description": "A floating point value containing the constant coordinate for the northernmost face or edge of the bounding box (between -90 and 90).",
-                  "exclusiveMinimum": -90,
-                  "exclusiveMaximum": 90,
-                  "type": "number"
-                },
-                "eastlimit": {
-                  "title": "East limit",
-                  "description": "A floating point value containing the constant coordinate for the easternmost face or edge of the bounding box (between -180 and 180).",
-                  "exclusiveMinimum": -180,
-                  "exclusiveMaximum": 180,
-                  "type": "number"
-                },
-                "southlimit": {
-                  "title": "South limit",
-                  "description": "A floating point value containing the constant coordinate for the southernmost face or edge of the bounding box (between -90 and 90).",
-                  "exclusiveMinimum": -90,
-                  "exclusiveMaximum": 90,
-                  "type": "number"
-                },
-                "westlimit": {
-                  "title": "West limit",
-                  "description": "A floating point value containing the constant coordinate for the westernmost face or edge of the bounding box (between -180 and 180).",
-                  "exclusiveMinimum": -180,
-                  "exclusiveMaximum": 180,
-                  "type": "number"
+                "box": {
+                  "title": "Box",
+                  "description": "A box is a rectangular region defined by a pair of coordinates representing the southwest and northeast corners of the box.",
+                  "type": "string"
                 }
               },
               "required": [
-                "northlimit",
-                "eastlimit",
-                "southlimit",
-                "westlimit"
+                "box"
               ]
             }
           ]
@@ -1715,43 +1770,6 @@
         "encodingFormat",
         "contentSize",
         "name"
-      ]
-    },
-    "IncludedInDataCatalog": {
-      "title": "IncludedInDataCatalog",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "title": "@Type",
-          "description": "A data catalog which contains this dataset.",
-          "default": "DataCatalog",
-          "type": "string"
-        },
-        "name": {
-          "title": "Name",
-          "description": "The name of the data catalog containing this dataset.",
-          "type": "string"
-        },
-        "description": {
-          "title": "Description",
-          "description": "The description of the data catalog.",
-          "type": "string"
-        },
-        "url": {
-          "title": "Url",
-          "description": "The URL address to the data catalog.",
-          "minLength": 1,
-          "maxLength": 2083,
-          "type": "string",
-          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-          "errorMessage": {
-            "pattern": "must match format \"url\""
-          }
-        }
-      },
-      "required": [
-        "name",
-        "url"
       ]
     }
   }
