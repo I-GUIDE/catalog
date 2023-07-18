@@ -9,7 +9,7 @@ from api.authentication.user import get_current_user
 from api.config import get_settings
 from api.main import app
 from api.models.catalog import CoreMetadataDOC, Submission
-from api.models.schema import CoreMetadata, Dataset
+from api.models.schema import CoreMetadata
 from api.models.user import User
 from api.procedures.user import create_or_update_user
 
@@ -84,7 +84,7 @@ async def core_model():
 
 @pytest_asyncio.fixture
 async def dataset_model():
-    class _Dataset(Dataset, CoreMetadata):
+    class _Dataset(CoreMetadata):
         pass
 
     return _Dataset
