@@ -83,7 +83,6 @@ class Creator(Person):
                                       options={"placeholder": orcid_pattern_placeholder},
                                       errorMessage={"pattern": orcid_pattern_error}
                                       )
-    organization: Optional[str] = Field(description="The organization that the creator is associated with.")
     email: Optional[EmailStr] = Field(description="A string containing an email address for the creator.")
     affiliation: Optional[Affiliation] = Field(description="The affiliation of the creator with the organization.")
 
