@@ -88,6 +88,10 @@ class Creator(Person):
 
 
 class FunderOrganization(Organization):
+    @classmethod
+    def __modify_schema__(cls, field_schema: Dict[str, Any]) -> None:
+        field_schema.update(type='string', title='Funding Organization')
+
     name: str = Field(description="Name of the organization.")
 
 
@@ -201,8 +205,8 @@ class Grant(SchemaBaseModel):
         title="Funding identifier",
         description="Grant award number or other identifier."
     )
-    funder: Optional[Union[Person, FunderOrganization]] = Field(
-        description="The person or organization that provided the funding or sponsorship."
+    funder: Optional[FunderOrganization] = Field(
+        description="The organization that provided the funding or sponsorship."
     )
 
 
