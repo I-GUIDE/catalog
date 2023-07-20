@@ -93,11 +93,6 @@
                 },
                 "type": "string"
               },
-              "organization": {
-                "title": "Organization",
-                "description": "The organization that the creator is associated with.",
-                "type": "string"
-              },
               "affiliation": {
                 "title": "Affiliation",
                 "description": "The affiliation of the creator with the organization.",
@@ -586,79 +581,9 @@
             "type": "string"
           },
           "funder": {
-            "title": "Funder",
-            "description": "The person or organization that provided the funding or sponsorship.",
-            "anyOf": [
-              {
-                "title": "Person",
-                "type": "object",
-                "properties": {
-                  "@type": {
-                    "title": "@Type",
-                    "description": "A person.",
-                    "default": "Person",
-                    "type": "string"
-                  },
-                  "name": {
-                    "title": "Name",
-                    "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name.",
-                    "type": "string"
-                  },
-                  "email": {
-                    "title": "Email",
-                    "description": "A string containing an email address for the person.",
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "identifier": {
-                    "title": "Identifier",
-                    "description": "Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.",
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "required": [
-                  "name"
-                ]
-              },
-              {
-                "title": "FunderOrganization",
-                "type": "object",
-                "properties": {
-                  "@type": {
-                    "title": "@Type",
-                    "default": "Organization",
-                    "type": "string"
-                  },
-                  "name": {
-                    "title": "Name",
-                    "description": "Name of the organization.",
-                    "type": "string"
-                  },
-                  "url": {
-                    "title": "URL",
-                    "description": "A URL to the homepage for the organization.",
-                    "minLength": 1,
-                    "maxLength": 2083,
-                    "type": "string",
-                    "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-                    "errorMessage": {
-                      "pattern": "must match format \"url\""
-                    }
-                  },
-                  "address": {
-                    "title": "Address",
-                    "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "name"
-                ]
-              }
-            ]
+            "title": "Funding Organization",
+            "description": "The organization that provided the funding or sponsorship.",
+            "type": "string"
           }
         },
         "required": [
@@ -978,11 +903,6 @@
           "errorMessage": {
             "pattern": "must match the ORCID pattern. e.g. '0000-0001-2345-6789'"
           },
-          "type": "string"
-        },
-        "organization": {
-          "title": "Organization",
-          "description": "The organization that the creator is associated with.",
           "type": "string"
         },
         "affiliation": {
@@ -1343,75 +1263,6 @@
         }
       }
     },
-    "Person": {
-      "title": "Person",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "title": "@Type",
-          "description": "A person.",
-          "default": "Person",
-          "type": "string"
-        },
-        "name": {
-          "title": "Name",
-          "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name.",
-          "type": "string"
-        },
-        "email": {
-          "title": "Email",
-          "description": "A string containing an email address for the person.",
-          "type": "string",
-          "format": "email"
-        },
-        "identifier": {
-          "title": "Identifier",
-          "description": "Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "name"
-      ]
-    },
-    "FunderOrganization": {
-      "title": "FunderOrganization",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "title": "@Type",
-          "default": "Organization",
-          "type": "string"
-        },
-        "name": {
-          "title": "Name",
-          "description": "Name of the organization.",
-          "type": "string"
-        },
-        "url": {
-          "title": "URL",
-          "description": "A URL to the homepage for the organization.",
-          "minLength": 1,
-          "maxLength": 2083,
-          "type": "string",
-          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-          "errorMessage": {
-            "pattern": "must match format \"url\""
-          }
-        },
-        "address": {
-          "title": "Address",
-          "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name"
-      ]
-    },
     "Grant": {
       "title": "Grant",
       "type": "object",
@@ -1438,79 +1289,9 @@
           "type": "string"
         },
         "funder": {
-          "title": "Funder",
-          "description": "The person or organization that provided the funding or sponsorship.",
-          "anyOf": [
-            {
-              "title": "Person",
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "title": "@Type",
-                  "description": "A person.",
-                  "default": "Person",
-                  "type": "string"
-                },
-                "name": {
-                  "title": "Name",
-                  "description": "A string containing the full name of the person. Personal name format: Family Name, Given Name.",
-                  "type": "string"
-                },
-                "email": {
-                  "title": "Email",
-                  "description": "A string containing an email address for the person.",
-                  "type": "string",
-                  "format": "email"
-                },
-                "identifier": {
-                  "title": "Identifier",
-                  "description": "Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.",
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "required": [
-                "name"
-              ]
-            },
-            {
-              "title": "FunderOrganization",
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "title": "@Type",
-                  "default": "Organization",
-                  "type": "string"
-                },
-                "name": {
-                  "title": "Name",
-                  "description": "Name of the organization.",
-                  "type": "string"
-                },
-                "url": {
-                  "title": "URL",
-                  "description": "A URL to the homepage for the organization.",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "type": "string",
-                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-                  "errorMessage": {
-                    "pattern": "must match format \"url\""
-                  }
-                },
-                "address": {
-                  "title": "Address",
-                  "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "name"
-              ]
-            }
-          ]
+          "title": "Funding Organization",
+          "description": "The organization that provided the funding or sponsorship.",
+          "type": "string"
         }
       },
       "required": [
