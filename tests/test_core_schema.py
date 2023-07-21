@@ -35,7 +35,17 @@ async def test_core_schema_creator_cardinality(core_data, core_model, multiple_c
         if creator_type == "person":
             core_data["creator"] = [
                 {"@type": "Person", "name": "John Doe", "email": "john.doe@gmail.com"},
-                {"@type": "Person", "name": "Jane Doe", "email": "jan.doe@gmail.com"},
+                {
+                    "@type": "Person",
+                    "name": "Jane Doe",
+                    "email": "jan.doe@gmail.com",
+                    "affiliation": {
+                        "@type": "Organization",
+                        "name": "Utah State University",
+                        "url": "https://www.usu.edu/",
+                        "address": "Logan, UT 84322"
+                    }
+                 }
             ]
         else:
             core_data["creator"] = [
@@ -48,6 +58,7 @@ async def test_core_schema_creator_cardinality(core_data, core_model, multiple_c
                     "@type": "Organization",
                     "name": "National Oceanic and Atmospheric Administration",
                     "url": "https://www.noaa.gov/",
+                    "address": "1315 East-West Highway, Silver Spring, MD 20910",
                 },
             ]
     else:
@@ -74,6 +85,10 @@ async def test_core_schema_creator_cardinality(core_data, core_model, multiple_c
             assert core_model_instance.creator[1].name == "Jane Doe"
             assert core_model_instance.creator[0].email == "john.doe@gmail.com"
             assert core_model_instance.creator[1].email == "jan.doe@gmail.com"
+            assert core_model_instance.creator[1].affiliation.type == "Organization"
+            assert core_model_instance.creator[1].affiliation.name == "Utah State University"
+            assert core_model_instance.creator[1].affiliation.url == "https://www.usu.edu/"
+            assert core_model_instance.creator[1].affiliation.address == "Logan, UT 84322"
         else:
             assert len(core_model_instance.creator) == 2
             assert core_model_instance.creator[0].type == "Organization"
@@ -82,6 +97,7 @@ async def test_core_schema_creator_cardinality(core_data, core_model, multiple_c
             assert core_model_instance.creator[1].name == "National Oceanic and Atmospheric Administration"
             assert core_model_instance.creator[0].url == "https://www.ncei.noaa.gov/"
             assert core_model_instance.creator[1].url == "https://www.noaa.gov/"
+            assert core_model_instance.creator[1].address == "1315 East-West Highway, Silver Spring, MD 20910"
     else:
         if creator_type == "person":
             assert core_model_instance.creator[0].type == "Person"
@@ -102,10 +118,19 @@ async def test_core_schema_creator_cardinality(core_data, core_model, multiple_c
             "@type": "Person",
             "name": "John Doe",
             "email": "john.doe@gmail.com",
-            "identifier": "https://orcid.org/0000-0002-1825-0097",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "NC State University",
+                "url": "https://www.ncsu.edu/",
+                "address": "Raleigh, NC 27695"
+            }
         },
-        {"@type": "Person", "name": "John Doe", "identifier": "https://orcid.org/0000-0002-1825-0097"},
-    ],
+        {
+            "@type": "Person",
+            "name": "John Doe",
+            "identifier": "https://orcid.org/0000-0002-1825-0097"
+        }
+    ]
 )
 @pytest.mark.asyncio
 async def test_core_schema_creator_person_optional_attributes(core_data, core_model, data_format):
@@ -127,35 +152,98 @@ async def test_core_schema_creator_person_optional_attributes(core_data, core_mo
         assert core_model_instance.creator[0].email == "john.doe@gmail.com"
     if "identifier" in data_format:
         assert core_model_instance.creator[0].identifier == "https://orcid.org/0000-0002-1825-0097"
+    if "affiliation" in data_format:
+        assert core_model_instance.creator[0].affiliation.type == "Organization"
+        assert core_model_instance.creator[0].affiliation.name == "NC State University"
+        assert core_model_instance.creator[0].affiliation.url == "https://www.ncsu.edu/"
+        assert core_model_instance.creator[0].affiliation.address == "Raleigh, NC 27695"
 
 
 @pytest.mark.parametrize(
     'data_format',
     [
-        {"@type": "Organization", "name": "National Centers for Environmental Information"},
+        {
+            "@type": "Person",
+            "name": "John Doe",
+            "email": "john.doe@gmail.com",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "NC State University",
+                "url": "https://www.ncsu.edu/",
+                "address": "Raleigh, NC 27695"
+            }
+        },
+        {
+            "@type": "Person",
+            "name": "John Doe",
+            "email": "john.doe@gmail.com",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "NC State University",
+                "url": "https://www.ncsu.edu/"
+            }
+        },
+        {
+            "@type": "Person",
+            "name": "John Doe",
+            "email": "john.doe@gmail.com",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "NC State University",
+                "address": "Raleigh, NC 27695"
+            }
+        }
+    ]
+)
+@pytest.mark.asyncio
+async def test_core_schema_creator_affiliation_optional_attributes(core_data, core_model, data_format):
+    """Test that a core metadata pydantic model can be created from core metadata json.
+    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
+    creator affiliation optional attributes. Note: This test does nat add a record to the database.
+    """
+    core_data = core_data
+    core_model = core_model
+    core_data.pop("creator")
+    core_data["creator"] = [data_format]
+
+    # validate the data model
+    core_model_instance = await utils.validate_data_model(core_data, core_model)
+
+    assert core_model_instance.creator[0].type == "Person"
+    assert core_model_instance.creator[0].name == "John Doe"
+    assert core_model_instance.creator[0].email == "john.doe@gmail.com"
+    assert core_model_instance.creator[0].affiliation.type == "Organization"
+    assert core_model_instance.creator[0].affiliation.name == "NC State University"
+    if 'url' in data_format:
+        assert core_model_instance.creator[0].affiliation.url == "https://www.ncsu.edu/"
+    if 'address' in data_format:
+        assert core_model_instance.creator[0].affiliation.address == "Raleigh, NC 27695"
+
+
+@pytest.mark.parametrize(
+    'data_format',
+    [
+        {
+            "@type": "Organization",
+            "name": "National Centers for Environmental Information"
+        },
         {
             "@type": "Organization",
             "name": "National Centers for Environmental Information",
-            "address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476",
+            "address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476"
+        },
+        {
+            "@type": "Organization",
+            "name": "National Centers for Environmental Information",
+            "url": "https://www.ncei.noaa.gov/"
         },
         {
             "@type": "Organization",
             "name": "National Centers for Environmental Information",
             "url": "https://www.ncei.noaa.gov/",
-        },
-        {
-            "@type": "Organization",
-            "name": "National Centers for Environmental Information",
-            "identifier": "https://orcid.org/0000-0002-1825-0097",
-        },
-        {
-            "@type": "Organization",
-            "name": "National Centers for Environmental Information",
-            "url": "https://www.ncei.noaa.gov/",
-            "identifier": "https://orcid.org/0000-0002-1825-0097",
-            "address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476",
-        },
-    ],
+            "address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476"
+        }
+    ]
 )
 @pytest.mark.asyncio
 async def test_core_schema_creator_organization_optional_attributes(core_data, core_model, data_format):
@@ -170,131 +258,13 @@ async def test_core_schema_creator_organization_optional_attributes(core_data, c
 
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
-
+    print(f">> creator: {core_model_instance.creator}")
     assert core_model_instance.creator[0].type == "Organization"
     assert core_model_instance.creator[0].name == "National Centers for Environmental Information"
     if "url" in data_format:
         assert core_model_instance.creator[0].url == "https://www.ncei.noaa.gov/"
-    if "identifier" in data_format:
-        assert core_model_instance.creator[0].identifier == "https://orcid.org/0000-0002-1825-0097"
     if "address" in data_format:
         assert core_model_instance.creator[0].address == "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476"
-
-
-@pytest.mark.parametrize(
-    'data_format',
-    [
-        {"@type": "Person", "name": "John Doe", "identifier": "https://orcid.org/0000-0002-1825-0097"},
-        {
-            "@type": "Person",
-            "name": "John Doe",
-            "identifier": ["https://orcid.org/0000-0002-1825-0097", "https://orcid.org/0000-0002-1825-0098"],
-        },
-        {"@type": "Person", "name": "John Doe", "identifier": "12345-6789-abcd-efgh"},
-        {
-            "@type": "Person",
-            "name": "John Doe",
-            "identifier": {
-                "@type": "PropertyValue",
-                "@id": "https://orcid.org/0000-0000-0000-0001",
-                "propertyID": "https://registry.identifiers.org/registry/orcid",
-                "url": "https://orcid.org/0000-0000-0000-0001",
-                "value": "0000-0000-0000-0001",
-            },
-        },
-    ],
-)
-@pytest.mark.asyncio
-async def test_core_schema_creator_person_identifier(core_data, core_model, data_format):
-    """Test that a core metadata pydantic model can be created from core metadata json.
-    Purpose of the test is to validate core metadata schema as defined by the pydantic model where the creator
-    property of type person can have different value types for its identifier attribute.
-    Note: This test does nat add a record to the database.
-    """
-    core_data = core_data
-    core_model = core_model
-    core_data.pop("creator")
-    core_data["creator"] = [data_format]
-
-    # validate the data model
-    core_model_instance = await utils.validate_data_model(core_data, core_model)
-
-    assert core_model_instance.creator[0].type == "Person"
-    assert core_model_instance.creator[0].name == "John Doe"
-    if isinstance(data_format["identifier"], list):
-        assert len(core_model_instance.creator[0].identifier) == len(data_format["identifier"])
-        assert core_model_instance.creator[0].identifier[0] == data_format["identifier"][0]
-        assert core_model_instance.creator[0].identifier[1] == data_format["identifier"][1]
-    elif isinstance(data_format["identifier"], str):
-        assert core_model_instance.creator[0].identifier == data_format["identifier"]
-    elif isinstance(data_format["identifier"], dict):
-        assert core_model_instance.creator[0].identifier.type == data_format["identifier"]["@type"]
-        assert core_model_instance.creator[0].identifier.id == data_format["identifier"]["@id"]
-        assert core_model_instance.creator[0].identifier.propertyID == data_format["identifier"]["propertyID"]
-        assert core_model_instance.creator[0].identifier.url == data_format["identifier"]["url"]
-        assert core_model_instance.creator[0].identifier.value == data_format["identifier"]["value"]
-
-
-@pytest.mark.parametrize(
-    'data_format',
-    [
-        {
-            "@type": "Organization",
-            "name": "National Centers for Environmental Information",
-            "identifier": "https://orcid.org/0000-0002-1825-0097",
-        },
-        {
-            "@type": "Organization",
-            "name": "National Centers for Environmental Information",
-            "identifier": ["https://orcid.org/0000-0002-1825-0097", "https://orcid.org/0000-0002-1825-0098"],
-        },
-        {
-            "@type": "Organization",
-            "name": "National Centers for Environmental Information",
-            "identifier": "12345-6789-abcd-efgh",
-        },
-        {
-            "@type": "Organization",
-            "name": "National Centers for Environmental Information",
-            "identifier": {
-                "@type": "PropertyValue",
-                "@id": "https://orcid.org/0000-0000-0000-0001",
-                "propertyID": "https://registry.identifiers.org/registry/orcid",
-                "url": "https://orcid.org/0000-0000-0000-0001",
-                "value": "0000-0000-0000-0001",
-            },
-        },
-    ],
-)
-@pytest.mark.asyncio
-async def test_core_schema_creator_organization_identifier(core_data, core_model, data_format):
-    """Test that a core metadata pydantic model can be created from core metadata json.
-    Purpose of the test is to validate core metadata schema as defined by the pydantic model where the
-    creator property of type organization can have different value types for its identifier attribute.
-    Note: This test does nat add a record to the database.
-    """
-    core_data = core_data
-    core_model = core_model
-    core_data.pop("creator")
-    core_data["creator"] = [data_format]
-
-    # validate the data model
-    core_model_instance = await utils.validate_data_model(core_data, core_model)
-
-    assert core_model_instance.creator[0].type == "Organization"
-    assert core_model_instance.creator[0].name == "National Centers for Environmental Information"
-    if isinstance(data_format["identifier"], list):
-        assert len(core_model_instance.creator[0].identifier) == len(data_format["identifier"])
-        assert core_model_instance.creator[0].identifier[0] == data_format["identifier"][0]
-        assert core_model_instance.creator[0].identifier[1] == data_format["identifier"][1]
-    elif isinstance(data_format["identifier"], str):
-        assert core_model_instance.creator[0].identifier == data_format["identifier"]
-    elif isinstance(data_format["identifier"], dict):
-        assert core_model_instance.creator[0].identifier.type == data_format["identifier"]["@type"]
-        assert core_model_instance.creator[0].identifier.id == data_format["identifier"]["@id"]
-        assert core_model_instance.creator[0].identifier.propertyID == data_format["identifier"]["propertyID"]
-        assert core_model_instance.creator[0].identifier.url == data_format["identifier"]["url"]
-        assert core_model_instance.creator[0].identifier.value == data_format["identifier"]["value"]
 
 
 @pytest.mark.parametrize('multiple_media', [True, False, None])
@@ -309,9 +279,9 @@ async def test_core_schema_associated_media_cardinality(core_data, core_model, m
     if multiple_media is None:
         core_data.pop("associatedMedia", None)
     if multiple_media and multiple_media is not None:
-        core_data["associatedMedia"] = [
+        associated_media = [
             {
-                "@type": "DataDownload",
+                "@type": "MediaObject",
                 "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
                 "encodingFormat": "text/csv",
                 "contentSize": "0.17 GB",
@@ -325,16 +295,20 @@ async def test_core_schema_associated_media_cardinality(core_data, core_model, m
                 "name": "HydroClient Video",
             },
         ]
+
+        core_data["associatedMedia"] = associated_media
+
     elif multiple_media is not None:
-        core_data["associatedMedia"] = [
+        associated_media = [
             {
-                "@type": "DataDownload",
+                "@type": "MediaObject",
                 "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
                 "encodingFormat": "text/csv",
                 "contentSize": "0.17 MB",
                 "name": "USGS gage locations within the Harvey-affected areas in Texas",
             }
         ]
+        core_data["associatedMedia"] = associated_media
 
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
@@ -343,25 +317,19 @@ async def test_core_schema_associated_media_cardinality(core_data, core_model, m
         assert core_model_instance.associatedMedia is None
     if multiple_media and multiple_media is not None:
         assert len(core_model_instance.associatedMedia) == 2
-        assert core_model_instance.associatedMedia[0].type == "DataDownload"
-        assert core_model_instance.associatedMedia[1].type == "VideoObject"
-        assert (
-            core_model_instance.associatedMedia[0].name
-            == "USGS gage locations within the Harvey-affected areas in Texas"
-        )
-        assert core_model_instance.associatedMedia[1].name == "HydroClient Video"
-        assert core_model_instance.associatedMedia[0].contentSize == "0.17 GB"
-        assert core_model_instance.associatedMedia[1].contentSize == "79.2 MB"
-        assert core_model_instance.associatedMedia[0].encodingFormat == "text/csv"
-        assert core_model_instance.associatedMedia[1].encodingFormat == "video/mp4"
+        assert core_model_instance.associatedMedia[0].type == associated_media[0]["@type"]
+        assert core_model_instance.associatedMedia[1].type == associated_media[1]["@type"]
+        assert core_model_instance.associatedMedia[0].name == associated_media[0]["name"]
+        assert core_model_instance.associatedMedia[1].name == associated_media[1]["name"]
+        assert core_model_instance.associatedMedia[0].contentSize == associated_media[0]["contentSize"]
+        assert core_model_instance.associatedMedia[1].contentSize == associated_media[1]["contentSize"]
+        assert core_model_instance.associatedMedia[0].encodingFormat == associated_media[0]["encodingFormat"]
+        assert core_model_instance.associatedMedia[1].encodingFormat == associated_media[1]["encodingFormat"]
     elif multiple_media is not None:
-        assert core_model_instance.associatedMedia[0].type == "DataDownload"
-        assert (
-            core_model_instance.associatedMedia[0].name
-            == "USGS gage locations within the Harvey-affected areas in Texas"
-        )
-        assert core_model_instance.associatedMedia[0].contentSize == "0.17 MB"
-        assert core_model_instance.associatedMedia[0].encodingFormat == "text/csv"
+        assert core_model_instance.associatedMedia[0].type == associated_media[0]["@type"]
+        assert core_model_instance.associatedMedia[0].name == associated_media[0]["name"]
+        assert core_model_instance.associatedMedia[0].contentSize == associated_media[0]["contentSize"]
+        assert core_model_instance.associatedMedia[0].encodingFormat == associated_media[0]["encodingFormat"]
 
 
 @pytest.mark.parametrize(
@@ -394,7 +362,7 @@ async def test_core_schema_associated_media_content_size(core_data, core_model, 
 
     core_data["associatedMedia"] = [
         {
-            "@type": "DataDownload",
+            "@type": "MediaObject",
             "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
             "encodingFormat": "text/csv",
             "contentSize": content_size_format,
@@ -417,7 +385,7 @@ async def test_core_schema_temporal_coverage_optional(core_data, core_model, inc
     """
     core_data = core_data
     core_model = core_model
-    coverage_value = "2007-03-01T13:00:00Z/2008-05-11T15:30:00Z"
+    coverage_value = {"startDate": "2007-03-01T13:00:00", "endDate": "2008-05-11T15:30:00"}
     core_data.pop("temporalCoverage", None)
     if not include_coverage:
         core_data.pop("temporalCoverage", None)
@@ -429,27 +397,22 @@ async def test_core_schema_temporal_coverage_optional(core_data, core_model, inc
     if not include_coverage:
         assert core_model_instance.temporalCoverage is None
     else:
-        assert core_model_instance.temporalCoverage == coverage_value
+        assert core_model_instance.temporalCoverage.startDate == datetime.datetime(2007, 3, 1, 13, 0, 0)
+        assert core_model_instance.temporalCoverage.endDate == datetime.datetime(2008, 5, 11, 15, 30, 0)
 
 
 @pytest.mark.parametrize(
     'data_format',
     [
-        "2007-03-01T13:00:00Z/2008-05-11T15:30:00Z",
-        "2007-03-01T13:00:00Z/2008-05-11",
-        "2007-03-01/2008-05-11T15:30:00Z",
-        "2007-03-01/2010-01-01",
-        "2007-03-01T13:00:00Z/..",
-        "2007-03-01/..",
-        "2007-03/..",
-        "2007/..",
+        {"startDate": "2007-03-01T13:00:00", "endDate": "2008-05-11T15:30:00"},
+        {"startDate": "2007-03-01T13:00:00"}
     ],
 )
 @pytest.mark.asyncio
 async def test_core_schema_temporal_coverage_format(core_data, core_model, data_format):
     """Test that a core metadata pydantic model can be created from core metadata json.
     Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
-    valid values for temporal coverage.
+    that endDate is optional for temporal coverage.
     Note: This test does nat add a record to the database.
     """
     core_data = core_data
@@ -458,7 +421,11 @@ async def test_core_schema_temporal_coverage_format(core_data, core_model, data_
 
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
-    assert core_model_instance.temporalCoverage == data_format
+    assert core_model_instance.temporalCoverage.startDate == datetime.datetime(2007, 3, 1, 13, 0, 0)
+    if "endDate" in data_format:
+        assert core_model_instance.temporalCoverage.endDate == datetime.datetime(2008, 5, 11, 15, 30, 0)
+    else:
+        assert core_model_instance.temporalCoverage.endDate is None
 
 
 @pytest.mark.parametrize('include_coverage', [True, False])
@@ -474,7 +441,11 @@ async def test_core_schema_spatial_coverage_optional(core_data, core_model, incl
     coverage_value = {
         "@type": "Place",
         "name": "CUAHSI Office",
-        "address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476",
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 42.4127,
+            "longitude": -71.1197
+        }
     }
 
     if not include_coverage:
@@ -489,7 +460,10 @@ async def test_core_schema_spatial_coverage_optional(core_data, core_model, incl
     else:
         assert core_model_instance.spatialCoverage.type == coverage_value["@type"]
         assert core_model_instance.spatialCoverage.name == coverage_value["name"]
-        assert core_model_instance.spatialCoverage.address == coverage_value["address"]
+        geo = core_model_instance.spatialCoverage.geo
+        assert geo.type == coverage_value["geo"]["@type"]
+        assert geo.latitude == coverage_value["geo"]["latitude"]
+        assert geo.longitude == coverage_value["geo"]["longitude"]
 
 
 @pytest.mark.parametrize(
@@ -497,18 +471,23 @@ async def test_core_schema_spatial_coverage_optional(core_data, core_model, incl
     [
         {
             "@type": "Place",
-            "name": "CUAHSI Office",
-            "address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476",
+            "name": "CUAHSI Office"
         },
-        {"@type": "Place", "geo": {"@type": "GeoCoordinates", "latitude": 39.3280, "longitude": 120.1633}},
-        {"@type": "Place", "geo": {"@type": "GeoShape", "line": "39.3280 120.1633 40.445 123.7878"}},
+        {
+            "@type": "Place",
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 39.3280,
+                "longitude": 120.1633
+            }
+        },
         {
             "@type": "Place",
             "geo": {
                 "@type": "GeoShape",
-                "polygon": "39.3280 120.1633 40.445 123.7878 41 121 39.77 122.42 39.3280 120.1633",
-            },
-        },
+                "box": "39.3280 120.1633 40.445 123.7878"
+            }
+        }
     ],
 )
 @pytest.mark.asyncio
@@ -532,12 +511,7 @@ async def test_core_schema_spatial_coverage_value_type(core_data, core_model, da
             assert core_model_instance.spatialCoverage.geo.latitude == data_format["geo"]["latitude"]
             assert core_model_instance.spatialCoverage.geo.longitude == data_format["geo"]["longitude"]
         elif data_format["geo"]["@type"] == "GeoShape":
-            if "polygon" in data_format["geo"]:
-                assert core_model_instance.spatialCoverage.geo.polygon == data_format["geo"]["polygon"]
-            else:
-                assert core_model_instance.spatialCoverage.geo.line == data_format["geo"]["line"]
-    if "address" in data_format:
-        assert core_model_instance.spatialCoverage.address == data_format["address"]
+            assert core_model_instance.spatialCoverage.geo.box == data_format["geo"]["box"]
 
 
 @pytest.mark.parametrize('include_creative_works', [True, False])
@@ -556,8 +530,8 @@ async def test_create_dataset_creative_works_status_optional(core_data, core_mod
     else:
         core_data["creativeWorkStatus"] = {
             "@type": "DefinedTerm",
-            "name": "Private",
-            "description": "This is a private dataset",
+            "name": "Draft",
+            "description": "This is a draft dataset"
         }
 
     # validate the data model
@@ -566,8 +540,8 @@ async def test_create_dataset_creative_works_status_optional(core_data, core_mod
         assert core_model_instance.creativeWorkStatus is None
     else:
         assert core_model_instance.creativeWorkStatus.type == "DefinedTerm"
-        assert core_model_instance.creativeWorkStatus.name == "Private"
-        assert core_model_instance.creativeWorkStatus.description == "This is a private dataset"
+        assert core_model_instance.creativeWorkStatus.name == "Draft"
+        assert core_model_instance.creativeWorkStatus.description == "This is a draft dataset"
 
 
 @pytest.mark.parametrize('include_multiple', [True, False])
@@ -583,128 +557,36 @@ async def test_core_schema_keywords_cardinality(core_data, core_model, include_m
     core_model = core_model
     core_data.pop("keywords", None)
     if include_multiple:
-        core_data["keywords"] = [
-            {
-                "@type": "DefinedTerm",
-                "name": "Leaf wetness",
-                "description": "The effect of moisture settling on the surface of a leaf as a result of either condensation or rainfall.",
-                "inDefinedTermSet": "http://his.cuahsi.org/mastercvreg/edit_cv11.aspx?tbl=VariableNameCV",
-            },
-            {
-                "@type": "DefinedTerm",
-                "name": "Core",
-                "description": "Core sample resulting in a section of a substance",
-                "inDefinedTermSet": "http://his.cuahsi.org/mastercvreg/edit_cv11.aspx?tbl=SampleTypeCV",
-            },
-        ]
+        core_data["keywords"] = ["Leaf wetness", "Core"]
     else:
-        core_data["keywords"] = [
-            {
-                "@type": "DefinedTerm",
-                "name": "Leaf wetness",
-                "description": "The effect of moisture settling on the surface of a leaf as a result of either condensation or rainfall.",
-                "inDefinedTermSet": "http://his.cuahsi.org/mastercvreg/edit_cv11.aspx?tbl=VariableNameCV",
-            }
-        ]
+        core_data["keywords"] = ["Leaf wetness"]
 
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
     if include_multiple:
         assert len(core_model_instance.keywords) == 2
-        assert core_model_instance.keywords[0].name == "Leaf wetness"
-        assert core_model_instance.keywords[1].name == "Core"
-        assert (
-            core_model_instance.keywords[0].description
-            == "The effect of moisture settling on the surface of a leaf as a result of either condensation or rainfall."
-        )
-        assert core_model_instance.keywords[1].description == "Core sample resulting in a section of a substance"
-        assert (
-            core_model_instance.keywords[0].inDefinedTermSet
-            == "http://his.cuahsi.org/mastercvreg/edit_cv11.aspx?tbl=VariableNameCV"
-        )
-        assert (
-            core_model_instance.keywords[1].inDefinedTermSet
-            == "http://his.cuahsi.org/mastercvreg/edit_cv11.aspx?tbl=SampleTypeCV"
-        )
-    else:
-        assert len(core_model_instance.keywords) == 1
-        assert core_model_instance.keywords[0].name == "Leaf wetness"
-        assert (
-            core_model_instance.keywords[0].description
-            == "The effect of moisture settling on the surface of a leaf as a result of either condensation or rainfall."
-        )
-        assert (
-            core_model_instance.keywords[0].inDefinedTermSet
-            == "http://his.cuahsi.org/mastercvreg/edit_cv11.aspx?tbl=VariableNameCV"
-        )
-
-
-@pytest.mark.parametrize("kw_type", ["DefinedTerm", "String"])
-@pytest.mark.asyncio
-async def test_core_schema_keywords_value_type(core_data, core_model, kw_type):
-    """Test that a core metadata pydantic model can be created from core metadata json.
-    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
-    valid value types for keywords.
-    Note: This test does nat add a record to the database.
-    """
-
-    core_data = core_data
-    core_model = core_model
-    core_data.pop("keywords", None)
-    if kw_type == "DefinedTerm":
-        core_data["keywords"] = [
-            {
-                "@type": "DefinedTerm",
-                "name": "Leaf wetness",
-                "description": "The effect of moisture settling on the surface of a leaf as a result of either condensation or rainfall.",
-                "inDefinedTermSet": "http://his.cuahsi.org/mastercvreg/edit_cv11.aspx?tbl=VariableNameCV",
-            },
-            {
-                "@type": "DefinedTerm",
-                "name": "Core",
-                "description": "Core sample resulting in a section of a substance",
-                "inDefinedTermSet": "http://his.cuahsi.org/mastercvreg/edit_cv11.aspx?tbl=SampleTypeCV",
-            },
-        ]
-    else:
-        core_data["keywords"] = ["Leaf wetness", "Core"]
-
-    # validate the data model
-    core_model_instance = await utils.validate_data_model(core_data, core_model)
-    if kw_type == "DefinedTerm":
-        assert len(core_model_instance.keywords) == 2
-        assert core_model_instance.keywords[0].type == "DefinedTerm"
-        assert core_model_instance.keywords[1].type == "DefinedTerm"
-        assert core_model_instance.keywords[0].name == "Leaf wetness"
-        assert core_model_instance.keywords[1].name == "Core"
-        assert (
-            core_model_instance.keywords[0].description
-            == "The effect of moisture settling on the surface of a leaf as a result of either condensation or rainfall."
-        )
-        assert core_model_instance.keywords[1].description == "Core sample resulting in a section of a substance"
-        assert (
-            core_model_instance.keywords[0].inDefinedTermSet
-            == "http://his.cuahsi.org/mastercvreg/edit_cv11.aspx?tbl=VariableNameCV"
-        )
-        assert (
-            core_model_instance.keywords[1].inDefinedTermSet
-            == "http://his.cuahsi.org/mastercvreg/edit_cv11.aspx?tbl=SampleTypeCV"
-        )
-    else:
-        assert len(core_model_instance.keywords) == 2
         assert core_model_instance.keywords[0] == "Leaf wetness"
         assert core_model_instance.keywords[1] == "Core"
+    else:
+        assert len(core_model_instance.keywords) == 1
+        assert core_model_instance.keywords[0] == "Leaf wetness"
 
 
+@pytest.mark.skip(reason="Not sure if we need to support URL format for license.")
 @pytest.mark.parametrize(
     "data_format",
     [
         "https://creativecommons.org/licenses/by/4.0/",
-        {"@type": "CreativeWork", "name": "MIT License", "url": "https://spdx.org/licenses/MIT"},
-    ],
+        {
+            "@type": "CreativeWork",
+            "name": "MIT License",
+            "url": "https://spdx.org/licenses/MIT",
+            "description": "A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty."
+        }
+    ]
 )
 @pytest.mark.asyncio
-async def test_core_schema_keywords_value_type(core_data, core_model, data_format):
+async def test_core_schema_license_value_type(core_data, core_model, data_format):
     """Test that a core metadata pydantic model can be created from core metadata json.
     Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
     valid value types for license property.
@@ -722,6 +604,54 @@ async def test_core_schema_keywords_value_type(core_data, core_model, data_forma
         assert core_model_instance.license.type == data_format["@type"]
         assert core_model_instance.license.name == data_format["name"]
         assert core_model_instance.license.url == data_format["url"]
+        assert core_model_instance.license.description == data_format["description"]
+
+
+@pytest.mark.parametrize(
+    "data_format",
+    [
+        {
+            "@type": "CreativeWork",
+            "name": "MIT License",
+            "url": "https://spdx.org/licenses/MIT",
+            "description": "A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty."
+        },
+        {
+            "@type": "CreativeWork",
+            "name": "MIT License",
+            "url": "https://spdx.org/licenses/MIT"
+        },
+        {
+            "@type": "CreativeWork",
+            "name": "MIT License",
+            "description": "A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty."
+        },
+        {
+            "@type": "CreativeWork",
+            "name": "MIT License"
+        }
+    ]
+)
+@pytest.mark.asyncio
+async def test_core_schema_license_optional_attributes(core_data, core_model, data_format):
+    """Test that a core metadata pydantic model can be created from core metadata json.
+    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
+    license of type CreativeWork optional attributes.
+    Note: This test does nat add a record to the database.
+    """
+
+    core_data = core_data
+    core_model = core_model
+    core_data["license"] = data_format
+    # validate the data model
+    core_model_instance = await utils.validate_data_model(core_data, core_model)
+
+    assert core_model_instance.license.type == data_format["@type"]
+    assert core_model_instance.license.name == data_format["name"]
+    if "url" in data_format:
+        assert core_model_instance.license.url == data_format["url"]
+    if "description" in data_format:
+        assert core_model_instance.license.description == data_format["description"]
 
 
 @pytest.mark.parametrize('is_multiple', [True, False, None])
@@ -736,69 +666,101 @@ async def test_core_schema_has_part_of_cardinality(core_data, core_model, is_mul
     core_model = core_model
     core_data.pop("hasPart", None)
 
+    has_parts = []
     if is_multiple and is_multiple is not None:
-        core_data["hasPart"] = [
+        has_parts = [
             {
                 "@type": "CreativeWork",
                 "name": "Great Salt Lake Bathymetry",
                 "description": "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry.",
-                "identifier": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/",
+                "url": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
             },
             {
                 "@type": "CreativeWork",
                 "name": "Great Salt Lake Level and Volume",
                 "description": "Time series of level, area and volume in the Great Salt Lake.",
-                "identifier": "https://www.hydroshare.org/resource/b26090299ec947c692d4ee4651815579/",
-            },
+                "url": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62b/"
+            }
         ]
+        core_data["hasPart"] = has_parts
     elif is_multiple is not None:
-        core_data["hasPart"] = [
+        has_parts = [
             {
                 "@type": "CreativeWork",
                 "name": "Great Salt Lake Bathymetry",
                 "description": "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry.",
-                "identifier": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/",
+                "url": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
             }
         ]
+        core_data["hasPart"] = has_parts
 
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
     if is_multiple and is_multiple is not None:
         assert len(core_model_instance.hasPart) == 2
-        assert core_model_instance.hasPart[0].type == "CreativeWork"
-        assert core_model_instance.hasPart[1].type == "CreativeWork"
-        assert core_model_instance.hasPart[0].name == "Great Salt Lake Bathymetry"
-        assert core_model_instance.hasPart[1].name == "Great Salt Lake Level and Volume"
-        assert (
-            core_model_instance.hasPart[0].description
-            == "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry."
-        )
-        assert (
-            core_model_instance.hasPart[1].description
-            == "Time series of level, area and volume in the Great Salt Lake."
-        )
-        assert (
-            core_model_instance.hasPart[0].identifier
-            == "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
-        )
-        assert (
-            core_model_instance.hasPart[1].identifier
-            == "https://www.hydroshare.org/resource/b26090299ec947c692d4ee4651815579/"
-        )
+        assert core_model_instance.hasPart[0].type == has_parts[0]["@type"]
+        assert core_model_instance.hasPart[1].type == has_parts[1]["@type"]
+        assert core_model_instance.hasPart[0].name == has_parts[0]["name"]
+        assert core_model_instance.hasPart[1].name == has_parts[1]["name"]
+        assert core_model_instance.hasPart[0].description == has_parts[0]["description"]
+        assert core_model_instance.hasPart[1].description == has_parts[1]["description"]
+        assert core_model_instance.hasPart[0].url == has_parts[0]["url"]
+        assert core_model_instance.hasPart[1].url == has_parts[1]["url"]
     elif is_multiple is not None:
         assert len(core_model_instance.hasPart) == 1
-        assert core_model_instance.hasPart[0].type == "CreativeWork"
-        assert core_model_instance.hasPart[0].name == "Great Salt Lake Bathymetry"
-        assert (
-            core_model_instance.hasPart[0].description
-            == "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry."
-        )
-        assert (
-            core_model_instance.hasPart[0].identifier
-            == "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
-        )
+        assert core_model_instance.hasPart[0].type == has_parts[0]["@type"]
+        assert core_model_instance.hasPart[0].name == has_parts[0]["name"]
+        assert core_model_instance.hasPart[0].description == has_parts[0]["description"]
+        assert core_model_instance.hasPart[0].url == has_parts[0]["url"]
     else:
         assert core_model_instance.hasPart is None
+
+
+@pytest.mark.parametrize(
+    "data_format",
+    [
+        {
+            "@type": "CreativeWork",
+            "name": "Great Salt Lake Bathymetry",
+            "description": "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry.",
+            "url": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
+        },
+        {
+            "@type": "CreativeWork",
+            "name": "Great Salt Lake Bathymetry",
+            "description": "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry.",
+        },
+        {
+            "@type": "CreativeWork",
+            "name": "Great Salt Lake Bathymetry",
+            "url": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
+        },
+        {
+            "@type": "CreativeWork",
+            "name": "Great Salt Lake Bathymetry"
+        }
+    ]
+)
+@pytest.mark.asyncio
+async def test_core_schema_has_part_optional_attributes(core_data, core_model, data_format):
+    """Test that a core metadata pydantic model can be created from core metadata json.
+    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
+    the optional attributes of hasPart property.
+    Note: This test does nat add a record to the database.
+    """
+    core_data = core_data
+    core_model = core_model
+    core_data.pop("hasPart", None)
+    core_data["hasPart"] = [data_format]
+
+    # validate the data model
+    core_model_instance = await utils.validate_data_model(core_data, core_model)
+    assert core_model_instance.hasPart[0].type == data_format["@type"]
+    assert core_model_instance.hasPart[0].name == data_format["name"]
+    if "description" in data_format:
+        assert core_model_instance.hasPart[0].description == data_format["description"]
+    if "url" in data_format:
+        assert core_model_instance.hasPart[0].url == data_format["url"]
 
 
 @pytest.mark.parametrize('is_multiple', [True, False, None])
@@ -812,165 +774,104 @@ async def test_core_schema_is_part_of_cardinality(core_data, core_model, is_mult
     core_data = core_data
     core_model = core_model
     core_data.pop("isPartOf", None)
-
+    is_part_of = []
     if is_multiple and is_multiple is not None:
-        core_data["isPartOf"] = [
+        is_part_of = [
             {
                 "@type": "CreativeWork",
                 "name": "Great Salt Lake Bathymetry",
                 "description": "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry.",
-                "identifier": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/",
+                "url": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
             },
             {
                 "@type": "CreativeWork",
                 "name": "Great Salt Lake Level and Volume",
                 "description": "Time series of level, area and volume in the Great Salt Lake.",
-                "identifier": "https://www.hydroshare.org/resource/b26090299ec947c692d4ee4651815579/",
-            },
+                "url": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62b/"
+            }
         ]
+        core_data["isPartOf"] = is_part_of
     elif is_multiple is not None:
-        core_data["isPartOf"] = [
+        is_part_of = [
             {
                 "@type": "CreativeWork",
                 "name": "Great Salt Lake Bathymetry",
                 "description": "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry.",
-                "identifier": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/",
+                "url": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
             }
         ]
+        core_data["isPartOf"] = is_part_of
 
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
     if is_multiple and is_multiple is not None:
         assert len(core_model_instance.isPartOf) == 2
-        assert core_model_instance.isPartOf[0].type == "CreativeWork"
-        assert core_model_instance.isPartOf[1].type == "CreativeWork"
-        assert core_model_instance.isPartOf[0].name == "Great Salt Lake Bathymetry"
-        assert core_model_instance.isPartOf[1].name == "Great Salt Lake Level and Volume"
-        assert (
-            core_model_instance.isPartOf[0].description
-            == "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry."
-        )
-        assert (
-            core_model_instance.isPartOf[1].description
-            == "Time series of level, area and volume in the Great Salt Lake."
-        )
-        assert (
-            core_model_instance.isPartOf[0].identifier
-            == "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
-        )
-        assert (
-            core_model_instance.isPartOf[1].identifier
-            == "https://www.hydroshare.org/resource/b26090299ec947c692d4ee4651815579/"
-        )
+        assert core_model_instance.isPartOf[0].type == is_part_of[0]["@type"]
+        assert core_model_instance.isPartOf[1].type == is_part_of[1]["@type"]
+        assert core_model_instance.isPartOf[0].name == is_part_of[0]["name"]
+        assert core_model_instance.isPartOf[1].name == is_part_of[1]["name"]
+        assert core_model_instance.isPartOf[0].description == is_part_of[0]["description"]
+        assert core_model_instance.isPartOf[1].description == is_part_of[1]["description"]
+        assert core_model_instance.isPartOf[0].url == is_part_of[0]["url"]
+        assert core_model_instance.isPartOf[1].url == is_part_of[1]["url"]
     elif is_multiple is not None:
         assert len(core_model_instance.isPartOf) == 1
-        assert core_model_instance.isPartOf[0].type == "CreativeWork"
-        assert core_model_instance.isPartOf[0].name == "Great Salt Lake Bathymetry"
-        assert (
-            core_model_instance.isPartOf[0].description
-            == "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry."
-        )
-        assert (
-            core_model_instance.isPartOf[0].identifier
-            == "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
-        )
+        assert core_model_instance.isPartOf[0].type == is_part_of[0]["@type"]
+        assert core_model_instance.isPartOf[0].name == is_part_of[0]["name"]
+        assert core_model_instance.isPartOf[0].description == is_part_of[0]["description"]
+        assert core_model_instance.isPartOf[0].url == is_part_of[0]["url"]
     else:
         assert core_model_instance.isPartOf is None
 
 
-@pytest.mark.parametrize('part_name', ["hasPart", "isPartOf"])
 @pytest.mark.parametrize(
-    'identifier_format',
+    "data_format",
     [
-        "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/",
-        "582060f00f6b443bb26e896426d9f62a",
         {
-            "@id": "https://doi.org/10.4211/hs.6625bdbde41c45c2b906f32be7ea70f0",
-            "@type": "PropertyValue",
-            "name": "DOI: 10.4211/hs.6625bdbde41c45c2b906f32be7ea70f0",
-            "propertyID": "https://registry.identifiers.org/registry/doi",
-            "value": "doi:10.4211/hs.6625bdbde41c45c2b906f32be7ea70f0",
-            "url": "https://doi.org/10.4211/hs.6625bdbde41c45c2b906f32be7ea70f0",
+            "@type": "CreativeWork",
+            "name": "Great Salt Lake Bathymetry",
+            "description": "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry.",
+            "url": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
         },
-    ],
+        {
+            "@type": "CreativeWork",
+            "name": "Great Salt Lake Bathymetry",
+            "description": "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry.",
+        },
+        {
+            "@type": "CreativeWork",
+            "name": "Great Salt Lake Bathymetry",
+            "url": "https://www.hydroshare.org/resource/582060f00f6b443bb26e896426d9f62a/"
+        },
+        {
+            "@type": "CreativeWork",
+            "name": "Great Salt Lake Bathymetry"
+        }
+    ]
 )
 @pytest.mark.asyncio
-async def test_core_schema_part_identifier_value_type(core_data, core_model, part_name, identifier_format):
+async def test_core_schema_is_part_of_optional_attributes(core_data, core_model, data_format):
     """Test that a core metadata pydantic model can be created from core metadata json.
     Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
-    allowed value type for the hasPartOf/IsPartOf property.
+    the optional attributes of the isPartOf property.
     Note: This test does nat add a record to the database.
     """
     core_data = core_data
     core_model = core_model
-    core_data[part_name] = []
-    data_format = {
-        "@type": "CreativeWork",
-        "name": "Great Salt Lake Bathymetry",
-        "description": "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry.",
-        "identifier": identifier_format,
-    }
-    core_data[part_name].append(data_format)
+    core_data.pop("isPartOf", None)
+    core_data["isPartOf"] = [data_format]
+
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
-    if part_name == "hasPart":
-        part = core_model_instance.hasPart
-    else:
-        part = core_model_instance.isPartOf
-
-    assert len(part) == 1
-    assert part[0].type == "CreativeWork"
-    assert part[0].name == "Great Salt Lake Bathymetry"
-    assert part[0].description == "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry."
-    if isinstance(identifier_format, dict):
-        assert part[0].identifier.id == identifier_format["@id"]
-        assert part[0].identifier.type == identifier_format["@type"]
-        assert part[0].identifier.name == identifier_format["name"]
-        assert part[0].identifier.propertyID == identifier_format["propertyID"]
-        assert part[0].identifier.value == identifier_format["value"]
-        assert part[0].identifier.url == identifier_format["url"]
-    else:
-        assert part[0].identifier == identifier_format
+    assert core_model_instance.isPartOf[0].type == data_format["@type"]
+    assert core_model_instance.isPartOf[0].name == data_format["name"]
+    if "description" in data_format:
+        assert core_model_instance.isPartOf[0].description == data_format["description"]
+    if "url" in data_format:
+        assert core_model_instance.isPartOf[0].url == data_format["url"]
 
 
-@pytest.mark.parametrize('property_name', ["hasPart", "isPartOf"])
-@pytest.mark.parametrize('include_creator', [True, False])
-@pytest.mark.asyncio
-async def test_core_schema_part_creator_optional(core_data, core_model, property_name, include_creator):
-    """Test that a core metadata pydantic model can be created from core metadata json.
-    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
-    creator attribute for the hasPartOf/IsPartOf property is optional.
-    Note: This test does nat add a record to the database.
-    """
-    core_data = core_data
-    core_model = core_model
-    core_data[property_name] = []
-    data_format = {
-        "@type": "CreativeWork",
-        "name": "Collection of Great Salt Lake Data",
-        "description": "Data from the Great Salt Lake and its basin",
-        "identifier": "https://www.hydroshare.org/resource/b6c4fcad40c64c4cb4dd7d4a25d0db6e/",
-    }
-    if include_creator:
-        data_format["creator"] = {"@type": "Person", "name": "David Tarboton"}
-    core_data[property_name].append(data_format)
-    # validate the data model
-    core_model_instance = await utils.validate_data_model(core_data, core_model)
-    if property_name == "hasPart":
-        part = core_model_instance.hasPart
-    else:
-        part = core_model_instance.isPartOf
-    assert len(part) == 1
-    assert part[0].type == "CreativeWork"
-    assert part[0].name == "Collection of Great Salt Lake Data"
-    assert part[0].description == "Data from the Great Salt Lake and its basin"
-    assert part[0].identifier == "https://www.hydroshare.org/resource/b6c4fcad40c64c4cb4dd7d4a25d0db6e/"
-    if include_creator:
-        assert part[0].creator.type == "Person"
-        assert part[0].creator.name == "David Tarboton"
-
-
-@pytest.mark.parametrize('dt_type', ["date", "datetime", None])
+@pytest.mark.parametrize('dt_type', ["datetime", None])
 @pytest.mark.asyncio
 async def test_core_schema_date_value_type(core_data, core_model, dt_type):
     """Test that a core metadata pydantic model can be created from core metadata json.
@@ -981,6 +882,7 @@ async def test_core_schema_date_value_type(core_data, core_model, dt_type):
     """
     core_data = core_data
     core_model = core_model
+    # TODO: test 'date' type after knowing whether we need to support both date and datetime
     if dt_type == "date":
         core_data["dateCreated"] = "2020-01-01"
         core_data["dateModified"] = "2020-02-01"
@@ -1010,60 +912,41 @@ async def test_core_schema_date_value_type(core_data, core_model, dt_type):
         assert core_model_instance.datePublished is None
 
 
-@pytest.mark.parametrize('provider_pub_type', ["person", "organization", "id"])
-@pytest.mark.parametrize('key_name', ["provider", "publisher"])
+@pytest.mark.parametrize('provider_type', ["person", "organization"])
 @pytest.mark.asyncio
-async def test_core_schema_provider_and_publisher_value_type(core_data, core_model, provider_pub_type, key_name):
+async def test_core_schema_provider_value_type(core_data, core_model, provider_type):
     """Test that a core metadata pydantic model can be created from core metadata json.
     Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
-    allowed value types for the provide/publisher attributes.
+    allowed value types for the provider.
     Note: This test does nat add a record to the database.
     """
     core_data = core_data
     core_model = core_model
     core_data.pop("provider", None)
-    if key_name == "publisher":
-        # we need a mandatory provider element
-        core_data["provider"] = {"@type": "Person", "name": "John Doe", "email": "jdoe@gmail.com"}
-        if provider_pub_type == "person":
-            core_data[key_name] = {"@type": "Person", "name": "John Doe", "email": "jdoe@gmail.com"}
-    if provider_pub_type == "person" and key_name == "provider":
-        core_data[key_name] = {"@type": "Person", "name": "John Doe", "email": "jdoe@gmail.com"}
-    elif provider_pub_type == "organization":
-        core_data[key_name] = {
+    if provider_type == "person":
+        core_data["provider"] = {
+            "@type": "Person",
+            "name": "John Doe",
+            "email": "jdoe@gmail.com"
+        }
+    else:
+        core_data["provider"] = {
             "@type": "Organization",
             "name": "HydroShare",
-            "url": "https://hydroshare.org",
-            "parentOrganization": {
-                "@type": "Organization",
-                "name": "CUAHSI",
-                "url": "https://www.cuahsi.org/",
-                "address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476",
-            },
+            "url": "https://hydroshare.org"
         }
-    elif provider_pub_type == "id":
-        core_data[key_name] = {"@id": "https://hydroshare.org"}
 
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
-    if key_name == "provider":
-        element = core_model_instance.provider
+    provider = core_model_instance.provider
+    if provider_type == "person":
+        assert provider.type == "Person"
+        assert provider.name == "John Doe"
+        assert provider.email == "jdoe@gmail.com"
     else:
-        element = core_model_instance.publisher
-    if provider_pub_type == "person":
-        assert element.type == "Person"
-        assert element.name == "John Doe"
-        assert element.email == "jdoe@gmail.com"
-    elif provider_pub_type == "organization":
-        assert element.type == "Organization"
-        assert element.name == "HydroShare"
-        assert element.url == "https://hydroshare.org"
-        assert element.parentOrganization.type == "Organization"
-        assert element.parentOrganization.name == "CUAHSI"
-        assert element.parentOrganization.url == "https://www.cuahsi.org/"
-        assert element.parentOrganization.address == "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476"
-    else:
-        assert element.id == "https://hydroshare.org"
+        assert provider.type == "Organization"
+        assert provider.name == "HydroShare"
+        assert provider.url == "https://hydroshare.org"
 
 
 @pytest.mark.parametrize('multiple_values', [True, False, None])
@@ -1082,24 +965,21 @@ async def test_core_schema_subject_of_cardinality(core_data, core_model, multipl
         core_data["subjectOf"] = [
             {
                 "@type": "CreativeWork",
-                "name": "Test Creative Work - 1",
+                "name": "Test subject of - 1",
                 "url": "https://www.hydroshare.org/hsapi/resource/c1be74eeea614d65a29a185a66a7552f/scimeta/",
-                "encodingFormat": "application/rdf+xml",
+                "description": "Test description - 1"
             },
             {
                 "@type": "CreativeWork",
-                "name": "Test Creative Work - 2",
-                "url": "https://www.hydroshare.org/hsapi/resource/b1be74eeea614d65a29a185a66a7552c/scimeta/",
-                "encodingFormat": "application/rdf+xml",
+                "name": "Test subject of - 2",
+                "description": "Test description - 2",
             },
         ]
     else:
         core_data["subjectOf"] = [
             {
                 "@type": "CreativeWork",
-                "name": "Test Creative Work",
-                "url": "https://www.hydroshare.org/hsapi/resource/c1be74eeea614d65a29a185a66a7552f/scimeta/",
-                "encodingFormat": "application/rdf+xml",
+                "name": "Test subject of"
             }
         ]
 
@@ -1108,54 +988,42 @@ async def test_core_schema_subject_of_cardinality(core_data, core_model, multipl
     if multiple_values and multiple_values is not None:
         assert len(core_model_instance.subjectOf) == 2
         assert core_model_instance.subjectOf[0].type == "CreativeWork"
-        assert core_model_instance.subjectOf[0].name == "Test Creative Work - 1"
+        assert core_model_instance.subjectOf[0].name == "Test subject of - 1"
         assert (
             core_model_instance.subjectOf[0].url
             == "https://www.hydroshare.org/hsapi/resource/c1be74eeea614d65a29a185a66a7552f/scimeta/"
         )
-        assert core_model_instance.subjectOf[0].encodingFormat == "application/rdf+xml"
+        assert core_model_instance.subjectOf[0].description == "Test description - 1"
+
         assert core_model_instance.subjectOf[1].type == "CreativeWork"
-        assert core_model_instance.subjectOf[1].name == "Test Creative Work - 2"
-        assert (
-            core_model_instance.subjectOf[1].url
-            == "https://www.hydroshare.org/hsapi/resource/b1be74eeea614d65a29a185a66a7552c/scimeta/"
-        )
-        assert core_model_instance.subjectOf[1].encodingFormat == "application/rdf+xml"
+        assert core_model_instance.subjectOf[1].name == "Test subject of - 2"
+        assert core_model_instance.subjectOf[1].description == "Test description - 2"
     elif multiple_values is not None:
         assert len(core_model_instance.subjectOf) == 1
         assert core_model_instance.subjectOf[0].type == "CreativeWork"
-        assert core_model_instance.subjectOf[0].name == "Test Creative Work"
-        assert (
-            core_model_instance.subjectOf[0].url
-            == "https://www.hydroshare.org/hsapi/resource/c1be74eeea614d65a29a185a66a7552f/scimeta/"
-        )
-        assert core_model_instance.subjectOf[0].encodingFormat == "application/rdf+xml"
+        assert core_model_instance.subjectOf[0].name == "Test subject of"
     else:
         assert core_model_instance.subjectOf is None
 
 
-@pytest.mark.parametrize('version_value_type', ["float", "string", None])
+@pytest.mark.parametrize('include_version', [True, False])
 @pytest.mark.asyncio
-async def test_core_schema_version_value_type(core_data, core_model, version_value_type):
+async def test_core_schema_version_cardinality(core_data, core_model, include_version):
     """Test that a core metadata pydantic model can be created from core metadata json.
     Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
-    that the version property is optional and allowed value types for this property.
+    that the version property is optional.
     Note: This test does nat add a record to the database.
     """
     core_data = core_data
     core_model = core_model
-    if version_value_type is None:
-        core_data.pop("version", None)
-    elif version_value_type == "float":
-        core_data["version"] = 1.0
-    else:
+    if include_version:
         core_data["version"] = "v1.0"
+    else:
+        core_data.pop("version", None)
 
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
-    if version_value_type == "float":
-        assert core_model_instance.version == 1.0
-    elif version_value_type == "string":
+    if include_version:
         assert core_model_instance.version == "v1.0"
     else:
         assert core_model_instance.version is None
@@ -1184,9 +1052,9 @@ async def test_core_schema_language_cardinality(core_data, core_model, include_l
         assert core_model_instance.inLanguage is None
 
 
-@pytest.mark.parametrize('multiple_funder', [True, False, None])
+@pytest.mark.parametrize("multiple_funding", [True, False, None])
 @pytest.mark.asyncio
-async def test_core_schema_funding_cardinality(core_data, core_model, multiple_funder):
+async def test_core_schema_funding_cardinality(core_data, core_model, multiple_funding):
     """Test that a core metadata pydantic model can be created from core metadata json.
     Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
     that the funding property is optional and one or more values can be added to this property.
@@ -1195,32 +1063,26 @@ async def test_core_schema_funding_cardinality(core_data, core_model, multiple_f
     core_data = core_data
     core_model = core_model
 
-    if multiple_funder and multiple_funder is not None:
+    if multiple_funding and multiple_funding is not None:
         core_data["funding"] = [
             {
                 "@type": "MonetaryGrant",
-                "name": "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment",
-                "url": "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329",
-                "funder": {
-                    "@type": "Organization",
-                    "name": "National Science Foundation",
-                    "identifier": ["https://ror.org/021nxhr62", "https://doi.org/10.13039/100000001"],
-                },
+                "name": "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment - 1",
+                "identifier": "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329"
             },
             {
                 "@type": "MonetaryGrant",
-                "name": "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment",
-                "url": "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329",
-                "funder": {"@type": "Person", "name": "John Doe", "email": "johnd@gmail.com"},
-            },
+                "name": "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment - 2",
+                "description": "Test grant description"
+            }
         ]
-    elif multiple_funder is not None:
+    elif multiple_funding is not None:
         core_data["funding"] = [
             {
                 "@type": "MonetaryGrant",
                 "name": "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment",
-                "url": "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329",
-                "funder": {"@type": "Person", "name": "John Doe", "email": "johnd@gmail.com"},
+                "identifier": "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329",
+                "description": "Test grant description"
             }
         ]
     else:
@@ -1228,62 +1090,85 @@ async def test_core_schema_funding_cardinality(core_data, core_model, multiple_f
 
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
-    if multiple_funder and multiple_funder is not None:
+    if multiple_funding and multiple_funding is not None:
         assert core_model_instance.funding[0].type == "MonetaryGrant"
         assert (
             core_model_instance.funding[0].name
-            == "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment"
+            == "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment - 1"
         )
-        assert core_model_instance.funding[0].url == "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329"
-        assert core_model_instance.funding[0].funder.type == "Organization"
-        assert core_model_instance.funding[0].funder.name == "National Science Foundation"
-        assert core_model_instance.funding[0].funder.identifier[0] == "https://ror.org/021nxhr62"
-        assert core_model_instance.funding[0].funder.identifier[1] == "https://doi.org/10.13039/100000001"
+        assert core_model_instance.funding[0].identifier == "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329"
+        # assert core_model_instance.funding[0].funder.type == "Organization"
+        # assert core_model_instance.funding[0].funder.name == "National Science Foundation"
+        # assert core_model_instance.funding[0].funder.url[0] == "https://ror.org/021nxhr62"
+        # assert core_model_instance.funding[0].funder.identifier[1] == "https://doi.org/10.13039/100000001"
         assert core_model_instance.funding[1].type == "MonetaryGrant"
         assert (
             core_model_instance.funding[1].name
-            == "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment"
+            == "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment - 2"
         )
-        assert core_model_instance.funding[1].url == "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329"
-        assert core_model_instance.funding[1].funder.type == "Person"
-        assert core_model_instance.funding[1].funder.name == "John Doe"
-        assert core_model_instance.funding[1].funder.email == "johnd@gmail.com"
-    elif multiple_funder is not None:
+        assert core_model_instance.funding[1].description == "Test grant description"
+        # assert core_model_instance.funding[1].funder.type == "Person"
+        # assert core_model_instance.funding[1].funder.name == "John Doe"
+        # assert core_model_instance.funding[1].funder.email == "johnd@gmail.com"
+    elif multiple_funding is not None:
         assert core_model_instance.funding[0].type == "MonetaryGrant"
         assert (
             core_model_instance.funding[0].name
             == "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment"
         )
-        assert core_model_instance.funding[0].url == "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329"
-        assert core_model_instance.funding[0].funder.type == "Person"
-        assert core_model_instance.funding[0].funder.name == "John Doe"
-        assert core_model_instance.funding[0].funder.email == "johnd@gmail.com"
+        assert core_model_instance.funding[0].identifier == "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329"
+        assert core_model_instance.funding[0].description == "Test grant description"
+        # assert core_model_instance.funding[0].funder.type == "Person"
+        # assert core_model_instance.funding[0].funder.name == "John Doe"
+        # assert core_model_instance.funding[0].funder.email == "johnd@gmail.com"
     else:
         assert core_model_instance.funding is None
 
 
-@pytest.mark.parametrize('funder_type', ["person", "organization"])
+@pytest.mark.parametrize('include_funder', [True, False])
 @pytest.mark.asyncio
-async def test_core_schema_funding_funder_value_type(core_data, core_model, funder_type):
+async def test_core_schema_funding_funder_optional(core_data, core_model, include_funder):
     """Test that a core metadata pydantic model can be created from core metadata json.
     Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
-    allowed value types for the funder attribute of the funding property.
+    value for the funder attribute of the funding property is optional.
     Note: This test does nat add a record to the database.
     """
     core_data = core_data
     core_model = core_model
-
-    if funder_type == "organization":
+    core_data.pop("funding", None)
+    if include_funder:
         core_data["funding"] = [
             {
                 "@type": "MonetaryGrant",
                 "name": "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment",
-                "url": "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329",
+                "identifier": "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329",
+                "description": "Test grant description - 1",
                 "funder": {
                     "@type": "Organization",
                     "name": "National Science Foundation",
-                    "identifier": ["https://ror.org/021nxhr62", "https://doi.org/10.13039/100000001"],
-                },
+                    "url": "https://www.nsf.gov"
+                }
+            },
+            {
+                "@type": "MonetaryGrant",
+                "name": "Collaborative Research: Network Hub: Enabling, Supporting, and Communicating Critical Zone Research.",
+                "identifier": "NSF AWARD 2012748",
+                "description": "Test grant description - 2",
+                "funder": {
+                    "@type": "Organization",
+                    "name": "National Science Foundation",
+                    "address": "2415 Eisenhower Avenue Alexandria, Virginia 22314"
+                }
+            },
+            {
+                "@type": "MonetaryGrant",
+                "name": "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment - 3",
+                "identifier": "https://usda.gov/awardsearch/showAward?AWD_ID=2118330",
+                "description": "Test grant description - 3",
+                "funder": {
+                    "@type": "Organization",
+                    "name": "USDA"
+                }
             }
         ]
     else:
@@ -1291,20 +1176,74 @@ async def test_core_schema_funding_funder_value_type(core_data, core_model, fund
             {
                 "@type": "MonetaryGrant",
                 "name": "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment",
-                "url": "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329",
-                "funder": {"@type": "Person", "name": "John Doe", "email": "johnd@gmail.com"},
+                "identifier": "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329",
+                "description": "Test grant description - 1"
             }
         ]
 
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
 
-    if funder_type == "organization":
+    if include_funder:
         assert core_model_instance.funding[0].funder.type == "Organization"
         assert core_model_instance.funding[0].funder.name == "National Science Foundation"
-        assert core_model_instance.funding[0].funder.identifier[0] == "https://ror.org/021nxhr62"
-        assert core_model_instance.funding[0].funder.identifier[1] == "https://doi.org/10.13039/100000001"
+        assert core_model_instance.funding[0].funder.url == "https://www.nsf.gov"
+        assert core_model_instance.funding[1].funder.type == "Organization"
+        assert core_model_instance.funding[1].funder.name == "National Science Foundation"
+        assert core_model_instance.funding[1].funder.address == "2415 Eisenhower Avenue Alexandria, Virginia 22314"
+        assert core_model_instance.funding[2].funder.type == "Organization"
+        assert core_model_instance.funding[2].funder.name == "USDA"
     else:
-        assert core_model_instance.funding[0].funder.type == "Person"
-        assert core_model_instance.funding[0].funder.name == "John Doe"
-        assert core_model_instance.funding[0].funder.email == "johnd@gmail.com"
+        assert core_model_instance.funding[0].funder is None
+
+
+@pytest.mark.parametrize('include_citation', [True, False])
+@pytest.mark.asyncio
+async def test_core_schema_citation_optional(core_data, core_model, include_citation):
+    """Test that a core metadata pydantic model can be created from core metadata json.
+    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
+    citation is optional for the funding property.
+    Note: This test does nat add a record to the database.
+    """
+    core_data = core_data
+    core_model = core_model
+    core_data.pop("citation", None)
+    if include_citation:
+        core_data["citation"] = ["Test citation"]
+
+    # validate the data model
+    core_model_instance = await utils.validate_data_model(core_data, core_model)
+    if include_citation:
+        assert core_model_instance.citation == ["Test citation"]
+    else:
+        assert core_model_instance.citation is None
+
+
+@pytest.mark.parametrize('include_publisher', [True, False])
+@pytest.mark.asyncio
+async def test_core_schema_publisher_optional(core_data, core_model, include_publisher):
+    """Test that a core metadata pydantic model can be created from core metadata json.
+    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
+    publisher is optional for the funding property.
+    Note: This test does nat add a record to the database.
+    """
+    core_data = core_data
+    core_model = core_model
+    core_data.pop("publisher", None)
+    if include_publisher:
+        core_data["publisher"] = {
+            "@type": "Organization",
+            "name": "HydroShare",
+            "url": "https://hydroshare.org",
+            "address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476"
+        }
+
+    # validate the data model
+    core_model_instance = await utils.validate_data_model(core_data, core_model)
+    if include_publisher:
+        assert core_model_instance.publisher.type == "Organization"
+        assert core_model_instance.publisher.name == "HydroShare"
+        assert core_model_instance.publisher.url == "https://hydroshare.org"
+        assert core_model_instance.publisher.address == "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476"
+    else:
+        assert core_model_instance.publisher is None
