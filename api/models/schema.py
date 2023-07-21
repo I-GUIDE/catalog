@@ -38,7 +38,8 @@ class CreativeWork(SchemaBaseModel):
 class Person(SchemaBaseModel):
     type: str = Field(
         alias="@type", 
-        default="Person", 
+        default="Person",
+        const=True,
         description="A person."
     )
     name: str = Field(
@@ -52,7 +53,8 @@ class Person(SchemaBaseModel):
 class Organization(SchemaBaseModel):
     type: str = Field(
         alias="@type",
-        default="Organization"
+        default="Organization",
+        const=True
     )
     name: str = Field(description="Name of the provider organization or repository.")
     url: Optional[HttpUrl] = Field(title="URL",
