@@ -300,6 +300,12 @@ class Place(SchemaBaseModel):
                     "or area coverage extent."
     )
 
+    @validator('geo', 'name')
+    def validate_geo_or_name_required(cls, v, values):
+        if not v and not values.get('name'):
+            raise ValueError('Either place name or geo location of the place must be provided')
+        return v
+
 
 class MediaObject(SchemaBaseModel):
     type: str = Field(alias="@type", default="MediaObject", description="An item that encodes the record.")
