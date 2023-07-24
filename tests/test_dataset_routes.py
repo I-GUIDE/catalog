@@ -58,9 +58,7 @@ async def test_update_dataset(client_test, dataset_data):
     dataset_data['publisher'] = None
 
     # update the dataset temporal coverage
-    # TODO: For some reason, the HH:MM:SS part of the date is always stored as 00:00:00 in mongo db
-    #  for example, 2020-01-01T10:20:30 is stored as 2020-01-01T00:00:00
-    dataset_data["temporalCoverage"] = {"startDate": "2020-01-01T00:00:00", "endDate": "2020-11-29T00:00:00"}
+    dataset_data["temporalCoverage"] = {"startDate": "2020-01-01T10:00:20", "endDate": "2020-11-29T00:30:00"}
     response = await client_test.put(f"api/catalog/dataset/{record_id}", json=dataset_data)
     assert response.status_code == 200
     response_data = response.json()

@@ -16,6 +16,9 @@ class CoreMetadataDOC(Document, CoreMetadata):
         bson_encoders = {
             datetime.date: lambda dt: datetime.datetime(
                 year=dt.year, month=dt.month, day=dt.day, hour=0, minute=0, second=0
+            ),
+            datetime.datetime: lambda dt: datetime.datetime(
+                year=dt.year, month=dt.month, day=dt.day, hour=dt.hour, minute=dt.minute, second=dt.second
             )
         }
 
