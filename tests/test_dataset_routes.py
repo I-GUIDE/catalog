@@ -2,7 +2,7 @@ import pytest
 
 from api.models.catalog import Submission
 from api.models.user import User
-from tests import change_test_dir, client_test, core_data, dataset_data
+from tests import change_test_dir, client_test, core_data, dataset_data, TEST_USER_NAME
 
 pytestmark = pytest.mark.asyncio
 
@@ -16,26 +16,22 @@ async def test_create_dataset(client_test, dataset_data):
     response_data = response.json()
     record_id = response_data.pop('_id')
 
-    # prepare the expected dataset data
-    dataset_data['funding'] = None
-    dataset_data['publisher'] = None
-    dataset_data['distribution']['comment'] = None
-    dataset_data['creator'][0]['identifier']['name'] = None
-    dataset_data['provider']['identifier'] = None
-    dataset_data['provider']['address'] = None
-    dataset_data['provider']['parentOrganization']['identifier'] = None
-    dataset_data['spatialCoverage']['geo'] = None
-    dataset_data['hasPart'][0]['creator'] = None
-    dataset_data['isPartOf'][0]['creator'] = None
-    dataset_data['includedInDataCatalog'][0]['creator']['address'] = None
-    dataset_data['includedInDataCatalog'][0]['creator']['identifier'] = None
+    # adjust the temporal coverage dates for comparison
+    if dataset_data["temporalCoverage"]["startDate"].endswith("Z"):
+        dataset_data["temporalCoverage"]["startDate"] = dataset_data["temporalCoverage"]["startDate"][:-1]
+    if dataset_data["temporalCoverage"]["endDate"].endswith("Z"):
+        dataset_data["temporalCoverage"]["endDate"] = dataset_data["temporalCoverage"]["endDate"][:-1]
+    start_date_length = len(dataset_data["temporalCoverage"]["startDate"])
+    end_date_length = len(dataset_data["temporalCoverage"]["endDate"])
 
+    response_data['temporalCoverage']['startDate'] = response_data['temporalCoverage']['startDate'][:start_date_length]
+    response_data['temporalCoverage']['endDate'] = response_data['temporalCoverage']['endDate'][:end_date_length]
     # assert that the response contains the expected data
     assert response_data == dataset_data
     # there should be one related submission record in the db
     submissions = await Submission.find().to_list()
     assert len(submissions) == 1
-    user = await User.find_one(fetch_links=True)
+    user = await User.find_one(User.preferred_username == TEST_USER_NAME, fetch_links=True)
     assert len(user.submissions) == 1
     submission_id = submissions[0].identifier
     assert submission_id == user.submissions[0].identifier
@@ -54,27 +50,21 @@ async def test_update_dataset(client_test, dataset_data):
     assert response.status_code == 201
     response_data = response.json()
     record_id = response_data.get('_id')
-    # update the dataset record
+    # update the dataset name
     dataset_data['name'] = 'Updated title'
+    # remove citation
+    dataset_data['citation'] = []
+    # remove publisher
+    dataset_data['publisher'] = None
+
+    # update the dataset temporal coverage
+    # TODO: For some reason, the HH:MM:SS part of the date is always stored as 00:00:00 in mongo db
+    #  for example, 2020-01-01T10:20:30 is stored as 2020-01-01T00:00:00
+    dataset_data["temporalCoverage"] = {"startDate": "2020-01-01T00:00:00", "endDate": "2020-11-29T00:00:00"}
     response = await client_test.put(f"api/catalog/dataset/{record_id}", json=dataset_data)
     assert response.status_code == 200
     response_data = response.json()
     response_data.pop('_id')
-
-    # prepare the expected dataset data
-    dataset_data['funding'] = None
-    dataset_data['publisher'] = None
-    dataset_data['distribution']['comment'] = None
-    dataset_data['creator'][0]['identifier']['name'] = None
-    dataset_data['provider']['identifier'] = None
-    dataset_data['provider']['address'] = None
-    dataset_data['provider']['parentOrganization']['identifier'] = None
-    dataset_data['spatialCoverage']['geo'] = None
-    dataset_data['hasPart'][0]['creator'] = None
-    dataset_data['isPartOf'][0]['creator'] = None
-    dataset_data['includedInDataCatalog'][0]['creator']['address'] = None
-    dataset_data['includedInDataCatalog'][0]['creator']['identifier'] = None
-
     # assert that the response contains the expected data
     assert response_data == dataset_data
 

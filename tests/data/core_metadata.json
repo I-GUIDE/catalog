@@ -48,7 +48,7 @@
 			"description": "Dublin Core Metadata Document Describing the Dataset"
 		}
 	],
-	"version": 1.0,
+	"version": "1.0",
 	"inLanguage": "eng",
 	"creativeWorkStatus": {
 		"@type": "DefinedTerm",

@@ -13,9 +13,11 @@ from api.models.schema import CoreMetadata
 from api.models.user import User
 from api.procedures.user import create_or_update_user
 
+TEST_USER_NAME = "pytest_user"
+
 
 async def override_get_current_user() -> User:
-    return await create_or_update_user("pytest_user")
+    return await create_or_update_user(TEST_USER_NAME)
 
 
 app.dependency_overrides[get_current_user] = override_get_current_user
@@ -54,27 +56,9 @@ async def core_data(change_test_dir):
 
 @pytest_asyncio.fixture
 async def dataset_data(core_data):
-    dataset_data = core_data.copy()
-    # add dataset specific metadata
-    dataset_data["distribution"] = {
-        "@type": "DataDownload",
-        "name": "Search",
-        "contentUrl": "https://www.my-unique-url.com/get_zip/9d413b9d1/",
-        "encodingFormat": "application/zip",
-        "contentSize": "102.1 MB",
-    }
-    dataset_data["variableMeasured"] = "Water Temperature"
-    dataset_data["includedInDataCatalog"] = [
-        {
-            "@type": "DataCatalog",
-            "name": "The USGS Science Data Catalog (SDC)",
-            "description": "The Science Data Catalog (SDC) is the official public and searchable index that aggregates descriptions of all public research data that have been published by the USGS.",
-            "url": "https://data.usgs.gov/datacatalog/",
-            "identifier": "6625bdbde41c45c2b906f32be7ea70f0/",
-            "creator": {"@type": "Organization", "name": "U.S. Geological Survey", "url": "https://www.usgs.gov/"},
-        }
-    ]
-    return dataset_data
+    _dataset_data = core_data.copy()
+    # currently the dataset model does not have any additional fields
+    return _dataset_data
 
 
 @pytest_asyncio.fixture
