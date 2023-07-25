@@ -72,18 +72,22 @@ class HydroshareResourceMetadata(BaseModel):
 
         def to_dataset_creator(self):
             if self.name:
-                creator = schema.Person(name=self.name)
+                creator = schema.Creator(name=self.name)
                 if self.email:
                     creator.email = self.email
+                if self.organization:
+                    affiliation = schema.Organization(name=self.organization)
+                    creator.affiliation = affiliation
+                _ORCID_identifier = self.identifiers.get("ORCID", "")
+                if _ORCID_identifier:
+                    creator.identifier = _ORCID_identifier
             else:
                 creator = schema.Organization(name=self.organization)
                 if self.homepage:
                     creator.url = self.homepage
                 if self.address:
                     creator.address = self.address
-            creator.identifier = []
-            for _, v in self.identifiers.items():
-                creator.identifier.append(v)
+
             return creator
 
     class Award(BaseModel):
@@ -106,11 +110,16 @@ class HydroshareResourceMetadata(BaseModel):
             return grant
 
     class TemporalCoverage(BaseModel):
-        start: str
-        end: str
+        start: datetime
+        end: datetime
 
         def to_dataset_temporal_coverage(self):
-            return f"{self.start}/{self.end}"
+            temp_cov = schema.TemporalCoverage.construct()
+            if self.start:
+                temp_cov.startDate = self.start
+                if self.end:
+                    temp_cov.endDate = self.end
+            return temp_cov
 
     class SpatialCoverageBox(BaseModel):
         name: Optional[str]
@@ -123,8 +132,9 @@ class HydroshareResourceMetadata(BaseModel):
             place = schema.Place.construct()
             if self.name:
                 place.name = self.name
-            place.geo = schema.Polygon.construct()
-            place.geo.polygon = f"{self.northlimit} {self.eastlimit} {self.southlimit} {self.westlimit}"
+
+            place.geo = schema.GeoShape.construct()
+            place.geo.box = f"{self.northlimit} {self.eastlimit} {self.southlimit} {self.westlimit}"
             return place
 
     class SpatialCoveragePoint(BaseModel):
@@ -201,6 +211,7 @@ class HydroshareResourceMetadata(BaseModel):
     spatial_coverage: Optional[Union[SpatialCoverageBox, SpatialCoveragePoint]]
     period_coverage: Optional[TemporalCoverage]
     relations: Optional[List[Relation]]
+    citation: str
     content_files: Optional[List[ContentFile]]
 
     def to_dataset_creators(self):
@@ -229,16 +240,6 @@ class HydroshareResourceMetadata(BaseModel):
                 part_relations.append(part_relation)
         return part_relations
 
-    def to_dataset_distributions(self):
-        distributions = []
-        distribution = schema.Distribution.construct()
-        distribution.name = f"{self.url.split('/')[-1]}.zip"
-        distribution.contentUrl = self.url
-        distribution.encodingFormat = "application/zip"
-        distribution.comment = "The HydroShare Resource Landing Page contains instructions for downloading the dataset"
-        distributions.append(distribution)
-        return distributions
-
     def to_catalog_dataset(self):
         dataset = DatasetMetadataDOC.construct()
         dataset.provider = schema.Organization.construct()
@@ -262,7 +263,7 @@ class HydroshareResourceMetadata(BaseModel):
         dataset.isPartOf = self.to_dataset_part_relations("IsPartOf")
         dataset.hasPart = self.to_dataset_part_relations("HasPart")
         dataset.license = self.rights.to_dataset_license()
-        dataset.distribution = self.to_dataset_distributions()
+        dataset.citation = [self.citation]
         return dataset
 
 
