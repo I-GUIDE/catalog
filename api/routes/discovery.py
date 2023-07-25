@@ -16,8 +16,6 @@ class SearchQuery(BaseModel):
     dataCoverageEnd: int = None
     publishedStart: int = None
     publishedEnd: int = None
-    variableMeasured: str = None
-    includedInDataCatalogName: str = None
     hasPartName: str = None
     isPartOfName: str = None
     associatedMediaName: str = None
@@ -107,11 +105,6 @@ class SearchQuery(BaseModel):
             must.append({'text': {'path': 'creator.name', 'query': self.creatorName}})
         if self.providerName:
             must.append({'text': {'path': 'provider.name', 'query': self.providerName}})
-        if self.variableMeasured:
-            must.append({'text': {'path': ['variableMeasured', 'variableMeasured.name'],
-                                  'query': self.variableMeasured}})
-        if self.includedInDataCatalogName:
-            must.append({'text': {'path': 'includedInDataCatalog.name', 'query': self.includedInDataCatalogName}})
         if self.hasPartName:
             must.append({'text': {'path': 'hasPart.name', 'query': self.hasPartName}})
         if self.isPartOfName:

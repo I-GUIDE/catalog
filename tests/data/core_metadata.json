@@ -4,114 +4,108 @@
 	"name": "Test Dataset",
 	"description": "This is a test dataset metadata json file to test catalog api",
 	"url": "https://hydroshare.org/resource/e2fdf99cbb0c4275b32afd3c16ae6863",
-	"identifier": [
+	"identifier": ["https://www.hydroshare.org/resource/6625bdbde41c45c2b906f32be7ea70f0/"],
+	"creator": [
 		{
-			"@type": "PropertyValue",
-			"@id": "https://orcid.org/0000-0000-0000-0001",
-			"propertyID": "https://registry.identifiers.org/registry/orcid",
-			"url": "https://orcid.org/0000-0000-0000-0001",
-			"value": "0000-0000-0000-0001"
+			"@type": "Person",
+			"name": "John Doe",
+			"email": "john.doe@gmail.com",
+			"identifier": "https://orcid.org/0000-0000-0000-0001",
+			"affiliation": {
+				"@type": "Organization",
+				"name": "Utah State University",
+				"url": "https://www.usu.edu/",
+				"address": "Logan, UT 84322"
+			}
 		}
 	],
-	"creator": [{
-		"@type": "Person",
-		"name": "John Doe",
-		"email": "john.doe@gmail.com",
-		"identifier": [{
-			"@type": "PropertyValue",
-			"@id": "https://orcid.org/0000-0000-0000-0001",
-			"propertyID": "https://registry.identifiers.org/registry/orcid",
-			"url": "https://orcid.org/0000-0000-0000-0001",
-			"value": "0000-0000-0000-0001"
-		}]
-	}],
-	"dateCreated": "2021-01-01",
-	"keywords": [{
-		"@type": "DefinedTerm",
-		"name": "Leaf wetness",
-		"description": "The effect of moisture settling on the surface of a leaf as a result of either condensation or rainfall.",
-		"inDefinedTermSet": "http://his.cuahsi.org/mastercvreg/edit_cv11.aspx?tbl=VariableNameCV"
-	}],
-	"license": "https://creativecommons.org/licenses/by/4.0/",
+	"dateCreated": "2021-01-01T00:00:00",
+	"keywords": ["keyword1", "keyword2"],
+	"license": {
+		"@type": "CreativeWork",
+		"name": "MIT License",
+		"url": "https://spdx.org/licenses/MIT",
+		"description": "A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty."
+    },
 	"provider": {
 		"@type": "Organization",
 		"name": "HydroShare",
 		"url": "https://hydroshare.org",
-		"parentOrganization": {
-			"@type": "Organization",
-			"name": "CUAHSI",
-			"url": "https://www.cuahsi.org/",
-			"address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476"
-		}
+		"address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476"
 	},
-	"datePublished": "2023-05-10",
-	"subjectOf": [{
-		"@type": "CreativeWork",
-		"name": "Dublin Core Metadata Document Describing the Dataset",
-		"url": "https://www.hydroshare.org/hsapi/resource/c1be74eeea614d65a29a185a66a7552f/scimeta/",
-		"encodingFormat": "application/rdf+xml"
-	}],
-	"version": 1.0,
+	"publisher": {
+		"@type": "Organization",
+		"name": "HydroShare",
+		"url": "https://hydroshare.org",
+		"address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476"
+	},
+	"datePublished": "2023-05-10T00:00:00",
+	"subjectOf": [
+		{
+			"@type": "CreativeWork",
+			"name": "Dublin Core Metadata Document Describing the Dataset",
+			"url": "https://www.hydroshare.org/hsapi/resource/c1be74eeea614d65a29a185a66a7552f/scimeta/",
+			"description": "Dublin Core Metadata Document Describing the Dataset"
+		}
+	],
+	"version": "1.0",
 	"inLanguage": "eng",
 	"creativeWorkStatus": {
 		"@type": "DefinedTerm",
-		"name": "Private",
-		"description": "This is a private dataset"
+		"name": "Draft",
+		"description": "This is a draft dataset"
 	},
-	"dateModified": "2021-01-10",
-	"temporalCoverage": "2007-03-01T13:00:00Z/2008-05-11T15:30:00Z",
+	"dateModified": "2021-01-10T00:00:00",
+	"funding": [
+		{
+			"@type": "MonetaryGrant",
+			"name": "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment",
+			"description": "This project is part of the National Science Foundation's Big Idea activities in Harnessing the Data Revolution (HDR). The award by the Office of Advanced Cyberinfrastructure is jointly supported by the Division of Behavioral and Cognitive Sciences, the Division of Social and Economic Sciences, and the Office of Multidisciplinary Activities within the Directorate for Social, Behavioral and Economic Sciences; the Division of Earth Sciences within the Directorate for Geosciences; the Division of Mathematical Sciences within the Directorate for Mathematical and Physical Sciences, and by the Division of Information and Intelligent Systems within the Directorate for Computer and Information Science and Engineering.",
+			"identifier": "NSF AWARD 2118329",
+			"funder": {
+				"@type": "Organization",
+				"name": "National Science Foundation",
+				"url": "https://www.nsf.gov/",
+				"address": "2415 Eisenhower Avenue, Alexandria, VA 22314"
+			}
+		}
+	],
+	"temporalCoverage": {
+		"startDate": "2007-03-01T13:00:00Z",
+		"endDate": "2008-05-11T15:30:00Z"
+	},
 	"spatialCoverage": {
 		"@type": "Place",
-		"name": "CUAHSI Office",
-		"address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476"
+		"name": "Somewhere in the world",
+		"geo": {
+			"@type": "GeoShape",
+			"box": "40.1126 -88.2249 40.1126 -88.2249"
+		}
 	},
-	"hasPart": [{
-		"@type": "CreativeWork",
-		"name": "Great Salt Lake Bathymetry",
-		"description": "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry.",
-		"identifier": {
-			"@type": "PropertyValue",
-			"@id": "https://orcid.org/0000-0000-0000-0001",
-			"propertyID": "https://registry.identifiers.org/registry/orcid",
-			"url": "https://orcid.org/0000-0000-0000-0001",
-			"value": "0000-0000-0000-0001"
+	"hasPart": [
+		{
+			"@type": "CreativeWork",
+			"name": "Great Salt Lake Bathymetry",
+			"description": "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry.",
+			"url": "https://orcid.org/0000-0000-0000-0001"
 		}
-	}],
-	"isPartOf": [{
-		"@type": "CreativeWork",
-		"name": "Collection of Great Salt Lake Data",
-		"description": "Data from the Great Salt Lake and its basin",
-		"identifier": {
-			"@type": "PropertyValue",
-			"@id": "https://orcid.org/0000-0000-0000-0001",
-			"propertyID": "https://registry.identifiers.org/registry/orcid",
-			"url": "https://orcid.org/0000-0000-0000-0001",
-			"value": "0000-0000-0000-0001"
+	],
+	"isPartOf": [
+		{
+			"@type": "CreativeWork",
+			"name": "Collection of Great Salt Lake Data",
+			"description": "Data from the Great Salt Lake and its basin",
+			"url": "https://orcid.org/0000-0000-0000-0001"
 		}
-	}],
-	"associatedMedia": [{
-		"@type": "DataDownload",
-		"contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
-		"encodingFormat": "text/csv",
-		"contentSize": "0.17 MB",
-		"name": "USGS gage locations within the Harvey-affected areas in Texas"
-	}],
-	"distribution": [{
-		"@type": "DataDownload",
-		"name": "string",
-		"contentUrl": "https://hydroshare.org",
-		"encodingFormat": [
-			"string"
-		],
-		"contentSize": "string",
-		"comment": "string"
-	}],
-  "includedInDataCatalog": [
-	  {
-		  "@type": "DataCatalog",
-		  "name": "string",
-		  "description": "string",
-		  "url": "https://hydroshare.org"
-	  }
-	]
+	],
+	"associatedMedia": [
+		{
+			"@type": "DataDownload",
+			"contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
+			"encodingFormat": "text/csv",
+			"contentSize": "0.17 MB",
+			"name": "USGS gage locations within the Harvey-affected areas in Texas"
+		}
+	],
+	"citation": ["Citation for the dataset"]
 }
