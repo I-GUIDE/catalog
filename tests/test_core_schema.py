@@ -258,7 +258,6 @@ async def test_core_schema_creator_organization_optional_attributes(core_data, c
 
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
-    print(f">> creator: {core_model_instance.creator}")
     assert core_model_instance.creator[0].type == "Organization"
     assert core_model_instance.creator[0].name == "National Centers for Environmental Information"
     if "url" in data_format:
