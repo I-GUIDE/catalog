@@ -9,12 +9,17 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from motor.motor_asyncio import AsyncIOMotorClient
+from pydantic import ValidationError
+from starlette import status
+from starlette.responses import PlainTextResponse
 
 from api.config import get_settings
 from api.models.catalog import DatasetMetadataDOC
 from api.models.user import Submission, User
 from api.routes.catalog import router as catalog_router
 from api.routes.discovery import router as discovery_router
+from api.exceptions import RepositoryException
+
 
 app = FastAPI()
 
@@ -25,6 +30,17 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.exception_handler(RepositoryException)
+async def http_exception_handler(request, exc):
+    return PlainTextResponse(f"Repository exception response[{str(exc.detail)}]", status_code=exc.status_code)
+
+
+@app.exception_handler(ValidationError)
+async def validation_exception_handler(request, exc: ValidationError):
+    return PlainTextResponse(f"Request data validation errors: {str(exc)}",
+                             status_code=status.HTTP_400_BAD_REQUEST)
 
 
 @app.on_event("startup")

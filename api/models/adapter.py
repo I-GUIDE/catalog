@@ -4,10 +4,11 @@ from datetime import datetime
 from typing import List, Optional, Union
 
 import requests
-from fastapi import HTTPException
 from pydantic import BaseModel, EmailStr, HttpUrl
+from starlette import status
 
 from api.config import Settings, get_settings
+from api.exceptions import RepositoryException
 from api.models import schema
 from api.models.catalog import DatasetMetadataDOC
 
@@ -28,7 +29,8 @@ class RepositoryRequestHandler(abc.ABC):
         if repository == RepositoryType.HYDROSHARE:
             return _HydroshareRequestHandler()
         else:
-            raise HTTPException(status_code=400, detail=f"Repository {repository} is not supported")
+            raise RepositoryException(status_code=status.HTTP_400_BAD_REQUEST,
+                                      detail=f"Repository {repository} is not supported")
 
 
 class _HydroshareRequestHandler(RepositoryRequestHandler):
@@ -39,8 +41,8 @@ class _HydroshareRequestHandler(RepositoryRequestHandler):
 
         def make_request(url, file_list=False):
             response = requests.get(url)
-            if response.status_code != 200:
-                raise HTTPException(status_code=response.status_code, detail=response.text)
+            if response.status_code != status.HTTP_200_OK:
+                raise RepositoryException(status_code=response.status_code, detail=response.text)
             if not file_list:
                 return response.json()
 
@@ -49,8 +51,8 @@ class _HydroshareRequestHandler(RepositoryRequestHandler):
             # check if there are more results to fetch - by default, 100 files are returned from HydroShare
             while response.json()["next"]:
                 response = requests.get(response.json()["next"])
-                if response.status_code != 200:
-                    raise HTTPException(status_code=response.status_code, detail=response.text)
+                if response.status_code != status.HTTP_200_OK:
+                    raise RepositoryException(status_code=response.status_code, detail=response.text)
                 content_files.extend(response.json()["results"])
             return content_files
 
