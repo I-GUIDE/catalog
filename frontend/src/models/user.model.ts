@@ -79,7 +79,7 @@ export default class User extends Model {
       window.addEventListener("message", async (event: MessageEvent) => {
         if (
           event.origin !== APP_URL ||
-          !event.data.hasOwnProperty("accessToken")
+          !event.data.hasOwnProperty("access_token")
         ) {
           return;
         }
