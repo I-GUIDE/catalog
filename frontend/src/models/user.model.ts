@@ -64,6 +64,7 @@ export default class User extends Model {
       client_id: `${CLIENT_ID}`,
       redirect_uri: `${APP_URL}/auth-redirect`,
       window_close: "True",
+      scope: "openid",
     };
 
     window.open(
