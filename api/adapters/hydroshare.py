@@ -1,41 +1,17 @@
-import abc
-import enum
+import requests
+from starlette import status
 from datetime import datetime
 from typing import List, Optional, Union
-
-import requests
 from pydantic import BaseModel, EmailStr, HttpUrl
-from starlette import status
-
-from api.config import Settings, get_settings
+from api.adapters.base import AbstractRepositoryMetadataAdapter, AbstractRepositoryRequestHandler
 from api.exceptions import RepositoryException
 from api.models import schema
 from api.models.catalog import DatasetMetadataDOC
 
 
-class RepositoryType(str, enum.Enum):
-    HYDROSHARE = "hydroshare"
+class _HydroshareRequestHandler(AbstractRepositoryRequestHandler):
 
-
-class RepositoryRequestHandler(abc.ABC):
-    settings: Settings = get_settings()
-
-    @abc.abstractmethod
-    async def get_metadata(self, record_id: str):
-        ...
-
-    @staticmethod
-    def get_handler(repository: RepositoryType):
-        if repository == RepositoryType.HYDROSHARE:
-            return _HydroshareRequestHandler()
-        else:
-            raise RepositoryException(status_code=status.HTTP_400_BAD_REQUEST,
-                                      detail=f"Repository {repository} is not supported")
-
-
-class _HydroshareRequestHandler(RepositoryRequestHandler):
-
-    async def get_metadata(self, record_id: str):
+    def get_metadata(self, record_id: str):
         hs_meta_url = self.settings.hydroshare_meta_read_url % record_id
         hs_file_url = self.settings.hydroshare_file_read_url % record_id
 
@@ -62,7 +38,22 @@ class _HydroshareRequestHandler(RepositoryRequestHandler):
         return metadata
 
 
-class HydroshareResourceMetadata(BaseModel):
+class HydroshareMetadataAdapter(AbstractRepositoryMetadataAdapter):
+    repo_api_handler = _HydroshareRequestHandler()
+
+    @staticmethod
+    def to_catalog_record(metadata: dict) -> DatasetMetadataDOC:
+        """Converts hydroshare resource metadata to a catalog dataset record"""
+        hs_metadata_model = _HydroshareResourceMetadata(**metadata)
+        return hs_metadata_model.to_catalog_dataset()
+
+    @staticmethod
+    def to_repository_record(catalog_record: DatasetMetadataDOC):
+        """Converts dataset catalog record to hydroshare resource metadata"""
+        raise NotImplementedError
+
+
+class _HydroshareResourceMetadata(BaseModel):
 
     class Creator(BaseModel):
         name: Optional[str]
@@ -267,40 +258,3 @@ class HydroshareResourceMetadata(BaseModel):
         dataset.license = self.rights.to_dataset_license()
         dataset.citation = [self.citation]
         return dataset
-
-
-class RepositoryMetadataAdapter(abc.ABC):
-
-    @staticmethod
-    @abc.abstractmethod
-    def to_catalog_record(metadata: dict) -> DatasetMetadataDOC:
-        """Converts repository metadata to a catalog dataset record"""
-        ...
-
-    @staticmethod
-    @abc.abstractmethod
-    def to_repository_record(catalog_record: DatasetMetadataDOC):
-        """Converts dataset catalog dataset record to repository metadata"""
-        ...
-
-    @staticmethod
-    def get_adapter(repository: RepositoryType):
-        """Returns the metadata adapter for the specified repository"""
-        if repository == RepositoryType.HYDROSHARE:
-            return HydroshareMetadataAdapter
-        else:
-            raise ValueError(f"Repository {repository} is not supported")
-
-
-class HydroshareMetadataAdapter(RepositoryMetadataAdapter):
-
-    @staticmethod
-    def to_catalog_record(metadata: dict) -> DatasetMetadataDOC:
-        """Converts hydroshare resource metadata to a catalog dataset record"""
-        hs_metadata_model = HydroshareResourceMetadata(**metadata)
-        return hs_metadata_model.to_catalog_dataset()
-
-    @staticmethod
-    def to_repository_record(catalog_record: DatasetMetadataDOC):
-        """Converts dataset catalog record to hydroshare resource metadata"""
-        raise NotImplementedError

@@ -4,8 +4,9 @@ from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, status
 from starlette.requests import Request
 
+from api.adapters.hydroshare import HydroshareMetadataAdapter
+from api.adapters.base import AbstractRepositoryMetadataAdapter
 from api.authentication.user import get_current_user
-from api.models.adapter import RepositoryMetadataAdapter, RepositoryRequestHandler, RepositoryType
 from api.models.catalog import DatasetMetadataDOC
 from api.models.user import Submission, User
 
@@ -83,8 +84,12 @@ async def get_submissions(user: Annotated[User, Depends(get_current_user)]):
 #                                            user: Annotated[User, Depends(get_current_user)]):
 async def get_hydroshare_resource_metadata(request: Request, identifier: str):
     # TODO: Add user authentication
-    hs_request_handler = RepositoryRequestHandler.get_handler(repository=RepositoryType.HYDROSHARE)
-    metadata = await hs_request_handler.get_metadata(identifier)
-    hs_adapter = RepositoryMetadataAdapter.get_adapter(repository=RepositoryType.HYDROSHARE)
-    catalog_dataset = hs_adapter.to_catalog_record(metadata)
+
+    catalog_dataset = await _get_repo_meta_as_catalog_record(HydroshareMetadataAdapter(), identifier)
+    return catalog_dataset
+
+
+async def _get_repo_meta_as_catalog_record(adapter: AbstractRepositoryMetadataAdapter, identifier: str):
+    metadata = await adapter.get_metadata(identifier)
+    catalog_dataset = adapter.to_catalog_record(metadata)
     return catalog_dataset

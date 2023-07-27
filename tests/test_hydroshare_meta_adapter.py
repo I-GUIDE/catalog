@@ -2,7 +2,7 @@ from datetime import datetime
 import pytest
 from pydantic import ValidationError
 
-from api.models.adapter import RepositoryMetadataAdapter, RepositoryType
+from api.adapters.hydroshare import HydroshareMetadataAdapter
 from api.models.catalog import DatasetMetadataDOC
 
 
@@ -11,7 +11,7 @@ from api.models.catalog import DatasetMetadataDOC
 async def test_hydroshare_resource_meta_adapter(hydroshare_resource_metadata, coverage_type, dataset_model):
     """Test the HydroshareMetaAdapter for Composite Resource"""
 
-    adapter = RepositoryMetadataAdapter.get_adapter(repository=RepositoryType.HYDROSHARE)
+    adapter = HydroshareMetadataAdapter()
     if coverage_type == "point":
         hydroshare_resource_metadata["spatial_coverage"] = {"type": "point", "name": "Logan River",
                                                             "north": 41.74, "east": -111.83,
@@ -100,7 +100,7 @@ async def test_hydroshare_resource_meta_adapter(hydroshare_resource_metadata, co
 async def test_hydroshare_collection_meta_adapter(hydroshare_collection_metadata, dataset_model):
     """Test the HydroshareMetaAdapter for Collection Resource"""
 
-    adapter = RepositoryMetadataAdapter.get_adapter(repository=RepositoryType.HYDROSHARE)
+    adapter = HydroshareMetadataAdapter()
     dataset = adapter.to_catalog_record(hydroshare_collection_metadata)
     try:
         dataset_model(**dataset.dict())
