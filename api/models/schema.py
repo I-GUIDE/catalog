@@ -3,7 +3,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 
-from pydantic import BaseModel, EmailStr, Field, HttpUrl, validator
+from pydantic import BaseModel, EmailStr, Field, HttpUrl, validator, root_validator
 
 orcid_pattern = "\\b\\d{4}-\\d{4}-\\d{4}-\\d{3}[0-9X]\\b"
 orcid_pattern_placeholder = "e.g. '0000-0001-2345-6789'"
@@ -281,13 +281,13 @@ class GeoShape(SchemaBaseModel):
             try:
                 item = float(item)
             except ValueError:
-                raise ValueError('Bounding box coordinate is not a number')
+                raise ValueError('Bounding box coordinate value is not a number')
             item = abs(item)
             if index % 2 == 0:
                 if item > 180:
-                    raise ValueError('Bounding box coordinate must be between -180 and 180')
+                    raise ValueError('Bounding box coordinate east/west must be between -180 and 180')
             elif item > 90:
-                raise ValueError('Bounding box coordinate must be between -90 and 90')
+                raise ValueError('Bounding box coordinate north/south must be between -90 and 90')
 
         return v
 
@@ -300,11 +300,13 @@ class Place(SchemaBaseModel):
                     "or area coverage extent."
     )
 
-    @validator('geo', 'name')
-    def validate_geo_or_name_required(cls, v, values):
-        if not v and not values.get('name'):
+    @root_validator
+    def validate_geo_or_name_required(cls, values):
+        name = values.get('name', None)
+        geo = values.get('geo', None)
+        if not name and not geo:
             raise ValueError('Either place name or geo location of the place must be provided')
-        return v
+        return values
 
 
 class MediaObject(SchemaBaseModel):
