@@ -3,7 +3,7 @@ import { Model } from "@vuex-orm/core";
 import { Subject } from "rxjs";
 import { RawLocation } from "vue-router";
 import { getQueryString } from "@/util";
-import { APP_URL, ENDPOINTS, LOGIN_URL } from "@/constants";
+import { APP_URL, ENDPOINTS, LOGIN_URL, CLIENT_ID } from "@/constants";
 import { Notifications } from "@cznethub/cznet-vue-core";
 
 export interface ICzCurrentUserState {
@@ -61,9 +61,10 @@ export default class User extends Model {
   static async logIn(callback?: () => any) {
     const params = {
       response_type: "token",
-      client_id: "local_iguide_api",
+      client_id: `${CLIENT_ID}`,
       redirect_uri: `${APP_URL}/auth-redirect`,
       window_close: "True",
+      scope: "openid",
     };
 
     window.open(

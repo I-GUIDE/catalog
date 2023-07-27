@@ -48,9 +48,10 @@ jobs:
         VUE_APP_API_URL: ${{ secrets.VUE_APP_API_URL }}
         VUE_APP_SUPPORT_EMAIL: ${{ secrets.VUE_APP_SUPPORT_EMAIL }}
         VUE_APP_URL: ${{ secrets.VUE_APP_URL }}
-        VUE_APP_LOGIN_URL: ${{ secrets.VUE_APP_LOGIN_URL }}        
+        VUE_APP_LOGIN_URL: ${{ secrets.VUE_APP_LOGIN_URL }}
+        VUE_APP_CLIENT_ID: ${{ secrets.VUE_APP_CLIENT_ID }}
       run: |
-        variables=("VUE_APP_NAME" "VUE_APP_API_URL" "VUE_APP_SUPPORT_EMAIL" "VUE_APP_URL" "VUE_APP_LOGIN_URL")
+        variables=("VUE_APP_NAME" "VUE_APP_API_URL" "VUE_APP_SUPPORT_EMAIL" "VUE_APP_URL" "VUE_APP_LOGIN_URL" "VUE_APP_CLIENT_ID")
 
         # Empty the .env file
         > frontend/.env
@@ -67,7 +68,7 @@ jobs:
         gcloud auth configure-docker us-central1-docker.pkg.dev
         docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:latest -f docker/Dockerfile .
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:latest
-        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest -f docker/Dockerfile-frontend .
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest -f frontend/Dockerfile frontend/
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest
         docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:latest -f docker/Dockerfile-triggers .
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:latest
