@@ -79,19 +79,19 @@ export default class User extends Model {
       window.addEventListener("message", async (event: MessageEvent) => {
         if (
           event.origin !== APP_URL ||
-          !event.data.hasOwnProperty("access_token")
+          !event.data.hasOwnProperty("accessToken")
         ) {
           return;
         }
 
-        if (event.data.access_token) {
+        if (event.data.accessToken) {
           Notifications.toast({
             message: "You have logged in!",
             type: "success",
           });
           await User.commit((state) => {
             state.isLoggedIn = true;
-            state.accessToken = event.data.access_token;
+            state.accessToken = event.data.accessToken;
           });
           this.loggedIn$.next();
           this.isLoginListenerSet = false;
