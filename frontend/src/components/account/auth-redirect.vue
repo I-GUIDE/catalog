@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { APP_URL, ACCESS_TOKEN_KEY } from "@/constants";
+import { APP_URL } from "@/constants";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
@@ -28,7 +28,7 @@ export default class AuthRedirect extends Vue {
 
     // window.opener references our original window from where the login popup was opened
     window.opener.postMessage(
-      { accessToken: dict[ACCESS_TOKEN_KEY] || "" },
+      { accessToken: dict["#access_token"] || "" },
       APP_URL // Important security measure: https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
     );
     window.close();
