@@ -2,6 +2,10 @@ from functools import lru_cache
 from typing import Any
 
 from pydantic import BaseSettings
+from dotenv import load_dotenv
+
+# had to use load_dotenv() to get the env variables to work during testing
+load_dotenv()
 
 
 class Settings(BaseSettings):
