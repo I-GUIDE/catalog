@@ -48,7 +48,8 @@ jobs:
         VUE_APP_API_URL: ${{ secrets.VUE_APP_API_URL }}
         VUE_APP_SUPPORT_EMAIL: ${{ secrets.VUE_APP_SUPPORT_EMAIL }}
         VUE_APP_URL: ${{ secrets.VUE_APP_URL }}
-        VUE_APP_LOGIN_URL: ${{ secrets.VUE_APP_LOGIN_URL }}        
+        VUE_APP_LOGIN_URL: ${{ secrets.VUE_APP_LOGIN_URL }}
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}
       run: |
         variables=("VUE_APP_NAME" "VUE_APP_API_URL" "VUE_APP_SUPPORT_EMAIL" "VUE_APP_URL" "VUE_APP_LOGIN_URL")
 
