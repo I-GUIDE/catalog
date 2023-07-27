@@ -84,14 +84,14 @@ export default class User extends Model {
           return;
         }
 
-        if (event.data.accessToken) {
+        if (event.data.access_token) {
           Notifications.toast({
             message: "You have logged in!",
             type: "success",
           });
           await User.commit((state) => {
             state.isLoggedIn = true;
-            state.accessToken = event.data.accessToken;
+            state.accessToken = event.data.access_token;
           });
           this.loggedIn$.next();
           this.isLoginListenerSet = false;
