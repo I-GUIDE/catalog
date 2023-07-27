@@ -28,7 +28,7 @@ export default class AuthRedirect extends Vue {
 
     // window.opener references our original window from where the login popup was opened
     window.opener.postMessage(
-      { accessToken: dict[ACCESS_TOKEN_KEY] || "" },
+      { accessToken: dict[`${ACCESS_TOKEN_KEY}`] || "" },
       APP_URL // Important security measure: https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
     );
     window.close();
