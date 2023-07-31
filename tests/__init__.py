@@ -14,10 +14,11 @@ from api.models.user import User
 from api.procedures.user import create_or_update_user
 
 TEST_USER_NAME = "pytest_user"
+TEST_ACCESS_TOKEN = "abc"
 
 
 async def override_get_current_user() -> User:
-    return await create_or_update_user(TEST_USER_NAME)
+    return await create_or_update_user(TEST_USER_NAME, TEST_ACCESS_TOKEN)
 
 
 app.dependency_overrides[get_current_user] = override_get_current_user
