@@ -23,7 +23,7 @@ jobs:
 
     - name: Compile the root env file
       env:
-        KEYCLOAK_ISSUER: ${{ secrets.KEYCLOAK_ISSUER }}
+        OIDC_ISSUER: ${{ secrets.OIDC_ISSUER }}
         DB_USERNAME: ${{ secrets.DB_USERNAME }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         DB_HOST: ${{ secrets.DB_HOST }}
@@ -32,7 +32,7 @@ jobs:
         TESTING: ${{ secrets.TESTING }}
         VUE_APP_LOGIN_URL: ${{ secrets.VUE_APP_LOGIN_URL }}
       run: |
-        variables=("KEYCLOAK_ISSUER" "DB_USERNAME" "DB_PASSWORD" "DB_HOST" "DATABASE_NAME" "DB_PROTOCOL" "TESTING" "VUE_APP_LOGIN_URL")
+        variables=("OIDC_ISSUER" "DB_USERNAME" "DB_PASSWORD" "DB_HOST" "DATABASE_NAME" "DB_PROTOCOL" "TESTING" "VUE_APP_LOGIN_URL")
 
         # Empty the .env file
         > .env
@@ -66,11 +66,11 @@ jobs:
         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
       run: |
         gcloud auth configure-docker us-central1-docker.pkg.dev
-        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:latest -f docker/Dockerfile .
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:latest -f docker/api/Dockerfile .
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:latest
-        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest -f frontend/Dockerfile frontend/
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest -f docker/frontend/Dockerfile frontend/
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest
-        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:latest -f docker/Dockerfile-triggers .
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:latest -f docker/triggers/Dockerfile .
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:latest
 
     - name: Deploy to GKE
