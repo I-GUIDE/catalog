@@ -28,7 +28,7 @@ For discovery to work the mongo db must be configured to use Atlas, search index
 
 1. Update the .env file with Atlas credentials
 ```console
-KEYCLOAK_ISSUER=https://auth.cuahsi.io/realms/HydroShare
+OIDC_ISSUER=https://orcid.org/
 
 DB_USERNAME={username}
 DB_PASSWORD={password}
@@ -44,11 +44,11 @@ TESTING=True
 4. Create the catalog and typeahead indexes from `atlas/` (TODO detailed instructions)
 
 ### Triggers
-Triggers have their own docker image (`docker/Dockerfile-triggers`).  There are two triggers:
+Triggers have their own docker image (`docker/triggers/Dockerfile`).  There are two triggers:
 1. `triggers/update_catalog.py` listens to the Submission collections and updates the discovery collection accordingly.
 2. `triggers/update_typeahead.py` listens to the discovery collection and updates the typeahead collection accordingly.
 
 The triggers have not been configured with a `resume_token` yet.
 
 ### Frontend
-A vue application.  `docker/Dockerfile-fronted` deploys a development version of the vue application and is slow to start up.  Deployments should use `frontend/Dockerfile` as it is configured to generate the static files and then serve them.
+A vue application.  `docker/frontend/Dockerfile` deploys a development version of the vue application and is slow to start up.  Deployments should use `frontend/Dockerfile` as it is configured to generate the static files and then serve them.
