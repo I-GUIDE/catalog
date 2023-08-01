@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     db_protocol: str
     testing: bool = False
 
-    keycloak_issuer: str
+    oidc_issuer: str
     hydroshare_meta_read_url: HttpUrl
     hydroshare_file_read_url: HttpUrl
 

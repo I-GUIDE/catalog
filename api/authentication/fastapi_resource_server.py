@@ -1,7 +1,9 @@
 import json
+import requests
 from enum import Enum
 from typing import List, Optional
 from urllib.request import urlopen
+from api.procedures.user import get_user
 
 from fastapi import Request
 from fastapi.exceptions import HTTPException
@@ -94,16 +96,17 @@ class OidcResourceServer(SecurityBase):
             flows.authorizationCode = OAuthFlowAuthorizationCode(
                 authorizationUrl=authz_url,
                 tokenUrl=token_url,
+                scopes={"openid": "Read ORCID for the current user"}
             )
 
         if GrantType.CLIENT_CREDENTIALS in grant_types:
-            flows.clientCredentials = OAuthFlowClientCredentials(tokenUrl=token_url)
+            flows.clientCredentials = OAuthFlowClientCredentials(tokenUrl=token_url, scopes={"openid": "Read ORCID for the current user"})
 
         if GrantType.PASSWORD in grant_types:
-            flows.password = OAuthFlowPassword(tokenUrl=token_url)
+            flows.password = OAuthFlowPassword(tokenUrl=token_url, scopes={"openid": "Read ORCID for the current user"})
 
         if GrantType.IMPLICIT in grant_types:
-            flows.implicit = OAuthFlowImplicit(authorizationUrl=authz_url)
+            flows.implicit = OAuthFlowImplicit(authorizationUrl=authz_url, scopes={"openid": "Read ORCID for the current user"})
 
         self.model = OAuth2Model(flows=flows)
 
@@ -122,8 +125,21 @@ class OidcResourceServer(SecurityBase):
             return None
 
         try:
-            return jwt.decode(param, self.jwks, options=self.jwt_decode_options)
-        except JWTError:
+            #return jwt.decode(param, self.jwks, options=self.jwt_decode_options)
+            # this is a temporary hack until cuahsi keycloak is stable
+            user = await get_user(access_token=param)
+            orcid = None
+            if not user:
+                resp = requests.get("https://orcid.org/oauth/userinfo", headers={"Authorization": f"Bearer {param}"})
+                if resp.status_code == 200:
+                    orcid = resp.json()['sub']
+                else:
+                    raise
+            else:
+                orcid = user.orcid
+            return {"orcid": orcid, "access_token": param}
+        #except JWTError:
+        except:
             raise HTTPException(
                 status_code=HTTP_401_UNAUTHORIZED,
                 detail="JWT validation failed",

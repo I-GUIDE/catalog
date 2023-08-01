@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 from beanie import Document, Link, PydanticObjectId
 from pydantic import HttpUrl
@@ -14,7 +14,9 @@ class Submission(Document):
 
 
 class User(Document):
-    preferred_username: str
+    access_token: str
+    orcid: str
+    preferred_username: Optional[str]
     submissions: List[Link[Submission]] = []
 
     def submission(self, identifier: str) -> Submission:
