@@ -6,7 +6,7 @@ from api.models.user import User
 pytestmark = pytest.mark.asyncio
 
 
-async def test_create_dataset(client_test, dataset_data, test_user_name):
+async def test_create_dataset(client_test, dataset_data, test_user_access_token):
     """Testing the dataset routes for post and get"""
 
     # add a dataset record to the db
@@ -30,7 +30,7 @@ async def test_create_dataset(client_test, dataset_data, test_user_name):
     # there should be one related submission record in the db
     submissions = await Submission.find().to_list()
     assert len(submissions) == 1
-    user = await User.find_one(User.preferred_username == test_user_name, fetch_links=True)
+    user = await User.find_one(User.access_token == test_user_access_token, fetch_links=True)
     assert len(user.submissions) == 1
     submission_id = submissions[0].identifier
     assert submission_id == user.submissions[0].identifier
@@ -41,7 +41,7 @@ async def test_create_dataset(client_test, dataset_data, test_user_name):
     assert response.status_code == 200
 
 
-async def test_create_dataset_from_hydroshare(client_test, test_user_name):
+async def test_create_dataset_from_hydroshare(client_test, test_user_access_token):
     """Testing catalog registration of hydroshare metadata record"""
 
     # retrieve the hydroshare resource metadata as catalog dataset record
@@ -62,7 +62,7 @@ async def test_create_dataset_from_hydroshare(client_test, test_user_name):
     # there should be one related submission record in the db
     submissions = await Submission.find().to_list()
     assert len(submissions) == 1
-    user = await User.find_one(User.preferred_username == test_user_name, fetch_links=True)
+    user = await User.find_one(User.access_token == test_user_access_token, fetch_links=True)
     assert len(user.submissions) == 1
     submission_id = submissions[0].identifier
     assert submission_id == user.submissions[0].identifier

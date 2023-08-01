@@ -3,7 +3,7 @@ from fastapi import Security
 from api.authentication.fastapi_resource_server import GrantType, JwtDecodeOptions, OidcResourceServer
 from api.config import get_settings
 from api.models.user import User
-from api.procedures.user import create_or_update_user, get_user
+from api.procedures.user import create_or_update_user
 
 decode_options = JwtDecodeOptions(verify_aud=False)
 
