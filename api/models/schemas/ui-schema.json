@@ -240,7 +240,34 @@
                       },
                       {
                         "type": "Control",
-                        "scope": "#/properties/organization"
+                        "scope": "#/properties/affiliation",
+                        "options": {
+                          "detail": {
+                            "type": "VerticalLayout",
+                            "elements": [
+                              {
+                                "type": "Control",
+                                "scope": "#/properties/@type",
+                                "rule": {
+                                  "effect": "HIDE",
+                                  "condition": {}
+                                }
+                              },
+                              {
+                                "type": "Control",
+                                "scope": "#/properties/name"
+                              },
+                              {
+                                "type": "Control",
+                                "scope": "#/properties/url"
+                              },
+                              {
+                                "type": "Control",
+                                "scope": "#/properties/address"
+                              }
+                            ]
+                          }
+                        }
                       }
                     ]
                   }
@@ -703,7 +730,34 @@
                       },
                       {
                         "type": "Control",
-                        "scope": "#/properties/organization"
+                        "scope": "#/properties/affiliation",
+                        "options": {
+                          "detail": {
+                            "type": "VerticalLayout",
+                            "elements": [
+                              {
+                                "type": "Control",
+                                "scope": "#/properties/@type",
+                                "rule": {
+                                  "effect": "HIDE",
+                                  "condition": {}
+                                }
+                              },
+                              {
+                                "type": "Control",
+                                "scope": "#/properties/name"
+                              },
+                              {
+                                "type": "Control",
+                                "scope": "#/properties/url"
+                              },
+                              {
+                                "type": "Control",
+                                "scope": "#/properties/address"
+                              }
+                            ]
+                          }
+                        }
                       }
                     ]
                   }
