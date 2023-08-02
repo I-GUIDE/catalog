@@ -212,7 +212,16 @@ export default class App extends Vue {
       attrs: { to: "/" },
       label: "Home",
       icon: "mdi-bookmark-multiple",
-      isActive: () => this.$route.name === "search",
+    },
+    {
+      attrs: { to: "/search" },
+      label: "Search",
+      icon: "mdi-book-plus",
+    },
+    {
+      attrs: { to: "/submissions" },
+      label: "My Submissions",
+      icon: "mdi-book-plus",
     },
     {
       attrs: { to: "/contribute" },

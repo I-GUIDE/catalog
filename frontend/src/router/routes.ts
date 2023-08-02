@@ -1,6 +1,7 @@
 import { RouteConfig } from "vue-router";
 import CdHome from "@/components/home/cd.home.vue";
 import CdSearchResults from "@/components/search-results/cd.search-results.vue";
+import CdSubmissions from "@/components/submissions/cd.submissions.vue";
 import CdFooter from "@/components/base/cd.footer.vue";
 import CdContribute from "@/components/contribute/cd.contribute.vue";
 import CdDataset from "@/components/dataset/cd.dataset.vue";
@@ -39,6 +40,18 @@ export const routes: RouteConfig[] = [
       hasUnsavedChangesGuard: true,
       title: "Contribute",
       flat: true,
+    },
+  },
+  {
+    name: "submissions",
+    path: "/submissions",
+    components: {
+      content: CdSubmissions,
+      footer: CdFooter,
+    },
+    meta: {
+      title: "My Submissions",
+      hasLoggedInGuard: true,
     },
   },
   {

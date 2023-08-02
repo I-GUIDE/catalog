@@ -23,6 +23,8 @@ export const ENDPOINTS: { [key: string]: string } = {
   search: `${API_BASE}/discovery/search`,
   typeahead: `${API_BASE}/discovery/typeahead`,
   submit: `${API_BASE}/catalog/dataset`,
+  deleteSubmission: `${API_BASE}/catalog/dataset`,
+  submissions: `${API_BASE}/catalog/submission`,
   dataset: `${API_BASE}/catalog/dataset`,
   schemaUrl: `${API_BASE}/schemas/schema.json`,
   uiSchemaUrl: `${API_BASE}/schemas/ui-schema.json`,
