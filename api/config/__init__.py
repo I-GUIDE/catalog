@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     db_protocol: str
     testing: bool = False
 
-    keycloak_issuer: str
+    oidc_issuer: str
 
     def __init__(self, **data: Any) -> None:
         super().__init__(**data)
