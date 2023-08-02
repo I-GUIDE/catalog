@@ -68,7 +68,7 @@ jobs:
         gcloud auth configure-docker us-central1-docker.pkg.dev
         docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:latest -f docker/api/Dockerfile .
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:latest
-        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest -f docker/frontend/Dockerfile frontend/
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest -f docker/frontend/Dockerfile .
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest
         docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:latest -f docker/triggers/Dockerfile .
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:latest
