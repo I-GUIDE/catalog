@@ -36,6 +36,9 @@ DB_HOST=cluster0.iouzjvv.mongodb.net
 DATABASE_NAME=iguide_{user}
 DB_PROTOCOL=mongodb+srv
 
+HYDROSHARE_META_READ_URL=https://www.hydroshare.org/hsapi2/resource/%s/json/
+HYDROSHARE_FILE_READ_URL=https://www.hydroshare.org/hsapi/resource/%s/files/
+
 TESTING=True
 ```
 
