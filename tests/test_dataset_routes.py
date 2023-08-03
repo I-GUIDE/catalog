@@ -6,6 +6,7 @@ from api.models.user import User
 pytestmark = pytest.mark.asyncio
 
 
+@pytest.mark.asyncio
 async def test_create_dataset(client_test, dataset_data, test_user_access_token):
     """Testing the dataset routes for post and get"""
 
@@ -41,6 +42,7 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
     assert response.status_code == 200
 
 
+@pytest.mark.asyncio
 async def test_create_dataset_from_hydroshare(client_test, test_user_access_token):
     """Testing catalog registration of hydroshare metadata record"""
 
@@ -73,6 +75,7 @@ async def test_create_dataset_from_hydroshare(client_test, test_user_access_toke
     assert response.status_code == 200
 
 
+@pytest.mark.asyncio
 async def test_update_dataset(client_test, dataset_data):
     """Testing the dataset put route for updating dataset record"""
 
@@ -98,6 +101,7 @@ async def test_update_dataset(client_test, dataset_data):
     assert response_data == dataset_data
 
 
+@pytest.mark.asyncio
 async def test_delete_dataset(client_test, dataset_data):
     """Testing the dataset delete route for deleting a dataset record"""
 
@@ -114,6 +118,7 @@ async def test_delete_dataset(client_test, dataset_data):
 
 
 @pytest.mark.parametrize("multiple", [True, False])
+@pytest.mark.asyncio
 async def test_get_datasets(client_test, dataset_data, multiple):
     """Testing the get all datasets for a given user"""
 
@@ -135,6 +140,7 @@ async def test_get_datasets(client_test, dataset_data, multiple):
 
 
 @pytest.mark.parametrize("multiple", [True, False])
+@pytest.mark.asyncio
 async def test_get_submissions(client_test, dataset_data, multiple):
     """Testing the get submissions route"""
 

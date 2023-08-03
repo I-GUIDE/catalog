@@ -49,7 +49,7 @@ async def test_hydroshare_resource_meta_adapter(hydroshare_resource_metadata, co
     assert dataset.keywords == ["Logan River", "Snow water equivalent", "UEB"]
     assert dataset.license.name == "This resource is shared under the Creative Commons Attribution CC BY."
     assert dataset.license.url == "http://creativecommons.org/licenses/by/4.0/"
-    assert dataset.provider.name == "Hydroshare"
+    assert dataset.provider.name == "HYDROSHARE"
     assert dataset.provider.url == "https://www.hydroshare.org/"
     assert dataset.inLanguage == "eng"
     assert len(dataset.funding) == 1
