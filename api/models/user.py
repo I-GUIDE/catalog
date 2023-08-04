@@ -11,6 +11,8 @@ class Submission(Document):
     identifier: PydanticObjectId
     submitted: datetime = datetime.utcnow()
     url: HttpUrl = None
+    repository: Optional[str]
+    repository_identifier: Optional[str]
 
 
 class User(Document):
@@ -19,5 +21,5 @@ class User(Document):
     preferred_username: Optional[str]
     submissions: List[Link[Submission]] = []
 
-    def submission(self, identifier: str) -> Submission:
+    def submission(self, identifier: PydanticObjectId) -> Submission:
         return next(filter(lambda submission: submission.identifier == identifier, self.submissions), None)

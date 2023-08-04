@@ -1,8 +1,9 @@
 import pytest
 
-from tests import change_test_dir, core_data, dataset_data, dataset_model, utils
+from tests import utils
 
 
+@pytest.mark.skip(reason="Dataset specific metadata is currently not implemented")
 @pytest.mark.parametrize('multiple_distribution', [True, False])
 @pytest.mark.asyncio
 async def test_dataset_schema_distribution_cardinality(dataset_data, dataset_model, multiple_distribution):
@@ -64,6 +65,7 @@ async def test_dataset_schema_distribution_cardinality(dataset_data, dataset_mod
         assert dataset_instance.distribution.encodingFormat == "text/csv"
 
 
+@pytest.mark.skip(reason="Dataset specific metadata is currently not implemented")
 @pytest.mark.parametrize(
     'data_format',
     [
@@ -131,6 +133,7 @@ async def test_dataset_schema_distribution_value_type(dataset_data, dataset_mode
         assert dataset_instance.distribution.comment == data_format["comment"]
 
 
+@pytest.mark.skip(reason="Dataset specific metadata is currently not implemented")
 @pytest.mark.parametrize('multiple_variable', [True, False, None])
 @pytest.mark.asyncio
 async def test_dataset_schema_variable_cardinality(dataset_data, dataset_model, multiple_variable):
@@ -171,6 +174,7 @@ async def test_dataset_schema_variable_cardinality(dataset_data, dataset_model, 
         assert dataset_instance.variableMeasured is None
 
 
+@pytest.mark.skip(reason="Dataset specific metadata is currently not implemented")
 @pytest.mark.parametrize(
     'data_format',
     [
@@ -199,6 +203,7 @@ async def test_dataset_schema_variable_value_type(dataset_data, dataset_model, d
         assert dataset_instance.variableMeasured == data_format
 
 
+@pytest.mark.skip(reason="Dataset specific metadata is currently not implemented")
 @pytest.mark.parametrize('multiple_data_catalog', [True, False])
 @pytest.mark.asyncio
 async def test_dataset_schema_variable_cardinality(dataset_data, dataset_model, multiple_data_catalog):

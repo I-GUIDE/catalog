@@ -358,7 +358,7 @@ class CoreMetadata(SchemaBaseModel):
         alias='@context',
         default='https://schema.org',
         description="Specifies the vocabulary employed for understanding the structured data markup.")
-    type: str = Field(alias="@type", title="Submission type", default="Dataset", 
+    type: str = Field(alias="@type", title="Submission type", default="Dataset",
                       description="Submission type can include various forms of content, such as datasets,"
                                   " software source code, digital documents, etc.",
                       enum=["Dataset", "Notebook", "Software Source Code"]
