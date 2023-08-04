@@ -36,7 +36,8 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
     submission_id = submissions[0].identifier
     assert submission_id == user.submissions[0].identifier
     assert user.submission(submission_id) is not None
-
+    assert user.submission(submission_id).repository is None
+    assert user.submission(submission_id).repository_identifier is None
     # retrieve the record from the db
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
     assert response.status_code == 200
@@ -46,21 +47,14 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
 async def test_create_dataset_from_hydroshare(client_test, test_user_access_token):
     """Testing catalog registration of hydroshare metadata record"""
 
-    # retrieve the hydroshare resource metadata as catalog dataset record
+    # create hydroshare resource metadata as a catalog dataset record
     hs_published_res_id = "b5f58460941c49578e311adb9823657a"
     response = await client_test.get(f"api/catalog/repository/hydroshare/{hs_published_res_id}")
     assert response.status_code == 200
-    dataset_data = response.json()
+    hs_dataset = response.json()
+    assert hs_dataset['provider']['name'] == 'HYDROSHARE'
+    assert hs_dataset['provider']['url'] == 'https://www.hydroshare.org/'
 
-    # add a dataset (hydroshare metadata) record to the db
-    response = await client_test.post("api/catalog/dataset", json=dataset_data)
-    assert response.status_code == 201
-    response_data = response.json()
-    record_id = response_data.pop('_id')
-    dataset_data.pop('_id')
-
-    # assert that the response contains the expected data
-    assert response_data == dataset_data
     # there should be one related submission record in the db
     submissions = await Submission.find().to_list()
     assert len(submissions) == 1
@@ -69,8 +63,11 @@ async def test_create_dataset_from_hydroshare(client_test, test_user_access_toke
     submission_id = submissions[0].identifier
     assert submission_id == user.submissions[0].identifier
     assert user.submission(submission_id) is not None
+    assert user.submission(submission_id).repository == "HYDROSHARE"
+    assert user.submission(submission_id).repository_identifier == hs_published_res_id
 
     # retrieve the record from the db
+    record_id = hs_dataset.get('_id')
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
     assert response.status_code == 200
 

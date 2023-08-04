@@ -56,7 +56,10 @@ async def update_dataset(
 
     await dataset.set(updated_document.dict(exclude_unset=True, by_alias=True))
     dataset = await DatasetMetadataDOC.get(submission_id)
-    await submission.set(dataset.as_submission().dict(exclude_unset=True))
+    updated_submission = dataset.as_submission()
+    updated_submission.repository_identifier = submission.repository_identifier
+    updated_submission.repository = submission.repository
+    await submission.set(updated_submission.dict(exclude_unset=True))
     return dataset
 
 
@@ -80,8 +83,15 @@ async def get_submissions(user: Annotated[User, Depends(get_current_user)]):
 
 @router.get("/repository/hydroshare/{identifier}", response_model=DatasetMetadataDOC)
 async def get_hydroshare_resource_metadata(identifier: str, user: Annotated[User, Depends(get_current_user)]):
-    catalog_dataset = await _get_repo_meta_as_catalog_record(HydroshareMetadataAdapter(), identifier)
-    return catalog_dataset
+    adapter = HydroshareMetadataAdapter()
+    dataset = await _get_repo_meta_as_catalog_record(adapter, identifier)
+    await dataset.insert()
+    submission = dataset.as_submission()
+    submission = adapter.update_submission(submission=submission, repo_record_id=identifier)
+    await submission.insert()
+    user.submissions.append(submission)
+    await user.save()
+    return dataset
 
 
 async def _get_repo_meta_as_catalog_record(adapter: AbstractRepositoryMetadataAdapter, identifier: str):
