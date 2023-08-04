@@ -4,9 +4,11 @@ from datetime import datetime
 from typing import List, Optional, Union
 from pydantic import BaseModel, EmailStr, HttpUrl
 from api.adapters.base import AbstractRepositoryMetadataAdapter, AbstractRepositoryRequestHandler
+from api.adapters.utils import RepositoryType
 from api.exceptions import RepositoryException
 from api.models import schema
 from api.models.catalog import DatasetMetadataDOC
+from api.models.user import Submission
 
 
 class Creator(BaseModel):
@@ -165,7 +167,7 @@ class _HydroshareRequestHandler(AbstractRepositoryRequestHandler):
         hs_meta_url = self.settings.hydroshare_meta_read_url % record_id
         hs_file_url = self.settings.hydroshare_file_read_url % record_id
 
-        def make_request(url, file_list=False):
+        def make_request(url, file_list=False) -> Union[dict, List[dict]]:
             response = requests.get(url)
             if response.status_code != status.HTTP_200_OK:
                 raise RepositoryException(status_code=response.status_code, detail=response.text)
@@ -201,6 +203,14 @@ class HydroshareMetadataAdapter(AbstractRepositoryMetadataAdapter):
     def to_repository_record(catalog_record: DatasetMetadataDOC):
         """Converts dataset catalog record to hydroshare resource metadata"""
         raise NotImplementedError
+
+    @staticmethod
+    def update_submission(submission: Submission, repo_record_id: str) -> Submission:
+        """Sets additional hydroshare specific metadata to submission record"""
+
+        submission.repository_identifier = repo_record_id
+        submission.repository = RepositoryType.HYDROSHARE
+        return submission
 
 
 class _HydroshareResourceMetadata(BaseModel):
@@ -274,7 +284,7 @@ class _HydroshareResourceMetadata(BaseModel):
     @staticmethod
     def to_dataset_provider():
         provider = schema.Organization.construct()
-        provider.name = "HYDROSHARE"
+        provider.name = RepositoryType.HYDROSHARE
         provider.url = "https://www.hydroshare.org/"
         return provider
 

@@ -2,6 +2,7 @@ import abc
 
 from api.config import Settings, get_settings
 from api.models.catalog import DatasetMetadataDOC
+from api.models.user import Submission
 
 
 class AbstractRepositoryRequestHandler(abc.ABC):
@@ -26,6 +27,12 @@ class AbstractRepositoryMetadataAdapter(abc.ABC):
     @abc.abstractmethod
     def to_repository_record(catalog_record: DatasetMetadataDOC):
         """Converts dataset catalog dataset record to repository metadata"""
+        ...
+
+    @staticmethod
+    @abc.abstractmethod
+    def update_submission(submission: Submission, repo_record_id: str) -> Submission:
+        """Sets additional repository specific metadata to submission record"""
         ...
 
     async def get_metadata(self, record_id: str):
