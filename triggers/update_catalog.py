@@ -11,10 +11,11 @@ from api.models.user import Submission
 
 logger = logging.getLogger()
 
+
 async def _main():
     logger.warning("starting up watch submissions")
     settings = get_settings()
-    db = AsyncIOMotorClient(settings.db_connection_string)[get_settings().database_name]
+    db = AsyncIOMotorClient(settings.db_connection_string)[settings.database_name]
     await init_beanie(database=db, document_models=[Submission])
 
     try:
@@ -28,7 +29,8 @@ async def _main():
 
 
 async def watch_submissions(db: AsyncIOMotorClient):
-    async with db["Submission"].watch(full_document="updateLookup", full_document_before_change="whenAvailable") as stream:
+    async with db["Submission"].watch(full_document="updateLookup",
+                                      full_document_before_change="whenAvailable") as stream:
         # stream.resume_token
         async for change in stream:
             if change["operationType"] == "delete":

@@ -10,9 +10,10 @@ from api.config import get_settings
 
 logger = logging.getLogger()
 
+
 async def _main():
     settings = get_settings()
-    db = AsyncIOMotorClient(settings.db_connection_string)[get_settings().database_name]
+    db = AsyncIOMotorClient(settings.db_connection_string)[settings.database_name]
 
     try:
         while True:

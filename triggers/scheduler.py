@@ -41,7 +41,7 @@ async def retrieve_repository_record(submission: Submission):
 @app.task(daily)
 async def do_daily():
     settings = get_settings()
-    db = AsyncIOMotorClient(settings.db_connection_string)[get_settings().database_name]
+    db = AsyncIOMotorClient(settings.db_connection_string)[settings.database_name]
     await init_beanie(database=db, document_models=[Submission, DatasetMetadataDOC])
 
     async for submission in Submission.find(Submission.repository != None):
