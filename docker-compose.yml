@@ -64,3 +64,15 @@ services:
     command: >
       python triggers/update_typeahead.py
     restart: on-failure
+
+  repo-scheduler:
+    image: iguide_scheduler
+    volumes:
+      - ./api:/app/api
+      - ./triggers:/app/triggers
+      - ./.env:/app/.env
+    build:
+      dockerfile: ./docker/triggers/Dockerfile
+    command: >
+      python triggers/scheduler.py
+    restart: on-failure
