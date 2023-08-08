@@ -3,8 +3,7 @@ from typing import Annotated, List
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from api.adapters.base import AbstractRepositoryMetadataAdapter
-from api.adapters.hydroshare import HydroshareMetadataAdapter
+from api.adapters.utils import get_adapter_by_type, RepositoryType
 from api.authentication.user import get_current_user
 from api.models.catalog import DatasetMetadataDOC
 from api.models.user import Submission, User
@@ -83,8 +82,15 @@ async def get_submissions(user: Annotated[User, Depends(get_current_user)]):
 
 @router.get("/repository/hydroshare/{identifier}", response_model=DatasetMetadataDOC)
 async def get_hydroshare_resource_metadata(identifier: str, user: Annotated[User, Depends(get_current_user)]):
-    adapter = HydroshareMetadataAdapter()
-    dataset = await _get_repo_meta_as_catalog_record(adapter, identifier)
+    dataset = await _get_repo_meta_as_catalog_record(user=user, repository_type=RepositoryType.HYDROSHARE,
+                                                     identifier=identifier)
+    return dataset
+
+
+async def _get_repo_meta_as_catalog_record(user: User, repository_type: RepositoryType, identifier: str):
+    adapter = get_adapter_by_type(repository_type=repository_type)
+    metadata = await adapter.get_metadata(identifier)
+    dataset = adapter.to_catalog_record(metadata)
     await dataset.insert()
     submission = dataset.as_submission()
     submission = adapter.update_submission(submission=submission, repo_record_id=identifier)
@@ -92,9 +98,3 @@ async def get_hydroshare_resource_metadata(identifier: str, user: Annotated[User
     user.submissions.append(submission)
     await user.save()
     return dataset
-
-
-async def _get_repo_meta_as_catalog_record(adapter: AbstractRepositoryMetadataAdapter, identifier: str):
-    metadata = await adapter.get_metadata(identifier)
-    catalog_dataset = adapter.to_catalog_record(metadata)
-    return catalog_dataset
