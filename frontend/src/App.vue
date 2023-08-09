@@ -15,7 +15,7 @@
         </router-link>
         <div class="spacer"></div>
         <v-card
-          class="nav-items has-space-right d-flex mr-4"
+          class="nav-items mr-2 d-flex mr-4"
           :elevation="2"
           v-if="!$vuetify.breakpoint.mdAndDown"
         >

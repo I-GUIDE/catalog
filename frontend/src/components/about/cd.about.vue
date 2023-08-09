@@ -15,7 +15,7 @@
       <a href="http://www.criticalzone.org" target="_blank"
         >http://www.criticalzone.org</a
       >
-      <v-divider class="has-space-bottom" />
+      <v-divider class="mb-2" />
       <p class="text-body-1">
         The Critical Zone Collaborative Network (CZNet) is the next phase of
         NSF’s Critical Zone research program, comprised of nine Thematic Cluster
