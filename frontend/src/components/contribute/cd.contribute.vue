@@ -154,8 +154,8 @@ export default class CdContribute extends Vue {
   }
 
   protected onDataChange(data) {
-    // cz-form emits 'change' event 2 times during instantioation.
-    const changesDuringInstantiation = 2;
+    // cz-form emits 'change' event 3 times during instantioation.
+    const changesDuringInstantiation = 3;
 
     if (this.timesChanged <= changesDuringInstantiation) {
       this.timesChanged = this.timesChanged + 1;

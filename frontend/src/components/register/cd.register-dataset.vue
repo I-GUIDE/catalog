@@ -208,7 +208,7 @@ export default class CzRegisterDataset extends Vue {
     return this.url; // default
   }
 
-  created() {
+  mounted() {
     // @ts-ignore
     this.$refs.txtIdentifier?.focus();
   }
