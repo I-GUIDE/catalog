@@ -161,10 +161,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import Submission from "@/models/submission.model";
 import User from "@/models/user.model";
-import { CzNotifications } from "@cznethub/cznet-vue-core";
+import { Notifications } from "@cznethub/cznet-vue-core";
 import { ENDPOINTS } from "@/constants";
 
 const exampleUrl =
@@ -255,7 +255,6 @@ export default class CzRegisterDataset extends Vue {
     this.wasNotFound = false;
 
     try {
-      // TODO: this returns an API submission instead of a database one
       const response = await this._readExistingSubmission(
         this.identifierFromUrl
       );
@@ -266,19 +265,8 @@ export default class CzRegisterDataset extends Vue {
       } else {
         this.wasNotFound = true;
       }
-      // Repository was unauthorized
-      // else if (response === 401) {
-      //   this.wasUnauthorized = true;
-
-      //   // Try again when user has authorized the repository
-      //   this.authorizedSubject = Repository.authorized$.subscribe(
-      //     async (_repositoryKey: EnumRepositoryKeys) => {
-      //       await this._readDataset();
-      //     }
-      //   );
-      // }
     } catch (e) {
-      console.log(e);
+      this.wasNotFound = true;
     } finally {
       this.isFetching = false;
     }
@@ -302,11 +290,14 @@ export default class CzRegisterDataset extends Vue {
 
     if (response.ok) {
       const result = await response.json();
+      Notifications.toast({
+        message: "Your dataset has been registered!",
+        type: "success",
+      });
       return result;
     } else {
-      console.log(response);
       this.wasNotFound = true;
-      CzNotifications.toast({
+      Notifications.toast({
         message: "Failed to load existing submission",
         type: "error",
       });
