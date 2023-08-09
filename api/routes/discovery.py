@@ -80,11 +80,11 @@ class SearchQuery(BaseModel):
 
         if self.dataCoverageStart:
             filters.append(
-                {'range': {'path': 'temporalCoverageStart', 'gte': datetime(self.dataCoverageStart, 1, 1)}}
+                {'range': {'path': 'temporalCoverage.startDate', 'gte': datetime(self.dataCoverageStart, 1, 1)}}
             )
         if self.dataCoverageEnd:
             filters.append(
-                {'range': {'path': 'temporalCoverageEnd', 'lt': datetime(self.dataCoverageEnd + 1, 1, 1)}}
+                {'range': {'path': 'temporalCoverage.endDate', 'lt': datetime(self.dataCoverageEnd + 1, 1, 1)}}
             )
         return filters
 
