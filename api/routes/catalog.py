@@ -3,6 +3,8 @@ from typing import Annotated, List
 from beanie import DeleteRules, PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, status
 
+from api.adapters.base import AbstractRepositoryMetadataAdapter
+from api.adapters.hydroshare import HydroshareMetadataAdapter
 from api.authentication.user import get_current_user
 from api.models.catalog import DatasetMetadataDOC
 from api.models.user import Submission, User
@@ -54,7 +56,10 @@ async def update_dataset(
 
     await dataset.set(updated_document.dict(exclude_unset=True, by_alias=True))
     dataset = await DatasetMetadataDOC.get(submission_id)
-    await submission.set(dataset.as_submission().dict(exclude_unset=True))
+    updated_submission = dataset.as_submission()
+    updated_submission.repository_identifier = submission.repository_identifier
+    updated_submission.repository = submission.repository
+    await submission.set(updated_submission.dict(exclude_unset=True))
     return dataset
 
 
@@ -74,3 +79,22 @@ async def delete_dataset(submission_id: PydanticObjectId, user: Annotated[User, 
 @router.get("/submission/", response_model=List[Submission])
 async def get_submissions(user: Annotated[User, Depends(get_current_user)]):
     return user.submissions
+
+
+@router.get("/repository/hydroshare/{identifier}", response_model=DatasetMetadataDOC)
+async def get_hydroshare_resource_metadata(identifier: str, user: Annotated[User, Depends(get_current_user)]):
+    adapter = HydroshareMetadataAdapter()
+    dataset = await _get_repo_meta_as_catalog_record(adapter, identifier)
+    await dataset.insert()
+    submission = dataset.as_submission()
+    submission = adapter.update_submission(submission=submission, repo_record_id=identifier)
+    await submission.insert()
+    user.submissions.append(submission)
+    await user.save()
+    return dataset
+
+
+async def _get_repo_meta_as_catalog_record(adapter: AbstractRepositoryMetadataAdapter, identifier: str):
+    metadata = await adapter.get_metadata(identifier)
+    catalog_dataset = adapter.to_catalog_record(metadata)
+    return catalog_dataset

@@ -2,12 +2,12 @@ import pytest
 
 from api.models.catalog import Submission
 from api.models.user import User
-from tests import change_test_dir, client_test, core_data, dataset_data, TEST_USER_NAME
 
 pytestmark = pytest.mark.asyncio
 
 
-async def test_create_dataset(client_test, dataset_data):
+@pytest.mark.asyncio
+async def test_create_dataset(client_test, dataset_data, test_user_access_token):
     """Testing the dataset routes for post and get"""
 
     # add a dataset record to the db
@@ -31,17 +31,48 @@ async def test_create_dataset(client_test, dataset_data):
     # there should be one related submission record in the db
     submissions = await Submission.find().to_list()
     assert len(submissions) == 1
-    user = await User.find_one(User.preferred_username == TEST_USER_NAME, fetch_links=True)
+    user = await User.find_one(User.access_token == test_user_access_token, fetch_links=True)
     assert len(user.submissions) == 1
     submission_id = submissions[0].identifier
     assert submission_id == user.submissions[0].identifier
     assert user.submission(submission_id) is not None
-
+    assert user.submission(submission_id).repository is None
+    assert user.submission(submission_id).repository_identifier is None
     # retrieve the record from the db
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
     assert response.status_code == 200
 
 
+@pytest.mark.asyncio
+async def test_create_dataset_from_hydroshare(client_test, test_user_access_token):
+    """Testing catalog registration of hydroshare metadata record"""
+
+    # create hydroshare resource metadata as a catalog dataset record
+    hs_published_res_id = "b5f58460941c49578e311adb9823657a"
+    response = await client_test.get(f"api/catalog/repository/hydroshare/{hs_published_res_id}")
+    assert response.status_code == 200
+    hs_dataset = response.json()
+    assert hs_dataset['provider']['name'] == 'HYDROSHARE'
+    assert hs_dataset['provider']['url'] == 'https://www.hydroshare.org/'
+
+    # there should be one related submission record in the db
+    submissions = await Submission.find().to_list()
+    assert len(submissions) == 1
+    user = await User.find_one(User.access_token == test_user_access_token, fetch_links=True)
+    assert len(user.submissions) == 1
+    submission_id = submissions[0].identifier
+    assert submission_id == user.submissions[0].identifier
+    assert user.submission(submission_id) is not None
+    assert user.submission(submission_id).repository == "HYDROSHARE"
+    assert user.submission(submission_id).repository_identifier == hs_published_res_id
+
+    # retrieve the record from the db
+    record_id = hs_dataset.get('_id')
+    response = await client_test.get(f"api/catalog/dataset/{record_id}")
+    assert response.status_code == 200
+
+
+@pytest.mark.asyncio
 async def test_update_dataset(client_test, dataset_data):
     """Testing the dataset put route for updating dataset record"""
 
@@ -67,6 +98,7 @@ async def test_update_dataset(client_test, dataset_data):
     assert response_data == dataset_data
 
 
+@pytest.mark.asyncio
 async def test_delete_dataset(client_test, dataset_data):
     """Testing the dataset delete route for deleting a dataset record"""
 
@@ -83,6 +115,7 @@ async def test_delete_dataset(client_test, dataset_data):
 
 
 @pytest.mark.parametrize("multiple", [True, False])
+@pytest.mark.asyncio
 async def test_get_datasets(client_test, dataset_data, multiple):
     """Testing the get all datasets for a given user"""
 
@@ -104,6 +137,7 @@ async def test_get_datasets(client_test, dataset_data, multiple):
 
 
 @pytest.mark.parametrize("multiple", [True, False])
+@pytest.mark.asyncio
 async def test_get_submissions(client_test, dataset_data, multiple):
     """Testing the get submissions route"""
 
