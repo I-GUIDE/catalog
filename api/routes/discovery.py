@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 class SearchQuery(BaseModel):
-    term: str
+    term: str = 'Dataset'
     sortBy: str = None
     contentType: str = None
     providerName: str = None
@@ -90,9 +90,9 @@ class SearchQuery(BaseModel):
 
     @property
     def _should(self):
-        auto_complete_paths = ['name', 'description', 'keywords', 'keywords.name']
+        search_paths = ['name', 'description', 'keywords', 'keywords.name']
         should = [
-            {'autocomplete': {'query': self.term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in auto_complete_paths
+            {'autocomplete': {'query': self.term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in search_paths
         ]
         return should
 
@@ -158,8 +158,8 @@ async def search(request: Request, search_query: SearchQuery = Depends()):
 
 @router.get("/typeahead")
 async def typeahead(request: Request, term: str, pageSize: int = 30):
-    auto_complete_paths = ['name', 'description', 'keywords', 'keywords.name']
-    should = [{'autocomplete': {'query': term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in auto_complete_paths]
+    search_paths = ['name', 'description', 'keywords', 'keywords.name']
+    should = [{'autocomplete': {'query': term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in search_paths]
 
     stages = [
         {
