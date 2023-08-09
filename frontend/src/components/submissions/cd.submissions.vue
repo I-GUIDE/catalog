@@ -58,7 +58,7 @@
                 )
               "
               :sort-desc="sortDesc"
-              item-key="identifier"
+              item-key="id"
               hide-default-footer
             >
               <template v-slot:header>
@@ -110,7 +110,7 @@
                 <div
                   :id="`submission-${index}`"
                   v-for="(item, index) in items"
-                  :key="item.identifier"
+                  :key="item.id"
                 >
                   <div
                     class="table-item d-flex justify-space-between flex-column flex-md-row"
@@ -163,7 +163,7 @@
                         @click="
                           $router.push({
                             name: 'dataset',
-                            params: { id: item.identifier },
+                            params: { id: item.id },
                           })
                         "
                       >
@@ -175,15 +175,13 @@
                         :disabled="isDeleteButtonDisabled(item)"
                         rounded
                       >
-                        <v-icon v-if="isDeleting[item.identifier]"
+                        <v-icon v-if="isDeleting[item.id]"
                           >fas fa-circle-notch fa-spin</v-icon
                         >
                         <v-icon v-else>mdi-delete</v-icon
                         ><span class="ml-1">
                           {{
-                            isDeleting[item.identifier]
-                              ? "Deleting..."
-                              : "Delete"
+                            isDeleting[item.id] ? "Deleting..." : "Delete"
                           }}</span
                         >
                       </v-btn>
@@ -466,13 +464,6 @@ export default class CdSubmissions extends Vue {
     if (this.page - 1 >= 1) this.page -= 1;
   }
 
-  // protected goToEditSubmission(submission: ISubmission) {
-  //   this.$router.push({
-  //     name: "submit.repository",
-  //     params: { id: submission.identifier },
-  //   });
-  // }
-
   protected getDateInLocalTime(date: number): string {
     const offset = new Date(date).getTimezoneOffset() * 60 * 1000;
     // TODO: subtracting offset because db stored dates seem to have the time shifted
@@ -520,7 +511,7 @@ export default class CdSubmissions extends Vue {
   }
 
   protected isDeleteButtonDisabled(item) {
-    return this.isDeleting[item.identifier];
+    return this.isDeleting[item.id];
   }
 
   protected onDelete(submission: ISubmission, isExternal: boolean) {
@@ -531,20 +522,17 @@ export default class CdSubmissions extends Vue {
   protected async onDeleteSubmission() {
     this.$set(
       this.isDeleting,
-      this.deleteDialogData?.submission.identifier || "",
+      this.deleteDialogData?.submission.id || "",
       true
     );
 
     if (this.deleteDialogData) {
-      // TODO: integrate delete endpoint
-      await Submission.deleteSubmission(
-        this.deleteDialogData.submission.identifier
-      );
+      await Submission.deleteSubmission(this.deleteDialogData.submission.id);
     }
 
     this.$set(
       this.isDeleting,
-      this.deleteDialogData?.submission.identifier || "",
+      this.deleteDialogData?.submission.id || "",
       false
     );
 

@@ -6,6 +6,7 @@ import CdFooter from "@/components/base/cd.footer.vue";
 import CdContribute from "@/components/contribute/cd.contribute.vue";
 import CdDataset from "@/components/dataset/cd.dataset.vue";
 import AuthRedirect from "@/components/account/auth-redirect.vue";
+import CdRegisterDataset from "@/components/register/cd.register-dataset.vue";
 
 export const routes: RouteConfig[] = [
   {
@@ -40,6 +41,18 @@ export const routes: RouteConfig[] = [
       hasUnsavedChangesGuard: true,
       title: "Contribute",
       flat: true,
+    },
+  },
+  {
+    name: "register",
+    path: "/register",
+    components: {
+      content: CdRegisterDataset,
+      footer: CdFooter,
+    },
+    meta: {
+      hasLoggedInGuard: true,
+      title: "Register Dataset",
     },
   },
   {

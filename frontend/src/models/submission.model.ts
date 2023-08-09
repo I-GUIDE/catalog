@@ -18,13 +18,14 @@ export interface ISubmisionState {
 export default class Submission extends Model implements ISubmission {
   // This is the name used as module name of the Vuex Store.
   static entity = "submissions";
-  static primaryKey = ["identifier"];
+  static primaryKey = ["id"];
   public title!: string;
   public authors!: string[];
   public date!: number;
   public identifier!: string;
   public url!: string;
-  public metadata!: any;
+  public id!: string;
+  // public metadata!: any;
 
   static get $state(): ISubmisionState {
     return this.store().state.entities[this.entity];
@@ -43,14 +44,14 @@ export default class Submission extends Model implements ISubmission {
   // for the generic field type. The argument is the default value.
   static fields() {
     return {
-      id: this.number(0),
       title: this.attr(""),
       authors: this.attr([]),
       // @ts-ignore
       date: this.number(0),
       identifier: this.attr(""),
       url: this.attr(""),
-      metadata: this.attr({}),
+      id: this.attr(""),
+      // metadata: this.attr({}),
     };
   }
 
@@ -60,23 +61,24 @@ export default class Submission extends Model implements ISubmission {
       authors: dbSubmission.authors,
       date: new Date(dbSubmission.submitted).getTime(),
       identifier: dbSubmission.identifier,
-      // metadata: JSON.parse(dbSubmission.metadata_json),
       url: dbSubmission.url,
+      id: dbSubmission._id,
     };
   }
 
-  // Note: Do not override the date we stored on creation unless specified. Submissions fetched from repositories might return dates localized to another timezone.
-  // TODO: this should be refactored as a dedicated method on each repository model
-  /** Used to transform submission data that comes from the repository API */
-  // static getInsertData(apiSubmission, identifier: string, overrideDate?: boolean): ISubmission | Partial<Submission> {
-  //   return {
-  //     title: apiSubmission.title,
-  //     authors: apiSubmission.authors,
-  //     date: new Date(apiSubmission.submitted).getTime(),
-  //     identifier: apiSubmission.identifier,
-  //     metadata: {}
-  //   }
-  // }
+  /** Used to transform submission data that comes from the repository API and was transformed to our schema */
+  static getInsertData(apiSubmission): ISubmission | Partial<Submission> {
+    return {
+      title: apiSubmission.name,
+      authors: apiSubmission.creator.map((c) => c.name),
+      date: new Date(apiSubmission.dateCreated).getTime(),
+      identifier: Array.isArray(apiSubmission.identifier)
+        ? apiSubmission.identifier[0]
+        : apiSubmission.identifier,
+      url: apiSubmission.url,
+      id: apiSubmission._id,
+    };
+  }
 
   static async fetchSubmissions() {
     console.log("Fetching submissions...");
@@ -114,11 +116,11 @@ export default class Submission extends Model implements ISubmission {
     }
   }
 
-  static async deleteSubmission(identifier: string) {
+  static async deleteSubmission(id: string) {
     console.log("Deleting submission...");
     try {
       const response: Response = await fetch(
-        `${ENDPOINTS.deleteSubmission}/${identifier}`,
+        `${ENDPOINTS.deleteSubmission}/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -129,9 +131,7 @@ export default class Submission extends Model implements ISubmission {
       );
 
       if (response.ok) {
-        let data = await response.json();
-        console.log(data);
-        await Submission.delete([identifier]);
+        await Submission.delete([id]);
         // data = data.map(this.getInsertDataFromDb);
         // this.insertOrUpdate({ data });
       } else if (response.status === 401) {

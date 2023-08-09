@@ -211,17 +211,17 @@ export default class App extends Vue {
     {
       attrs: { to: "/" },
       label: "Home",
-      icon: "mdi-bookmark-multiple",
+      icon: "mdi-home",
     },
     {
       attrs: { to: "/search" },
       label: "Search",
-      icon: "mdi-book-plus",
+      icon: "mdi-magnify",
     },
     {
       attrs: { to: "/submissions" },
       label: "My Submissions",
-      icon: "mdi-book-plus",
+      icon: "mdi-book-multiple",
       isActive: () => this.$route.name === "dataset",
     },
     {
@@ -229,6 +229,11 @@ export default class App extends Vue {
       label: "Contribute",
       icon: "mdi-book-plus",
       isActive: () => this.$route.name === "contribute",
+    },
+    {
+      attrs: { to: "/register" },
+      label: "Register",
+      icon: "mdi-link-plus",
     },
     // {
     //   attrs: { href: "https://dsp.criticalzone.org/" },
