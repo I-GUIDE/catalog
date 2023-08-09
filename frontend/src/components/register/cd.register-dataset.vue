@@ -4,7 +4,8 @@
     <v-divider class="mb-4" />
 
     <v-alert border="left" colored-border type="info" elevation="1">
-      Use this form to register existing datasets from HydroShare.
+      Use this form to register existing datasets from
+      <a href="https://www.hydroshare.org/">HydroShare</a>.
     </v-alert>
 
     <div class="mt-8">What is the URL to or identifier for the resource?</div>
