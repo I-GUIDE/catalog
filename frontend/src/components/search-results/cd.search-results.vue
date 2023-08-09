@@ -281,6 +281,9 @@ export default class CdSearchResults extends Vue {
     this._loadRouteParams();
     if (this.$route.query["q"]) {
       this.onSearch();
+    } else {
+      // search all
+      this.onSearchAll();
     }
   }
 
@@ -303,6 +306,29 @@ export default class CdSearchResults extends Vue {
   @Watch("sort")
   public onSortChange() {
     this.onSearch();
+  }
+
+  protected async onSearchAll() {
+    this.hasMore = true;
+    this.isSearching = true;
+    this.pageNumber = 1;
+
+    try {
+      this.hasMore = await Search.search({ ...this.queryParams, term: "test" });
+    } catch (e) {
+      console.log(e);
+      Search.commit((state) => {
+        state.results = [];
+      });
+      Notifications.toast({
+        message: `Failed to perform search`,
+        type: "error",
+      });
+    }
+    this.isSearching = false;
+    this.$nextTick(() => {
+      this.displayRefs();
+    });
   }
 
   public async onSearch() {
