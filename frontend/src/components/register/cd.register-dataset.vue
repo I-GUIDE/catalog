@@ -34,7 +34,10 @@
       >
       </v-text-field>
 
-      <div class="text-subtitle-1 text--secondary pl-3 mb-4 mt-1">
+      <div
+        class="text-subtitle-1 text--secondary pl-3 mb-4 mt-1"
+        style="word-break: break-word"
+      >
         {{ `e.g. '${exampleUrl}' or '${exampleIdentifier}'` }}
       </div>
     </v-form>

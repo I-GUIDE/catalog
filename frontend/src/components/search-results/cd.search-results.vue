@@ -17,13 +17,11 @@
                 <v-btn small><v-icon small>mdi-map</v-icon></v-btn>
               </v-btn-toggle>
             </div> -->
-            <div class="d-table-row d-lg-flex align-center flex-row">
-              <small
-                class="d-table-cell text-right text-lg-left pr-2"
-                style="white-space: nowrap"
-                >Sort results by:</small
-              >
-              <v-btn-toggle class="d-table-cell" v-model="sort" dense mandatory>
+            <div
+              class="d-table-row d-lg-flex align-center flex-md-row flex-column gap-1"
+            >
+              <small>Sort results by:</small>
+              <v-btn-toggle v-model="sort" dense mandatory>
                 <v-btn small value="relevance">Relevance</v-btn>
                 <v-btn small value="dateCreated">Date</v-btn>
                 <v-btn small value="name">Title</v-btn>
