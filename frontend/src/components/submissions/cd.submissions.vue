@@ -20,10 +20,20 @@
 
         <v-btn
           color="primary"
+          class="mr-2"
+          rounded
+          @click="$router.push({ name: 'register' })"
+        >
+          <v-icon class="mr-2">mdi-link-plus</v-icon>
+          Register Dataset
+        </v-btn>
+
+        <v-btn
+          color="primary"
           rounded
           @click="$router.push({ name: 'contribute' })"
         >
-          <v-icon>mdi-plus</v-icon>
+          <v-icon class="mr-2">mdi-plus</v-icon>
           New Submission
         </v-btn>
       </div>
@@ -264,7 +274,7 @@
           </div>
         </v-card>
       </div>
-      <div v-else class="text-body-2 text-center mt-4 d-flex flex-column">
+      <div v-else class="text-body-2 text-center mt-8 d-flex flex-column">
         <template v-if="!submissions.length">
           <v-icon style="font-size: 6rem" class="mb-4"
             >mdi-text-box-remove</v-icon
