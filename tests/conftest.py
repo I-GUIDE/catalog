@@ -4,6 +4,7 @@ import os
 import pytest_asyncio
 from asgi_lifespan import LifespanManager
 from httpx import AsyncClient
+from beanie import DeleteRules
 
 from api.config import get_settings
 from api.main import app
@@ -39,7 +40,10 @@ async def client_test():
 
         # cleanup the test db collections
         await CoreMetadataDOC.find(with_children=True).delete()
-        await Submission.find().delete()
+
+        submissions = await Submission.find().to_list()
+        for submission in submissions:
+            await submission.delete(link_rule=DeleteRules.DELETE_LINKS)
 
 
 @pytest_asyncio.fixture(scope="function")
