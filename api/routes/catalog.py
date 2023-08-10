@@ -81,20 +81,59 @@ async def get_submissions(user: Annotated[User, Depends(get_current_user)]):
 
 
 @router.get("/repository/hydroshare/{identifier}", response_model=DatasetMetadataDOC)
-async def get_hydroshare_resource_metadata(identifier: str, user: Annotated[User, Depends(get_current_user)]):
-    dataset = await _get_repo_meta_as_catalog_record(user=user, repository_type=RepositoryType.HYDROSHARE,
-                                                     identifier=identifier)
+async def register_hydroshare_resource_metadata(identifier: str, user: Annotated[User, Depends(get_current_user)]):
+    # check that the user has not already registered this resource
+    submission = user.submission_by_repository(repo_type=RepositoryType.HYDROSHARE, identifier=identifier)
+    if submission is not None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="This resource has already been submitted by this user",
+        )
+    dataset = await _save_to_db(repository_type=RepositoryType.HYDROSHARE, identifier=identifier, user=user)
     return dataset
 
 
-async def _get_repo_meta_as_catalog_record(user: User, repository_type: RepositoryType, identifier: str):
+@router.put("/repository/hydroshare/{identifier}", response_model=DatasetMetadataDOC)
+async def refresh_dataset_from_hydroshare(identifier: str, user: Annotated[User, Depends(get_current_user)]):
+    submission = user.submission_by_repository(repo_type=RepositoryType.HYDROSHARE, identifier=identifier)
+    if submission is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
+
+    dataset = await DatasetMetadataDOC.get(submission.identifier)
+    if dataset is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
+
+    dataset = await _save_to_db(repository_type=RepositoryType.HYDROSHARE, identifier=identifier,
+                                user=user, submission=submission)
+    return dataset
+
+
+async def _save_to_db(repository_type: RepositoryType, identifier: str, user: User, submission: Submission = None):
     adapter = get_adapter_by_type(repository_type=repository_type)
-    metadata = await adapter.get_metadata(identifier)
-    dataset = adapter.to_catalog_record(metadata)
-    await dataset.insert()
-    submission = dataset.as_submission()
-    submission = adapter.update_submission(submission=submission, repo_record_id=identifier)
-    await submission.insert()
-    user.submissions.append(submission)
-    await user.save()
+    # fetch metadata from repository as catalog dataset
+    repo_dataset = await _get_repo_meta_as_catalog_record(adapter=adapter, identifier=identifier)
+    if submission is None:
+        # new registration
+        await repo_dataset.insert()
+        submission = repo_dataset.as_submission()
+        submission = adapter.update_submission(submission=submission, repo_record_id=identifier)
+        await submission.insert()
+        user.submissions.append(submission)
+        await user.save()
+        dataset = repo_dataset
+    else:
+        # update existing registration
+        dataset = await DatasetMetadataDOC.get(submission.identifier)
+        await dataset.set(repo_dataset.dict(exclude_unset=True, by_alias=True))
+        updated_dataset = await DatasetMetadataDOC.get(submission.identifier)
+        updated_submission = updated_dataset.as_submission()
+        updated_submission = adapter.update_submission(submission=updated_submission, repo_record_id=identifier)
+        await submission.set(updated_submission.dict(exclude_unset=True))
+        dataset = updated_dataset
     return dataset
+
+
+async def _get_repo_meta_as_catalog_record(adapter, identifier: str):
+    metadata = await adapter.get_metadata(identifier)
+    catalog_dataset = adapter.to_catalog_record(metadata)
+    return catalog_dataset
