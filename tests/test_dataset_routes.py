@@ -44,32 +44,26 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
 
 
 @pytest.mark.asyncio
-async def test_create_dataset_from_hydroshare(client_test, test_user_access_token):
-    """Testing catalog registration of hydroshare metadata record"""
+async def test_create_refresh_dataset_from_hydroshare(client_test, test_user_access_token):
+    """Testing catalog registration/refresh of hydroshare metadata record"""
 
     # create hydroshare resource metadata as a catalog dataset record
     hs_published_res_id = "b5f58460941c49578e311adb9823657a"
     response = await client_test.get(f"api/catalog/repository/hydroshare/{hs_published_res_id}")
     assert response.status_code == 200
     hs_dataset = response.json()
-    assert hs_dataset['provider']['name'] == 'HYDROSHARE'
-    assert hs_dataset['provider']['url'] == 'https://www.hydroshare.org/'
-
-    # there should be one related submission record in the db
-    submissions = await Submission.find().to_list()
-    assert len(submissions) == 1
-    user = await User.find_one(User.access_token == test_user_access_token, fetch_links=True)
-    assert len(user.submissions) == 1
-    submission_id = submissions[0].identifier
-    assert submission_id == user.submissions[0].identifier
-    assert user.submission(submission_id) is not None
-    assert user.submission(submission_id).repository == "HYDROSHARE"
-    assert user.submission(submission_id).repository_identifier == hs_published_res_id
+    await _check_hs_submission(hs_dataset, test_user_access_token, hs_published_res_id)
 
     # retrieve the record from the db
     record_id = hs_dataset.get('_id')
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
     assert response.status_code == 200
+
+    # refresh the hydroshare metadata record
+    response = await client_test.put(f"api/catalog/repository/hydroshare/{hs_published_res_id}")
+    assert response.status_code == 200
+    hs_dataset = response.json()
+    await _check_hs_submission(hs_dataset, test_user_access_token, hs_published_res_id)
 
 
 @pytest.mark.asyncio
@@ -169,3 +163,19 @@ async def test_get_submissions(client_test, dataset_data, multiple):
         assert submission_response_data[0]['title'] == dataset_response_data['name']
         assert submission_response_data[0]['identifier'] == dataset_response_data['_id']
         assert submission_response_data[0]['url'] == dataset_response_data['url']
+
+
+async def _check_hs_submission(hs_dataset, user_access_token, hs_published_res_id):
+    assert hs_dataset['provider']['name'] == 'HYDROSHARE'
+    assert hs_dataset['provider']['url'] == 'https://www.hydroshare.org/'
+
+    # there should be one related submission record in the db
+    submissions = await Submission.find().to_list()
+    assert len(submissions) == 1
+    user = await User.find_one(User.access_token == user_access_token, fetch_links=True)
+    assert len(user.submissions) == 1
+    submission_id = submissions[0].identifier
+    assert submission_id == user.submissions[0].identifier
+    assert user.submission(submission_id) is not None
+    assert user.submission(submission_id).repository == "HYDROSHARE"
+    assert user.submission(submission_id).repository_identifier == hs_published_res_id
