@@ -4,6 +4,8 @@ from typing import List, Optional
 from beanie import Document, Link, PydanticObjectId
 from pydantic import HttpUrl
 
+from api.adapters.utils import RepositoryType
+
 
 class Submission(Document):
     title: str = None
@@ -23,3 +25,13 @@ class User(Document):
 
     def submission(self, identifier: PydanticObjectId) -> Submission:
         return next(filter(lambda submission: submission.identifier == identifier, self.submissions), None)
+
+    def submission_by_repository(self, repo_type: RepositoryType, identifier: str) -> Submission:
+        return next(
+            filter(
+                lambda submission: submission.repository_identifier == identifier
+                and submission.repository == repo_type,
+                self.submissions,
+            ),
+            None,
+        )
