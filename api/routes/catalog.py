@@ -17,7 +17,6 @@ router = APIRouter()
 async def create_dataset(document: DatasetMetadataDOC, user: Annotated[User, Depends(get_current_user)]):
     await document.insert()
     submission = document.as_submission()
-    await submission.insert()
     user.submissions.append(submission)
     await user.save(link_rule=WriteRules.WRITE)
     return document
@@ -125,7 +124,6 @@ async def _save_to_db(identifier: str, user: User, submission: Submission = None
         await repo_dataset.insert()
         submission = repo_dataset.as_submission()
         submission = adapter.update_submission(submission=submission, repo_record_id=identifier)
-        await submission.insert()
         user.submissions.append(submission)
         await user.save(link_rule=WriteRules.WRITE)
         dataset = repo_dataset
