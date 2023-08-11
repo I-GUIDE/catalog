@@ -1,6 +1,6 @@
 from typing import Annotated, List
 
-from beanie import DeleteRules, PydanticObjectId, WriteRules
+from beanie import PydanticObjectId, WriteRules
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from api.adapters.base import AbstractRepositoryMetadataAdapter
@@ -72,7 +72,9 @@ async def delete_dataset(submission_id: PydanticObjectId, user: Annotated[User, 
     dataset = await DatasetMetadataDOC.get(submission.identifier)
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
-    await submission.delete(link_rule=DeleteRules.DELETE_LINKS)
+    user.submissions.remove(submission)
+    await user.save(link_rule=WriteRules.WRITE)
+    await submission.delete()
     await dataset.delete()
     return {"deleted_dataset_id": submission_id}
 
