@@ -7,6 +7,7 @@ import {
 } from "@/components/submissions/types";
 import { itemsPerPageArray } from "@/components/submissions/constants";
 import { ENDPOINTS } from "@/constants";
+import { Notifications } from "@cznethub/cznet-vue-core";
 
 export interface ISubmisionState {
   sortBy: { key: string; label: string };
@@ -145,6 +146,71 @@ export default class Submission extends Model implements ISubmission {
       //   return (state.isFetching = false);
       // });
       // return e.status;
+    }
+  }
+
+  /**
+   * Reads a submission from a repository that has not been saved to our database
+   * @param {string} identifier - the identifier of the resource in the repository
+   */
+  static async registerSubmission(identifier: string) {
+    const response: Response = await fetch(
+      `${ENDPOINTS.register}/${identifier}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${User.$state.accessToken}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      const result = await response.json();
+      Notifications.toast({
+        message: "Your dataset has been registered!",
+        type: "success",
+      });
+      return result;
+    } else {
+      // this.wasNotFound = true;
+      Notifications.toast({
+        message: "Failed to load existing submission",
+        type: "error",
+      });
+      return null;
+    }
+  }
+
+  /**
+   * Refreshes a submission by re-fetching the data from the repository
+   * @param {string} identifier - the identifier of the resource in the repository
+   */
+  static async updateSubmission(identifier: string) {
+    const response: Response = await fetch(
+      `${ENDPOINTS.refresh}/${identifier}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${User.$state.accessToken}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      const result = await response.json();
+      Notifications.toast({
+        message: "Your dataset has been updated!",
+        type: "success",
+      });
+      return result;
+    } else {
+      Notifications.toast({
+        message: "Failed to update dataset",
+        type: "error",
+      });
+      return null;
     }
   }
 }

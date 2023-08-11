@@ -93,7 +93,7 @@ async def test_update_dataset(client_test, dataset_data):
 
 
 @pytest.mark.asyncio
-async def test_delete_dataset(client_test, dataset_data):
+async def test_delete_dataset(client_test, dataset_data, test_user_access_token):
     """Testing the dataset delete route for deleting a dataset record"""
 
     # add a dataset record to the db
@@ -106,6 +106,12 @@ async def test_delete_dataset(client_test, dataset_data):
     assert response.status_code == 200
     # there should not be any submission records in the db
     assert await Submission.find_many().count() == 0
+    user = await User.find_one(User.access_token == test_user_access_token, fetch_links=True)
+    assert len(user.submissions) == 0
+
+    # retrieve all submissions for the current user from the db
+    submission_response = await client_test.get("api/catalog/submission")
+    assert submission_response.status_code == 200
 
 
 @pytest.mark.parametrize("multiple", [True, False])

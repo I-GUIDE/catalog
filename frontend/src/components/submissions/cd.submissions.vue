@@ -182,7 +182,7 @@
                       <v-btn
                         :id="`sub-${index}-delete`"
                         @click="onDelete(item)"
-                        :disabled="isDeleteButtonDisabled(item)"
+                        :disabled="isDeleting[item.id]"
                         rounded
                       >
                         <v-icon v-if="isDeleting[item.id]"
@@ -192,6 +192,24 @@
                         ><span class="ml-1">
                           {{
                             isDeleting[item.id] ? "Deleting..." : "Delete"
+                          }}</span
+                        >
+                      </v-btn>
+                      <v-btn
+                        :id="`sub-${index}-delete`"
+                        @click="onUpdate(item)"
+                        :disabled="isUpdating[item.id]"
+                        rounded
+                      >
+                        <v-icon v-if="isUpdating[item.id]"
+                          >fas fa-circle-notch fa-spin</v-icon
+                        >
+                        <v-icon v-else>mdi-delete</v-icon
+                        ><span class="ml-1">
+                          {{
+                            isUpdating[item.id]
+                              ? "Updating Record..."
+                              : "Update Record"
                           }}</span
                         >
                       </v-btn>
@@ -353,7 +371,6 @@ export default class CdSubmissions extends Vue {
   protected isDeleteDialogActive = false;
   protected deleteDialogData: {
     submission: ISubmission;
-    isExternal: boolean;
   } | null = null;
 
   protected filters: {
@@ -520,13 +537,15 @@ export default class CdSubmissions extends Vue {
     document.body.removeChild(element);
   }
 
-  protected isDeleteButtonDisabled(item) {
-    return this.isDeleting[item.id];
+  protected onDelete(submission: ISubmission) {
+    this.deleteDialogData = { submission };
+    this.isDeleteDialogActive = true;
   }
 
-  protected onDelete(submission: ISubmission, isExternal: boolean) {
-    this.deleteDialogData = { submission, isExternal };
-    this.isDeleteDialogActive = true;
+  protected async onUpdate(submission: ISubmission) {
+    this.$set(this.isUpdating, submission.id || "", true);
+    await Submission.updateSubmission(submission.id);
+    this.$set(this.isUpdating, submission.id || "", false);
   }
 
   protected async onDeleteSubmission() {

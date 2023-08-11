@@ -258,7 +258,7 @@ export default class CzRegisterDataset extends Vue {
     this.wasNotFound = false;
 
     try {
-      const response = await this._readExistingSubmission(
+      const response = await Submission.registerSubmission(
         this.identifierFromUrl
       );
 
@@ -272,39 +272,6 @@ export default class CzRegisterDataset extends Vue {
       this.wasNotFound = true;
     } finally {
       this.isFetching = false;
-    }
-  }
-
-  /**
-   * Reads a submission from a repository that has not been saved to our database
-   * @param {string} identifier - the identifier of the resource in the repository
-   */
-  private async _readExistingSubmission(identifier: string) {
-    const response: Response = await fetch(
-      `${ENDPOINTS.register}/${identifier}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${User.$state.accessToken}`,
-        },
-      }
-    );
-
-    if (response.ok) {
-      const result = await response.json();
-      Notifications.toast({
-        message: "Your dataset has been registered!",
-        type: "success",
-      });
-      return result;
-    } else {
-      this.wasNotFound = true;
-      Notifications.toast({
-        message: "Failed to load existing submission",
-        type: "error",
-      });
-      return null;
     }
   }
 }

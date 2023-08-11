@@ -1,6 +1,6 @@
 from typing import Annotated, List
 
-from beanie import DeleteRules, PydanticObjectId
+from beanie import PydanticObjectId, WriteRules
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from api.adapters.base import AbstractRepositoryMetadataAdapter
@@ -17,9 +17,8 @@ router = APIRouter()
 async def create_dataset(document: DatasetMetadataDOC, user: Annotated[User, Depends(get_current_user)]):
     await document.insert()
     submission = document.as_submission()
-    await submission.insert()
     user.submissions.append(submission)
-    await user.save()
+    await user.save(link_rule=WriteRules.WRITE)
     return document
 
 
@@ -72,6 +71,8 @@ async def delete_dataset(submission_id: PydanticObjectId, user: Annotated[User, 
     dataset = await DatasetMetadataDOC.get(submission.identifier)
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
+    user.submissions.remove(submission)
+    await user.save(link_rule=WriteRules.WRITE)
     await submission.delete(link_rule=DeleteRules.DELETE_LINKS)
     await dataset.delete()
     return {"deleted_dataset_id": submission_id}
@@ -123,9 +124,8 @@ async def _save_to_db(identifier: str, user: User, submission: Submission = None
         await repo_dataset.insert()
         submission = repo_dataset.as_submission()
         submission = adapter.update_submission(submission=submission, repo_record_id=identifier)
-        await submission.insert()
         user.submissions.append(submission)
-        await user.save()
+        await user.save(link_rule=WriteRules.WRITE)
         dataset = repo_dataset
     else:
         # update existing registration
