@@ -45,10 +45,10 @@ interface ISearchFilter {
     options: string[];
     value: string;
   };
-  project: {
-    // options: string[],
-    value: string[];
-  };
+  // project: {
+  //   // options: string[],
+  //   value: string[];
+  // };
   creatorName: string;
 }
 
@@ -63,7 +63,7 @@ interface ISearchParams {
   creatorName?: string;
   providerName?: string;
   clusters?: string[];
-  sortBy?: "name" | "dateCreated" | "relevance";
+  sortBy?: "name" | "dateCreated" | "relevance" | "recent";
 }
 
 interface ITypeaheadParams {
