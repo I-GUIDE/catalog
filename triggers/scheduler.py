@@ -48,10 +48,7 @@ async def do_daily():
         try:
             dataset = await DatasetMetadataDOC.get(submission.identifier)
             if dataset is None:
-                # TODO: delete submission record?
-                # await submission.delete()
-                # logger.warning(f"Deleting Submission {submission.url} as it is not in catalog")
-                await db["discovery"].delete_one({"_id": submission.identifier})
+                logger.warning(f"No catalog record was found for submission: {submission.identifier}")
                 continue
 
             updated_dataset = await retrieve_repository_record(submission)
