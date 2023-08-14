@@ -136,6 +136,21 @@ async def test_get_datasets(client_test, dataset_data, multiple):
         assert len(dataset_response_data) == 1
 
 
+@pytest.mark.asyncio
+async def test_get_datasets_exclude_none(client_test, dataset_data):
+    """Testing exclude none is applied to dataset response model"""
+
+    dataset_data["version"] = None
+    # add a dataset record to the db
+    dataset_response = await client_test.post("api/catalog/dataset", json=dataset_data)
+    assert dataset_response.status_code == 201
+
+    dataset_response = await client_test.get("api/catalog/dataset")
+    assert dataset_response.status_code == 200
+    dataset_response_data = dataset_response.json()
+    assert "version" not in dataset_response_data[0]
+
+
 @pytest.mark.parametrize("multiple", [True, False])
 @pytest.mark.asyncio
 async def test_get_submissions(client_test, dataset_data, multiple):
