@@ -168,7 +168,7 @@
                         @click="
                           $router.push({
                             name: 'dataset',
-                            params: { id: item.id },
+                            params: { id: item.identifier },
                           })
                         "
                       >
@@ -592,7 +592,10 @@ export default class CdSubmissions extends Vue {
     );
 
     if (this.deleteDialogData) {
-      await Submission.deleteSubmission(this.deleteDialogData.submission.id);
+      await Submission.deleteSubmission(
+        this.deleteDialogData.submission.identifier,
+        this.deleteDialogData?.submission.id
+      );
     }
 
     this.$set(

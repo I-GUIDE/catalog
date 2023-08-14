@@ -63,10 +63,10 @@ export default class Submission extends Model implements ISubmission {
       title: dbSubmission.title,
       authors: dbSubmission.authors,
       date: new Date(dbSubmission.submitted).getTime(),
-      identifier: dbSubmission.identifier,
+      identifier: dbSubmission.identifier, // TODO: we should call this something else. It is not the same as the schema's identifier
       repoIdentifier: dbSubmission.repository_identifier,
       url: dbSubmission.url,
-      id: dbSubmission.identifier, // TODO: we should call this something else. It is not the same as the schema's identifier
+      id: dbSubmission._id,
     };
   }
 
@@ -80,7 +80,7 @@ export default class Submission extends Model implements ISubmission {
         ? apiSubmission.identifier[0]
         : apiSubmission.identifier,
       url: apiSubmission.url,
-      id: apiSubmission.identifier,
+      id: apiSubmission._id,
     };
   }
 
@@ -120,11 +120,12 @@ export default class Submission extends Model implements ISubmission {
     }
   }
 
-  static async deleteSubmission(id: string) {
+  // TODO: modify endpoint so that it can perform the delete with the db id itself
+  static async deleteSubmission(identifier: string, id: string) {
     console.log("Deleting submission...");
     try {
       const response: Response = await fetch(
-        `${ENDPOINTS.deleteSubmission}/${id}`,
+        `${ENDPOINTS.deleteSubmission}/${identifier}`,
         {
           method: "DELETE",
           headers: {
@@ -174,14 +175,22 @@ export default class Submission extends Model implements ISubmission {
         message: "Your dataset has been registered!",
         type: "success",
       });
-      return result;
+      return Submission.getInsertData(result);
     } else {
       // this.wasNotFound = true;
-      Notifications.toast({
-        message: "Failed to load existing submission",
-        type: "error",
-      });
-      return null;
+      if (response.status === 400) {
+        Notifications.toast({
+          message: "The resource provided has already been registered",
+          type: "error",
+        });
+      } else {
+        Notifications.toast({
+          message: "Failed to load existing submission",
+          type: "error",
+        });
+      }
+
+      return response.status;
     }
   }
 
@@ -203,7 +212,6 @@ export default class Submission extends Model implements ISubmission {
 
     if (response.ok) {
       const result = await response.json();
-      console.log(result);
       Notifications.toast({
         message: "Your dataset has been updated!",
         type: "success",

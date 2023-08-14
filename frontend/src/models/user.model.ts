@@ -122,7 +122,6 @@ export default class User extends Model {
         });
       }
     } catch (e: any) {
-      // console.log(e.response.status)
       User.commit((state) => {
         state.isLoggedIn = false;
       });

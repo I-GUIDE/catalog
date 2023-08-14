@@ -139,10 +139,10 @@
               <th class="pr-4 body-2">Submission Date:</th>
               <td>{{ getDateInLocalTime(submission.date) }}</td>
             </tr>
-            <tr>
+            <!-- <tr>
               <th class="pr-4 body-2">Identifier:</th>
               <td>{{ submission.identifier }}</td>
-            </tr>
+            </tr> -->
           </table>
         </div>
         <v-divider></v-divider>
@@ -170,16 +170,24 @@
         sure that the URL or identifier is correct and try again.
       </v-alert>
     </template>
+    <template v-else-if="!submission && isDuplicate">
+      <v-alert
+        class="text-subtitle-1 ma-2 mt-8"
+        border="left"
+        colored-border
+        type="warning"
+        elevation="2"
+        icon="mdi-content-duplicate"
+      >
+        The resource provided has already been registered.
+      </v-alert>
+    </template>
   </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Submission from "@/models/submission.model";
-import User from "@/models/user.model";
-import { Notifications } from "@cznethub/cznet-vue-core";
-import { ENDPOINTS } from "@/constants";
-
 const exampleUrl =
   "https://www.hydroshare.org/resource/9d3d437466764bb5b6668d2742cf9db2/";
 const exampleIdentifier = "9d3d437466764bb5b6668d2742cf9db2";
@@ -197,9 +205,9 @@ export default class CzRegisterDataset extends Vue {
   protected isFetching = false;
   protected isValid = false;
   protected submission: Partial<Submission> | null = null;
-  protected apiSubmission: any = null;
   protected wasUnauthorized = false;
   protected wasNotFound = false;
+  protected isDuplicate = false;
   protected isRegistering = false;
   protected exampleIdentifier = exampleIdentifier;
   protected exampleUrl = exampleUrl;
@@ -238,7 +246,7 @@ export default class CzRegisterDataset extends Vue {
       this.$router.push({
         name: "dataset",
         params: {
-          id: this.submission.id, // TODO: id
+          id: this.submission.id,
         },
       });
     }
@@ -266,17 +274,22 @@ export default class CzRegisterDataset extends Vue {
     this.isFetching = true;
     this.wasUnauthorized = false;
     this.wasNotFound = false;
+    this.isDuplicate = false;
 
     try {
       const response = await Submission.registerSubmission(
         this.identifierFromUrl
       );
 
-      if (response && isNaN(response)) {
-        this.submission = Submission.getInsertData(response);
-        this.apiSubmission = response;
+      if (response && typeof response !== "number") {
+        this.submission = response;
       } else {
-        this.wasNotFound = true;
+        if (response === 400) {
+          // Resource has already been submitted
+          this.isDuplicate = true;
+        } else {
+          this.wasNotFound = true;
+        }
       }
     } catch (e) {
       this.wasNotFound = true;
