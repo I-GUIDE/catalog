@@ -1,7 +1,7 @@
 from functools import lru_cache
 from typing import Any
 
-from pydantic import BaseSettings
+from pydantic import BaseSettings, HttpUrl
 from dotenv import load_dotenv
 
 # had to use load_dotenv() to get the env variables to work during testing
@@ -17,6 +17,8 @@ class Settings(BaseSettings):
     testing: bool = False
 
     oidc_issuer: str
+    hydroshare_meta_read_url: HttpUrl
+    hydroshare_file_read_url: HttpUrl
 
     def __init__(self, **data: Any) -> None:
         super().__init__(**data)

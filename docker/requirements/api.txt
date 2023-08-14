@@ -1,5 +1,6 @@
 fastapi[all]
 uvicorn[standard]
 motor
-beanie[httpx]
+beanie[httpx]==1.19.0
 python-jose
+pydantic<2.*

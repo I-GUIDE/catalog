@@ -122,7 +122,6 @@ export default class User extends Model {
         });
       }
     } catch (e: any) {
-      // console.log(e.response.status)
       User.commit((state) => {
         state.isLoggedIn = false;
       });
@@ -197,14 +196,39 @@ export default class User extends Model {
   static async submit(data: any) {
     const response: Response = await fetch(`${ENDPOINTS.submit}`, {
       method: "POST",
+      body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${this.accessToken}`,
       },
-      body: JSON.stringify(data),
     });
     const result = await response.json();
     return response.ok ? result._id : false;
+  }
+
+  /**
+   * Updates a submission
+   * @param {string} identifier - the identifier of the resource in our database
+   * @param {any} data - the form data to be saved
+   */
+  static async updateDataset(id: string, data: any) {
+    const response: Response = await fetch(`${ENDPOINTS.dataset}/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.accessToken}`,
+      },
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      Notifications.toast({
+        message: "Failed to save changes",
+        type: "error",
+      });
+    }
   }
 
   static async fetchDataset(id: string) {
@@ -215,6 +239,8 @@ export default class User extends Model {
         Authorization: `Bearer ${this.accessToken}`,
       },
     });
+
+    // TODO: need to get `repoIdentifier` as part of response from this endpoint.
 
     if (response.ok) {
       const result = await response.json();
