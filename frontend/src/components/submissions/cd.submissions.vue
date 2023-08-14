@@ -159,13 +159,7 @@
                     </div>
 
                     <div class="d-flex flex-column mt-4 mt-md-0 actions">
-                      <!-- <v-btn
-                        :id="`sub-${index}-edit`"
-                        @click="goToEditSubmission(item)"
-                        rounded
-                      >
-                        <v-icon class="mr-1">mdi-pencil</v-icon> Edit
-                      </v-btn> -->
+                      <!-- VIEW -->
                       <v-btn
                         :id="`sub-${index}-view`"
                         target="_blank"
@@ -178,39 +172,25 @@
                           })
                         "
                       >
-                        <v-icon class="mr-1">mdi-open-in-new</v-icon> View
+                        <v-icon class="mr-1">mdi-text-box</v-icon> View
                       </v-btn>
+
+                      <!-- VIEW IN REPOSITORY -->
                       <v-btn
-                        :id="`sub-${index}-edit`"
-                        @click="
-                          $router.push({
-                            name: 'dataset-edit',
-                            params: { id: item.id },
-                          })
-                        "
-                        :disabled="isUpdating[item.id] || isDeleting[item.id]"
+                        v-if="item.repoIdentifier"
+                        :id="`sub-${index}-view-repo`"
+                        :href="item.url"
+                        target="_blank"
+                        color="blue-grey lighten-4"
                         rounded
                       >
-                        <v-icon>mdi-pencil</v-icon
-                        ><span class="ml-1">Edit</span>
+                        <v-icon class="mr-1">mdi-open-in-new</v-icon> View in
+                        repository
                       </v-btn>
+
+                      <!-- UPDATE -->
                       <v-btn
-                        :id="`sub-${index}-delete`"
-                        @click="onDelete(item)"
-                        :disabled="isUpdating[item.id] || isDeleting[item.id]"
-                        rounded
-                      >
-                        <v-icon v-if="isDeleting[item.id]"
-                          >fas fa-circle-notch fa-spin</v-icon
-                        >
-                        <v-icon v-else>mdi-delete</v-icon
-                        ><span class="ml-1">
-                          {{
-                            isDeleting[item.id] ? "Deleting..." : "Delete"
-                          }}</span
-                        >
-                      </v-btn>
-                      <v-btn
+                        v-if="item.repoIdentifier"
                         :id="`sub-${index}-update`"
                         @click="onUpdate(item)"
                         :disabled="isUpdating[item.id] || isDeleting[item.id]"
@@ -225,6 +205,41 @@
                             isUpdating[item.id]
                               ? "Updating Record..."
                               : "Update Record"
+                          }}</span
+                        >
+                      </v-btn>
+
+                      <!-- EDIT -->
+                      <v-btn
+                        v-else
+                        :id="`sub-${index}-edit`"
+                        @click="
+                          $router.push({
+                            name: 'dataset-edit',
+                            params: { id: item.id },
+                          })
+                        "
+                        :disabled="isUpdating[item.id] || isDeleting[item.id]"
+                        rounded
+                      >
+                        <v-icon>mdi-pencil</v-icon
+                        ><span class="ml-1">Edit</span>
+                      </v-btn>
+
+                      <!-- DELETE -->
+                      <v-btn
+                        :id="`sub-${index}-delete`"
+                        @click="onDelete(item)"
+                        :disabled="isUpdating[item.id] || isDeleting[item.id]"
+                        rounded
+                      >
+                        <v-icon v-if="isDeleting[item.id]"
+                          >fas fa-circle-notch fa-spin</v-icon
+                        >
+                        <v-icon v-else>mdi-delete</v-icon
+                        ><span class="ml-1">
+                          {{
+                            isDeleting[item.id] ? "Deleting..." : "Delete"
                           }}</span
                         >
                       </v-btn>
@@ -653,6 +668,7 @@ export default class CdSubmissions extends Vue {
 
 .actions {
   align-content: flex-end;
+  min-width: 16rem;
 }
 
 .actions .v-btn {

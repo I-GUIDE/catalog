@@ -2,18 +2,25 @@
   <v-container class="cd-contribute">
     <div class="display-1">Contribute</div>
 
-    <cz-form
-      :schema="schema"
-      :uischema="uiSchema"
-      :errors.sync="errors"
-      :isValid.sync="isValid"
-      :data.sync="data"
-      :config="config"
-      @update:data="onDataChange"
-      ref="form"
-    />
+    <template v-if="!isEditMode || (!isLoading && wasLoaded)">
+      <cz-form
+        :schema="schema"
+        :uischema="uiSchema"
+        :errors.sync="errors"
+        :isValid.sync="isValid"
+        :data.sync="data"
+        :config="config"
+        @update:data="onDataChange"
+        ref="form"
+      />
+    </template>
+
+    <div v-else-if="isLoading" class="text-h6 text--secondary my-12">
+      Loading...
+    </div>
 
     <div
+      v-if="!(isEditMode && (isLoading || !wasLoaded))"
       class="d-flex form-controls flex-column flex-sm-row flex-grow-1 flex-sm-grow-0 gap-1"
     >
       <v-spacer></v-spacer>
@@ -39,7 +46,7 @@
                 depressed
                 @click="submit"
                 :disabled="isSaving || !isValid || !hasUnsavedChanges"
-                >Save</v-btn
+                >{{ isEditMode ? "Save Changes" : "Save" }}</v-btn
               >
             </v-badge>
           </div>
@@ -75,6 +82,10 @@ const initialData = {};
 })
 export default class CdContribute extends Vue {
   protected isValid = false;
+  protected isEditMode = false;
+  protected isLoading = true;
+  protected wasLoaded = false;
+  protected submissionId = "";
   protected errors = [];
   protected data = initialData;
   protected timesChanged = 0;
@@ -123,6 +134,27 @@ export default class CdContribute extends Vue {
 
   created() {
     this.hasUnsavedChanges = false;
+    if (this.$route.name === "dataset-edit") {
+      this.isEditMode = true;
+      this.submissionId = this.$route.params.id;
+      this.loadDataset();
+    }
+  }
+
+  protected async loadDataset() {
+    this.isLoading = true;
+    try {
+      const data = await User.fetchDataset(this.submissionId);
+      console.log(data);
+      this.wasLoaded = !!data;
+      if (data) {
+        this.data = data;
+      }
+    } catch (e) {
+      this.wasLoaded = false;
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   protected async submit() {

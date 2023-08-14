@@ -151,7 +151,7 @@
             <v-icon class="mr-1">mdi-open-in-new</v-icon> View In Repository
           </v-btn>
           <v-btn class="mr-4" @click="goToViewDataset">
-            View IGUIDE landing page
+            View landing page
           </v-btn>
         </v-card-actions>
       </v-card>

@@ -216,6 +216,8 @@ export default class User extends Model {
       },
     });
 
+    // TODO: need to get `repoIdentifier` as part of response from this endpoint.
+
     if (response.ok) {
       const result = await response.json();
       return result;
