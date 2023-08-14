@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List, Optional
 
 from beanie import Document, Link, PydanticObjectId
-from pydantic import HttpUrl
+from pydantic import HttpUrl, model_validator
 
 from api.adapters.utils import RepositoryType
 
@@ -13,14 +13,19 @@ class Submission(Document):
     identifier: PydanticObjectId
     submitted: datetime = datetime.utcnow()
     url: HttpUrl = None
-    repository: Optional[str]
-    repository_identifier: Optional[str]
+    repository: Optional[str] = None
+    repository_identifier: Optional[str] = None
 
+    @model_validator(mode='after')
+    def validate_url(self):
+        if self.url is not None:
+            self.url = str(self.url)
+        return self
 
 class User(Document):
     access_token: str
     orcid: str
-    preferred_username: Optional[str]
+    preferred_username: Optional[str] = None
     submissions: List[Link[Submission]] = []
 
     def submission(self, identifier: PydanticObjectId) -> Submission:

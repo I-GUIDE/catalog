@@ -19,7 +19,7 @@ class CoreMetadataDOC(Document, CoreMetadata):
             ),
             datetime.datetime: lambda dt: datetime.datetime(
                 year=dt.year, month=dt.month, day=dt.day, hour=dt.hour, minute=dt.minute, second=dt.second
-            )
+            ),
         }
 
     def as_submission(self) -> Submission:
@@ -30,6 +30,10 @@ class CoreMetadataDOC(Document, CoreMetadata):
             identifier=self.id,
             url=self.url,
         )
+
+    def delete_revision_id(self):
+        if hasattr(self, "revision_id"):
+            del self.revision_id
 
 
 class DatasetMetadataDOC(CoreMetadataDOC):

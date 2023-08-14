@@ -1,7 +1,8 @@
 from functools import lru_cache
 from typing import Any
 
-from pydantic import BaseSettings, HttpUrl
+from pydantic import HttpUrl
+from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
 
 # had to use load_dotenv() to get the env variables to work during testing
@@ -24,6 +25,8 @@ class Settings(BaseSettings):
         super().__init__(**data)
         if self.testing:
             self.database_name = f"{self.database_name}"
+        self.hydroshare_meta_read_url = str(self.hydroshare_meta_read_url)
+        self.hydroshare_file_read_url = str(self.hydroshare_file_read_url)
 
     @property
     def db_connection_string(self):

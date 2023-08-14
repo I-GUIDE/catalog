@@ -1,5 +1,5 @@
 typer
-beanie==1.19.0
+beanie
 motor
-pydantic[dotenv]<2.*
-pydantic[email]<2.*
+pydantic[email]
+pydantic-settings

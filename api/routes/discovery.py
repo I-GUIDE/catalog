@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from fastapi import APIRouter, Request, Depends
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator, model_validator, FieldValidationInfo
 
 router = APIRouter()
 
@@ -25,35 +25,37 @@ class SearchQuery(BaseModel):
     pageNumber: int = 1
     pageSize: int = 30
 
-    @validator('*')
-    def empty_str_to_none(cls, v, field, **kwargs):
-        if field.name == 'term':
+    @field_validator('*')
+    def empty_str_to_none(cls, v, info: FieldValidationInfo):
+        if info.field_name == 'term':
             return v.strip()
 
         if isinstance(v, str) and v.strip() == '':
             return None
         return v
 
-    @validator('dataCoverageStart', 'dataCoverageEnd', 'publishedStart', 'publishedEnd')
-    def validate_year(cls, v, values, field, **kwargs):
+    @field_validator('dataCoverageStart', 'dataCoverageEnd', 'publishedStart', 'publishedEnd')
+    def validate_year(cls, v, info: FieldValidationInfo):
         if v is None:
             return v
         try:
             datetime(v, 1, 1)
         except ValueError:
-            raise ValueError(f'{field.name} is not a valid year')
-        if field.name == 'dataCoverageEnd':
-            if 'dataCoverageStart' in values and v < values['dataCoverageStart']:
-                raise ValueError(f'{field.name} must be greater or equal to dataCoverageStart')
-        if field.name == 'publishedEnd':
-            if 'publishedStart' in values and v < values['publishedStart']:
-                raise ValueError(f'{field.name} must be greater or equal to publishedStart')
+            raise ValueError(f'{info.field_name} is not a valid year')
+
         return v
 
-    @validator('pageNumber', 'pageSize')
-    def validate_page(cls, v, field, **kwargs):
+    @model_validator(mode='after')
+    def validate_date_range(self):
+        if self.dataCoverageStart and self.dataCoverageEnd and self.dataCoverageEnd < self.dataCoverageStart:
+            raise ValueError('dataCoverageEnd must be greater or equal to dataCoverageStart')
+        if self.publishedStart and self.publishedEnd and self.publishedEnd < self.publishedStart:
+            raise ValueError('publishedEnd must be greater or equal to publishedStart')
+
+    @field_validator('pageNumber', 'pageSize')
+    def validate_page(cls, v, info: FieldValidationInfo):
         if v <= 0:
-            raise ValueError(f'{field.name} must be greater than 0')
+            raise ValueError(f'{info.field_name} must be greater than 0')
         return v
 
     @property

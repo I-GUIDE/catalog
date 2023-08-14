@@ -12,31 +12,31 @@ from api.models.user import Submission
 
 
 class Creator(BaseModel):
-    name: Optional[str]
-    email: Optional[EmailStr]
-    organization: Optional[str]
-    homepage: Optional[HttpUrl]
-    address: Optional[str]
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    organization: Optional[str] = None
+    homepage: Optional[HttpUrl] = None
+    address: Optional[str] = None
     identifiers: Optional[dict] = {}
 
     def to_dataset_creator(self):
         if self.name:
-            creator = schema.Creator.construct()
+            creator = schema.Creator.model_construct()
             creator.name = self.name
             if self.email:
                 creator.email = self.email
             if self.organization:
-                affiliation = schema.Organization.construct()
+                affiliation = schema.Organization.model_construct()
                 affiliation.name = self.organization
                 creator.affiliation = affiliation
             _ORCID_identifier = self.identifiers.get("ORCID", "")
             if _ORCID_identifier:
                 creator.identifier = _ORCID_identifier
         else:
-            creator = schema.Organization.construct()
+            creator = schema.Organization.model_construct()
             creator.name = self.organization
             if self.homepage:
-                creator.url = self.homepage
+                creator.url = str(self.homepage)
             if self.address:
                 creator.address = self.address
 
@@ -45,12 +45,12 @@ class Creator(BaseModel):
 
 class Award(BaseModel):
     funding_agency_name: str
-    title: Optional[str]
-    number: Optional[str]
-    funding_agency_url: Optional[HttpUrl]
+    title: Optional[str] = None
+    number: Optional[str] = None
+    funding_agency_url: Optional[HttpUrl] = None
 
     def to_dataset_grant(self):
-        grant = schema.Grant.construct()
+        grant = schema.Grant.model_construct()
         if self.title:
             grant.name = self.title
         else:
@@ -58,10 +58,10 @@ class Award(BaseModel):
         if self.number:
             grant.identifier = self.number
 
-        funder = schema.Organization.construct()
+        funder = schema.Organization.model_construct()
         funder.name = self.funding_agency_name
         if self.funding_agency_url:
-            funder.url = self.funding_agency_url
+            funder.url = str(self.funding_agency_url)
 
         grant.funder = funder
         return grant
@@ -72,7 +72,7 @@ class TemporalCoverage(BaseModel):
     end: datetime
 
     def to_dataset_temporal_coverage(self):
-        temp_cov = schema.TemporalCoverage.construct()
+        temp_cov = schema.TemporalCoverage.model_construct()
         if self.start:
             temp_cov.startDate = self.start
             if self.end:
@@ -88,25 +88,25 @@ class SpatialCoverageBox(BaseModel):
     westlimit: float
 
     def to_dataset_spatial_coverage(self):
-        place = schema.Place.construct()
+        place = schema.Place.model_construct()
         if self.name:
             place.name = self.name
 
-        place.geo = schema.GeoShape.construct()
+        place.geo = schema.GeoShape.model_construct()
         place.geo.box = f"{self.northlimit} {self.eastlimit} {self.southlimit} {self.westlimit}"
         return place
 
 
 class SpatialCoveragePoint(BaseModel):
-    name: Optional[str]
+    name: Optional[str] = None
     north: float
     east: float
 
     def to_dataset_spatial_coverage(self):
-        place = schema.Place.construct()
+        place = schema.Place.model_construct()
         if self.name:
             place.name = self.name
-        place.geo = schema.GeoCoordinates.construct()
+        place.geo = schema.GeoCoordinates.model_construct()
         place.geo.latitude = self.north
         place.geo.longitude = self.east
         return place
@@ -122,8 +122,8 @@ class ContentFile(BaseModel):
     checksum: str
 
     def to_dataset_media_object(self):
-        media_object = schema.MediaObject.construct()
-        media_object.contentUrl = self.url
+        media_object = schema.MediaObject.model_construct()
+        media_object.contentUrl = str(self.url)
         media_object.encodingFormat = self.content_type
         media_object.contentSize = f"{self.size/1000.00} KB"
         media_object.name = self.file_name
@@ -137,9 +137,9 @@ class Relation(BaseModel):
     def to_dataset_part_relation(self, relation_type: str):
         relation = None
         if relation_type == "IsPartOf" and self.type.endswith("is part of"):
-            relation = schema.IsPartOf.construct()
+            relation = schema.IsPartOf.model_construct()
         elif relation_type == "HasPart" and self.type.endswith("resource includes"):
-            relation = schema.HasPart.construct()
+            relation = schema.HasPart.model_construct()
         else:
             return relation
 
@@ -155,9 +155,9 @@ class Rights(BaseModel):
     url: HttpUrl
 
     def to_dataset_license(self):
-        _license = schema.License.construct()
+        _license = schema.License.model_construct()
         _license.name = self.statement
-        _license.url = self.url
+        _license.url = str(self.url)
         return _license
 
 
@@ -221,15 +221,15 @@ class _HydroshareResourceMetadata(BaseModel):
     creators: List[Creator]
     created: datetime
     modified: datetime
-    subjects: Optional[List[str]]
+    subjects: Optional[List[str]] = []
     language: str
     rights: Rights
-    awards: Optional[List[Award]]
-    spatial_coverage: Optional[Union[SpatialCoverageBox, SpatialCoveragePoint]]
-    period_coverage: Optional[TemporalCoverage]
-    relations: Optional[List[Relation]]
+    awards: Optional[List[Award]] = []
+    spatial_coverage: Optional[Union[SpatialCoverageBox, SpatialCoveragePoint]] = None
+    period_coverage: Optional[TemporalCoverage] = None
+    relations: Optional[List[Relation]] = []
     citation: str
-    content_files: Optional[List[ContentFile]]
+    content_files: Optional[List[ContentFile]] = []
 
     def to_dataset_creators(self):
         creators = []
@@ -283,18 +283,18 @@ class _HydroshareResourceMetadata(BaseModel):
 
     @staticmethod
     def to_dataset_provider():
-        provider = schema.Organization.construct()
+        provider = schema.Organization.model_construct()
         provider.name = RepositoryType.HYDROSHARE
         provider.url = "https://www.hydroshare.org/"
         return provider
 
     def to_catalog_dataset(self):
-        dataset = DatasetMetadataDOC.construct()
+        dataset = DatasetMetadataDOC.model_construct()
         dataset.provider = self.to_dataset_provider()
         dataset.name = self.title
         dataset.description = self.abstract
-        dataset.url = self.url
-        dataset.identifier = [self.identifier]
+        dataset.url = str(self.url)
+        dataset.identifier = [str(self.identifier)]
         dataset.creator = self.to_dataset_creators()
         dataset.dateCreated = self.created
         dataset.dateModified = self.modified

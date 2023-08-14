@@ -11,6 +11,7 @@ from api.models.user import Submission
 
 logger = logging.getLogger()
 
+
 async def _main():
     logger.warning("starting up watch submissions")
     settings = get_settings()

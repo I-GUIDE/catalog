@@ -19,6 +19,9 @@ async def create_dataset(document: DatasetMetadataDOC, user: Annotated[User, Dep
     submission = document.as_submission()
     user.submissions.append(submission)
     await user.save(link_rule=WriteRules.WRITE)
+    # TODO: due to this bug (https://github.com/roman-right/beanie/issues/648) in beanie an
+    #  extra attribute (revision_id) seems to be added to the document - that's why the tests are failing
+    document.delete_revision_id()
     return document
 
 
@@ -31,12 +34,15 @@ async def get_dataset(submission_id: PydanticObjectId, user: Annotated[User, Dep
     document = await DatasetMetadataDOC.get(submission.identifier)
     if document is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
+    document.delete_revision_id()
     return document
 
 
 @router.get("/dataset/", response_model=List[DatasetMetadataDOC])
 async def get_datasets(user: Annotated[User, Depends(get_current_user)]):
     documents = [await DatasetMetadataDOC.get(submission.identifier) for submission in user.submissions]
+    for document in documents:
+        document.delete_revision_id()
     return documents
 
 
@@ -54,12 +60,13 @@ async def update_dataset(
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
 
-    await dataset.set(updated_document.dict(exclude_unset=True, by_alias=True))
+    await dataset.set(updated_document.model_dump(exclude_unset=True, by_alias=True))
     dataset = await DatasetMetadataDOC.get(submission_id)
     updated_submission = dataset.as_submission()
     updated_submission.repository_identifier = submission.repository_identifier
     updated_submission.repository = submission.repository
-    await submission.set(updated_submission.dict(exclude_unset=True))
+    await submission.set(updated_submission.model_dump(exclude_unset=True))
+    dataset.delete_revision_id()
     return dataset
 
 
@@ -75,7 +82,7 @@ async def delete_dataset(submission_id: PydanticObjectId, user: Annotated[User, 
     await user.save(link_rule=WriteRules.WRITE)
     await submission.delete()
     await dataset.delete()
-    return {"deleted_dataset_id": submission_id}
+    return {"deleted_dataset_id": str(submission_id)}
 
 
 @router.get("/submission/", response_model=List[Submission])
@@ -130,10 +137,12 @@ async def _save_to_db(identifier: str, user: User, submission: Submission = None
     else:
         # update existing registration
         dataset = await DatasetMetadataDOC.get(submission.identifier)
-        await dataset.set(repo_dataset.dict(exclude_unset=True, by_alias=True))
+        await dataset.set(repo_dataset.model_dump(exclude_unset=True, by_alias=True))
         updated_dataset = await DatasetMetadataDOC.get(submission.identifier)
         updated_submission = updated_dataset.as_submission()
         updated_submission = adapter.update_submission(submission=updated_submission, repo_record_id=identifier)
-        await submission.set(updated_submission.dict(exclude_unset=True))
+        await submission.set(updated_submission.model_dump(exclude_unset=True))
         dataset = updated_dataset
+
+    dataset.delete_revision_id()
     return dataset
