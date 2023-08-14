@@ -1,6 +1,8 @@
 <template>
   <v-container class="cd-contribute">
-    <div class="display-1">Contribute</div>
+    <div class="display-1">
+      {{ isEditMode ? "Edit Submission" : "Contribute" }}
+    </div>
 
     <template v-if="!isEditMode || (!isLoading && wasLoaded)">
       <cz-form
@@ -145,7 +147,6 @@ export default class CdContribute extends Vue {
     this.isLoading = true;
     try {
       const data = await User.fetchDataset(this.submissionId);
-      console.log(data);
       this.wasLoaded = !!data;
       if (data) {
         this.data = data;
@@ -157,9 +158,28 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected async submit() {
+  protected async onSaveChanges() {
     try {
-      this.isSaving = true;
+      const wasSaved = await User.updateDataset(this.submissionId, this.data);
+      if (wasSaved) {
+        Notifications.toast({
+          message: `Your changes habe been saved!`,
+          type: "success",
+        });
+        this.hasUnsavedChanges = false;
+      }
+    } catch (e) {
+      Notifications.toast({
+        message: `Failed to save changes`,
+        type: "error",
+      });
+    } finally {
+      this.isSaving = false;
+    }
+  }
+
+  protected async onCreateSubmission() {
+    try {
       const savedDatasetId = await User.submit(this.data);
       this.isSaving = false;
       if (savedDatasetId) {
@@ -168,7 +188,10 @@ export default class CdContribute extends Vue {
           message: `Your submission has been saved!`,
           type: "success",
         });
-        this.$router.push({ name: "dataset", params: { id: savedDatasetId } });
+        this.$router.push({
+          name: "dataset",
+          params: { id: savedDatasetId },
+        });
       } else {
         // Failed to save
         Notifications.toast({
@@ -176,8 +199,18 @@ export default class CdContribute extends Vue {
           type: "error",
         });
       }
-    } catch (e) {
+    } finally {
       this.isSaving = false;
+    }
+  }
+
+  protected async submit() {
+    this.isSaving = true;
+
+    if (this.isEditMode) {
+      this.onSaveChanges();
+    } else {
+      this.onCreateSubmission();
     }
   }
 
@@ -186,8 +219,8 @@ export default class CdContribute extends Vue {
   }
 
   protected onDataChange(data) {
-    // cz-form emits 'change' event 3 times during instantioation.
-    const changesDuringInstantiation = 3;
+    // cz-form emits 'change' event multiple times during instantioation.
+    const changesDuringInstantiation = this.isEditMode ? 2 : 3;
 
     if (this.timesChanged <= changesDuringInstantiation) {
       this.timesChanged = this.timesChanged + 1;
