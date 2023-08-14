@@ -62,8 +62,8 @@ interface ISearchParams {
   dataCoverageEnd?: Date;
   creatorName?: string;
   providerName?: string;
-  clusters?: string[];
-  sortBy?: "name" | "dateCreated" | "relevance" | "recent";
+  // clusters?: string[];
+  sortBy?: "name" | "dateCreated" | "relevance" | "registrationDate";
 }
 
 interface ITypeaheadParams {

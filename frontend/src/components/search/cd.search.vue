@@ -8,6 +8,7 @@
         @keyup.up="onHintHighlighted()"
         @keyup.down="onHintHighlighted()"
         @keydown.enter="onSearch"
+        @click:clear="$emit('clear')"
         v-model.trim.lazy="valueInternal"
         class="cz-search white"
         prepend-inner-icon="mdi-magnify"

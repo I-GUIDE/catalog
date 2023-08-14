@@ -157,7 +157,14 @@
 
       <div class="results-content-wrapper">
         <v-container class="results-content">
-          <cd-search v-model="searchQuery" @input="onSearch" />
+          <cd-search
+            v-model="searchQuery"
+            @input="onSearch"
+            @clear="
+              searchQuery = '';
+              onSearch(true);
+            "
+          />
           <div
             class="my-6 d-lg-flex flex-row justify-space-between gap-1 d-table"
           >
@@ -172,10 +179,11 @@
               class="d-table-row d-lg-flex align-center flex-md-row flex-column gap-1"
             >
               <small>Sort results by:</small>
-              <v-btn-toggle v-model="sort" dense mandatory>
+              <v-btn-toggle v-model="sort" dense :mandatory="!!searchQuery">
                 <v-btn small value="relevance">Relevance</v-btn>
-                <v-btn small value="dateCreated">Date</v-btn>
                 <v-btn small value="name">Title</v-btn>
+                <v-btn small value="dateCreated">Date Created</v-btn>
+                <!-- <v-btn small value="registrationDate">Date Registered</v-btn> -->
               </v-btn-toggle>
             </div>
           </div>
@@ -347,7 +355,9 @@ export default class CdSearchResults extends Vue {
   public hasMore = true;
   public isSearching = false;
   public isFetchingMore = false;
-  public sort: "name" | "dateCreated" | "relevance" = "relevance";
+  public sort: "name" | "dateCreated" | "relevance" | "registrationDate" =
+    "relevance";
+  public preferredSort: "name" | "dateCreated" | "relevance" = "relevance";
   // public view: 'list' | 'map' = 'list'
   public formatDate = formatDate;
   protected descriptionRefs: any[] = [];
@@ -449,6 +459,7 @@ export default class CdSearchResults extends Vue {
 
     // SORT BY
     if (this.sort) {
+      // @ts-ignore
       queryParams.sortBy = this.sort;
     }
 
@@ -460,9 +471,9 @@ export default class CdSearchResults extends Vue {
       this.filter.publicationYear.isActive ||
       this.filter.publicationYear.isActive ||
       this.filter.dataCoverage.isActive ||
-      // this.filter.contentType.value.length ||
       this.filter.repository.value ||
       // this.filter.project.value ||
+      // this.filter.contentType.value.length ||
       this.filter.creatorName
     );
   }
@@ -483,8 +494,8 @@ export default class CdSearchResults extends Vue {
       dc: this.filter.dataCoverage.isActive
         ? this.dataCoverage.map((n) => n.toString()) || undefined
         : undefined,
-      // ct: this.filter.contentType.value || undefined,
       // p: this.filter.project.value || undefined,
+      // ct: this.filter.contentType.value || undefined,
       s: this.sort || undefined,
     };
   }
@@ -508,12 +519,12 @@ export default class CdSearchResults extends Vue {
 
   created() {
     this._loadRouteParams();
-    if (this.$route.query["q"]) {
-      this.onSearch();
-    } else {
-      // search all
-      this.onSearchAll();
-    }
+
+    this.sort = this.$route.query["q"]
+      ? this.preferredSort
+      : "registrationDate";
+
+    this.onSearch();
   }
 
   /** @param path: the filter object to act on.
@@ -567,40 +578,45 @@ export default class CdSearchResults extends Vue {
   }
 
   @Watch("sort")
-  public onSortChange() {
+  public onSortChange(newSort, _oldSort) {
+    if (newSort !== "registrationDate") {
+      this.preferredSort = newSort;
+    }
     this.onSearch();
   }
 
-  protected async onSearchAll() {
-    this.hasMore = true;
-    this.isSearching = true;
-    this.pageNumber = 1;
+  // protected async onSearchAll() {
+  //   this.hasMore = true;
+  //   this.isSearching = true;
+  //   this.pageNumber = 1;
 
-    try {
-      this.hasMore = await Search.search({
-        ...this.queryParams,
-        // sortBy: "recent",
-      });
-    } catch (e) {
-      console.log(e);
-      Search.commit((state) => {
-        state.results = [];
-      });
-      Notifications.toast({
-        message: `Failed to perform search`,
-        type: "error",
-      });
+  //   try {
+  //     this.hasMore = await Search.search({
+  //       ...this.queryParams,
+  //     });
+  //   } catch (e) {
+  //     console.log(e);
+  //     Search.commit((state) => {
+  //       state.results = [];
+  //     });
+  //     Notifications.toast({
+  //       message: `Failed to perform search`,
+  //       type: "error",
+  //     });
+  //   }
+  //   this.isSearching = false;
+  //   this.$nextTick(() => {
+  //     this.displayRefs();
+  //   });
+  // }
+
+  public async onSearch(useAllResultsSort?: boolean) {
+    if (!this.searchQuery && useAllResultsSort) {
+      this.sort = "registrationDate";
+    } else if (this.searchQuery && this.sort === "registrationDate") {
+      this.sort = this.preferredSort; // TODO: use previous sort
     }
-    this.isSearching = false;
-    this.$nextTick(() => {
-      this.displayRefs();
-    });
-  }
 
-  public async onSearch() {
-    // if (!this.searchQuery) {
-    //   return;
-    // }
     this.hasMore = true;
     this.isSearching = true;
     this.pageNumber = 1;
@@ -614,7 +630,9 @@ export default class CdSearchResults extends Vue {
         })
         .catch(sameRouteNavigationErrorHandler);
 
-      SearchHistory.log(this.queryParams.term);
+      if (this.queryParams.term) {
+        SearchHistory.log(this.queryParams.term);
+      }
       this.hasMore = await Search.search(this.queryParams);
     } catch (e) {
       console.log(e);
@@ -737,8 +755,11 @@ export default class CdSearchResults extends Vue {
     // SORT
     if (this.$route.query["s"]) {
       this.sort =
-        (this.$route.query["s"] as "name" | "dateCreated" | "relevance") ||
-        this.sort;
+        (this.$route.query["s"] as
+          | "name"
+          | "dateCreated"
+          | "relevance"
+          | "registrationDate") || this.sort;
     }
   }
 
