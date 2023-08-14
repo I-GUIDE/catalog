@@ -18,7 +18,7 @@
     </template>
 
     <div v-else-if="isLoading" class="text-h6 text--secondary my-12">
-      Loading...
+      <v-progress-circular indeterminate color="primary" />
     </div>
 
     <div

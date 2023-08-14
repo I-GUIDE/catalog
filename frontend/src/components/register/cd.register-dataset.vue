@@ -4,13 +4,14 @@
     <v-divider class="mb-4" />
 
     <v-alert border="left" colored-border type="info" elevation="1">
-      <div class="d-flex justify-space-between align-center">
+      <div class="d-flex justify-space-between flex-sm-row flex-column">
         <div>
           Use this form to register existing datasets from
           <a href="https://www.hydroshare.org/">HydroShare</a>.
         </div>
         <v-img
           max-width="200"
+          contain
           :src="require('@/assets/img/hydroshare.png')"
         ></v-img>
       </div>

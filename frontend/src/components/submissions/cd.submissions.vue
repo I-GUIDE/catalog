@@ -216,7 +216,7 @@
                         @click="
                           $router.push({
                             name: 'dataset-edit',
-                            params: { id: item.id },
+                            params: { id: item.identifier },
                           })
                         "
                         :disabled="isUpdating[item.id] || isDeleting[item.id]"
