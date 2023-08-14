@@ -59,6 +59,7 @@ async def do_daily():
                 # update submission record
                 dataset = await DatasetMetadataDOC.get(submission.identifier)
                 updated_submission = dataset.as_submission()
+                updated_submission.submitted = submission.submitted
                 updated_submission.repository_identifier = submission.repository_identifier
                 updated_submission.repository = submission.repository
                 await submission.set(updated_submission.dict(exclude_unset=True))
