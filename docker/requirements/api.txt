@@ -1,6 +1,6 @@
-fastapi[all]
+fastapi[all]==0.101.*
 uvicorn[standard]
-motor
-beanie[httpx]
-python-jose
-pydantic-settings
+motor==3.*
+beanie[httpx]==1.21.*
+python-jose==3.*
+pydantic-settings==2.*
