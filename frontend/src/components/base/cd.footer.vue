@@ -4,9 +4,9 @@
     class="footer text--secondary d-flex flex-column align-center full-width body-2"
   >
     <div class="d-lg-flex justify-space-between full-width">
-      <div class="has-space-bottom-2x">
-        <div class="has-space-bottom text-h6 mb-1">Contact Us</div>
-        <p><router-link to="/contact">Contact</router-link></p>
+      <div class="mb-4">
+        <div class="mb-4 text-h6 mb-1">Contact Us</div>
+        <!-- <p><router-link to="/contact">Contact</router-link></p> -->
         <p>
           <a :href="'mailto:' + $t('footer.supportEmail')">Email Support</a>
         </p>
@@ -21,28 +21,26 @@
       </div>
 
       <div>
-        <div class="has-space-bottom text-h6">Open Source</div>
+        <div class="mb-4 text-h6">Open Source</div>
         <p>
-          The CZNet Catalog and Discover system are Open Source. Find us on
-          <a href="https://github.com/cznethub/cznet-discovery" target="_blank"
+          The I-GUIDE Catalog and Discover system are Open Source. Find us on
+          <a href="https://github.com/I-GUIDE/catalogapi" target="_blank"
             >GitHub</a
           >.
         </p>
         <p>
           Report a bug
-          <a
-            href="https://github.com/cznethub/cznet-discovery/issues "
-            target="_blank"
+          <a href="https://github.com/I-GUIDE/catalogapi/issues" target="_blank"
             >here</a
           >
         </p>
-        <p>This is Version {{ version }} of the Data Discovery Portal</p>
+        <p>This is Version {{ version }} of the I-GUIDE catalog</p>
       </div>
     </div>
 
     <v-divider></v-divider>
 
-    <div class="text-center d-flex flex-column align-center has-space-top-2x">
+    <div class="text-center d-flex flex-column align-center mt-4">
       <p>
         (c) {{ year }} CUAHSI. ﻿This material is based upon work supported by
         the National Science Foundation (NSF) under awards 2012893, 2012593, and

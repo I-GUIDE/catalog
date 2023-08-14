@@ -15,7 +15,7 @@
         </router-link>
         <div class="spacer"></div>
         <v-card
-          class="nav-items has-space-right d-flex mr-4"
+          class="nav-items mr-2 d-flex mr-4"
           :elevation="2"
           v-if="!$vuetify.breakpoint.mdAndDown"
         >
@@ -42,7 +42,7 @@
             >Log In</v-btn
           >
           <template v-else>
-            <v-menu bottom left>
+            <v-menu bottom left offset-y>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   :color="
@@ -61,7 +61,7 @@
               </template>
 
               <v-list class="pa-0">
-                <v-list-item
+                <!-- <v-list-item
                   :to="{ path: '/profile' }"
                   active-class="primary white--text"
                 >
@@ -72,9 +72,9 @@
                   <v-list-item-content>
                     <v-list-item-title>Account & Settings</v-list-item-title>
                   </v-list-item-content>
-                </v-list-item>
+                </v-list-item> -->
 
-                <v-divider></v-divider>
+                <!-- <v-divider></v-divider> -->
 
                 <v-list-item id="navbar-logout" @click="logOut()">
                   <v-list-item-icon class="mr-2">
@@ -151,10 +151,10 @@
           </v-list-item>
 
           <template v-else>
-            <v-list-item :to="{ path: '/profile' }">
+            <!-- <v-list-item :to="{ path: '/profile' }">
               <v-icon class="mr-2">mdi-account-circle</v-icon>
               <span>Account & Settings</span>
-            </v-list-item>
+            </v-list-item> -->
 
             <v-list-item id="drawer-nav-logout" @click="logOut()">
               <v-icon class="mr-2">mdi-logout</v-icon>
@@ -211,14 +211,30 @@ export default class App extends Vue {
     {
       attrs: { to: "/" },
       label: "Home",
-      icon: "mdi-bookmark-multiple",
-      isActive: () => this.$route.name === "search",
+      icon: "mdi-home",
+    },
+    {
+      attrs: { to: "/search" },
+      label: "Search",
+      icon: "mdi-magnify",
+    },
+    {
+      attrs: { to: "/submissions" },
+      label: "My Submissions",
+      icon: "mdi-book-multiple",
+      isActive: () =>
+        this.$route.name === "dataset" || this.$route.name === "dataset-edit",
     },
     {
       attrs: { to: "/contribute" },
       label: "Contribute",
       icon: "mdi-book-plus",
       isActive: () => this.$route.name === "contribute",
+    },
+    {
+      attrs: { to: "/register" },
+      label: "Register",
+      icon: "mdi-link-plus",
     },
     // {
     //   attrs: { href: "https://dsp.criticalzone.org/" },
