@@ -76,6 +76,14 @@ export const routes: RouteConfig[] = [
     },
   },
   {
+    name: "dataset-edit",
+    path: "/dataset/:id/edit",
+    components: { content: CdDataset, footer: CdFooter },
+    meta: {
+      title: "Edit Dataset",
+    },
+  },
+  {
     name: "auth-redirect",
     path: "/auth-redirect",
     components: {

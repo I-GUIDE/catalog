@@ -33,7 +33,7 @@
           rounded
           @click="$router.push({ name: 'contribute' })"
         >
-          <v-icon class="mr-2">mdi-plus</v-icon>
+          <v-icon class="mr-2">mdi-text-box-plus</v-icon>
           New Submission
         </v-btn>
       </div>
@@ -150,10 +150,11 @@
                             {{ getDateInLocalTime(item.date) }}
                           </td>
                         </tr>
-                        <tr>
+                        <!-- TODO: get the identifier in the schema, not the db identifier -->
+                        <!-- <tr>
                           <th class="pr-4 body-2">Identifier:</th>
                           <td>{{ item.identifier }}</td>
-                        </tr>
+                        </tr> -->
                       </table>
                     </div>
 
@@ -180,9 +181,23 @@
                         <v-icon class="mr-1">mdi-open-in-new</v-icon> View
                       </v-btn>
                       <v-btn
+                        :id="`sub-${index}-edit`"
+                        @click="
+                          $router.push({
+                            name: 'dataset-edit',
+                            params: { id: item.id },
+                          })
+                        "
+                        :disabled="isUpdating[item.id] || isDeleting[item.id]"
+                        rounded
+                      >
+                        <v-icon>mdi-pencil</v-icon
+                        ><span class="ml-1">Edit</span>
+                      </v-btn>
+                      <v-btn
                         :id="`sub-${index}-delete`"
                         @click="onDelete(item)"
-                        :disabled="isDeleting[item.id]"
+                        :disabled="isUpdating[item.id] || isDeleting[item.id]"
                         rounded
                       >
                         <v-icon v-if="isDeleting[item.id]"
@@ -196,15 +211,15 @@
                         >
                       </v-btn>
                       <v-btn
-                        :id="`sub-${index}-delete`"
+                        :id="`sub-${index}-update`"
                         @click="onUpdate(item)"
-                        :disabled="isUpdating[item.id]"
+                        :disabled="isUpdating[item.id] || isDeleting[item.id]"
                         rounded
                       >
                         <v-icon v-if="isUpdating[item.id]"
                           >fas fa-circle-notch fa-spin</v-icon
                         >
-                        <v-icon v-else>mdi-delete</v-icon
+                        <v-icon v-else>mdi-update</v-icon
                         ><span class="ml-1">
                           {{
                             isUpdating[item.id]
@@ -347,7 +362,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Ref, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import {
   ISubmission,
   EnumSubmissionSorts,
@@ -483,6 +498,10 @@ export default class CdSubmissions extends Vue {
     this.loggedInSubject.unsubscribe();
   }
 
+  protected goToEdit(item) {
+    console.log(item);
+  }
+
   protected nextPage() {
     if (this.page + 1 <= this.numberOfPages) this.page += 1;
   }
@@ -543,9 +562,11 @@ export default class CdSubmissions extends Vue {
   }
 
   protected async onUpdate(submission: ISubmission) {
-    this.$set(this.isUpdating, submission.id || "", true);
-    await Submission.updateSubmission(submission.id);
-    this.$set(this.isUpdating, submission.id || "", false);
+    if (submission.repoIdentifier) {
+      this.$set(this.isUpdating, submission.id || "", true);
+      await Submission.updateSubmission(submission.repoIdentifier);
+      this.$set(this.isUpdating, submission.id || "", false);
+    }
   }
 
   protected async onDeleteSubmission() {

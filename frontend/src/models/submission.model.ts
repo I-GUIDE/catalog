@@ -24,6 +24,7 @@ export default class Submission extends Model implements ISubmission {
   public authors!: string[];
   public date!: number;
   public identifier!: string;
+  public repoIdentifier?: string;
   public url!: string;
   public id!: string;
   // public metadata!: any;
@@ -50,6 +51,7 @@ export default class Submission extends Model implements ISubmission {
       // @ts-ignore
       date: this.number(0),
       identifier: this.attr(""),
+      repoIdentifier: this.attr(""),
       url: this.attr(""),
       id: this.attr(""),
       // metadata: this.attr({}),
@@ -62,8 +64,9 @@ export default class Submission extends Model implements ISubmission {
       authors: dbSubmission.authors,
       date: new Date(dbSubmission.submitted).getTime(),
       identifier: dbSubmission.identifier,
+      repoIdentifier: dbSubmission.repository_identifier,
       url: dbSubmission.url,
-      id: dbSubmission._id,
+      id: dbSubmission.identifier, // TODO: we should call this something else. It is not the same as the schema's identifier
     };
   }
 
@@ -77,7 +80,7 @@ export default class Submission extends Model implements ISubmission {
         ? apiSubmission.identifier[0]
         : apiSubmission.identifier,
       url: apiSubmission.url,
-      id: apiSubmission._id,
+      id: apiSubmission.identifier,
     };
   }
 
@@ -133,11 +136,11 @@ export default class Submission extends Model implements ISubmission {
 
       if (response.ok) {
         await Submission.delete([id]);
-        // data = data.map(this.getInsertDataFromDb);
-        // this.insertOrUpdate({ data });
-      } else if (response.status === 401) {
-        // User has been logged out
-        // User.logOut();
+      } else {
+        Notifications.toast({
+          message: "Failed to delete submission",
+          type: "error",
+        });
       }
 
       return response.status;
@@ -184,11 +187,11 @@ export default class Submission extends Model implements ISubmission {
 
   /**
    * Refreshes a submission by re-fetching the data from the repository
-   * @param {string} identifier - the identifier of the resource in the repository
+   * @param {string} repoIdentifier - the identifier of the resource in the repository
    */
-  static async updateSubmission(identifier: string) {
+  static async updateSubmission(repoIdentifier: string) {
     const response: Response = await fetch(
-      `${ENDPOINTS.refresh}/${identifier}`,
+      `${ENDPOINTS.refresh}/${repoIdentifier}`,
       {
         method: "PUT",
         headers: {
@@ -200,6 +203,7 @@ export default class Submission extends Model implements ISubmission {
 
     if (response.ok) {
       const result = await response.json();
+      console.log(result);
       Notifications.toast({
         message: "Your dataset has been updated!",
         type: "success",

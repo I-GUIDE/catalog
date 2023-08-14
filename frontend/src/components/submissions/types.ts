@@ -5,6 +5,7 @@ export interface ISubmission {
   identifier: string;
   url: string;
   id: string;
+  repoIdentifier?: string;
   // metadata: any;
 }
 

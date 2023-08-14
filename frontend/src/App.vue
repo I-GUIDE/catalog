@@ -222,7 +222,8 @@ export default class App extends Vue {
       attrs: { to: "/submissions" },
       label: "My Submissions",
       icon: "mdi-book-multiple",
-      isActive: () => this.$route.name === "dataset",
+      isActive: () =>
+        this.$route.name === "dataset" || this.$route.name === "dataset-edit",
     },
     {
       attrs: { to: "/contribute" },

@@ -73,7 +73,7 @@ async def delete_dataset(submission_id: PydanticObjectId, user: Annotated[User, 
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
     user.submissions.remove(submission)
     await user.save(link_rule=WriteRules.WRITE)
-    await submission.delete(link_rule=DeleteRules.DELETE_LINKS)
+    await submission.delete()
     await dataset.delete()
     return {"deleted_dataset_id": submission_id}
 
