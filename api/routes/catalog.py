@@ -22,7 +22,7 @@ async def create_dataset(document: DatasetMetadataDOC, user: Annotated[User, Dep
     return document
 
 
-@router.get("/dataset/{submission_id}", response_model=DatasetMetadataDOC)
+@router.get("/dataset/{submission_id}", response_model=DatasetMetadataDOC, response_model_exclude_none=True)
 async def get_dataset(submission_id: PydanticObjectId, user: Annotated[User, Depends(get_current_user)]):
     submission = user.submission(submission_id)
     if submission is None:
@@ -34,7 +34,7 @@ async def get_dataset(submission_id: PydanticObjectId, user: Annotated[User, Dep
     return document
 
 
-@router.get("/dataset/", response_model=List[DatasetMetadataDOC])
+@router.get("/dataset/", response_model=List[DatasetMetadataDOC], response_model_exclude_none=True)
 async def get_datasets(user: Annotated[User, Depends(get_current_user)]):
     documents = [await DatasetMetadataDOC.get(submission.identifier) for submission in user.submissions]
     return documents
