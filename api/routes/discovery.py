@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 class SearchQuery(BaseModel):
-    term: str = 'Dataset'
+    term: str = None
     sortBy: str = None
     contentType: str = None
     providerName: str = None
@@ -27,7 +27,7 @@ class SearchQuery(BaseModel):
 
     @validator('*')
     def empty_str_to_none(cls, v, field, **kwargs):
-        if field.name == 'term':
+        if field.name == 'term' and v:
             return v.strip()
 
         if isinstance(v, str) and v.strip() == '':
@@ -90,7 +90,7 @@ class SearchQuery(BaseModel):
 
     @property
     def _should(self):
-        search_paths = ['name', 'description', 'keywords', 'keywords.name', '@type']
+        search_paths = ['name', 'description', 'keywords', 'keywords.name']
         should = [
             {'autocomplete': {'query': self.term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in search_paths
         ]
@@ -99,6 +99,7 @@ class SearchQuery(BaseModel):
     @property
     def _must(self):
         must = []
+        must.append({'term': {'path': '@type', 'query': "Dataset"}})
         if self.contentType:
             must.append({'term': {'path': '@type', 'query': self.contentType}})
         if self.creatorName:
@@ -125,15 +126,20 @@ class SearchQuery(BaseModel):
     def stages(self):
         highlightPaths = ['name', 'description', 'keywords', 'keywords.name', 'creator.name']
         stages = []
-        stages.append(
+        compound = {'filter': self._filters, 'must': self._must}
+        if self.term:
+            compound['should'] = self._should
+        search_stage = \
             {
                 '$search': {
                     'index': 'fuzzy_search',
-                    'compound': {'filter': self._filters, 'should': self._should, 'must': self._must},
-                    'highlight': {'path': highlightPaths},
+                    'compound': compound,
                 }
             }
-        )
+        if self.term:
+            search_stage["$search"]['highlight'] = {'path': highlightPaths}
+
+        stages.append(search_stage)
 
         # sorting needs to happen before pagination
         if self.sortBy:
