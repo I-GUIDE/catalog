@@ -31,7 +31,7 @@ spec:
       port:
         number: 80
   rules:
-  - https:
+  - http:
       paths:
       - pathType: Prefix
         path: "/api"
@@ -49,6 +49,13 @@ spec:
               number: 80
       - pathType: Prefix
         path: "/redoc"
+        backend:
+          service:
+            name: api
+            port:
+              number: 80
+      - pathType: Prefix
+        path: "/openapi.json "
         backend:
           service:
             name: api
