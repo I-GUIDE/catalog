@@ -4,6 +4,7 @@
     class="cd-home-search"
     alt="Landscape with a river and trees during fall"
     :src="require('@/assets/img/bg2.jpg')"
+    :height="$vuetify.breakpoint.smAndDown ? 600 : 500"
   >
     <v-container
       class="d-flex flex-column justify-center align-center full-height pa-12"

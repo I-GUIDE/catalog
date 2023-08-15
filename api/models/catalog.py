@@ -33,4 +33,4 @@ class CoreMetadataDOC(Document, CoreMetadata):
 
 
 class DatasetMetadataDOC(CoreMetadataDOC):
-    pass
+    repository_identifier: str = None

@@ -40,3 +40,17 @@ spec:
             name: api
             port:
               number: 80
+      - pathType: Prefix
+        path: "/docs"
+        backend:
+          service:
+            name: api
+            port:
+              number: 80
+      - pathType: Prefix
+        path: "/redoc"
+        backend:
+          service:
+            name: api
+            port:
+              number: 80

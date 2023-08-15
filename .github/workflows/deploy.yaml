@@ -31,8 +31,10 @@ jobs:
         DB_PROTOCOL: ${{ secrets.DB_PROTOCOL }}
         TESTING: ${{ secrets.TESTING }}
         VUE_APP_LOGIN_URL: ${{ secrets.VUE_APP_LOGIN_URL }}
+        HYDROSHARE_META_READ_URL: ${{ secrets.HYDROSHARE_META_READ_URL}}
+        HYDROSHARE_FILE_READ_URL: ${{ secrets.HYDROSHARE_FILE_READ_URL}}
       run: |
-        variables=("OIDC_ISSUER" "DB_USERNAME" "DB_PASSWORD" "DB_HOST" "DATABASE_NAME" "DB_PROTOCOL" "TESTING" "VUE_APP_LOGIN_URL")
+        variables=("OIDC_ISSUER" "DB_USERNAME" "DB_PASSWORD" "DB_HOST" "DATABASE_NAME" "DB_PROTOCOL" "TESTING" "VUE_APP_LOGIN_URL" "HYDROSHARE_META_READ_URL" "HYDROSHARE_FILE_READ_URL")
 
         # Empty the .env file
         > .env
@@ -68,7 +70,7 @@ jobs:
         gcloud auth configure-docker us-central1-docker.pkg.dev
         docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:latest -f docker/api/Dockerfile .
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:latest
-        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest -f docker/frontend/Dockerfile frontend/
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest -f docker/frontend/Dockerfile .
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:latest
         docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:latest -f docker/triggers/Dockerfile .
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:latest
