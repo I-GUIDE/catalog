@@ -22,21 +22,28 @@ async def create_dataset(document: DatasetMetadataDOC, user: Annotated[User, Dep
     return document
 
 
+def inject_repository_identifier(submission: Submission, document: DatasetMetadataDOC):
+    if submission.repository_identifier:
+        document.repository_identifier = submission.repository_identifier
+    return document
+
 @router.get("/dataset/{submission_id}", response_model=DatasetMetadataDOC, response_model_exclude_none=True)
 async def get_dataset(submission_id: PydanticObjectId, user: Annotated[User, Depends(get_current_user)]):
-    submission = user.submission(submission_id)
+    submission: Submission = user.submission(submission_id)
     if submission is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
 
-    document = await DatasetMetadataDOC.get(submission.identifier)
+    document: DatasetMetadataDOC = await DatasetMetadataDOC.get(submission.identifier)
     if document is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
+
+    document = inject_repository_identifier(submission, document)
     return document
 
 
 @router.get("/dataset/", response_model=List[DatasetMetadataDOC], response_model_exclude_none=True)
 async def get_datasets(user: Annotated[User, Depends(get_current_user)]):
-    documents = [await DatasetMetadataDOC.get(submission.identifier) for submission in user.submissions]
+    documents = [inject_repository_identifier(submission, await DatasetMetadataDOC.get(submission.identifier)) for submission in user.submissions]
     return documents
 
 
@@ -60,6 +67,7 @@ async def update_dataset(
     updated_submission.repository_identifier = submission.repository_identifier
     updated_submission.repository = submission.repository
     await submission.set(updated_submission.dict(exclude_unset=True))
+    dataset = inject_repository_identifier(submission, dataset)
     return dataset
 
 
@@ -93,6 +101,7 @@ async def register_hydroshare_resource_metadata(identifier: str, user: Annotated
             detail="This resource has already been submitted by this user",
         )
     dataset = await _save_to_db(identifier, user)
+    dataset = inject_repository_identifier(submission, dataset)
     return dataset
 
 
@@ -107,6 +116,7 @@ async def refresh_dataset_from_hydroshare(identifier: str, user: Annotated[User,
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
 
     dataset = await _save_to_db(identifier, user, submission)
+    dataset = inject_repository_identifier(submission, dataset)
     return dataset
 
 
