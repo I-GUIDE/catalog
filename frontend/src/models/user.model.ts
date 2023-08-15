@@ -156,9 +156,9 @@ export default class User extends Model {
 
   static async fetchSchemas() {
     const responses: PromiseSettledResult<any>[] = await Promise.allSettled([
-      fetch(`${ENDPOINTS.schemaUrl}`),
-      fetch(`${ENDPOINTS.uiSchemaUrl}`),
-      fetch(`${ENDPOINTS.schemaDefaultsUrl}`),
+      fetch(`${ENDPOINTS.schemaUrl}/`),
+      fetch(`${ENDPOINTS.uiSchemaUrl}/`),
+      fetch(`${ENDPOINTS.schemaDefaultsUrl}/`),
     ]);
 
     const results = responses.map((r: PromiseSettledResult<any>) => {
@@ -194,7 +194,7 @@ export default class User extends Model {
   }
 
   static async submit(data: any) {
-    const response: Response = await fetch(`${ENDPOINTS.submit}`, {
+    const response: Response = await fetch(`${ENDPOINTS.submit}/`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -212,7 +212,7 @@ export default class User extends Model {
    * @param {any} data - the form data to be saved
    */
   static async updateDataset(id: string, data: any) {
-    const response: Response = await fetch(`${ENDPOINTS.dataset}/${id}`, {
+    const response: Response = await fetch(`${ENDPOINTS.dataset}/${id}/`, {
       method: "PUT",
       body: JSON.stringify(data),
       headers: {
@@ -232,7 +232,7 @@ export default class User extends Model {
   }
 
   static async fetchDataset(id: string) {
-    const response: Response = await fetch(`${ENDPOINTS.dataset}/${id}`, {
+    const response: Response = await fetch(`${ENDPOINTS.dataset}/${id}/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

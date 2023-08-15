@@ -167,6 +167,10 @@ export default class CdContribute extends Vue {
           type: "success",
         });
         this.hasUnsavedChanges = false;
+        this.$router.push({
+          name: "dataset",
+          params: { id: this.submissionId },
+        });
       }
     } catch (e) {
       Notifications.toast({

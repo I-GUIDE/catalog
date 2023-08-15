@@ -67,7 +67,7 @@ export default class Search extends Model {
   /** Performs a typeahead search and returns the results */
   public static async typeahead(params: ITypeaheadParams): Promise<any[]> {
     const response: Response = await fetch(
-      `${ENDPOINTS.typeahead}?${getQueryString(params)}`
+      `${ENDPOINTS.typeahead}?${getQueryString(params)}/`
     );
     if (!response.ok) {
       throw new Error("Network response was not OK");

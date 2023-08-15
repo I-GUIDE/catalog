@@ -125,7 +125,7 @@ export default class Submission extends Model implements ISubmission {
     console.log("Deleting submission...");
     try {
       const response: Response = await fetch(
-        `${ENDPOINTS.deleteSubmission}/${identifier}`,
+        `${ENDPOINTS.deleteSubmission}/${identifier}/`,
         {
           method: "DELETE",
           headers: {
@@ -159,7 +159,7 @@ export default class Submission extends Model implements ISubmission {
    */
   static async registerSubmission(identifier: string) {
     const response: Response = await fetch(
-      `${ENDPOINTS.register}/${identifier}`,
+      `${ENDPOINTS.register}/${identifier}/`,
       {
         method: "GET",
         headers: {
@@ -200,7 +200,7 @@ export default class Submission extends Model implements ISubmission {
    */
   static async updateSubmission(repoIdentifier: string) {
     const response: Response = await fetch(
-      `${ENDPOINTS.refresh}/${repoIdentifier}`,
+      `${ENDPOINTS.refresh}/${repoIdentifier}/`,
       {
         method: "PUT",
         headers: {

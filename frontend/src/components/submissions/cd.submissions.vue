@@ -513,10 +513,6 @@ export default class CdSubmissions extends Vue {
     this.loggedInSubject.unsubscribe();
   }
 
-  protected goToEdit(item) {
-    console.log(item);
-  }
-
   protected nextPage() {
     if (this.page + 1 <= this.numberOfPages) this.page += 1;
   }
