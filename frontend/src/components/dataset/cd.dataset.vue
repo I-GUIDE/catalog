@@ -2,18 +2,18 @@
   <v-container class="cd-contribute">
     <div class="display-1">Dataset</div>
     <v-divider class="my-4"></v-divider>
-    <div v-if="data.repoIdentifier" class="flex">
+    <div v-if="!data.repository_identifier" class="d-flex">
       <v-spacer></v-spacer>
       <v-btn
         @click="
           $router.push({
             name: 'dataset-edit',
-            params: { id: submissionId },
+            params: { id: data._id },
           })
         "
         rounded
       >
-        <v-icon>mdi-pencil</v-icon><span class="ml-1">Edit</span>
+        <v-icon>mdi-text-box-edit</v-icon><span class="ml-1">Edit</span>
       </v-btn>
     </div>
     <template v-if="!isLoading && wasLoaded">
