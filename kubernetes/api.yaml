@@ -8,10 +8,9 @@ spec:
   selector:
     app: api
   ports:
-  - name: http
-    protcol: TCP
-    port: 80
+  - port: 80
     targetPort: 8000
+    protocol: TCP
 ---
 apiVersion: apps/v1
 kind: Deployment
