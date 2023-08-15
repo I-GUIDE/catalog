@@ -68,6 +68,7 @@ async def update_dataset(
     updated_submission = dataset.as_submission()
     updated_submission.repository_identifier = submission.repository_identifier
     updated_submission.repository = submission.repository
+    updated_submission.submitted = submission.submitted
     await submission.set(updated_submission.dict(exclude_unset=True))
     dataset = inject_repository_identifier(submission, dataset)
     return dataset
@@ -144,6 +145,7 @@ async def _save_to_db(identifier: str, user: User, submission: Submission = None
         updated_dataset = await DatasetMetadataDOC.get(submission.identifier)
         updated_submission = updated_dataset.as_submission()
         updated_submission = adapter.update_submission(submission=updated_submission, repo_record_id=identifier)
+        updated_submission.submitted = submission.submitted
         await submission.set(updated_submission.dict(exclude_unset=True))
         dataset = updated_dataset
 
