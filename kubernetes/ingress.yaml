@@ -31,7 +31,7 @@ spec:
       port:
         number: 80
   rules:
-  - http:
+  - https:
       paths:
       - pathType: Prefix
         path: "/api"
