@@ -143,7 +143,7 @@ class SearchQuery(BaseModel):
 
         # sorting needs to happen before pagination
         if self.sortBy:
-            stages.append({'$sort': {self.sortBy: 1}})
+            stages.append({'$sort': {self.sortBy: -1}})
         stages.append({'$skip': (self.pageNumber - 1) * self.pageSize})
         stages.append({'$limit': self.pageSize})
         #stages.append({'$unset': ['_id', '_class_id']})
