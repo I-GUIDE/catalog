@@ -180,7 +180,7 @@ class License(CreativeWork):
 class LanguageEnum(str, Enum):
     @classmethod
     def __modify_schema__(cls, field_schema: Dict[str, Any]) -> None:
-        field_schema.update(type='string', title='Language')
+        field_schema.update(type='string', title='Language', description='')
 
     eng = 'eng'
     esp = 'esp'
