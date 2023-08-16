@@ -219,7 +219,14 @@ export default class CdContribute extends Vue {
   }
 
   protected onCancel() {
-    this.$router.push({ name: "home" });
+    if (this.isEditMode) {
+      this.$router.push({
+        name: "dataset",
+        params: { id: this.submissionId },
+      });
+    } else {
+      this.$router.push({ name: "submissions" });
+    }
   }
 
   protected onDataChange(data) {
