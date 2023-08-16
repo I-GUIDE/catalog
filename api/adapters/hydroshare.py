@@ -224,7 +224,7 @@ class _HydroshareResourceMetadata(BaseModel):
     creators: List[Creator]
     created: datetime
     modified: datetime
-    published: datetime
+    published: Optional[datetime]
     subjects: Optional[List[str]]
     language: str
     rights: Rights

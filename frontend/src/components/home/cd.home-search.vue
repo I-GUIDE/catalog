@@ -25,13 +25,19 @@
           {{ $t("home.search.inputLabel") }}
         </div>
         <cd-search />
+        <div class="has-text-shadow text-h5 mt-12 mb-2">
+          Not sure what you are looking for?
+        </div>
+        <v-btn @click="$router.push({ name: 'search' })" color="white"
+          >Browse IGUIDE catalog</v-btn
+        >
       </div>
     </v-container>
   </v-parallax>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Ref } from "vue-property-decorator";
 import CdSearch from "@/components/search/cd.search.vue";
 
 @Component({
