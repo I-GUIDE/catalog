@@ -144,6 +144,9 @@ class SearchQuery(BaseModel):
 
         # sorting needs to happen before pagination
         if self.sortBy:
+            if self.sortBy == "name":
+                self.sortBy = "name_for_sorting"
+                self.reverseSort = not self.reverseSort
             stages.append({'$sort': {self.sortBy: -1 if self.reverseSort else 1}})
         stages.append({'$skip': (self.pageNumber - 1) * self.pageSize})
         stages.append({'$limit': self.pageSize})
@@ -157,6 +160,7 @@ class SearchQuery(BaseModel):
 @router.get("/search")
 async def search(request: Request, search_query: SearchQuery = Depends()):
     stages = search_query.stages
+    print(stages)
     result = await request.app.mongodb["discovery"].aggregate(stages).to_list(search_query.pageSize)
     import json
     json_str = json.dumps(result, default=str)
