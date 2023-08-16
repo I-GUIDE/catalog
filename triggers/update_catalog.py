@@ -13,7 +13,7 @@ logger = logging.getLogger()
 
 
 async def _main():
-    logger.warning("starting up watch submissions")
+    logger.warning("starting up watch catalog")
     settings = get_settings()
     db = AsyncIOMotorClient(settings.db_connection_string)[settings.database_name]
     await init_beanie(database=db, document_models=[Submission])
@@ -21,27 +21,28 @@ async def _main():
     try:
         while True:
             try:
-                await watch_submissions(db)
+                await watch_catalog(db)
             except:
                 logger.exception("Submission Watch Task failed, restarting the task")
     finally:
         db.close()
 
 
-async def watch_submissions(db: AsyncIOMotorClient):
-    async with db["Submission"].watch(full_document="updateLookup",
-                                      full_document_before_change="whenAvailable") as stream:
+async def watch_catalog(db: AsyncIOMotorClient):
+    async with db["catalog"].watch(full_document="updateLookup", full_document_before_change="whenAvailable") as stream:
         # stream.resume_token
         async for change in stream:
             if change["operationType"] == "delete":
                 document = change["fullDocumentBeforeChange"]
-                await db["discovery"].delete_one({"_id": document["identifier"]})
+                await db["discovery"].delete_one({"_id": document["_id"]})
             else:
                 document = change["fullDocument"]
-                catalog_entry = await db["catalog"].find_one({"_id": document["identifier"]})
-                catalog_entry["registrationDate"] = document["submitted"]
+                catalog_entry = await db["catalog"].find_one({"_id": document["_id"]})
+                submission: Submission = await Submission.find_one({"identifier": document["_id"]})
+                catalog_entry["registrationDate"] = submission.submitted
+                catalog_entry["name_for_sorting"] = str.lower(catalog_entry["name"])
                 await db["discovery"].find_one_and_replace(
-                        {"_id": document["identifier"]}, catalog_entry, upsert=True
+                        {"_id": document["_id"]}, catalog_entry, upsert=True
                     )
 
 

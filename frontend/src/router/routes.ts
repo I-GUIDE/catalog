@@ -81,6 +81,8 @@ export const routes: RouteConfig[] = [
     components: { content: CdContribute, footer: CdFooter },
     meta: {
       title: "Edit Dataset",
+      hasUnsavedChangesGuard: true,
+      hasLoggedInGuard: true,
     },
   },
   {

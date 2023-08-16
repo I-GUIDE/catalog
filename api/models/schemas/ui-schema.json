@@ -449,28 +449,22 @@
                         "options": {
                           "map": {
                             "type": "box",
-                            "northlimit": "northlimit",
-                            "eastlimit": "eastlimit",
-                            "southlimit": "southlimit",
-                            "westlimit": "westlimit"
+                            "format": "GeoShape",
+                            "box": "box"
                           }
                         },
                         "elements": [
                           {
                             "type": "Control",
-                            "scope": "#/properties/northlimit"
+                            "scope": "#/properties/@type",
+                            "rule": {
+                              "effect": "HIDE",
+                              "condition": {}
+                            }
                           },
                           {
                             "type": "Control",
-                            "scope": "#/properties/eastlimit"
-                          },
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/southlimit"
-                          },
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/westlimit"
+                            "scope": "#/properties/box"
                           }
                         ]
                       }
