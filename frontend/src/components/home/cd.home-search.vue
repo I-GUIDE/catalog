@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Ref } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import CdSearch from "@/components/search/cd.search.vue";
 
 @Component({

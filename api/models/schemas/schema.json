@@ -440,7 +440,7 @@
       "anyOf": [
         {
           "title": "Language",
-          "description": "An enumeration.",
+          "description": "",
           "enum": [
             "eng",
             "esp"
@@ -1178,7 +1178,7 @@
     },
     "LanguageEnum": {
       "title": "Language",
-      "description": "An enumeration.",
+      "description": "",
       "enum": [
         "eng",
         "esp"

@@ -33,13 +33,14 @@ async def watch_catalog(db: AsyncIOMotorClient):
         async for change in stream:
             if change["operationType"] == "delete":
                 document = change["fullDocumentBeforeChange"]
-                await db["discovery"].delete_one({"_id": document["identifier"]})
+                await db["discovery"].delete_one({"_id": document["_id"]})
             else:
                 document = change["fullDocument"]
-                catalog_entry = await db["catalog"].find_one({"_id": document["identifier"]})
-                catalog_entry["registrationDate"] = document["submitted"]
+                catalog_entry = await db["catalog"].find_one({"_id": document["_id"]})
+                submission: Submission = await Submission.find_one({"identifier": document["_id"]})
+                catalog_entry["registrationDate"] = submission.submitted
                 await db["discovery"].find_one_and_replace(
-                        {"_id": document["identifier"]}, catalog_entry, upsert=True
+                        {"_id": document["_id"]}, catalog_entry, upsert=True
                     )
 
 
