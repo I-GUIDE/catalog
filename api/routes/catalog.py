@@ -11,18 +11,18 @@ from api.models.user import Submission, User
 router = APIRouter()
 
 
+def inject_repository_identifier(submission: Submission, document: DatasetMetadataDOC):
+    if submission.repository_identifier:
+        document.repository_identifier = submission.repository_identifier
+    return document
+
+
 @router.post("/dataset/", response_model=DatasetMetadataDOC, status_code=status.HTTP_201_CREATED)
 async def create_dataset(document: DatasetMetadataDOC, user: Annotated[User, Depends(get_current_user)]):
     await document.insert()
     submission = document.as_submission()
     user.submissions.append(submission)
     await user.save(link_rule=WriteRules.WRITE)
-    return document
-
-
-def inject_repository_identifier(submission: Submission, document: DatasetMetadataDOC):
-    if submission.repository_identifier:
-        document.repository_identifier = submission.repository_identifier
     return document
 
 
