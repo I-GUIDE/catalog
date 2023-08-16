@@ -85,7 +85,7 @@ class Server(uvicorn.Server):
 async def main():
     """Run FastAPI"""
 
-    server = Server(config=uvicorn.Config(app, workers=1, loop="asyncio", host="0.0.0.0", port=8000))
+    server = Server(config=uvicorn.Config(app, workers=1, loop="asyncio", host="0.0.0.0", port=8000, forwarded_allow_ips="*"))
     api = asyncio.create_task(server.serve())
 
     await asyncio.wait([api])

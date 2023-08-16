@@ -38,6 +38,7 @@ async def watch_submissions(db: AsyncIOMotorClient):
             else:
                 document = change["fullDocument"]
                 catalog_entry = await db["catalog"].find_one({"_id": document["identifier"]})
+                catalog_entry["registrationDate"] = document["submitted"]
                 await db["discovery"].find_one_and_replace(
                         {"_id": document["identifier"]}, catalog_entry, upsert=True
                     )

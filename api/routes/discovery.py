@@ -7,8 +7,9 @@ router = APIRouter()
 
 
 class SearchQuery(BaseModel):
-    term: str
+    term: str = None
     sortBy: str = None
+    reverseSort: bool = True
     contentType: str = None
     providerName: str = None
     creatorName: str = None
@@ -27,7 +28,7 @@ class SearchQuery(BaseModel):
 
     @field_validator('*')
     def empty_str_to_none(cls, v, info: FieldValidationInfo):
-        if info.field_name == 'term':
+        if info.field_name == 'term' and v:
             return v.strip()
 
         if isinstance(v, str) and v.strip() == '':
@@ -82,25 +83,26 @@ class SearchQuery(BaseModel):
 
         if self.dataCoverageStart:
             filters.append(
-                {'range': {'path': 'temporalCoverageStart', 'gte': datetime(self.dataCoverageStart, 1, 1)}}
+                {'range': {'path': 'temporalCoverage.startDate', 'gte': datetime(self.dataCoverageStart, 1, 1)}}
             )
         if self.dataCoverageEnd:
             filters.append(
-                {'range': {'path': 'temporalCoverageEnd', 'lt': datetime(self.dataCoverageEnd + 1, 1, 1)}}
+                {'range': {'path': 'temporalCoverage.endDate', 'lt': datetime(self.dataCoverageEnd + 1, 1, 1)}}
             )
         return filters
 
     @property
     def _should(self):
-        auto_complete_paths = ['name', 'description', 'keywords', 'keywords.name']
+        search_paths = ['name', 'description', 'keywords', 'keywords.name']
         should = [
-            {'autocomplete': {'query': self.term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in auto_complete_paths
+            {'autocomplete': {'query': self.term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in search_paths
         ]
         return should
 
     @property
     def _must(self):
         must = []
+        must.append({'term': {'path': '@type', 'query': "Dataset"}})
         if self.contentType:
             must.append({'term': {'path': '@type', 'query': self.contentType}})
         if self.creatorName:
@@ -127,19 +129,24 @@ class SearchQuery(BaseModel):
     def stages(self):
         highlightPaths = ['name', 'description', 'keywords', 'keywords.name', 'creator.name']
         stages = []
-        stages.append(
+        compound = {'filter': self._filters, 'must': self._must}
+        if self.term:
+            compound['should'] = self._should
+        search_stage = \
             {
                 '$search': {
                     'index': 'fuzzy_search',
-                    'compound': {'filter': self._filters, 'should': self._should, 'must': self._must},
-                    'highlight': {'path': highlightPaths},
+                    'compound': compound,
                 }
             }
-        )
+        if self.term:
+            search_stage["$search"]['highlight'] = {'path': highlightPaths}
+
+        stages.append(search_stage)
 
         # sorting needs to happen before pagination
         if self.sortBy:
-            stages.append({'$sort': {self.sortBy: 1}})
+            stages.append({'$sort': {self.sortBy: -1 if self.reverseSort else 1}})
         stages.append({'$skip': (self.pageNumber - 1) * self.pageSize})
         stages.append({'$limit': self.pageSize})
         #stages.append({'$unset': ['_id', '_class_id']})
@@ -160,8 +167,8 @@ async def search(request: Request, search_query: SearchQuery = Depends()):
 
 @router.get("/typeahead")
 async def typeahead(request: Request, term: str, pageSize: int = 30):
-    auto_complete_paths = ['name', 'description', 'keywords', 'keywords.name']
-    should = [{'autocomplete': {'query': term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in auto_complete_paths]
+    search_paths = ['name', 'description', 'keywords', 'keywords.name']
+    should = [{'autocomplete': {'query': term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in search_paths]
 
     stages = [
         {
