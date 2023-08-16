@@ -39,6 +39,7 @@ async def watch_catalog(db: AsyncIOMotorClient):
                 catalog_entry = await db["catalog"].find_one({"_id": document["_id"]})
                 submission: Submission = await Submission.find_one({"identifier": document["_id"]})
                 catalog_entry["registrationDate"] = submission.submitted
+                catalog_entry["name_for_sorting"] = str.lower(catalog_entry["name"])
                 await db["discovery"].find_one_and_replace(
                         {"_id": document["_id"]}, catalog_entry, upsert=True
                     )
