@@ -46,6 +46,7 @@ async def test_hydroshare_resource_meta_adapter(hydroshare_resource_metadata, co
 
     assert dataset.dateCreated == datetime.fromisoformat("2023-05-31T03:12:34.504216+00:00")
     assert dataset.dateModified == datetime.fromisoformat("2023-06-23T21:43:10.582708+00:00")
+    assert dataset.datePublished == datetime.fromisoformat("2023-07-23T21:43:10.582708+00:00")
     assert dataset.keywords == ["Logan River", "Snow water equivalent", "UEB"]
     assert dataset.license.name == "This resource is shared under the Creative Commons Attribution CC BY."
     assert dataset.license.url == "http://creativecommons.org/licenses/by/4.0/"

@@ -224,6 +224,7 @@ class _HydroshareResourceMetadata(BaseModel):
     creators: List[Creator]
     created: datetime
     modified: datetime
+    published: datetime
     subjects: Optional[List[str]]
     language: str
     rights: Rights
@@ -301,6 +302,7 @@ class _HydroshareResourceMetadata(BaseModel):
         dataset.creator = self.to_dataset_creators()
         dataset.dateCreated = self.created
         dataset.dateModified = self.modified
+        dataset.datePublished = self.published
         dataset.keywords = self.to_dataset_keywords()
         dataset.inLanguage = self.language
         dataset.funding = self.to_dataset_funding()

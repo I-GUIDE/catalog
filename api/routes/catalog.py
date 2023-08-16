@@ -27,8 +27,8 @@ async def create_dataset(document: DatasetMetadataDOC, user: Annotated[User, Dep
 
 
 @router.get("/dataset/{submission_id}", response_model=DatasetMetadataDOC, response_model_exclude_none=True)
-async def get_dataset(submission_id: PydanticObjectId, user: Annotated[User, Depends(get_current_user)]):
-    submission: Submission = user.submission(submission_id)
+async def get_dataset(submission_id: PydanticObjectId):
+    submission: Submission = await Submission.find_one(Submission.identifier == submission_id)
     if submission is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
 

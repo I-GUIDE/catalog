@@ -200,6 +200,8 @@
       "type": "Control",
       "scope": "#/properties/creator",
       "options": {
+        "showSortButtons": true,
+        "elementLabelProp": "name",
         "detail": {
           "type": "Control",
           "scope": "#",

@@ -54,3 +54,10 @@ spec:
             name: api
             port:
               number: 80
+      - pathType: Prefix
+        path: "/openapi.json"
+        backend:
+          service:
+            name: api
+            port:
+              number: 80
