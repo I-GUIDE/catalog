@@ -61,13 +61,14 @@ async def update_dataset(
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
 
-    await dataset.set(updated_document.dict(exclude_unset=True, by_alias=True))
-    dataset = await DatasetMetadataDOC.get(submission_id)
-    updated_submission = dataset.as_submission()
+    updated_document.id = dataset.id
+    await updated_document.replace()
+    dataset: DatasetMetadataDOC = await DatasetMetadataDOC.get(submission_id)
+    updated_submission: Submission = dataset.as_submission()
     updated_submission.repository_identifier = submission.repository_identifier
     updated_submission.repository = submission.repository
     updated_submission.submitted = submission.submitted
-    await submission.set(updated_submission.dict(exclude_unset=True))
+    await submission.set(updated_submission.dict())
     dataset = inject_repository_identifier(submission, dataset)
     return dataset
 
@@ -136,12 +137,13 @@ async def _save_to_db(repository_type: RepositoryType, identifier: str, user: Us
     else:
         # update existing registration
         dataset: DatasetMetadataDOC = await DatasetMetadataDOC.get(submission.identifier)
-        await dataset.set(repo_dataset.dict(exclude_unset=True, by_alias=True))
+        repo_dataset.id = dataset.id
+        await repo_dataset.replace()
         updated_dataset: DatasetMetadataDOC = await DatasetMetadataDOC.get(submission.identifier)
         updated_submission: Submission = updated_dataset.as_submission()
         updated_submission = adapter.update_submission(submission=updated_submission, repo_record_id=identifier)
         updated_submission.submitted = submission.submitted
-        await submission.set(updated_submission.dict(exclude_unset=True))
+        await submission.set(updated_submission.dict())
         dataset = updated_dataset
 
     dataset = inject_repository_identifier(submission, dataset)

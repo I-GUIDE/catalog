@@ -1,48 +1,7 @@
 {
   "mappings": {
-    "dynamic": false,
+    "dynamic": true,
     "fields": {
-      "@type": {
-        "analyzer": "lucene.keyword",
-        "searchAnalyzer": "lucene.keyword",
-        "type": "string"
-      },
-      "associatedMedia": {
-        "fields": {
-          "name": {
-            "type": "string"
-          }
-        },
-        "type": "document"
-      },
-      "creativeWorkStatus": [
-        {
-          "fields": {
-            "name": {
-              "analyzer": "lucene.keyword",
-              "searchAnalyzer": "lucene.keyword",
-              "type": "string"
-            }
-          },
-          "type": "document"
-        },
-        {
-          "analyzer": "lucene.keyword",
-          "searchAnalyzer": "lucene.keyword",
-          "type": "string"
-        }
-      ],
-      "creator": {
-        "fields": {
-          "name": {
-            "type": "string"
-          }
-        },
-        "type": "document"
-      },
-      "datePublished": {
-        "type": "date"
-      },
       "description": [
         {
           "type": "string"
@@ -51,46 +10,6 @@
           "type": "autocomplete"
         }
       ],
-      "funding": {
-        "fields": {
-          "funder": {
-            "fields": {
-              "name": {
-                "type": "string"
-              }
-            },
-            "type": "document"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "type": "document"
-      },
-      "hasPart": {
-        "fields": {
-          "name": {
-            "type": "string"
-          }
-        },
-        "type": "document"
-      },
-      "includedInDataCatalog": {
-        "fields": {
-          "name": {
-            "type": "string"
-          }
-        },
-        "type": "document"
-      },
-      "isPartOf": {
-        "fields": {
-          "name": {
-            "type": "string"
-          }
-        },
-        "type": "document"
-      },
       "keywords": [
         {
           "fields": {
@@ -106,31 +25,7 @@
       ],
       "name": {
         "type": "autocomplete"
-      },
-      "provider": {
-        "fields": {
-          "name": {
-            "type": "string"
-          }
-        },
-        "type": "document"
-      },
-      "temporalCoverage": {
-        "type": "string"
-      },
-      "variableMeasured": [
-        {
-          "type": "string"
-        },
-        {
-          "fields": {
-            "name": {
-              "type": "string"
-            }
-          },
-          "type": "document"
-        }
-      ]
+      }
     }
   }
 }

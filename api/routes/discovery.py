@@ -160,7 +160,6 @@ class SearchQuery(BaseModel):
 @router.get("/search")
 async def search(request: Request, search_query: SearchQuery = Depends()):
     stages = search_query.stages
-    print(stages)
     result = await request.app.mongodb["discovery"].aggregate(stages).to_list(search_query.pageSize)
     import json
     json_str = json.dumps(result, default=str)
