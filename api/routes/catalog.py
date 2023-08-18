@@ -65,11 +65,12 @@ async def update_dataset(
     await updated_document.replace()
     dataset: DatasetMetadataDOC = await DatasetMetadataDOC.get(submission_id)
     updated_submission: Submission = dataset.as_submission()
+    updated_submission.id = submission.id
     updated_submission.repository_identifier = submission.repository_identifier
     updated_submission.repository = submission.repository
     updated_submission.submitted = submission.submitted
-    await submission.set(updated_submission.dict())
-    dataset = inject_repository_identifier(submission, dataset)
+    await updated_submission.replace()
+    dataset = inject_repository_identifier(updated_submission, dataset)
     return dataset
 
 
@@ -142,9 +143,11 @@ async def _save_to_db(repository_type: RepositoryType, identifier: str, user: Us
         updated_dataset: DatasetMetadataDOC = await DatasetMetadataDOC.get(submission.identifier)
         updated_submission: Submission = updated_dataset.as_submission()
         updated_submission = adapter.update_submission(submission=updated_submission, repo_record_id=identifier)
+        updated_submission.id = submission.id
         updated_submission.submitted = submission.submitted
-        await submission.set(updated_submission.dict())
+        await updated_submission.replace()
         dataset = updated_dataset
+        submission = updated_submission
 
     dataset = inject_repository_identifier(submission, dataset)
     return dataset

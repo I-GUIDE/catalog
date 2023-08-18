@@ -54,16 +54,17 @@ async def do_daily():
             updated_dataset = await retrieve_repository_record(submission)
             if updated_dataset is not None:
                 # update catalog record
-                await dataset.set(updated_dataset.dict(exclude_unset=True, by_alias=True))
+                updated_dataset.id = dataset.id
+                await updated_dataset.replace()
 
                 # update submission record
                 dataset = await DatasetMetadataDOC.get(submission.identifier)
                 updated_submission = dataset.as_submission()
+                updated_submission.id = submission.id
                 updated_submission.submitted = submission.submitted
                 updated_submission.repository_identifier = submission.repository_identifier
                 updated_submission.repository = submission.repository
-                await submission.set(updated_submission.dict(exclude_unset=True))
-
+                await updated_submission.replace()
             else:
                 # couldn't retrieve matching repository record
                 await db["discovery"].delete_one({"_id": submission.identifier})
