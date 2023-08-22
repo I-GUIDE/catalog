@@ -52,8 +52,9 @@ jobs:
         VUE_APP_URL: ${{ secrets.VUE_APP_URL }}
         VUE_APP_LOGIN_URL: ${{ secrets.VUE_APP_LOGIN_URL }}
         VUE_APP_CLIENT_ID: ${{ secrets.VUE_APP_CLIENT_ID }}
+        VUE_APP_GOOGLE_MAPS_API_KEY: ${{ secrets.VUE_APP_GOOGLE_MAPS_API_KEY }}
       run: |
-        variables=("VUE_APP_NAME" "VUE_APP_API_URL" "VUE_APP_SUPPORT_EMAIL" "VUE_APP_URL" "VUE_APP_LOGIN_URL" "VUE_APP_CLIENT_ID")
+        variables=("VUE_APP_NAME" "VUE_APP_API_URL" "VUE_APP_SUPPORT_EMAIL" "VUE_APP_URL" "VUE_APP_LOGIN_URL" "VUE_APP_CLIENT_ID" "VUE_APP_GOOGLE_MAPS_API_KEY")
 
         # Empty the .env file
         > frontend/.env
