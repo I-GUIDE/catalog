@@ -1,5 +1,6 @@
 import logging
 import typer
+import time
 
 from asyncio import run as aiorun
 from beanie import init_beanie
@@ -38,6 +39,10 @@ async def watch_catalog(db: AsyncIOMotorClient):
                 document = change["fullDocument"]
                 catalog_entry = await db["catalog"].find_one({"_id": document["_id"]})
                 submission: Submission = await Submission.find_one({"identifier": document["_id"]})
+                if submission is None:
+                    # wait for the submission to save on initial create
+                    time.sleep(1)
+                    submission: Submission = await Submission.find_one({"identifier": document["_id"]})
                 catalog_entry["registrationDate"] = submission.submitted
                 catalog_entry["name_for_sorting"] = str.lower(catalog_entry["name"])
                 await db["discovery"].find_one_and_replace(
