@@ -192,6 +192,12 @@ class InLanguageStr(str):
         field_schema.update(type='string', title='Other', description="Please specify another language.")
 
 
+class IdentifierStr(str):
+    @classmethod
+    def __modify_schema__(cls, field_schema: Dict[str, Any]) -> None:
+        field_schema.update(type='string', title='Identifier')
+
+
 class Grant(SchemaBaseModel):
     type: str = Field(
         alias="@type",
@@ -375,7 +381,7 @@ class CoreMetadata(SchemaBaseModel):
                     "of the resource can be accessed. If there is no landing page,"
                     " provide the URL of the content."
     )
-    identifier: Optional[List[str]] = Field(
+    identifier: Optional[List[IdentifierStr]] = Field(
         title="Identifiers",
         description="Any kind of identifier for the resource. Identifiers may be DOIs or unique strings "
                     "assigned by a repository. Multiple identifiers can be entered. Where identifiers can be "

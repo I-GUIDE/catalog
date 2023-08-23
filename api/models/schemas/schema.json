@@ -51,7 +51,8 @@
       "description": "Any kind of identifier for the resource. Identifiers may be DOIs or unique strings assigned by a repository. Multiple identifiers can be entered. Where identifiers can be encoded as URLs, enter URLs here.",
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "string",
+        "title": "Identifier"
       }
     },
     "creator": {
