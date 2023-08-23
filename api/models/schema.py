@@ -1,4 +1,5 @@
 import re
+import json
 from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
@@ -92,7 +93,8 @@ class Creator(Person):
 class FunderOrganization(Organization):
     @classmethod
     def __modify_schema__(cls, field_schema: Dict[str, Any]) -> None:
-        field_schema.update(type='string', title='Funding Organization')
+        schema = json.loads(FunderOrganization.schema_json())
+        field_schema.update(schema, title="Funding Organization")
 
     name: str = Field(description="Name of the organization.")
 

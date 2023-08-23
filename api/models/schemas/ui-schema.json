@@ -786,67 +786,35 @@
               "scope": "#/properties/funder",
               "options": {
                 "detail": {
-                  "0": {
-                    "type": "VerticalLayout",
-                    "elements": [
-                      {
-                        "type": "Control",
-                        "scope": "#/properties/@type",
-                        "rule": {
-                          "effect": "HIDE",
-                          "condition": {}
-                        }
-                      },
-                      {
-                        "type": "Control",
-                        "scope": "#/properties/name"
-                      },
-                      {
-                        "type": "HorizontalLayout",
-                        "elements": [
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/email"
-                          },
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/identifier"
-                          }
-                        ]
+                  "label": "Organization",
+                  "type": "VerticalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/@type",
+                      "rule": {
+                        "effect": "HIDE",
+                        "condition": {}
                       }
-                    ]
-                  },
-                  "1": {
-                    "label": "Organization",
-                    "type": "VerticalLayout",
-                    "elements": [
-                      {
-                        "type": "Control",
-                        "scope": "#/properties/@type",
-                        "rule": {
-                          "effect": "HIDE",
-                          "condition": {}
+                    },
+                    {
+                      "type": "HorizontalLayout",
+                      "elements": [
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/name"
+                        },
+                        {
+                          "type": "Control",
+                          "scope": "#/properties/url"
                         }
-                      },
-                      {
-                        "type": "HorizontalLayout",
-                        "elements": [
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/name"
-                          },
-                          {
-                            "type": "Control",
-                            "scope": "#/properties/url"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "Control",
-                        "scope": "#/properties/address"
-                      }
-                    ]
-                  }
+                      ]
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/address"
+                    }
+                  ]
                 }
               }
             }
