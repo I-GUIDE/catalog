@@ -93,7 +93,8 @@ class Creator(Person):
 class FunderOrganization(Organization):
     @classmethod
     def __modify_schema__(cls, field_schema: Dict[str, Any]) -> None:
-        field_schema.update(title='Funding Organization', type="object", properties=json.loads(FunderOrganization.schema_json()))
+        schema = json.loads(FunderOrganization.schema_json())
+        field_schema.update(title='Funding Organization', type="object", properties=schema["properties"])
 
     name: str = Field(description="Name of the organization.")
 

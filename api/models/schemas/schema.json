@@ -592,40 +592,33 @@
             "description": "The organization that provided the funding or sponsorship.",
             "type": "object",
             "properties": {
-              "title": "FunderOrganization",
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "title": "@Type",
-                  "default": "Organization",
-                  "const": "Organization",
-                  "type": "string"
-                },
-                "name": {
-                  "title": "Name",
-                  "description": "Name of the organization.",
-                  "type": "string"
-                },
-                "url": {
-                  "title": "URL",
-                  "description": "A URL to the homepage for the organization.",
-                  "minLength": 1,
-                  "maxLength": 2083,
-                  "type": "string",
-                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-                  "errorMessage": {
-                    "pattern": "must match format \"url\""
-                  }
-                },
-                "address": {
-                  "title": "Address",
-                  "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
-                  "type": "string"
+              "@type": {
+                "title": "@Type",
+                "default": "Organization",
+                "const": "Organization",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "description": "Name of the organization.",
+                "type": "string"
+              },
+              "url": {
+                "title": "URL",
+                "description": "A URL to the homepage for the organization.",
+                "minLength": 1,
+                "maxLength": 2083,
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
                 }
               },
-              "required": [
-                "name"
-              ]
+              "address": {
+                "title": "Address",
+                "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
+                "type": "string"
+              }
             }
           }
         },
@@ -1343,40 +1336,33 @@
           "description": "The organization that provided the funding or sponsorship.",
           "type": "object",
           "properties": {
-            "title": "FunderOrganization",
-            "type": "object",
-            "properties": {
-              "@type": {
-                "title": "@Type",
-                "default": "Organization",
-                "const": "Organization",
-                "type": "string"
-              },
-              "name": {
-                "title": "Name",
-                "description": "Name of the organization.",
-                "type": "string"
-              },
-              "url": {
-                "title": "URL",
-                "description": "A URL to the homepage for the organization.",
-                "minLength": 1,
-                "maxLength": 2083,
-                "type": "string",
-                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-                "errorMessage": {
-                  "pattern": "must match format \"url\""
-                }
-              },
-              "address": {
-                "title": "Address",
-                "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
-                "type": "string"
+            "@type": {
+              "title": "@Type",
+              "default": "Organization",
+              "const": "Organization",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "description": "Name of the organization.",
+              "type": "string"
+            },
+            "url": {
+              "title": "URL",
+              "description": "A URL to the homepage for the organization.",
+              "minLength": 1,
+              "maxLength": 2083,
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
               }
             },
-            "required": [
-              "name"
-            ]
+            "address": {
+              "title": "Address",
+              "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
+              "type": "string"
+            }
           }
         }
       },
