@@ -127,11 +127,15 @@
             @click="showMobileNavigation = false"
             :id="`drawer-nav-${path.label.replaceAll(/[\/\s]/g, ``)}`"
             :key="path.attrs.to || path.attrs.href"
-            active-class="primary darken-4 white--text"
-            :class="path.isActive?.() ? 'primary' : ''"
+            active-class="primary darken-3 white--text"
+            :class="path.isActive?.() ? 'primary darken-4 white--text' : ''"
             v-bind="path.attrs"
           >
-            <v-icon class="mr-2">{{ path.icon }}</v-icon>
+            <v-icon
+              :class="path.isActive?.() ? 'white--text' : ''"
+              class="mr-2"
+              >{{ path.icon }}</v-icon
+            >
             <span>{{ path.label }}</span>
           </v-list-item>
         </v-list-item-group>
