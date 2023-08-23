@@ -4,8 +4,6 @@
       {{ isEditMode ? "Edit Submission" : "Contribute" }}
     </div>
 
-    <pre>{{ data }}</pre>
-
     <template v-if="!isEditMode || (!isLoading && wasLoaded)">
       <cz-form
         :schema="schema"
@@ -14,7 +12,6 @@
         :data.sync="data"
         :errors.sync="errors"
         :config="config"
-        @update:errors="onErrorsChange"
         @update:data="onDataChange"
         ref="form"
       />
@@ -230,10 +227,6 @@ export default class CdContribute extends Vue {
     } else {
       this.$router.push({ name: "submissions" });
     }
-  }
-
-  protected onErrorsChange(errors) {
-    console.log(errors);
   }
 
   protected onDataChange(_data) {
