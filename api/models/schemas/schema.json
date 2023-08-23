@@ -619,7 +619,10 @@
                 "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
                 "type": "string"
               }
-            }
+            },
+            "required": [
+              "name"
+            ]
           }
         },
         "required": [
@@ -1363,7 +1366,10 @@
               "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
               "type": "string"
             }
-          }
+          },
+          "required": [
+            "name"
+          ]
         }
       },
       "required": [
