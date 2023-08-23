@@ -94,7 +94,7 @@ class FunderOrganization(Organization):
     @classmethod
     def __modify_schema__(cls, field_schema: Dict[str, Any]) -> None:
         schema = json.loads(FunderOrganization.schema_json())
-        field_schema.update(title='Funding Organization', type="object", properties=schema["properties"], required=schema["required"])
+        field_schema.update(schema, title="Funding Organization")
 
     name: str = Field(description="Name of the organization.")
 
