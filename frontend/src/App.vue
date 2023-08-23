@@ -127,9 +127,9 @@
             @click="showMobileNavigation = false"
             :id="`drawer-nav-${path.label.replaceAll(/[\/\s]/g, ``)}`"
             :key="path.attrs.to || path.attrs.href"
-            :class="path.isActive?.() ? 'accent' : ''"
+            active-class="primary darken-4 white--text"
+            :class="path.isActive?.() ? 'primary' : ''"
             v-bind="path.attrs"
-            active-class="accent white--text"
           >
             <v-icon class="mr-2">{{ path.icon }}</v-icon>
             <span>{{ path.label }}</span>
