@@ -32,6 +32,6 @@ module.exports = {
   devServer: {
     disableHostCheck: true,
   },
-  transpileDependencies: ["@cznethub/cznet-vue-core"],
+  transpileDependencies: ["@cznethub/cznet-vue-core", "vuetify"],
   publicPath: "/",
 };

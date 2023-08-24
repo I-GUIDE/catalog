@@ -644,9 +644,6 @@
         "endDate": {
           "title": "End date",
           "description": "A date/time object containing the instant corresponding to the termination of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, that means the temporal coverage is ongoing.",
-          "formatMinimum": {
-            "$data": "1/startDate"
-          },
           "type": "string",
           "format": "date-time"
         }
@@ -1389,9 +1386,6 @@
         "endDate": {
           "title": "End date",
           "description": "A date/time object containing the instant corresponding to the termination of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, that means the temporal coverage is ongoing.",
-          "formatMinimum": {
-            "$data": "1/startDate"
-          },
           "type": "string",
           "format": "date-time"
         }
