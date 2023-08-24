@@ -290,7 +290,7 @@
                     <cd-spatial-coverage-map
                       :loader="loader"
                       :loader-options="options"
-                      :features="result.spatialCoverage"
+                      :feature="result.spatialCoverage"
                     />
                   </div>
                 </div>
@@ -764,9 +764,7 @@ export default class CdSearchResults extends Vue {
   }
 
   public hasSpatialFeatures(result: IResult): boolean {
-    // TODO: agree on spatial coverage schema and adjust mapping
-    return false;
-    // return result.spatialCoverage?.some((feature) => feature.geometry);
+    return result.spatialCoverage?.["@type"];
   }
 }
 </script>
