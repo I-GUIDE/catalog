@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     oidc_issuer: str
     hydroshare_meta_read_url: HttpUrl
     hydroshare_file_read_url: HttpUrl
+    hydroshare_file_read_is_on: bool = False
 
     def __init__(self, **data: Any) -> None:
         super().__init__(**data)
