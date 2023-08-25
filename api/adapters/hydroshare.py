@@ -167,12 +167,12 @@ class _HydroshareRequestHandler(AbstractRepositoryRequestHandler):
         hs_meta_url = self.settings.hydroshare_meta_read_url % record_id
         hs_file_url = self.settings.hydroshare_file_read_url % record_id
 
-        def make_request(url, file_list=False) -> Union[dict, List[dict]]:
-            response = requests.get(url)
+        def make_files_request() -> List[dict]:
+            """Gets hydroshare resource files metadata"""
+
+            response = requests.get(hs_file_url)
             if response.status_code != status.HTTP_200_OK:
                 raise RepositoryException(status_code=response.status_code, detail=response.text)
-            if not file_list:
-                return response.json()
 
             content_files = []
             content_files.extend(response.json()["results"])
@@ -184,8 +184,18 @@ class _HydroshareRequestHandler(AbstractRepositoryRequestHandler):
                 content_files.extend(response.json()["results"])
             return content_files
 
-        metadata = make_request(hs_meta_url)
-        files_metadata = make_request(hs_file_url, file_list=True)
+        def make_metadata_request() -> dict:
+            """Gets hydroshare resource metadata"""
+
+            response = requests.get(hs_meta_url)
+            if response.status_code != status.HTTP_200_OK:
+                raise RepositoryException(status_code=response.status_code, detail=response.text)
+            return response.json()
+
+        metadata = make_metadata_request()
+        files_metadata = []
+        if self.settings.hydroshare_file_read_is_on:
+            files_metadata = make_files_request()
         metadata["content_files"] = files_metadata
         return metadata
 
