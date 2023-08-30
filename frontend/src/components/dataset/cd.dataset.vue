@@ -15,26 +15,7 @@
           </template>
 
           <v-list class="pa-0">
-            <!-- <v-list-item
-            :to="{ path: '/profile' }"
-            active-class="primary white--text"
-          >
-            <v-list-item-icon class="mr-2">
-              <v-icon>mdi-account-circle</v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>Account & Settings</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item> -->
-
-            <!-- <v-divider></v-divider> -->
-
-            <v-list-item
-              id="navbar-logout"
-              :href="jupyterHubUrl"
-              target="_blank"
-            >
+            <v-list-item :href="jupyterHubUrl" target="_blank">
               <v-list-item-icon class="mr-2">
                 <v-icon>mdi-open-in-new</v-icon>
               </v-list-item-icon>
@@ -80,9 +61,10 @@
       elevation="2"
       >Failed to load dataset</v-alert
     >
+    <!-- Uncomment to view a card with the data object in the UI -->
     <!-- <v-card>
       <v-card-text>
-        <pre>{{ JSON.stringify(data, null, 2) }}</pre>
+        <pre>{{ data }}</pre>
       </v-card-text>
     </v-card> -->
   </v-container>
