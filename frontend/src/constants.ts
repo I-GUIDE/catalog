@@ -4,6 +4,7 @@ export const LOGIN_URL = process.env.VUE_APP_LOGIN_URL || "";
 export const CLIENT_ID = process.env.VUE_APP_CLIENT_ID || "";
 export const SUPPORT_EMAIL = process.env.VUE_APP_SUPPORT_EMAIL || "";
 export const DEFAULT_TOAST_DURATION = 3500;
+export const JUPYTERHUB_DOMAIN = process.env.VUE_APP_JUPYTERHUB_DOMAIN || "";
 
 export const sameRouteNavigationErrorHandler = (e) => {
   // Ignore the vuex err regarding  navigating to the page they are already on.

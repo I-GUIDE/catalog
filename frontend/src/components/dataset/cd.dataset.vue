@@ -2,19 +2,63 @@
   <v-container class="cd-contribute">
     <div class="display-1">Dataset</div>
     <v-divider class="my-4"></v-divider>
-    <div v-if="!data.repository_identifier" class="d-flex">
+    <div v-if="wasLoaded" class="d-flex gap-1">
       <v-spacer></v-spacer>
-      <v-btn
-        @click="
-          $router.push({
-            name: 'dataset-edit',
-            params: { id: data._id },
-          })
-        "
-        rounded
-      >
-        <v-icon>mdi-text-box-edit</v-icon><span class="ml-1">Edit</span>
-      </v-btn>
+      <template v-if="data.repository_identifier">
+        <v-menu bottom left offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn rounded v-bind="attrs" v-on="on">
+              <v-icon class="mr-2">mdi-open-in-app</v-icon>
+              <span>Open with</span>
+              <v-icon>mdi-menu-down</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list class="pa-0">
+            <!-- <v-list-item
+            :to="{ path: '/profile' }"
+            active-class="primary white--text"
+          >
+            <v-list-item-icon class="mr-2">
+              <v-icon>mdi-account-circle</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Account & Settings</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item> -->
+
+            <!-- <v-divider></v-divider> -->
+
+            <v-list-item
+              id="navbar-logout"
+              :href="jupyterHubUrl"
+              target="_blank"
+            >
+              <v-list-item-icon class="mr-2">
+                <v-icon>mdi-open-in-new</v-icon>
+              </v-list-item-icon>
+
+              <v-list-item-content>
+                <v-list-item-title>JupyterHub</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </template>
+      <template v-else>
+        <v-btn
+          @click="
+            $router.push({
+              name: 'dataset-edit',
+              params: { id: data._id },
+            })
+          "
+          rounded
+        >
+          <v-icon class="mr-2">mdi-text-box-edit</v-icon><span>Edit</span>
+        </v-btn>
+      </template>
     </div>
     <template v-if="!isLoading && wasLoaded">
       <cz-form
@@ -47,6 +91,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { CzForm } from "@cznethub/cznet-vue-core";
+import { JUPYTERHUB_DOMAIN } from "@/constants";
 
 import User from "@/models/user.model";
 
@@ -99,6 +144,10 @@ export default class CdDataset extends Vue {
     } finally {
       this.isLoading = false;
     }
+  }
+
+  protected get jupyterHubUrl() {
+    return `${JUPYTERHUB_DOMAIN}/hub/spawn?next=/user-redirect/nbfetch/hs-pull?id=${this.data["repository_identifier"]}&app=lab`;
   }
 
   protected get schema() {
