@@ -1,7 +1,4 @@
-from fastapi import HTTPException
-
-
-class RepositoryException(HTTPException):
+class RepositoryException(Exception):
     def __init__(self, status_code: int, detail: str):
         self._status_code = status_code
         self._detail = detail
