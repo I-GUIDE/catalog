@@ -1,10 +1,10 @@
 import requests
-from starlette import status
 from datetime import datetime
 from typing import List, Optional, Union
 from pydantic import BaseModel, EmailStr, HttpUrl
+
 from api.adapters.base import AbstractRepositoryMetadataAdapter, AbstractRepositoryRequestHandler
-from api.adapters.utils import RepositoryType
+from api.adapters.utils import RepositoryType, register_adapter
 from api.exceptions import RepositoryException
 from api.models import schema
 from api.models.catalog import DatasetMetadataDOC
@@ -169,7 +169,7 @@ class _HydroshareRequestHandler(AbstractRepositoryRequestHandler):
 
         def make_request(url, file_list=False) -> Union[dict, List[dict]]:
             response = requests.get(url)
-            if response.status_code != status.HTTP_200_OK:
+            if response.status_code != 200:
                 raise RepositoryException(status_code=response.status_code, detail=response.text)
             if not file_list:
                 return response.json()
@@ -179,7 +179,7 @@ class _HydroshareRequestHandler(AbstractRepositoryRequestHandler):
             # check if there are more results to fetch - by default, 100 files are returned from HydroShare
             while response.json()["next"]:
                 response = requests.get(response.json()["next"])
-                if response.status_code != status.HTTP_200_OK:
+                if response.status_code != 200:
                     raise RepositoryException(status_code=response.status_code, detail=response.text)
                 content_files.extend(response.json()["results"])
             return content_files
@@ -211,6 +211,9 @@ class HydroshareMetadataAdapter(AbstractRepositoryMetadataAdapter):
         submission.repository_identifier = repo_record_id
         submission.repository = RepositoryType.HYDROSHARE
         return submission
+
+
+register_adapter(RepositoryType.HYDROSHARE, HydroshareMetadataAdapter)
 
 
 class _HydroshareResourceMetadata(BaseModel):
