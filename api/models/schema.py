@@ -12,6 +12,7 @@ from pydantic import (
     HttpUrl,
     field_validator,
     model_validator,
+    AfterValidator,
     GetJsonSchemaHandler,
 )
 
@@ -25,6 +26,13 @@ orcid_pattern_error = "must match the ORCID pattern. e.g. '0000-0001-2345-6789'"
 
 def set_default_to_none() -> None:
     return None
+
+
+def url_to_string(url: HttpUrl) -> str:
+    return str(url)
+
+
+HttpUrlStr = Annotated[HttpUrl, AfterValidator(url_to_string)]
 
 
 class SchemaBaseModel(BaseModel):
@@ -79,7 +87,7 @@ class Organization(SchemaBaseModel):
         frozen=True
     )
     name: str = Field(description="Name of the provider organization or repository.")
-    url: Optional[HttpUrl] = Field(
+    url: Optional[HttpUrlStr] = Field(
         title="URL",
         description="A URL to the homepage for the organization.",
         default_factory=set_default_to_none
@@ -88,12 +96,6 @@ class Organization(SchemaBaseModel):
         description="Full address for the organization - e.g., “8200 Old Main Hill, Logan, UT 84322-8200”.",
         default_factory=set_default_to_none
     )  # Should address be a string or another constrained type?
-
-    @model_validator(mode='after')
-    def url_to_string(self):
-        if self.url is not None:
-            self.url = str(self.url)
-        return self
 
 
 class Affiliation(Organization):
@@ -140,8 +142,8 @@ class FunderOrganization(Organization):
     def __get_pydantic_json_schema__(cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler) -> JsonSchemaValue:
         json_schema = handler(core_schema)
         json_schema = handler.resolve_ref_schema(json_schema)
-        json_schema["type"] = "string"
-        json_schema['title'] = 'Funding Organization'
+        schema = Organization.model_json_schema()
+        json_schema.update(schema, title="Funding Organization")
         return json_schema
 
     name: str = Field(description="Name of the organization.")
@@ -149,17 +151,11 @@ class FunderOrganization(Organization):
 
 class PublisherOrganization(Organization):
     name: str = Field(description="Name of the publishing organization.")
-    url: Optional[HttpUrl] = Field(
+    url: Optional[HttpUrlStr] = Field(
         title="URL",
         description="A URL to the homepage for the publisher organization or repository.",
         default_factory=set_default_to_none
     )
-
-    @model_validator(mode='after')
-    def url_to_string(self):
-        if self.url is not None:
-            self.url = str(self.url)
-        return self
 
 
 class DefinedTerm(SchemaBaseModel):
@@ -197,7 +193,7 @@ class Published(DefinedTerm):
 
 
 class HasPart(CreativeWork):
-    url: Optional[HttpUrl] = Field(
+    url: Optional[HttpUrlStr] = Field(
         title="URL",
         description="The URL address to the data resource.",
         default_factory=set_default_to_none
@@ -207,15 +203,9 @@ class HasPart(CreativeWork):
         default_factory=set_default_to_none
     )
 
-    @model_validator(mode='after')
-    def url_to_string(self):
-        if self.url is not None:
-            self.url = str(self.url)
-        return self
-
 
 class IsPartOf(CreativeWork):
-    url: Optional[HttpUrl] = Field(
+    url: Optional[HttpUrlStr] = Field(
         title="URL", description="The URL address to the data resource.",
         default_factory=set_default_to_none
     )
@@ -225,15 +215,9 @@ class IsPartOf(CreativeWork):
         default_factory=set_default_to_none
     )
 
-    @model_validator(mode='after')
-    def url_to_string(self):
-        if self.url is not None:
-            self.url = str(self.url)
-        return self
-
 
 class SubjectOf(CreativeWork):
-    url: Optional[HttpUrl] = Field(
+    url: Optional[HttpUrlStr] = Field(
         title="URL",
         description="The URL address that serves as a reference to access additional details related to the record. "
                     "It is important to note that this type of metadata solely pertains to the record itself and "
@@ -246,18 +230,12 @@ class SubjectOf(CreativeWork):
         default_factory=set_default_to_none
     )
 
-    @model_validator(mode='after')
-    def url_to_string(self):
-        if self.url is not None:
-            self.url = str(self.url)
-        return self
-
 
 class License(CreativeWork):
     name: str = Field(
         description="A text string indicating the name of the license under which the resource is shared."
     )
-    url: Optional[HttpUrl] = Field(
+    url: Optional[HttpUrlStr] = Field(
         title="URL",
         description="A URL for a web page that describes the license.",
         default_factory=set_default_to_none
@@ -267,12 +245,6 @@ class License(CreativeWork):
         default_factory=set_default_to_none
     )
 
-    @model_validator(mode='after')
-    def url_to_string(self):
-        if self.url is not None:
-            self.url = str(self.url)
-        return self
-
 
 class LanguageEnum(str, Enum):
     @classmethod
@@ -281,6 +253,7 @@ class LanguageEnum(str, Enum):
         json_schema = handler.resolve_ref_schema(json_schema)
         json_schema["type"] = "string"
         json_schema["title"] = "Language"
+        json_schema["description"] = ""
         return json_schema
 
     eng = 'eng'
@@ -288,6 +261,7 @@ class LanguageEnum(str, Enum):
 
 
 InLanguageStr = Annotated[str, Field(title="Other", description="Please specify another language.")]
+IdentifierStr = Annotated[str, Field(title="Identifier")]
 
 
 class Grant(SchemaBaseModel):
@@ -319,14 +293,18 @@ class TemporalCoverage(SchemaBaseModel):
     startDate: datetime = Field(
         title="Start date",
         description="A date/time object containing the instant corresponding to the commencement of the time "
-                    "interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM)."
+                    "interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM).",
+        # TODO: these are failing due to a problem with transpiled dependencies inside cznet-vue-core
+        # formatMaximum={"$data": "1/endDate"},
+        # errorMessage= { "formatMaximum": "must be lesser than or equal to End date" }
     )
     endDate: Optional[datetime] = Field(
         title="End date",
         description="A date/time object containing the instant corresponding to the termination of the time "
                     "interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, "
                     "that means the temporal coverage is ongoing.",
-        formatMinimum={"$data": "1/startDate"},
+        # formatMinimum={"$data": "1/startDate"},
+        # errorMessage= { "formatMinimum": "must be greater than or equal to Start date" }
         default_factory=set_default_to_none
       )
 
@@ -416,7 +394,7 @@ class Place(SchemaBaseModel):
 
 class MediaObject(SchemaBaseModel):
     type: str = Field(alias="@type", default="MediaObject", description="An item that encodes the record.")
-    contentUrl: HttpUrl = Field(
+    contentUrl: HttpUrlStr = Field(
         title="Content URL",
         description="The direct URL link to access or download the actual content of the media object.")
     encodingFormat: str = Field(
@@ -429,12 +407,6 @@ class MediaObject(SchemaBaseModel):
                     "unit of measurement."
     )
     name: str = Field(description="The name of the media object (file).")
-
-    @model_validator(mode='after')
-    def url_to_string(self):
-        if self.contentUrl is not None:
-            self.contentUrl = str(self.contentUrl)
-        return self
 
     @field_validator('contentSize')
     def validate_content_size(cls, v):
@@ -465,7 +437,7 @@ class MediaObject(SchemaBaseModel):
 
 
 class CoreMetadata(SchemaBaseModel):
-    context: HttpUrl = Field(
+    context: HttpUrlStr = Field(
         alias='@context',
         default='https://schema.org',
         description="Specifies the vocabulary employed for understanding the structured data markup.")
@@ -480,13 +452,13 @@ class CoreMetadata(SchemaBaseModel):
     description: str = Field(title="Description or abstract",
                              description="A text string containing a description/abstract for the resource."
                              )
-    url: HttpUrl = Field(
+    url: HttpUrlStr = Field(
         title="URL",
         description="A URL for the landing page that describes the resource and where the content "
                     "of the resource can be accessed. If there is no landing page,"
                     " provide the URL of the content."
     )
-    identifier: Optional[List[str]] = Field(
+    identifier: Optional[List[IdentifierStr]] = Field(
         title="Identifiers",
         description="Any kind of identifier for the resource. Identifiers may be DOIs or unique strings "
                     "assigned by a repository. Multiple identifiers can be entered. Where identifiers can be "
@@ -584,13 +556,6 @@ class CoreMetadata(SchemaBaseModel):
         description="A bibliographic citation for the resource.",
         default_factory=list
     )
-
-    @model_validator(mode='after')
-    def url_to_string(self):
-        self.context = str(self.context)
-        if self.url is not None:
-            self.url = str(self.url)
-        return self
 
 
 class DatasetSchema(CoreMetadata):

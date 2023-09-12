@@ -1,5 +1,4 @@
 import requests
-# from starlette import status
 from datetime import datetime
 from typing import List, Optional, Union
 from pydantic import BaseModel, EmailStr, HttpUrl
