@@ -11,7 +11,7 @@
     "deploy": "node scripts/gh-pages-deploy.js"
   },
   "dependencies": {
-    "@cznethub/cznet-vue-core": "^0.1.41",
+    "@cznethub/cznet-vue-core": "^0.1.53",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@vue/composition-api": "^1.7.1",
     "@vuex-orm/core": "^0.36.4",

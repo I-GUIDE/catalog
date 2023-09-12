@@ -15,7 +15,7 @@ const DEFAULT_ZOOM = 5;
   components: {},
 })
 export default class CdSpatialCoverageMap extends Vue {
-  @Prop() features!: any;
+  @Prop() feature!: any;
   @Prop() loader!: Loader;
   @Prop() loaderOptions!: LoaderOptions;
 
@@ -95,36 +95,27 @@ export default class CdSpatialCoverageMap extends Vue {
   }
 
   protected loadDrawing() {
-    const features = this.features.map((f) => f.geometry).filter((f) => f);
-    if (features.length) {
-      const points: google.maps.ReadonlyLatLngLiteral[] = features
-        .filter((f) => f.type === "Point")
-        .map(
-          (f) =>
-            ({
-              lat: f.coordinates[1],
-              lng: f.coordinates[0],
-            } as google.maps.ReadonlyLatLngLiteral)
-        );
-
-      const rectangles: google.maps.LatLngBoundsLiteral[] = features
-        .filter((f) => f.type === "Polygon")
-        .map(
-          (f) =>
-            ({
-              north: f.coordinates[0],
-              south: f.coordinates[1],
-              east: f.coordinates[2],
-              west: f.coordinates[3],
-            } as google.maps.LatLngBoundsLiteral)
-        );
-
-      if (points.length) {
-        this.loadMarkers(points);
-      }
-
-      if (rectangles.length) {
-        this.loadRectangles(rectangles);
+    if (this.feature) {
+      if (this.feature["@type"] === "GeoCoordinates") {
+        const point: google.maps.ReadonlyLatLngLiteral = {
+          lat: this.feature.latitude,
+          lng: this.feature.longitude,
+        } as google.maps.ReadonlyLatLngLiteral;
+        this.loadMarkers([point]);
+      } else if (this.feature["@type"] === "GeoShape") {
+        const extents = this.feature.box
+          .trim()
+          .split(" ")
+          .map((n) => +n);
+        if (extents.length === 4) {
+          const rectangle: google.maps.LatLngBoundsLiteral = {
+            north: extents[0],
+            east: extents[1],
+            south: extents[2],
+            west: extents[3],
+          } as google.maps.LatLngBoundsLiteral;
+          this.loadRectangles([rectangle]);
+        }
       }
     }
   }

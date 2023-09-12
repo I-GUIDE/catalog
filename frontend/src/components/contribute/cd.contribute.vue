@@ -8,9 +8,9 @@
       <cz-form
         :schema="schema"
         :uischema="uiSchema"
-        :errors.sync="errors"
         :isValid.sync="isValid"
         :data.sync="data"
+        :errors.sync="errors"
         :config="config"
         @update:data="onDataChange"
         ref="form"
@@ -219,10 +219,17 @@ export default class CdContribute extends Vue {
   }
 
   protected onCancel() {
-    this.$router.push({ name: "home" });
+    if (this.isEditMode) {
+      this.$router.push({
+        name: "dataset",
+        params: { id: this.submissionId },
+      });
+    } else {
+      this.$router.push({ name: "submissions" });
+    }
   }
 
-  protected onDataChange(data) {
+  protected onDataChange(_data) {
     // cz-form emits 'change' event multiple times during instantioation.
     const changesDuringInstantiation = this.isEditMode ? 2 : 3;
 

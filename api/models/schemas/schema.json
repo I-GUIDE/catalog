@@ -183,7 +183,7 @@
           "title": "@Type"
         },
         "name": {
-          "description": "Name of the organization.",
+          "description": "Name of the provider organization or repository.",
           "title": "Name",
           "type": "string"
         },
@@ -219,7 +219,7 @@
         "name"
       ],
       "title": "Funding Organization",
-      "type": "string"
+      "type": "object"
     },
     "GeoCoordinates": {
       "properties": {
@@ -314,7 +314,7 @@
                   "title": "@Type"
                 },
                 "name": {
-                  "description": "Name of the organization.",
+                  "description": "Name of the provider organization or repository.",
                   "title": "Name",
                   "type": "string"
                 },
@@ -350,7 +350,7 @@
                 "name"
               ],
               "title": "Funding Organization",
-              "type": "string"
+              "type": "object"
             },
             {
               "type": "null"
@@ -483,6 +483,7 @@
       "type": "object"
     },
     "LanguageEnum": {
+      "description": "",
       "enum": [
         "eng",
         "esp"
@@ -970,9 +971,6 @@
             }
           ],
           "description": "A date/time object containing the instant corresponding to the termination of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, that means the temporal coverage is ongoing.",
-          "formatMinimum": {
-            "$data": "1/startDate"
-          },
           "title": "End date"
         }
       },
@@ -1032,6 +1030,7 @@
       "anyOf": [
         {
           "items": {
+            "title": "Identifier",
             "type": "string"
           },
           "type": "array"
@@ -1567,6 +1566,7 @@
     "inLanguage": {
       "anyOf": [
         {
+          "description": "",
           "enum": [
             "eng",
             "esp"
@@ -1750,7 +1750,7 @@
                         "title": "@Type"
                       },
                       "name": {
-                        "description": "Name of the organization.",
+                        "description": "Name of the provider organization or repository.",
                         "title": "Name",
                         "type": "string"
                       },
@@ -1786,7 +1786,7 @@
                       "name"
                     ],
                     "title": "Funding Organization",
-                    "type": "string"
+                    "type": "object"
                   },
                   {
                     "type": "null"
@@ -1831,9 +1831,6 @@
                 }
               ],
               "description": "A date/time object containing the instant corresponding to the termination of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, that means the temporal coverage is ongoing.",
-              "formatMinimum": {
-                "$data": "1/startDate"
-              },
               "title": "End date"
             }
           },

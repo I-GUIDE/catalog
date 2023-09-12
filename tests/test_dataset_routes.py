@@ -27,6 +27,7 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
     response_data['temporalCoverage']['startDate'] = response_data['temporalCoverage']['startDate'][:start_date_length]
     response_data['temporalCoverage']['endDate'] = response_data['temporalCoverage']['endDate'][:end_date_length]
     # assert that the response contains the expected data
+    response_data.pop("repository_identifier")
     assert response_data == dataset_data
     # there should be one related submission record in the db
     submissions = await Submission.find().to_list()
@@ -52,6 +53,7 @@ async def test_create_refresh_dataset_from_hydroshare(client_test, test_user_acc
     response = await client_test.get(f"api/catalog/repository/hydroshare/{hs_published_res_id}")
     assert response.status_code == 200
     hs_dataset = response.json()
+    assert hs_dataset['repository_identifier'] == hs_published_res_id
     await _check_hs_submission(hs_dataset, test_user_access_token, hs_published_res_id)
 
     # retrieve the record from the db
@@ -63,6 +65,7 @@ async def test_create_refresh_dataset_from_hydroshare(client_test, test_user_acc
     response = await client_test.put(f"api/catalog/repository/hydroshare/{hs_published_res_id}")
     assert response.status_code == 200
     hs_dataset = response.json()
+    assert hs_dataset["repository_identifier"] == hs_published_res_id
     await _check_hs_submission(hs_dataset, test_user_access_token, hs_published_res_id)
 
 
@@ -89,6 +92,7 @@ async def test_update_dataset(client_test, dataset_data):
     response_data = response.json()
     response_data.pop('_id')
     # assert that the response contains the expected data
+    response_data.pop("repository_identifier")
     assert response_data == dataset_data
 
 

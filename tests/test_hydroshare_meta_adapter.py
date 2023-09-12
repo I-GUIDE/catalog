@@ -2,7 +2,7 @@ from datetime import datetime
 import pytest
 from pydantic import ValidationError
 
-from api.adapters.hydroshare import HydroshareMetadataAdapter
+from api.adapters.utils import RepositoryType, get_adapter_by_type
 from api.models.catalog import DatasetMetadataDOC
 
 
@@ -11,7 +11,7 @@ from api.models.catalog import DatasetMetadataDOC
 async def test_hydroshare_resource_meta_adapter(hydroshare_resource_metadata, coverage_type, dataset_model):
     """Test the HydroshareMetaAdapter for Composite Resource"""
 
-    adapter = HydroshareMetadataAdapter()
+    adapter = get_adapter_by_type(RepositoryType.HYDROSHARE)
     if coverage_type == "point":
         hydroshare_resource_metadata["spatial_coverage"] = {"type": "point", "name": "Logan River",
                                                             "north": 41.74, "east": -111.83,
@@ -101,7 +101,7 @@ async def test_hydroshare_resource_meta_adapter(hydroshare_resource_metadata, co
 async def test_hydroshare_collection_meta_adapter(hydroshare_collection_metadata, dataset_model):
     """Test the HydroshareMetaAdapter for Collection Resource"""
 
-    adapter = HydroshareMetadataAdapter()
+    adapter = get_adapter_by_type(RepositoryType.HYDROSHARE)
     dataset = adapter.to_catalog_record(hydroshare_collection_metadata)
     try:
         dataset_model(**dataset.model_dump())
@@ -118,3 +118,11 @@ async def test_hydroshare_collection_meta_adapter(hydroshare_collection_metadata
     assert dataset.hasPart[2].description == "Gan, T. (2016). Composite Resource Type Design, HydroShare"
     assert dataset.hasPart[2].url == "http://www.hydroshare.org/resource/e8cd813e376347c5b617deb321227a36"
     assert len(dataset.associatedMedia) == 0
+
+
+@pytest.mark.asyncio
+async def test_get_adapter_by_type():
+    """Test the get_adapter_by_type function"""
+    for repo_type in RepositoryType.__members__.values():
+        adapter = get_adapter_by_type(repo_type)
+        assert adapter is not None

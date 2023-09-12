@@ -1,10 +1,12 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
 
 from beanie import Document, Link, PydanticObjectId
 from pydantic import HttpUrl, model_validator
 
-from api.adapters.utils import RepositoryType
+if TYPE_CHECKING:
+    # this avoids circular imports
+    from api.adapters.utils import RepositoryType
 
 
 class Submission(Document):
@@ -31,7 +33,7 @@ class User(Document):
     def submission(self, identifier: PydanticObjectId) -> Submission:
         return next(filter(lambda submission: submission.identifier == identifier, self.submissions), None)
 
-    def submission_by_repository(self, repo_type: RepositoryType, identifier: str) -> Submission:
+    def submission_by_repository(self, repo_type: 'RepositoryType', identifier: str) -> Submission:
         return next(
             filter(
                 lambda submission: submission.repository_identifier == identifier

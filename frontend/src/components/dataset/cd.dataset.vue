@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Notifications, CzForm } from "@cznethub/cznet-vue-core";
+import { CzForm } from "@cznethub/cznet-vue-core";
 
 import User from "@/models/user.model";
 
@@ -76,7 +76,6 @@ export default class CdDataset extends Vue {
         outlined: true,
         "persistent-hint": true,
         "hide-details": false,
-        filled: true,
       },
     },
     isViewMode: true,

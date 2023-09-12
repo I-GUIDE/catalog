@@ -1,4 +1,5 @@
 import datetime
+from typing import Optional
 
 from beanie import Document
 
@@ -37,4 +38,4 @@ class CoreMetadataDOC(Document, CoreMetadata):
 
 
 class DatasetMetadataDOC(CoreMetadataDOC):
-    repository_identifier: str = None
+    repository_identifier: Optional[str] = None
