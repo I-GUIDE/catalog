@@ -5,4 +5,4 @@ motor==3.*
 pydantic[dotenv]==2.*
 pydantic[email]==2.*
 pydantic-settings==2.*
-rocketry==2.5.1
+apscheduler==3.*
