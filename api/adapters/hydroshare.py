@@ -81,7 +81,7 @@ class TemporalCoverage(BaseModel):
 
 
 class SpatialCoverageBox(BaseModel):
-    name: Optional[str]
+    name: Optional[str] = None
     northlimit: float
     eastlimit: float
     southlimit: float
@@ -224,7 +224,7 @@ class _HydroshareResourceMetadata(BaseModel):
     creators: List[Creator]
     created: datetime
     modified: datetime
-    published: Optional[datetime]
+    published: Optional[datetime] = None
     subjects: Optional[List[str]] = []
     language: str
     rights: Rights
