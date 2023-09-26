@@ -23,6 +23,10 @@ def main(output_name: str = "api/models/schemas/schema.json"):
                 f'"$ref": "#/$defs/{definition}"',
                 json.dumps(class_definition)[1:-1]
             )
+    # replace anyOf with type string or null to type string - needed for the UI to work
+    json_schema = json_schema.replace(
+        '"anyOf": [{"type": "string"}, {"type": "null"}]', '"type": "string"'
+    )
     embedded_schema = json.loads(json_schema)
     current_directory = absolute_directory(output_name)
     with open(current_directory, "w") as f:
