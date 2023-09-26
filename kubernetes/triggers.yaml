@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: typeahead-trigger
-        image: us-central1-docker.pkg.dev/GOOGLE_PROJECT/iguide/trigger:latest
+        image: us-central1-docker.pkg.dev/GOOGLE_PROJECT/iguide/trigger:IGUIDE_TAG
         command: ["/bin/sh", "-c"]
         args: ["python triggers/update_typeahead.py"]
 ---
@@ -39,6 +39,6 @@ spec:
     spec:
       containers:
       - name: catalog-trigger
-        image: us-central1-docker.pkg.dev/GOOGLE_PROJECT/iguide/trigger:latest
+        image: us-central1-docker.pkg.dev/GOOGLE_PROJECT/iguide/trigger:IGUIDE_TAG
         command: ["/bin/sh", "-c"]
         args: ["python triggers/update_catalog.py"]

@@ -5,7 +5,7 @@ metadata:
   name: iguide
 spec:
   domains:
-  - iguide.cuahsi.io
+  - IGUIDE_DOMAIN
 ---
 apiVersion: networking.gke.io/v1beta1
 kind: FrontendConfig
@@ -21,7 +21,7 @@ metadata:
   name: iguide
   annotations:
     kubernetes.io/ingress.class: "gce"
-    kubernetes.io/ingress.global-static-ip-name: iguide
+    kubernetes.io/ingress.global-static-ip-name: IGUIDE_IP
     networking.gke.io/v1beta1.FrontendConfig: iguide
     networking.gke.io/managed-certificates: iguide
 spec:
