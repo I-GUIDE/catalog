@@ -505,12 +505,17 @@ async def test_core_schema_spatial_coverage_value_type(core_data, core_model, da
     assert core_model_instance.spatialCoverage.type == "Place"
     if "name" in data_format:
         assert core_model_instance.spatialCoverage.name == data_format["name"]
+    else:
+        assert core_model_instance.spatialCoverage.name is None
     if "geo" in data_format:
         if data_format["geo"]["@type"] == "GeoCoordinates":
             assert core_model_instance.spatialCoverage.geo.latitude == data_format["geo"]["latitude"]
             assert core_model_instance.spatialCoverage.geo.longitude == data_format["geo"]["longitude"]
         elif data_format["geo"]["@type"] == "GeoShape":
             assert core_model_instance.spatialCoverage.geo.box == data_format["geo"]["box"]
+
+    else:
+        assert core_model_instance.spatialCoverage.geo is None
 
 
 @pytest.mark.parametrize('include_creative_works', [True, False])
@@ -649,8 +654,13 @@ async def test_core_schema_license_optional_attributes(core_data, core_model, da
     assert core_model_instance.license.name == data_format["name"]
     if "url" in data_format:
         assert core_model_instance.license.url == data_format["url"]
+    else:
+        assert core_model_instance.license.url is None
+
     if "description" in data_format:
         assert core_model_instance.license.description == data_format["description"]
+    else:
+        assert core_model_instance.license.description is None
 
 
 @pytest.mark.parametrize('is_multiple', [True, False, None])
@@ -865,8 +875,13 @@ async def test_core_schema_is_part_of_optional_attributes(core_data, core_model,
     assert core_model_instance.isPartOf[0].name == data_format["name"]
     if "description" in data_format:
         assert core_model_instance.isPartOf[0].description == data_format["description"]
+    else:
+        assert core_model_instance.isPartOf[0].description is None
+
     if "url" in data_format:
         assert core_model_instance.isPartOf[0].url == data_format["url"]
+    else:
+        assert core_model_instance.isPartOf[0].url is None
 
 
 @pytest.mark.parametrize('dt_type', ["datetime", None])
