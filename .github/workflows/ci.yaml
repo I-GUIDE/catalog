@@ -1,0 +1,79 @@
+name: Run I-GUIDE Builds and Config Saturations
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['*']
+
+env:
+  DOMAIN: iguide.cuahsi.io
+  TAG: latest
+  TESTING: false
+  OIDC_ISSUER: https://orcid.org
+  DATABASE_NAME: iguide_beta
+  DB_PROTOCOL: mongodb+srv
+  HYDROSHARE_META_READ_URL: https://www.hydroshare.org/hsapi2/resource/%s/json/
+  HYDROSHARE_FILE_READ_URL: https://www.hydroshare.org/hsapi/resource/%s/files/
+  VUE_APP_NAME: CZNet Discovery
+  VUE_APP_LOGIN_URL: https://orcid.org/oauth/authorize
+  VUE_APP_API_URL: api
+  VUE_APP_HEAP_ANALYTICS_APP_ID: ""
+  VUE_APP_GOOGLE_MAPS_API_KEY: ""
+  VUE_APP_SUPPORT_EMAIL: help@cuahsi.io
+  VUE_APP_REALM_APP_ID: data-axdrs
+  VUE_APP_NAME: CZNet Discovery
+  VUE_APP_SEARCH_RESOLVER: filtering_cznet
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: code checkout
+      uses: actions/checkout@v2
+
+    - name: Compile the root env file
+      env:
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: |
+        variables=("OIDC_ISSUER" "DB_USERNAME" "DB_PASSWORD" "DB_HOST" "DATABASE_NAME" "DB_PROTOCOL" "TESTING" "VUE_APP_LOGIN_URL" "HYDROSHARE_META_READ_URL" "HYDROSHARE_FILE_READ_URL")
+
+        # Empty the .env file
+        > .env
+
+        # Loop through the variables and add them to the .env file
+        for var in "${variables[@]}"; do
+          echo "$var=${!var}" >> .env
+        done
+
+    - name: Compile the frontend env file
+      run: |
+        variables=("VUE_APP_NAME" "VUE_APP_API_URL" "VUE_APP_SUPPORT_EMAIL" "VUE_APP_URL" "VUE_APP_LOGIN_URL" "VUE_APP_CLIENT_ID" "VUE_APP_GOOGLE_MAPS_API_KEY")
+
+        # Empty the .env file
+        > frontend/.env
+
+        # Loop through the variables and add them to the .env file
+        for var in "${variables[@]}"; do
+          echo "$var=${!var}" >> frontend/.env
+        done
+
+    - name: Build and push docker images
+      env:
+        GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+      run: |
+        gcloud auth configure-docker us-central1-docker.pkg.dev
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:$TAG -f docker/api/Dockerfile .
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:$TAG -f docker/frontend/Dockerfile .
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:$TAG -f docker/triggers/Dockerfile .
+
+    - name: Deploy to GKE
+      env:
+        USE_GKE_GCLOUD_AUTH_PLUGIN: True
+        GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+      run: |
+        find ./kubernetes -type f | xargs -i sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" {}
+        find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_TAG/$TAG/g" {}
+        find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_DOMAIN/$DOMAIN/g" {}
