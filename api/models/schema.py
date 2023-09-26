@@ -24,10 +24,6 @@ orcid_pattern_placeholder = "e.g. '0000-0001-2345-6789'"
 orcid_pattern_error = "must match the ORCID pattern. e.g. '0000-0001-2345-6789'"
 
 
-def set_default_to_none() -> None:
-    return None
-
-
 def url_to_string(url: HttpUrl) -> str:
     return str(url)
 
@@ -72,11 +68,11 @@ class Person(SchemaBaseModel):
     )
     email: Optional[EmailStr] = Field(
         description="A string containing an email address for the person.",
-        default_factory=set_default_to_none
+        default=None
     )
     identifier: Optional[List[str]] = Field(
         description="Unique identifiers for the person. Where identifiers can be encoded as URLs, enter URLs here.",
-        default_factory=list
+        default=[]
     )
 
 
@@ -90,11 +86,11 @@ class Organization(SchemaBaseModel):
     url: Optional[HttpUrlStr] = Field(
         title="URL",
         description="A URL to the homepage for the organization.",
-        default_factory=set_default_to_none
+        default=None
     )
     address: Optional[str] = Field(
         description="Full address for the organization - e.g., “8200 Old Main Hill, Logan, UT 84322-8200”.",
-        default_factory=set_default_to_none
+        default=None
     )  # Should address be a string or another constrained type?
 
 
@@ -107,15 +103,15 @@ class Provider(Person):
         description="ORCID identifier for the person.",
         pattern=orcid_pattern,
         options={"placeholder": orcid_pattern_placeholder}, errorMessage={"pattern": orcid_pattern_error},
-        default_factory=set_default_to_none
+        default=None
     )
     email: Optional[EmailStr] = Field(
         description="A string containing an email address for the provider.",
-        default_factory=set_default_to_none
+        default=None
     )
     affiliation: Optional[Affiliation] = Field(
         description="The affiliation of the creator with the organization.",
-        default_factory=set_default_to_none
+        default=None
     )
 
 
@@ -125,15 +121,15 @@ class Creator(Person):
         pattern=orcid_pattern,
         options={"placeholder": orcid_pattern_placeholder},
         errorMessage={"pattern": orcid_pattern_error},
-        default_factory=set_default_to_none
+        default=None
     )
     email: Optional[EmailStr] = Field(
         description="A string containing an email address for the creator.",
-        default_factory=set_default_to_none
+        default=None
     )
     affiliation: Optional[Affiliation] = Field(
         description="The affiliation of the creator with the organization.",
-        default_factory=set_default_to_none
+        default=None
     )
 
 
@@ -154,7 +150,7 @@ class PublisherOrganization(Organization):
     url: Optional[HttpUrlStr] = Field(
         title="URL",
         description="A URL to the homepage for the publisher organization or repository.",
-        default_factory=set_default_to_none
+        default=None
     )
 
 
@@ -196,23 +192,23 @@ class HasPart(CreativeWork):
     url: Optional[HttpUrlStr] = Field(
         title="URL",
         description="The URL address to the data resource.",
-        default_factory=set_default_to_none
+        default=None
     )
     description: Optional[str] = Field(
         description="Information about a related resource that is part of this resource.",
-        default_factory=set_default_to_none
+        default=None
     )
 
 
 class IsPartOf(CreativeWork):
     url: Optional[HttpUrlStr] = Field(
         title="URL", description="The URL address to the data resource.",
-        default_factory=set_default_to_none
+        default=None
     )
     description: Optional[str] = Field(
         description="Information about a related resource that this resource is a "
                     "part of - e.g., a related collection.",
-        default_factory=set_default_to_none
+        default=None
     )
 
 
@@ -222,12 +218,12 @@ class SubjectOf(CreativeWork):
         description="The URL address that serves as a reference to access additional details related to the record. "
                     "It is important to note that this type of metadata solely pertains to the record itself and "
                     "may not necessarily be an integral component of the record, unlike the HasPart metadata.",
-        default_factory=set_default_to_none
+        default=None
     )
     description: Optional[str] = Field(
         description="Information about a related resource that is about or describes this "
                     "resource - e.g., a related metadata document describing the resource.",
-        default_factory=set_default_to_none
+        default=None
     )
 
 
@@ -238,11 +234,11 @@ class License(CreativeWork):
     url: Optional[HttpUrlStr] = Field(
         title="URL",
         description="A URL for a web page that describes the license.",
-        default_factory=set_default_to_none
+        default=None
     )
     description: Optional[str] = Field(
         description="A text string describing the license or containing the text of the license itself.",
-        default_factory=set_default_to_none
+        default=None
     )
 
 
@@ -276,16 +272,16 @@ class Grant(SchemaBaseModel):
         description="A text string indicating the name or title of the grant or financial assistance.")
     description: Optional[str] = Field(
         description="A text string describing the grant or financial assistance.",
-        default_factory=set_default_to_none
+        default=None
     )
     identifier: Optional[str] = Field(
         title="Funding identifier",
         description="Grant award number or other identifier.",
-        default_factory=set_default_to_none
+        default=None
     )
     funder: Optional[FunderOrganization] = Field(
         description="The organization that provided the funding or sponsorship.",
-        default_factory=set_default_to_none
+        default=None
     )
 
 
@@ -305,7 +301,7 @@ class TemporalCoverage(SchemaBaseModel):
                     "that means the temporal coverage is ongoing.",
         # formatMinimum={"$data": "1/startDate"},
         # errorMessage= { "formatMinimum": "must be greater than or equal to Start date" }
-        default_factory=set_default_to_none
+        default=None
       )
 
 
@@ -376,11 +372,11 @@ class GeoShape(SchemaBaseModel):
 
 class Place(SchemaBaseModel):
     type: str = Field(alias="@type", default="Place", description="Represents the focus area of the record's content.")
-    name: Optional[str] = Field(description="Name of the place.", default_factory=set_default_to_none)
+    name: Optional[str] = Field(description="Name of the place.", default=None)
     geo: Optional[Union[GeoCoordinates, GeoShape]] = Field(
         description="Specifies the geographic coordinates of the place in the form of a point location, line, "
                     "or area coverage extent.",
-        default_factory=set_default_to_none
+        default=None
     )
 
     @model_validator(mode='before')
@@ -483,12 +479,12 @@ class CoreMetadata(SchemaBaseModel):
         description="Where the resource is permanently published, indicated the repository, service provider,"
                     " or organization that published the resource - e.g., CUAHSI HydroShare."
                     " This may be the same as Provider.",
-        default_factory=set_default_to_none
+        default=None
     )
     datePublished: Optional[datetime] = Field(
         title="Date published",
         description="Date of first publication for the resource.",
-        default_factory=set_default_to_none
+        default=None
     )
     subjectOf: Optional[List[SubjectOf]] = Field(
         title="Subject of",
@@ -499,23 +495,23 @@ class CoreMetadata(SchemaBaseModel):
     )
     version: Optional[str] = Field(
         description="A text string indicating the version of the resource.",
-        default_factory=set_default_to_none
+        default=None
     )  # TODO find something better than float for number
     inLanguage: Optional[Union[LanguageEnum, InLanguageStr]] = Field(
         title="Language",
         description="The language of the content of the resource.",
-        default_factory=set_default_to_none
+        default=None
     )
     creativeWorkStatus: Optional[Union[Draft, Incomplete, Obsolete, Published]] = Field(
         title="Resource status",
         description="The status of this resource in terms of its stage in a lifecycle. "
                     "Example terms include Incomplete, Draft, Published, and Obsolete.",
-        default_factory=set_default_to_none
+        default=None
     )
     dateModified: Optional[datetime] = Field(
         title="Date modified",
         description="The date on which the resource was most recently modified or updated.",
-        default_factory=set_default_to_none
+        default=None
     )
     funding: Optional[List[Grant]] = Field(
         description="A Grant or monetary assistance that directly or indirectly provided funding or sponsorship "
@@ -525,7 +521,7 @@ class CoreMetadata(SchemaBaseModel):
     temporalCoverage: Optional[TemporalCoverage] = Field(
         title="Temporal coverage",
         description="The time period that applies to all of the content within the resource.",
-        default_factory=set_default_to_none
+        default=None
     )
     spatialCoverage: Optional[Place] = Field(
         description="The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. "
@@ -533,7 +529,7 @@ class CoreMetadata(SchemaBaseModel):
                     "detailed materials. For example with a Dataset, it indicates areas that the dataset "
                     "describes: a dataset of New York weather would have spatialCoverage which was the "
                     "place: the state of New York.",
-        default_factory=set_default_to_none
+        default=None
     )
     hasPart: Optional[List[HasPart]] = Field(
         title="Has part",
@@ -554,7 +550,7 @@ class CoreMetadata(SchemaBaseModel):
     citation: Optional[List[str]] = Field(
         title="Citation",
         description="A bibliographic citation for the resource.",
-        default_factory=list
+        default=[]
     )
 
 
