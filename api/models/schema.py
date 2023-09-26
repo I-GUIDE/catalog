@@ -459,7 +459,7 @@ class CoreMetadata(SchemaBaseModel):
         description="Any kind of identifier for the resource. Identifiers may be DOIs or unique strings "
                     "assigned by a repository. Multiple identifiers can be entered. Where identifiers can be "
                     "encoded as URLs, enter URLs here.",
-        default_factory=list
+        default=[]
     )
     creator: List[Union[Creator, Organization]] = Field(description="Person or Organization that created the resource.")
     dateCreated: datetime = Field(title="Date created", description="The date on which the resource was created.")
@@ -491,7 +491,7 @@ class CoreMetadata(SchemaBaseModel):
         description="Link to or citation for a related resource that is about or describes this resource"
                     " - e.g., a journal paper that describes this resource or a related metadata document "
                     "describing the resource.",
-        default_factory=list
+        default=[]
     )
     version: Optional[str] = Field(
         description="A text string indicating the version of the resource.",
@@ -516,7 +516,7 @@ class CoreMetadata(SchemaBaseModel):
     funding: Optional[List[Grant]] = Field(
         description="A Grant or monetary assistance that directly or indirectly provided funding or sponsorship "
                     "for creation of the resource.",
-        default_factory=list
+        default=[]
     )
     temporalCoverage: Optional[TemporalCoverage] = Field(
         title="Temporal coverage",
@@ -534,18 +534,18 @@ class CoreMetadata(SchemaBaseModel):
     hasPart: Optional[List[HasPart]] = Field(
         title="Has part",
         description="Link to or citation for a related resource that is part of this resource.",
-        default_factory=list
+        default=[]
     )
     isPartOf: Optional[List[IsPartOf]] = Field(
         title="Is part of",
         description="Link to or citation for a related resource that this resource is a "
                     "part of - e.g., a related collection.",
-        default_factory=list
+        default=[]
     )
     associatedMedia: Optional[List[MediaObject]] = Field(
         title="Resource content",
         description="A media object that encodes this CreativeWork. This property is a synonym for encoding.",
-        default_factory=list
+        default=[]
     )
     citation: Optional[List[str]] = Field(
         title="Citation",
