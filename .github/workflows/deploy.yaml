@@ -10,6 +10,7 @@ env:
   DOMAIN: iguide.cuahsi.io
   TAG: latest
   TESTING: false
+  IP: iguide
   OIDC_ISSUER: https://orcid.org
   DATABASE_NAME: iguide_beta
   DB_PROTOCOL: mongodb+srv
@@ -89,6 +90,7 @@ jobs:
         find ./kubernetes -type f | xargs -i sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" {}
         find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_TAG/$TAG/g" {}
         find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_DOMAIN/$DOMAIN/g" {}
+        find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_IP/$IP/g" {}
         kubectl apply -f kubernetes/
         # Refresh pods
         kubectl delete pods --all
