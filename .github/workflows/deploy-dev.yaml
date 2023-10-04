@@ -1,0 +1,94 @@
+name: Deploy I-GUIDE to GKE Autopilot (Beta)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - 'develop'
+
+env:
+  DOMAIN: iguide-dev.cuahsi.io
+  IP: iguide-dev
+  TESTING: false
+  OIDC_ISSUER: https://orcid.org
+  DATABASE_NAME: iguide_beta
+  DB_PROTOCOL: mongodb+srv
+  HYDROSHARE_META_READ_URL: https://www.hydroshare.org/hsapi2/resource/%s/json/
+  HYDROSHARE_FILE_READ_URL: https://www.hydroshare.org/hsapi/resource/%s/files/
+  VUE_APP_NAME: CZNet Discovery
+  VUE_APP_LOGIN_URL: https://orcid.org/oauth/authorize
+  VUE_APP_API_URL: api
+  VUE_APP_HEAP_ANALYTICS_APP_ID: ""
+  VUE_APP_GOOGLE_MAPS_API_KEY: ""
+  VUE_APP_SUPPORT_EMAIL: help@cuahsi.io
+  VUE_APP_REALM_APP_ID: data-axdrs
+  VUE_APP_SEARCH_RESOLVER: filtering_cznet
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: code checkout
+      uses: actions/checkout@v2
+
+    - name: Install the gcloud cli
+      uses: google-github-actions/setup-gcloud@v0
+      with:
+        project_id: ${{ secrets.GOOGLE_PROJECT }}
+        service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        install_components: 'gke-gcloud-auth-plugin'
+        export_default_credentials: true
+
+    - name: Compile the root env file
+      env:
+        DB_HOST: ${{ secrets.DB_HOST_BETA }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME_BETA }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD_BETA }}
+      run: |
+        variables=("OIDC_ISSUER" "DB_USERNAME" "DB_PASSWORD" "DB_HOST" "DATABASE_NAME" "DB_PROTOCOL" "TESTING" "VUE_APP_LOGIN_URL" "HYDROSHARE_META_READ_URL" "HYDROSHARE_FILE_READ_URL")
+
+        # Empty the .env file
+        > .env
+
+        # Loop through the variables and add them to the .env file
+        for var in "${variables[@]}"; do
+          echo "$var=${!var}" >> .env
+        done
+
+    - name: Compile the frontend env file
+      run: |
+        variables=("VUE_APP_NAME" "VUE_APP_API_URL" "VUE_APP_SUPPORT_EMAIL" "VUE_APP_URL" "VUE_APP_LOGIN_URL" "VUE_APP_CLIENT_ID" "VUE_APP_GOOGLE_MAPS_API_KEY")
+
+        # Empty the .env file
+        > frontend/.env
+
+        # Loop through the variables and add them to the .env file
+        for var in "${variables[@]}"; do
+          echo "$var=${!var}" >> frontend/.env
+        done
+
+    - name: Build and push docker images
+      env:
+        GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+      run: |
+        gcloud auth configure-docker us-central1-docker.pkg.dev
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:$GITHUB_SHA -f docker/api/Dockerfile .
+        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:$GITHUB_SHA
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:$GITHUB_SHA -f docker/frontend/Dockerfile .
+        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:$GITHUB_SHA
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:$GITHUB_SHA -f docker/triggers/Dockerfile .
+        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:$GITHUB_SHA
+
+    - name: Deploy to GKE
+      env:
+        USE_GKE_GCLOUD_AUTH_PLUGIN: True
+        GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+      run: |
+        gcloud container clusters get-credentials iguide-dev --region us-central1
+        find ./kubernetes -type f | xargs -i sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" {}
+        find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_TAG/$GITHUB_SHA/g" {}
+        find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_DOMAIN/$DOMAIN/g" {}
+        kubectl apply -f kubernetes/
+        # Refresh pods
+        kubectl delete pods --all
