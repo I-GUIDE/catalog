@@ -1,16 +1,15 @@
-name: Deploy I-GUIDE to GKE Autopilot
+name: Deploy I-GUIDE to GKE Autopilot (Beta)
 
 on:
   workflow_dispatch:
   push:
     branches:
-    - 'productionalization'
+    - 'develop'
 
 env:
-  DOMAIN: iguide.cuahsi.io
-  TAG: latest
+  DOMAIN: iguide-dev.cuahsi.io
+  IP: iguide-dev
   TESTING: false
-  IP: iguide
   OIDC_ISSUER: https://orcid.org
   DATABASE_NAME: iguide_beta
   DB_PROTOCOL: mongodb+srv
@@ -43,9 +42,9 @@ jobs:
 
     - name: Compile the root env file
       env:
-        DB_HOST: ${{ secrets.DB_HOST }}
-        DB_USERNAME: ${{ secrets.DB_USERNAME }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_HOST: ${{ secrets.DB_HOST_BETA }}
+        DB_USERNAME: ${{ secrets.DB_USERNAME_BETA }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD_BETA }}
       run: |
         variables=("OIDC_ISSUER" "DB_USERNAME" "DB_PASSWORD" "DB_HOST" "DATABASE_NAME" "DB_PROTOCOL" "TESTING" "VUE_APP_LOGIN_URL" "HYDROSHARE_META_READ_URL" "HYDROSHARE_FILE_READ_URL")
 
@@ -74,23 +73,22 @@ jobs:
         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
       run: |
         gcloud auth configure-docker us-central1-docker.pkg.dev
-        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:$TAG -f docker/api/Dockerfile .
-        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:$TAG
-        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:$TAG -f docker/frontend/Dockerfile .
-        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:$TAG
-        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:$TAG -f docker/triggers/Dockerfile .
-        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:$TAG
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:$GITHUB_SHA -f docker/api/Dockerfile .
+        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:$GITHUB_SHA
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:$GITHUB_SHA -f docker/frontend/Dockerfile .
+        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:$GITHUB_SHA
+        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:$GITHUB_SHA -f docker/triggers/Dockerfile .
+        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:$GITHUB_SHA
 
     - name: Deploy to GKE
       env:
         USE_GKE_GCLOUD_AUTH_PLUGIN: True
         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
       run: |
-        gcloud container clusters get-credentials iguide --region us-central1
+        gcloud container clusters get-credentials iguide-dev --region us-central1
         find ./kubernetes -type f | xargs -i sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" {}
-        find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_TAG/$TAG/g" {}
+        find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_TAG/$GITHUB_SHA/g" {}
         find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_DOMAIN/$DOMAIN/g" {}
-        find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_IP/$IP/g" {}
         kubectl apply -f kubernetes/
         # Refresh pods
         kubectl delete pods --all

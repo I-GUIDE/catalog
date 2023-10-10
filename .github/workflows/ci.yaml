@@ -1,16 +1,14 @@
-name: Deploy I-GUIDE to GKE Autopilot
+name: Run I-GUIDE Builds and Config Saturations
 
 on:
   workflow_dispatch:
   push:
-    branches:
-    - 'productionalization'
+    branches: ['*']
 
 env:
   DOMAIN: iguide.cuahsi.io
   TAG: latest
   TESTING: false
-  IP: iguide
   OIDC_ISSUER: https://orcid.org
   DATABASE_NAME: iguide_beta
   DB_PROTOCOL: mongodb+srv
@@ -27,19 +25,11 @@ env:
 
 
 jobs:
-  deploy:
+  ci:
     runs-on: ubuntu-latest
     steps:
     - name: code checkout
       uses: actions/checkout@v2
-
-    - name: Install the gcloud cli
-      uses: google-github-actions/setup-gcloud@v0
-      with:
-        project_id: ${{ secrets.GOOGLE_PROJECT }}
-        service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-        install_components: 'gke-gcloud-auth-plugin'
-        export_default_credentials: true
 
     - name: Compile the root env file
       env:
@@ -75,22 +65,14 @@ jobs:
       run: |
         gcloud auth configure-docker us-central1-docker.pkg.dev
         docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:$TAG -f docker/api/Dockerfile .
-        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/api:$TAG
         docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:$TAG -f docker/frontend/Dockerfile .
-        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/frontend:$TAG
         docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:$TAG -f docker/triggers/Dockerfile .
-        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/iguide/trigger:$TAG
 
     - name: Deploy to GKE
       env:
         USE_GKE_GCLOUD_AUTH_PLUGIN: True
         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
       run: |
-        gcloud container clusters get-credentials iguide --region us-central1
         find ./kubernetes -type f | xargs -i sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" {}
         find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_TAG/$TAG/g" {}
         find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_DOMAIN/$DOMAIN/g" {}
-        find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_IP/$IP/g" {}
-        kubectl apply -f kubernetes/
-        # Refresh pods
-        kubectl delete pods --all
