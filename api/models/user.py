@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List, Optional, TYPE_CHECKING
 
 from beanie import Document, Link, PydanticObjectId
-from pydantic import HttpUrl, model_validator
+from pydantic import HttpUrl, model_validator, field_serializer
 
 if TYPE_CHECKING:
     # this avoids circular imports
@@ -19,10 +19,16 @@ class Submission(Document):
     repository_identifier: Optional[str] = None
 
     @model_validator(mode='after')
-    def validate_url(self):
+    def url_to_string(self):
         if self.url is not None:
             self.url = str(self.url)
         return self
+
+    @field_serializer('url')
+    def serialize_url(self, v: str, _info):
+        if v is not None:
+            return HttpUrl(v)
+
 
 class User(Document):
     access_token: str
