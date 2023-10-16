@@ -2,7 +2,7 @@ from functools import lru_cache
 from typing import Any
 
 from pydantic import HttpUrl
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import load_dotenv
 
 # had to use load_dotenv() to get the env variables to work during testing
@@ -32,8 +32,7 @@ class Settings(BaseSettings):
     def db_connection_string(self):
         return f"{self.db_protocol}://{self.db_username}:{self.db_password}@{self.db_host}/?retryWrites=true&w=majority"
 
-    class Config:
-        env_file = ".env"
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 
 @lru_cache()
