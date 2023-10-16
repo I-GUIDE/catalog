@@ -17,6 +17,7 @@ from pydantic import (
 )
 
 from pydantic.json_schema import JsonSchemaValue
+from pydantic.functional_serializers import PlainSerializer
 from typing_extensions import Annotated
 
 orcid_pattern = "\\b\\d{4}-\\d{4}-\\d{4}-\\d{3}[0-9X]\\b"
@@ -31,7 +32,8 @@ def url_to_string(url: HttpUrl) -> str:
     return str(url)
 
 
-HttpUrlStr = Annotated[HttpUrl, AfterValidator(url_to_string)]
+HttpUrlStr = Annotated[HttpUrl, AfterValidator(url_to_string),
+                       PlainSerializer(lambda v: HttpUrl(v), return_type=HttpUrl)]
 
 
 class SchemaBaseModel(BaseModel):
