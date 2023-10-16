@@ -3,7 +3,10 @@ from datetime import datetime
 from typing import List, Optional, Union
 from pydantic import BaseModel, EmailStr, HttpUrl
 
-from api.adapters.base import AbstractRepositoryMetadataAdapter, AbstractRepositoryRequestHandler
+from api.adapters.base import (
+    AbstractRepositoryMetadataAdapter,
+    AbstractRepositoryRequestHandler,
+)
 from api.adapters.utils import RepositoryType, register_adapter
 from api.exceptions import RepositoryException
 from api.models import schema
@@ -93,7 +96,9 @@ class SpatialCoverageBox(BaseModel):
             place.name = self.name
 
         place.geo = schema.GeoShape.model_construct()
-        place.geo.box = f"{self.northlimit} {self.eastlimit} {self.southlimit} {self.westlimit}"
+        place.geo.box = (
+            f"{self.northlimit} {self.eastlimit} {self.southlimit} {self.westlimit}"
+        )
         return place
 
 
@@ -143,7 +148,7 @@ class Relation(BaseModel):
         else:
             return relation
 
-        description, url = self.value.rsplit(',', 1)
+        description, url = self.value.rsplit(",", 1)
         relation.description = description.strip()
         relation.url = url.strip()
         relation.name = self.value
@@ -162,7 +167,6 @@ class Rights(BaseModel):
 
 
 class _HydroshareRequestHandler(AbstractRepositoryRequestHandler):
-
     def get_metadata(self, record_id: str):
         hs_meta_url = self.settings.hydroshare_meta_read_url % record_id
         hs_file_url = self.settings.hydroshare_file_read_url % record_id
@@ -170,7 +174,9 @@ class _HydroshareRequestHandler(AbstractRepositoryRequestHandler):
         def make_request(url, file_list=False) -> Union[dict, List[dict]]:
             response = requests.get(url)
             if response.status_code != 200:
-                raise RepositoryException(status_code=response.status_code, detail=response.text)
+                raise RepositoryException(
+                    status_code=response.status_code, detail=response.text
+                )
             if not file_list:
                 return response.json()
 
@@ -180,7 +186,9 @@ class _HydroshareRequestHandler(AbstractRepositoryRequestHandler):
             while response.json()["next"]:
                 response = requests.get(response.json()["next"])
                 if response.status_code != 200:
-                    raise RepositoryException(status_code=response.status_code, detail=response.text)
+                    raise RepositoryException(
+                        status_code=response.status_code, detail=response.text
+                    )
                 content_files.extend(response.json()["results"])
             return content_files
 

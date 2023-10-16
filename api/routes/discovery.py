@@ -1,33 +1,34 @@
 from datetime import datetime
+from typing import Optional
 
 from fastapi import APIRouter, Request, Depends
-from pydantic import BaseModel, field_validator, model_validator, FieldValidationInfo
+from pydantic import BaseModel, field_validator, model_validator, ValidationInfo
 
 router = APIRouter()
 
 
 class SearchQuery(BaseModel):
-    term: str = None
-    sortBy: str = None
+    term: Optional[str] = None
+    sortBy: Optional[str] = None
     reverseSort: bool = True
-    contentType: str = None
-    providerName: str = None
-    creatorName: str = None
-    dataCoverageStart: int = None
-    dataCoverageEnd: int = None
-    publishedStart: int = None
-    publishedEnd: int = None
-    hasPartName: str = None
-    isPartOfName: str = None
-    associatedMediaName: str = None
-    fundingGrantName: str = None
-    fundingFunderName: str = None
-    creativeWorkStatus: str = None
+    contentType: Optional[str] = None
+    providerName: Optional[str] = None
+    creatorName: Optional[str] = None
+    dataCoverageStart: Optional[int] = None
+    dataCoverageEnd: Optional[int] = None
+    publishedStart: Optional[int] = None
+    publishedEnd: Optional[int] = None
+    hasPartName: Optional[str] = None
+    isPartOfName: Optional[str] = None
+    associatedMediaName: Optional[str] = None
+    fundingGrantName: Optional[str] = None
+    fundingFunderName: Optional[str] = None
+    creativeWorkStatus: Optional[str] = None
     pageNumber: int = 1
     pageSize: int = 30
 
     @field_validator('*')
-    def empty_str_to_none(cls, v, info: FieldValidationInfo):
+    def empty_str_to_none(cls, v, info: ValidationInfo):
         if info.field_name == 'term' and v:
             return v.strip()
 
@@ -36,7 +37,7 @@ class SearchQuery(BaseModel):
         return v
 
     @field_validator('dataCoverageStart', 'dataCoverageEnd', 'publishedStart', 'publishedEnd')
-    def validate_year(cls, v, info: FieldValidationInfo):
+    def validate_year(cls, v, info: ValidationInfo):
         if v is None:
             return v
         try:
@@ -54,7 +55,7 @@ class SearchQuery(BaseModel):
             raise ValueError('publishedEnd must be greater or equal to publishedStart')
 
     @field_validator('pageNumber', 'pageSize')
-    def validate_page(cls, v, info: FieldValidationInfo):
+    def validate_page(cls, v, info: ValidationInfo):
         if v <= 0:
             raise ValueError(f'{info.field_name} must be greater than 0')
         return v
