@@ -155,8 +155,8 @@ class Affiliation(Organization):
 class Provider(Person):
     identifier: Optional[str] = Field(
         description="ORCID identifier for the person.",
-        pattern=orcid_pattern,
-        options={"placeholder": orcid_pattern_placeholder}, errorMessage={"pattern": orcid_pattern_error},
+        json_schema_extra={"pattern": orcid_pattern, "errorMessage": {"pattern": orcid_pattern_error},
+                           "options": {"placeholder": orcid_pattern_placeholder}},
         default=None
     )
     email: Optional[EmailStr] = Field(
@@ -183,9 +183,8 @@ class Provider(Person):
 class Creator(Person):
     identifier: Optional[str] = Field(
         description="ORCID identifier for creator.",
-        pattern=orcid_pattern,
-        options={"placeholder": orcid_pattern_placeholder},
-        errorMessage={"pattern": orcid_pattern_error},
+        json_schema_extra={"pattern": orcid_pattern, "errorMessage": {"pattern": orcid_pattern_error},
+                           "options": {"placeholder": orcid_pattern_placeholder}},
         default=None
     )
     email: Optional[EmailStr] = Field(
@@ -243,28 +242,28 @@ class Draft(DefinedTerm):
     name: str = Field(default="Draft")
     description: str = Field(
         default="The resource is in draft state and should not be considered final. Content and metadata may change",
-        readOnly=True, description="The description of the item being defined.")
+        json_schema_extra={"readOnly": True}, description="The description of the item being defined.")
 
 
 class Incomplete(DefinedTerm):
     name: str = Field(default="Incomplete")
     description: str = Field(
         default="Data collection is ongoing or the resource is not completed",
-        readOnly=True, description="The description of the item being defined.")
+        json_schema_extra={"readOnly": True}, description="The description of the item being defined.")
 
 
 class Obsolete(DefinedTerm):
     name: str = Field(default="Obsolete")
     description: str = Field(
         default="The resource has been replaced by a newer version, or the resource is no longer considered applicable",
-        readOnly=True, description="The description of the item being defined.")
+        json_schema_extra={"readOnly": True}, description="The description of the item being defined.")
 
 
 class Published(DefinedTerm):
     name: str = Field(default="Published")
     description: str = Field(
         default="The resource has been permanently published and should be considered final and complete",
-        readOnly=True, description="The description of the item being defined.")
+        json_schema_extra={"readOnly": True}, description="The description of the item being defined.")
 
 
 class HasPart(_CreativeWorkMixin):
@@ -568,7 +567,7 @@ class CoreMetadata(SchemaBaseModel):
     type: str = Field(alias="@type", title="Submission type", default="Dataset",
                       description="Submission type can include various forms of content, such as datasets,"
                                   " software source code, digital documents, etc.",
-                      enum=["Dataset", "Notebook", "Software Source Code"]
+                      json_schema_extra={"enum": ["Dataset", "Notebook", "Software Source Code"]}
                       )
     name: str = Field(title="Name or title",
                       description="A text string with a descriptive name or title for the resource."
