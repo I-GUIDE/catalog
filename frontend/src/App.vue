@@ -104,7 +104,7 @@
           rounded
           :elevation="$route.meta.hideNavigation || $route.meta.flat ? 0 : 2"
         >
-          <router-view name="content" />
+          <router-view name="content" :key="$route.fullPath" />
         </v-sheet>
       </v-container>
     </v-main>

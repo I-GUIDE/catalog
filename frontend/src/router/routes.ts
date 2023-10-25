@@ -83,6 +83,7 @@ export const routes: RouteConfig[] = [
       title: "Edit Dataset",
       hasUnsavedChangesGuard: true,
       hasLoggedInGuard: true,
+      flat: true,
     },
   },
   {
