@@ -12,10 +12,6 @@ body {
   font-size: 1.4rem;
 }
 
-section {
-  padding: 4rem 0;
-}
-
 .gap-1 {
   gap: 1rem;
 }
@@ -67,14 +63,6 @@ section {
   transition: color 0.15s ease;
 }
 
-.is-flipped-x {
-  transform: scaleX(-1);
-}
-
-.has-bg-white {
-  background-color: #fff !important;
-}
-
 p {
   max-width: 70rem;
 }
@@ -102,10 +90,6 @@ mark {
   color: inherit;
 }
 
-p {
-  max-width: 70rem;
-}
-
 .snip-2 {
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -118,4 +102,23 @@ p {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
+}
+
+a {
+  text-decoration: none;
+  font-weight: 500;
+
+  &:not(.v-btn) {
+   &:hover {
+      text-decoration: underline;
+    }
+  
+    &:visited {
+      color: var(--v-primary-darken2 ) !important;
+    }
+  
+    &:active {
+      color: var(--v-primary-lighten1) !important;
+    }
+  }
 }

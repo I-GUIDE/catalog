@@ -1,10 +1,9 @@
 <template>
   <v-container class="cd-contribute">
-    <div class="display-1">Dataset</div>
-    <v-divider class="my-4"></v-divider>
-    <div v-if="!data.repository_identifier" class="d-flex">
-      <v-spacer></v-spacer>
+    <div class="d-flex justify-space-between">
+      <div class="display-1">Dataset</div>
       <v-btn
+        v-if="!data.repository_identifier"
         @click="
           $router.push({
             name: 'dataset-edit',

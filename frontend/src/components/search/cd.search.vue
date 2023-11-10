@@ -171,7 +171,7 @@ export default class CdSearch extends Vue {
     this.searchInput?.focus();
 
     // https://www.learnrxjs.io/learn-rxjs/recipes/type-ahead
-    fromEvent(this.searchInput.$el, "input")
+    fromEvent(this.searchInput?.$el, "input")
       .pipe(
         tap(() => {
           this.isFetchingHints = !!this.valueInternal;
