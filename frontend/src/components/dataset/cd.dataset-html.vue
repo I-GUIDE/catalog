@@ -1,7 +1,7 @@
 <template>
   <v-container class="cd-contribute">
     <div v-if="!isLoading && wasLoaded" class="d-flex">
-      <div v-if="!$vuetify.breakpoint.mdAndDown" class="sidebar pr-4">
+      <div v-if="!isSm" class="sidebar pr-4">
         <div class="table-of-contents">
           <div class="text-h6">Table of contents</div>
           <ol class="text-body-2">
@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <div class="page-content">
+      <div class="page-content" :class="{ 'is-sm': isSm }">
         <div class="d-flex justify-space-between mb-8">
           <div class="text-h4">{{ data.name }}</div>
           <v-btn
@@ -33,42 +33,59 @@
           </v-btn>
         </div>
 
-        <div class="dataset-info mb-8">
-          <div class="text-subtitle-2 gray--text">Created By:</div>
-          <div class="text-body-2">{{ createdBy }}</div>
+        <v-row class="mb-8 align-start">
+          <v-col cols="12" sm="8" class="dataset-info">
+            <div v-bind="infoLabelAttr">Created By:</div>
+            <div v-bind="infoValueAttr">{{ createdBy }}</div>
 
-          <div class="text-subtitle-2">Provider:</div>
-          <div class="text-body-2">
-            <span v-if="data.provider.url" class="d-flex align-center">
-              <a :href="data.provider.url" target="_blank">{{
-                data.provider.name
-              }}</a>
-              <v-icon class="ml-2" small>mdi-open-in-new</v-icon>
-            </span>
+            <div v-bind="infoLabelAttr">Provider:</div>
+            <div v-bind="infoValueAttr">
+              <span v-if="data.provider.url" class="d-flex align-center">
+                <a :href="data.provider.url" target="_blank">{{
+                  data.provider.name
+                }}</a>
+                <v-icon class="ml-2" small>mdi-open-in-new</v-icon>
+              </span>
 
-            <template v-else>{{ data.provider.name }}</template>
-          </div>
+              <template v-else>{{ data.provider.name }}</template>
+            </div>
 
-          <div class="text-subtitle-2">Resource Type:</div>
-          <div class="text-body-2">{{ data["@type"] }}</div>
+            <div v-bind="infoLabelAttr">Resource Type:</div>
+            <div v-bind="infoValueAttr">{{ data["@type"] }}</div>
 
-          <div class="text-subtitle-2">Resource Size:</div>
-          <div class="text-body-2">some test</div>
+            <div v-bind="infoLabelAttr">Resource Size:</div>
+            <div v-bind="infoValueAttr">~2 MB</div>
 
-          <div class="text-subtitle-2">License:</div>
-          <div class="text-body-2">{{ data.license.name }}</div>
+            <div v-bind="infoLabelAttr">License:</div>
+            <div v-bind="infoValueAttr">
+              <div v-if="data.license.url" class="d-flex align-center">
+                <a :href="data.license.url" target="_blank">{{
+                  data.license.name
+                }}</a>
+                <v-icon class="ml-2" small>mdi-open-in-new</v-icon>
+              </div>
 
-          <div class="text-subtitle-2">Host Repository:</div>
-          <div class="text-body-2">HydroShare</div>
+              <template v-else>{{ data.license.name }}</template>
 
-          <div class="text-subtitle-2">Created:</div>
-          <div class="text-body-2">{{ data.dateCreated }}</div>
+              <div class="font-weight-light">
+                {{ data.license.description }}
+              </div>
+            </div>
+          </v-col>
 
-          <template v-if="data.dateModified">
-            <div class="text-subtitle-2">Last Updated:</div>
-            <div class="text-body-2">{{ data.dateModified }}</div>
-          </template>
-        </div>
+          <v-col cols="12" sm="4" class="dataset-info">
+            <div v-bind="infoLabelAttr">Host Repository:</div>
+            <div v-bind="infoValueAttr">HydroShare</div>
+
+            <div v-bind="infoLabelAttr">Created:</div>
+            <div v-bind="infoValueAttr">{{ data.dateCreated }}</div>
+
+            <template v-if="data.dateModified">
+              <div v-bind="infoLabelAttr">Last Updated:</div>
+              <div v-bind="infoValueAttr">{{ data.dateModified }}</div>
+            </template>
+          </v-col>
+        </v-row>
 
         <div class="mb-8 field">
           <div class="text-overline primary--text darken-4">Description</div>
@@ -114,7 +131,7 @@
           <v-divider class="primary mb-2"></v-divider>
 
           <v-row>
-            <v-col col="12" sm="8">
+            <v-col cols="12" sm="8">
               <div class="text-subtitle-2">Spatial</div>
               <div class="my-2">metadata here</div>
               <div>
@@ -125,12 +142,13 @@
                 </v-card>
               </div>
             </v-col>
-            <v-col col="12" sm="4">
+            <v-col cols="12" sm="4">
               <div class="text-subtitle-2">Temporal</div>
               <div>
-                <v-stepper flat vertical>
+                <v-stepper flat vertical :step="2">
                   <v-stepper-step
                     complete
+                    step="1"
                     complete-icon="mdi-calendar-start-outline"
                   >
                     <span>Nov 24, 2023</span>
@@ -139,10 +157,11 @@
                     >
                   </v-stepper-step>
 
-                  <v-stepper-content></v-stepper-content>
+                  <v-stepper-content step="1"></v-stepper-content>
 
                   <v-stepper-step
                     complete
+                    step="2"
                     complete-icon="mdi-calendar-end-outline"
                   >
                     <span>Dec 1, 2023</span>
@@ -151,7 +170,7 @@
                     >
                   </v-stepper-step>
 
-                  <v-stepper-content></v-stepper-content>
+                  <v-stepper-content step="2"></v-stepper-content>
                 </v-stepper>
               </div>
             </v-col>
@@ -221,7 +240,6 @@ import { Component, Vue } from "vue-property-decorator";
 import { CzForm } from "@cznethub/cznet-vue-core";
 
 import User from "@/models/user.model";
-import { computed } from "vue";
 
 @Component({
   name: "cd-contribute",
@@ -265,12 +283,24 @@ export default class CdDataset extends Vue {
     { title: "How to Cite", link: "" },
   ];
 
+  protected infoLabelAttr = {
+    class: "info-label text-subtitle-2 font-weight-light",
+  };
+
+  protected infoValueAttr = {
+    class: "info-value text-body-2",
+  };
+
   created() {
     this.loadDataset();
   }
 
   protected get createdBy() {
     return this.data.creator?.map((c) => c.name).join(", ");
+  }
+
+  protected get isSm() {
+    return this.$vuetify.breakpoint.mdAndDown;
   }
 
   protected async loadDataset() {
@@ -315,6 +345,16 @@ export default class CdDataset extends Vue {
 .page-content {
   flex-grow: 1;
   word-break: break-word;
+
+  &.is-sm {
+    .dataset-info {
+      grid-template-columns: auto;
+    }
+
+    .info-value {
+      margin-bottom: 1rem;
+    }
+  }
 }
 
 .dataset-info {
