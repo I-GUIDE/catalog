@@ -107,6 +107,10 @@ class PublisherOrganization(Organization):
     )
 
 
+class MediaObjectSourceOrganization(Organization):
+    name: str = Field(description="Name of the organization that created the media object.")
+
+
 class DefinedTerm(SchemaBaseModel):
     type: str = Field(alias="@type", default="DefinedTerm")
     name: str = Field(description="The name of the term or item being defined.")
@@ -304,12 +308,28 @@ class GeoShape(SchemaBaseModel):
         return v
 
 
+class PropertyValue(SchemaBaseModel):
+    type: str = Field(alias="@type", default="PropertyValue", description="A property-value pair.")
+    name: str = Field(alias="propertyID", description="The name of the property.")
+    value: str = Field(description="The value of the property.")
+    unitCode: Optional[str] = Field(title="Measurement unit", description="The unit of measurement for the value.")
+    description: Optional[str] = Field(description="A description of the property.")
+    minValue: Optional[float] = Field(title="Minimum value", description="The minimum allowed value for the property.")
+    maxValue: Optional[float] = Field(title="Maximum value", description="The maximum allowed value for the property.")
+
+
 class Place(SchemaBaseModel):
     type: str = Field(alias="@type", default="Place", description="Represents the focus area of the record's content.")
     name: Optional[str] = Field(description="Name of the place.")
     geo: Optional[Union[GeoCoordinates, GeoShape]] = Field(
         description="Specifies the geographic coordinates of the place in the form of a point location, line, "
                     "or area coverage extent."
+    )
+
+    additionalProperty: Optional[List[PropertyValue]] = Field(
+        title="Additional properties",
+        default=[],
+        description="Additional properties of the place."
     )
 
     @root_validator
@@ -336,6 +356,24 @@ class MediaObject(SchemaBaseModel):
                     "unit of measurement."
     )
     name: str = Field(description="The name of the media object (file).")
+    additionalProperty: Optional[List[PropertyValue]] = Field(
+        title="Additional properties",
+        default=[],
+        description="Additional properties of the media object."
+    )
+    variableMeasured: Optional[List[Union[str, PropertyValue]]] = Field(description="Measured variables.")
+    spatialCoverage: Optional[Place] = Field(
+        title="Spatial coverage",
+        description="The spatial coverage of the media object."
+    )
+    temporalCoverage: Optional[TemporalCoverage] = Field(
+        title="Temporal coverage",
+        description="The temporal coverage of the media object."
+    )
+    sourceOrganization: Optional[MediaObjectSourceOrganization] = Field(
+        tile="Source organization",
+        description="The organization that provided the media object."
+    )
 
     @validator('contentSize')
     def validate_content_size(cls, v):
