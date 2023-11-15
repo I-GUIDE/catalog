@@ -474,12 +474,12 @@ async def test_core_schema_associated_media_additional_property(
         core_data["associatedMedia"][0]["additionalProperty"] = [
                     {
                         "@type": "PropertyValue",
-                        "propertyID": "Feature Count",
+                        "name": "Feature Count",
                         "value": 7,
                     },
                     {
                         "@type": "PropertyValue",
-                        "propertyID": "Field Count",
+                        "name": "Field Count",
                         "value": 10,
                     },
                 ]
@@ -789,7 +789,7 @@ async def test_core_schema_spatial_coverage_optional(
             "additionalProperty": [
                 {
                     "@type": "PropertyValue",
-                    "propertyID": "Geographic Coordinate System",
+                    "name": "Geographic Coordinate System",
                     "value": "WGS 84 EPSG:4326",
                 }
             ],

@@ -309,13 +309,37 @@ class GeoShape(SchemaBaseModel):
 
 
 class PropertyValue(SchemaBaseModel):
-    type: str = Field(alias="@type", default="PropertyValue", description="A property-value pair.")
-    name: str = Field(alias="propertyID", description="The name of the property.")
+    type: str = Field(
+        alias="@type",
+        default="PropertyValue",
+        const="PropertyValue",
+        description="A property-value pair.",
+    )
+    propertyID: Optional[str] = Field(
+        title="Property ID", description="The ID of the property."
+    )
+    name: str = Field(description="The name of the property.")
     value: str = Field(description="The value of the property.")
-    unitCode: Optional[str] = Field(title="Measurement unit", description="The unit of measurement for the value.")
+    unitCode: Optional[str] = Field(
+        title="Measurement unit", description="The unit of measurement for the value."
+    )
     description: Optional[str] = Field(description="A description of the property.")
-    minValue: Optional[float] = Field(title="Minimum value", description="The minimum allowed value for the property.")
-    maxValue: Optional[float] = Field(title="Maximum value", description="The maximum allowed value for the property.")
+    minValue: Optional[float] = Field(
+        title="Minimum value", description="The minimum allowed value for the property."
+    )
+    maxValue: Optional[float] = Field(
+        title="Maximum value", description="The maximum allowed value for the property."
+    )
+
+    @root_validator
+    def validate_min_max_values(cls, values):
+        min_value = values.get("minValue", None)
+        max_value = values.get("maxValue", None)
+        if min_value is not None and max_value is not None:
+            if min_value > max_value:
+                raise ValueError("Minimum value must be less than or equal to maximum value")
+
+        return values
 
 
 class Place(SchemaBaseModel):
@@ -361,7 +385,9 @@ class MediaObject(SchemaBaseModel):
         default=[],
         description="Additional properties of the media object."
     )
-    variableMeasured: Optional[List[Union[str, PropertyValue]]] = Field(description="Measured variables.")
+    variableMeasured: Optional[List[Union[str, PropertyValue]]] = Field(
+        title="Variables measured", description="Measured variables."
+    )
     spatialCoverage: Optional[Place] = Field(
         title="Spatial coverage",
         description="The spatial coverage of the media object."
@@ -371,7 +397,7 @@ class MediaObject(SchemaBaseModel):
         description="The temporal coverage of the media object."
     )
     sourceOrganization: Optional[MediaObjectSourceOrganization] = Field(
-        tile="Source organization",
+        title="Source organization",
         description="The organization that provided the media object."
     )
 
