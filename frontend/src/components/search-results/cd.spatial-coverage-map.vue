@@ -1,5 +1,10 @@
 <template>
-  <v-card class="cd-spatial-coverage-map">
+  <v-card
+    class="cd-spatial-coverage-map"
+    :class="{ flat }"
+    :tile="flat"
+    :outlined="flat"
+  >
     <div ref="map" class="map-container"></div>
   </v-card>
 </template>
@@ -18,6 +23,7 @@ export default class CdSpatialCoverageMap extends Vue {
   @Prop() feature!: any;
   @Prop() loader!: Loader;
   @Prop() loaderOptions!: LoaderOptions;
+  @Prop() flat?: boolean;
 
   @Ref("map") mapContainer;
   protected map: google.maps.Map | null = null;
@@ -178,7 +184,7 @@ export default class CdSpatialCoverageMap extends Vue {
   min-height: 10rem;
 }
 
-.cd-spatial-coverage-map {
+.cd-spatial-coverage-map:not(.flat) {
   padding: 2px;
 }
 </style>

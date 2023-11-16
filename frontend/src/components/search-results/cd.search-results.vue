@@ -291,6 +291,7 @@
                       :loader="loader"
                       :loader-options="options"
                       :feature="result.spatialCoverage"
+                      :key="`map-${result.id}`"
                     />
                   </div>
                 </div>
@@ -323,7 +324,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { sameRouteNavigationErrorHandler } from "@/constants";
 import { Loader, LoaderOptions } from "google-maps";
 import { formatDate } from "@/util";
