@@ -308,7 +308,7 @@ class GeoShape(SchemaBaseModel):
         return v
 
 
-class PropertyValue(SchemaBaseModel):
+class PropertyValueBase(SchemaBaseModel):
     type: str = Field(
         alias="@type",
         default="PropertyValue",
@@ -331,6 +331,9 @@ class PropertyValue(SchemaBaseModel):
         title="Maximum value", description="The maximum allowed value for the property."
     )
 
+    class Config:
+        title = "PropertyValue"
+
     @root_validator
     def validate_min_max_values(cls, values):
         min_value = values.get("minValue", None)
@@ -340,6 +343,13 @@ class PropertyValue(SchemaBaseModel):
                 raise ValueError("Minimum value must be less than or equal to maximum value")
 
         return values
+
+
+class PropertyValue(PropertyValueBase):
+    # using PropertyValueBase model instead of PropertyValue model as one of the types for the value field
+    # in order for the schema generation (schema.json) to work. Self referencing nested models leads to
+    # infinite loop in our custom schema generation code when trying to replace dict with key '$ref'
+    value: Union[str, PropertyValueBase, List[PropertyValueBase]] = Field(description="The value of the property.")
 
 
 class Place(SchemaBaseModel):
