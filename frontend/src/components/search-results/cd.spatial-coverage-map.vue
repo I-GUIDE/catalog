@@ -1,10 +1,5 @@
 <template>
-  <v-card
-    class="cd-spatial-coverage-map"
-    :class="{ flat }"
-    :tile="flat"
-    :outlined="flat"
-  >
+  <v-card class="cd-spatial-coverage-map" :class="{ flat }" :tile="flat" :outlined="flat">
     <div ref="map" class="map-container"></div>
   </v-card>
 </template>
@@ -59,7 +54,7 @@ export default class CdSpatialCoverageMap extends Vue {
     }
   }
 
-  created() {}
+  created() { }
 
   protected async initMap() {
     const google = await this.loader.load();
