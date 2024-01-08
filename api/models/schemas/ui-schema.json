@@ -362,6 +362,26 @@
                   "scope": "#/properties/encodingFormat"
                 }
               ]
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/additionalProperty"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/variableMeasured"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/spatialCoverage"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/temporalCoverage"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/sourceOrganization"
             }
           ]
         }
@@ -470,6 +490,10 @@
                       }
                     }
                   }
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/additionalProperty"
                 }
               ]
             }

@@ -94,7 +94,7 @@
 
             <div v-bind="infoLabelAttr">Provider:</div>
             <div v-bind="infoValueAttr">
-              <span v-if="data.provider.url" class="d-flex align-center">
+              <span v-if="data.provider.url" class="d-flex align-baseline">
                 <a :href="data.provider.url" target="_blank">{{
                   data.provider.name
                 }}</a>
@@ -112,7 +112,7 @@
 
             <div v-bind="infoLabelAttr">License:</div>
             <div v-bind="infoValueAttr">
-              <div v-if="data.license.url" class="d-flex align-center">
+              <div v-if="data.license.url" class="d-flex align-baseline">
                 <a :href="data.license.url" target="_blank">{{
                   data.license.name
                 }}</a>
@@ -132,7 +132,10 @@
 
           <v-col cols="12" sm="6" class="dataset-info">
             <div v-bind="infoLabelAttr">URL:</div>
-            <div v-bind="infoValueAttr" class="d-flex align-center text-body-1">
+            <div
+              v-bind="infoValueAttr"
+              class="d-flex align-baseline text-body-1"
+            >
               <a :href="data.url" target="_blank" class="break-word">{{
                 data.url
               }}</a>
