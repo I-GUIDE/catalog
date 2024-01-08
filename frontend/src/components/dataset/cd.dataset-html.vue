@@ -5,17 +5,19 @@
         <div class="table-of-contents">
           <div class="text-h6">Table of contents</div>
           <ol class="text-body-2">
-            <li
-              v-for="(item, index) of tableOfContents"
-              :key="index"
-              class="my-2 text-body-1"
-            >
-              <!-- <router-link :to="{ hash: item.link }">{{
-                item.title
-              }}</router-link> -->
+            <template v-for="(item, index) of tableOfContents">
+              <li
+                v-if="!(item.isShown === false)"
+                :key="index"
+                class="my-2 text-body-1"
+              >
+                <!-- <router-link :to="{ hash: item.link }">{{
+                  item.title
+                }}</router-link> -->
 
-              <a :href="item.link">{{ item.title }}</a>
-            </li>
+                <a :href="item.link">{{ item.title }}</a>
+              </li>
+            </template>
           </ol>
 
           <v-card
@@ -266,7 +268,9 @@
                   :flat="true"
                 />
                 <v-divider></v-divider>
-                <v-card-text>
+                <v-card-text
+                  v-if="data.spatialCoverage.geo['@type'] == 'GeoShape'"
+                >
                   <v-row class="align-start">
                     <v-col cols="12" sm="6" class="dataset-info">
                       <div v-bind="infoLabelAttr">North Latitude:</div>
@@ -292,6 +296,26 @@
                     </v-col>
                   </v-row>
                 </v-card-text>
+
+                <v-card-text
+                  v-if="data.spatialCoverage.geo['@type'] == 'GeoCoordinates'"
+                >
+                  <v-row class="align-start">
+                    <v-col cols="12" sm="6" class="dataset-info">
+                      <div v-bind="infoLabelAttr">Latitude:</div>
+                      <div v-bind="infoValueAttr">
+                        {{ data.spatialCoverage.geo.latitude }}°
+                      </div>
+                    </v-col>
+
+                    <v-col cols="12" sm="6" class="dataset-info">
+                      <div v-bind="infoLabelAttr">Longitude:</div>
+                      <div v-bind="infoValueAttr">
+                        {{ data.spatialCoverage.geo.longitude }}°
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
               </v-card>
             </v-col>
             <v-col cols="12" sm="4" class="dataset-info one-col">
@@ -309,7 +333,7 @@
           </v-row>
         </div>
 
-        <div class="mb-8 field text-body-1">
+        <div v-if="data.temporalCoverage" class="mb-8 field text-body-1">
           <div class="text-overline primary--text darken-4">
             Temporal Coverage
           </div>
@@ -317,11 +341,12 @@
 
           <v-stepper flat vertical non-linear class="pb-0">
             <v-stepper-step
+              v-if="data.temporalCoverage.startDate"
               complete
               step="1"
               complete-icon="mdi-calendar-start-outline"
             >
-              <span>Nov 24, 2023</span>
+              <span>{{ parseDate(data.temporalCoverage.startDate) }}</span>
               <small class="primary--text font-weight-medium mt-1"
                 >Start Date</small
               >
@@ -330,11 +355,12 @@
             <v-stepper-content step="1" class="pb-0"></v-stepper-content>
 
             <v-stepper-step
+              v-if="data.temporalCoverage.endDate"
               complete
               step="2"
               complete-icon="mdi-calendar-end-outline"
             >
-              <span>Dec 1, 2023</span>
+              <span>{{ parseDate(data.temporalCoverage.endDate) }}</span>
               <small class="primary--text font-weight-medium mt-1"
                 >End Date</small
               >
@@ -431,14 +457,41 @@ export default class CdDataset extends Vue {
 
   protected tableOfContents = [
     { title: "Overview", link: "#overview" },
-    { title: "Description", link: "#description" },
-    { title: "URL", link: "#url" },
-    { title: "Subject Keywords", link: "#subject" },
-    { title: "Content", link: "#content" },
-    { title: "Funding", link: "#funding" },
-    { title: "Related Resources", link: "#related" },
-    { title: "Spatial Coverage", link: "#spatial-coverage" },
-    { title: "Temporal Coverage", link: "#temporal-coverage" },
+    {
+      title: "Description",
+      link: "#description",
+      isShown: this.data.description,
+    },
+    {
+      title: "Subject Keywords",
+      link: "#subject",
+      isShown: this.data.keywords?.length,
+    },
+    {
+      title: "Content",
+      link: "#content",
+      isShown: this.data.associatedMedia?.length,
+    },
+    {
+      title: "Funding",
+      link: "#funding",
+      isShown: this.data.funding?.length,
+    },
+    {
+      title: "Related Resources",
+      link: "#related",
+      isShown: this.data.hasPart?.length,
+    },
+    {
+      title: "Spatial Coverage",
+      link: "#spatial-coverage",
+      isShown: !this.hasSpatialFeatures,
+    },
+    {
+      title: "Temporal Coverage",
+      link: "#temporal-coverage",
+      isShown: this.data.temporalCoverage,
+    },
   ];
 
   protected infoLabelAttr = {
@@ -568,7 +621,8 @@ export default class CdDataset extends Vue {
   // }
 
   protected get hasSpatialFeatures(): boolean {
-    return !!this.data.spatialCoverage?.["@type"];
+    const feat = this.data.spatialCoverage?.["@type"];
+    return feat === "GeoShape" || feat === "GeoCoordinates";
   }
 
   protected get schema() {
