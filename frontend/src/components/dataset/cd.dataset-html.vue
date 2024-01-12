@@ -89,7 +89,7 @@
         </div>
         <v-divider class="my-4"></v-divider>
 
-        <v-row class="my-4 align-start" :no-gutters="isMd">
+        <v-row class="my-4 align-start" :no-gutters="isSm">
           <v-col cols="12" sm="6" class="dataset-info">
             <div v-bind="infoLabelAttr">Created By:</div>
             <div v-bind="infoValueAttr">{{ createdBy }}</div>
@@ -123,17 +123,22 @@
 
               <template v-else>{{ data.license.name }}</template>
 
-              <div class="font-weight-light">
+              <div class="font-weight-light text-subtitle-2">
                 {{ data.license.description }}
               </div>
             </div>
 
             <div v-bind="infoLabelAttr">Language:</div>
             <div v-bind="infoValueAttr">{{ data.inLanguage }}</div>
+
+            <template v-if="data.version">
+              <div v-bind="infoLabelAttr">Version:</div>
+              <div v-bind="infoValueAttr">{{ data.version }}</div>
+            </template>
           </v-col>
 
           <v-col cols="12" sm="6" class="dataset-info">
-            <div v-bind="infoLabelAttr">URL:</div>
+            <!-- <div v-bind="infoLabelAttr">URL:</div>
             <div
               v-bind="infoValueAttr"
               class="d-flex align-baseline text-body-1"
@@ -142,17 +147,44 @@
                 data.url
               }}</a>
               <v-icon class="ml-2" small>mdi-open-in-new</v-icon>
-            </div>
+            </div> -->
 
             <div v-bind="infoLabelAttr">Created:</div>
             <div v-bind="infoValueAttr">
               {{ parseDate(data.dateCreated) }}
             </div>
 
+            <template v-if="data.datePublished">
+              <div v-bind="infoLabelAttr">Published:</div>
+              <div v-bind="infoValueAttr">
+                {{ parseDate(data.datePublished) }}
+              </div>
+            </template>
+
             <div v-bind="infoLabelAttr">Host Repository:</div>
-            <div v-bind="infoValueAttr">HydroShare</div>
+            <div v-bind="infoValueAttr">
+              HydroShare
+              <v-img
+                max-width="200"
+                contain
+                class="mt-2"
+                alt="HydroShare logo"
+                :src="require('@/assets/img/hydroshare.png')"
+              ></v-img>
+            </div>
           </v-col>
         </v-row>
+
+        <div class="mb-8 field" id="description">
+          <div class="text-overline primary--text darken-4">URL</div>
+          <v-divider class="primary my-1"></v-divider>
+          <p class="text-body-1">
+            <a :href="data.url" target="_blank" class="break-word">{{
+              data.url
+            }}</a>
+            <v-icon class="ml-2" small>mdi-open-in-new</v-icon>
+          </p>
+        </div>
 
         <div class="mb-8 field" id="description">
           <div class="text-overline primary--text darken-4">Description</div>
@@ -181,9 +213,21 @@
           id="content"
         >
           <div class="text-overline primary--text darken-4">Content</div>
-          <v-divider class="primary my-1"></v-divider>
+          <v-divider class="primary mt-1 mb-4"></v-divider>
 
-          <cz-file-explorer :rootDirectory="rootDirectory" :canUpload="false" />
+          <cz-file-explorer
+            :rootDirectory="rootDirectory"
+            :isReadOnly="true"
+            @showMetadata="onShowMetadata($event)"
+          />
+
+          <v-card v-if="readmeMd" class="readme-container" flat outlined>
+            <v-card-title>README</v-card-title>
+            <v-divider></v-divider>
+            <v-card-text>
+              <vue-marked :marked="marked">{{ readmeMd }}</vue-marked>
+            </v-card-text>
+          </v-card>
         </div>
 
         <div
@@ -203,12 +247,12 @@
             <v-card-title class="d-flex align-center">
               <v-icon large left class="mr-2"> mdi-domain </v-icon>
               <div>
-                <div class="font-weight-light">{{ funding.funder.name }}</div>
+                <div class="font-weight-light">{{ funding.name }}</div>
                 <a
                   class="text-subtitle-1 font-weight-light"
-                  :href="funding.funder.url"
+                  :href="funding.url"
                   target="_blank"
-                  >{{ funding.funder.url }}
+                  >{{ funding.url }}
                 </a>
               </div>
             </v-card-title>
@@ -339,35 +383,25 @@
           </div>
           <v-divider class="primary mb-2"></v-divider>
 
-          <v-stepper flat vertical non-linear class="pb-0">
-            <v-stepper-step
-              v-if="data.temporalCoverage.startDate"
-              complete
-              step="1"
-              complete-icon="mdi-calendar-start-outline"
-            >
-              <span>{{ parseDate(data.temporalCoverage.startDate) }}</span>
-              <small class="primary--text font-weight-medium mt-1"
-                >Start Date</small
-              >
-            </v-stepper-step>
+          <v-timeline align-top dense>
+            <v-timeline-item small>
+              <div>
+                <div class="font-weight-normal">
+                  <strong>Start Date</strong>
+                </div>
+                <div>{{ parseDate(data.temporalCoverage.startDate) }}</div>
+              </div>
+            </v-timeline-item>
 
-            <v-stepper-content step="1" class="pb-0"></v-stepper-content>
-
-            <v-stepper-step
-              v-if="data.temporalCoverage.endDate"
-              complete
-              step="2"
-              complete-icon="mdi-calendar-end-outline"
-            >
-              <span>{{ parseDate(data.temporalCoverage.endDate) }}</span>
-              <small class="primary--text font-weight-medium mt-1"
-                >End Date</small
-              >
-            </v-stepper-step>
-
-            <v-stepper-content step="2" class="pb-0"></v-stepper-content>
-          </v-stepper>
+            <v-timeline-item small color="orange">
+              <div>
+                <div class="font-weight-normal">
+                  <strong>End Date</strong>
+                </div>
+                <div>{{ parseDate(data.temporalCoverage.endDate) }}</div>
+              </div>
+            </v-timeline-item>
+          </v-timeline>
         </div>
       </div>
     </div>
@@ -387,6 +421,23 @@
         <pre>{{ JSON.stringify(data, null, 2) }}</pre>
       </v-card-text>
     </v-card> -->
+
+    <v-dialog v-model="selectedMetadata" width="800">
+      <v-card>
+        <v-card-title>Some file</v-card-title>
+
+        <v-card-text>File metadata...</v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="selectedMetadata = false">
+            Close
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -400,6 +451,9 @@ import {
 import { Loader, LoaderOptions } from "google-maps";
 import CdSpatialCoverageMap from "@/components/search-results/cd.spatial-coverage-map.vue";
 import User from "@/models/user.model";
+import VueMarked from "@hrwg/vue-marked";
+import marked from "marked";
+import * as DOMPurify from "dompurify";
 
 const options: LoaderOptions = { libraries: ["drawing"] };
 const loader: Loader = new Loader(
@@ -409,7 +463,7 @@ const loader: Loader = new Loader(
 
 @Component({
   name: "cd-contribute",
-  components: { CzForm, CdSpatialCoverageMap, CzFileExplorer },
+  components: { CzForm, CdSpatialCoverageMap, CzFileExplorer, VueMarked },
 })
 export default class CdDataset extends Vue {
   public loader = loader;
@@ -419,19 +473,14 @@ export default class CdDataset extends Vue {
   protected wasLoaded = false;
   protected submissionId = "";
   protected tab = 0;
+  protected selectedMetadata: any = false;
+  protected readmeMd = "";
+  protected marked = marked;
 
   /** Example folder/file tree structure */
   protected rootDirectory = {
     name: "root",
-    children: [
-      // {
-      //   name: "landscape.png",
-      //   key: `1`,
-      // }
-    ] as any[],
-    parent: null,
-    key: "0",
-    path: "",
+    children: [] as any[],
   };
 
   protected config = {
@@ -457,6 +506,10 @@ export default class CdDataset extends Vue {
 
   protected tableOfContents = [
     { title: "Overview", link: "#overview" },
+    {
+      title: "Url",
+      link: "#url",
+    },
     {
       title: "Description",
       link: "#description",
@@ -506,6 +559,11 @@ export default class CdDataset extends Vue {
     this.loadDataset();
   }
 
+  onShowMetadata(item) {
+    console.log(item);
+    this.selectedMetadata = item;
+  }
+
   onCopy(text: string) {
     navigator.clipboard.writeText(text);
     Notifications.toast({ message: "Copied to clipboard", type: "info" });
@@ -519,6 +577,103 @@ export default class CdDataset extends Vue {
     return this.$vuetify.breakpoint.mdAndDown;
   }
 
+  protected get isSm() {
+    return this.$vuetify.breakpoint.smAndDown;
+  }
+
+  protected loadFileExporer() {
+    // Load file explorer
+    if (this.data.associatedMedia?.length) {
+      this.data.associatedMedia.map((m, index) => {
+        let fileSizeBytes;
+
+        if (typeof m.contentSize === "string") {
+          const parts = m.contentSize.trim().split(" ");
+          if (parts.length != 2) {
+            fileSizeBytes = undefined;
+          } else {
+            const num = parts[0];
+            const notation = parts[1].toLowerCase();
+
+            // https://wiki.ubuntu.com/UnitsPolicy
+            const kib = 1024;
+            const mib = 1024 * kib;
+            const gib = 1024 * mib;
+            const tib = 1024 * gib;
+
+            const kb = 1000;
+            const mb = 1024 * kb;
+            const gb = 1024 * mb;
+            const tb = 1024 * gb;
+
+            let multiplier = 0;
+
+            switch (notation) {
+              case "b":
+                multiplier = 1;
+                break;
+              case "kb":
+                multiplier = kb;
+                break;
+              case "mb":
+                multiplier = mb;
+                break;
+              case "gb":
+                multiplier = gb;
+                break;
+              case "tb":
+                multiplier = tb;
+                break;
+
+              case "kib":
+                multiplier = kib;
+                break;
+              case "mib":
+                multiplier = mib;
+                break;
+              case "gib":
+                multiplier = gib;
+                break;
+              case "tib":
+                multiplier = tib;
+                break;
+            }
+            fileSizeBytes = num * multiplier;
+          }
+        } else if (typeof m.size === "number") {
+          fileSizeBytes = m.size;
+        }
+
+        this.rootDirectory.children.push({
+          name: m.name,
+          file: {
+            size: fileSizeBytes,
+          },
+        });
+      });
+    }
+  }
+
+  protected async loadReadmeFile() {
+    const readmeFile = this.data.associatedMedia.find(
+      (f) => f.name.toLowerCase() === "readme.md"
+    );
+
+    if (readmeFile?.contentUrl) {
+      try {
+        const response = await fetch(readmeFile.contentUrl);
+        const rawMd = await response.text();
+        this.readmeMd = DOMPurify.sanitize(rawMd);
+
+        this.marked.setOptions({
+          // ...
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
+
   protected async loadDataset() {
     this.submissionId = this.$route.params.id;
     this.isLoading = true;
@@ -528,76 +683,8 @@ export default class CdDataset extends Vue {
         this.data = data;
         console.log(data);
 
-        if (this.data.associatedMedia?.length) {
-          this.data.associatedMedia.map((m, index) => {
-            let fileSizeBytes;
-
-            if (typeof m.contentSize === "string") {
-              const parts = m.contentSize.trim().split(" ");
-              if (parts.length != 2) {
-                fileSizeBytes = undefined;
-              } else {
-                const num = parts[0];
-                const notation = parts[1].toLowerCase();
-
-                // https://wiki.ubuntu.com/UnitsPolicy
-                const kib = 1024;
-                const mib = 1024 * kib;
-                const gib = 1024 * mib;
-                const tib = 1024 * gib;
-
-                const kb = 1000;
-                const mb = 1024 * kb;
-                const gb = 1024 * mb;
-                const tb = 1024 * gb;
-
-                let multiplier = 0;
-
-                switch (notation) {
-                  case "b":
-                    multiplier = 1;
-                    break;
-                  case "kb":
-                    multiplier = kb;
-                    break;
-                  case "mb":
-                    multiplier = mb;
-                    break;
-                  case "gb":
-                    multiplier = gb;
-                    break;
-                  case "tb":
-                    multiplier = tb;
-                    break;
-
-                  case "kib":
-                    multiplier = kib;
-                    break;
-                  case "mib":
-                    multiplier = mib;
-                    break;
-                  case "gib":
-                    multiplier = gib;
-                    break;
-                  case "tib":
-                    multiplier = tib;
-                    break;
-                }
-                fileSizeBytes = num * multiplier;
-              }
-            } else if (typeof m.size === "number") {
-              fileSizeBytes = m.size;
-            }
-
-            this.rootDirectory.children.push({
-              name: m.name,
-              key: `${index}`,
-              file: {
-                size: fileSizeBytes,
-              },
-            });
-          });
-        }
+        this.loadFileExporer();
+        this.loadReadmeFile();
       }
       this.wasLoaded = !!data;
     } catch (e) {
@@ -622,7 +709,7 @@ export default class CdDataset extends Vue {
 
   protected get hasSpatialFeatures(): boolean {
     const feat = this.data.spatialCoverage?.["@type"];
-    return feat === "GeoShape" || feat === "GeoCoordinates";
+    return feat === "GeoShape" || feat === "GeoCoordinates" || feat === "Place";
   }
 
   protected get schema() {
@@ -657,6 +744,14 @@ export default class CdDataset extends Vue {
   .table-of-contents {
     position: sticky;
     top: 6rem;
+  }
+}
+
+.readme-container {
+  .v-card__text {
+    height: 20rem;
+    overflow: auto;
+    resize: vertical;
   }
 }
 
