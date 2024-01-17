@@ -246,47 +246,64 @@
                     v-bind="{ ...attrs, ...infoValueAttr }"
                     v-on="on"
                   >
-                    {{ creator.name }} <v-icon small>mdi-menu-down</v-icon>
+                    <div class="d-inline-block">
+                      {{ creator.name }} <v-icon small>mdi-menu-down</v-icon>
+                    </div>
                   </span>
                 </template>
                 <v-card v-if="creator['@type'] == 'Person'">
-                  <v-card-title class="flex-column align-start justify-center">
-                    <div><v-icon>mdi-account</v-icon> {{ creator.name }}</div>
+                  <v-card-title class="text-body-1 secondary white--text">
+                    <!-- <v-icon color="white" class="mr-2"
+                      >mdi-account-outline</v-icon
+                    > -->
+                    {{ creator.name }}
                   </v-card-title>
                   <v-divider></v-divider>
 
                   <v-card-subtitle
                     v-if="creator.email || creator.identifier"
-                    class="text-body-1"
+                    class="d-flex flex-column gap-1"
                   >
-                    <div v-if="creator.email" class="mb-1">
-                      <v-icon title="Email address">mdi-email-outline</v-icon>
+                    <div v-if="creator.email">
+                      <v-icon small title="Email address"
+                        >mdi-email-outline</v-icon
+                      >
                       {{ creator.email }}
                     </div>
                     <div v-if="creator.identifier">
-                      <v-icon title="ORCID identifier">fab fa-orcid</v-icon>
+                      <v-icon small title="ORCID identifier"
+                        >fab fa-orcid</v-icon
+                      >
                       {{ creator.identifier }}
                     </div>
                   </v-card-subtitle>
-                  <v-card-text v-if="creator.affiliation" class="text-body-2">
-                    <div
-                      v-if="creator.affiliation.name"
-                      class="text-body-1 font-weight-bold mb-2"
-                    >
-                      <v-icon class="mr-1" title="Affiliation">
+
+                  <v-card-text v-if="creator.affiliation" class="mt-4">
+                    <div class="d-flex align-center">
+                      <v-icon small class="mr-1" title="Affiliation">
                         mdi-domain
                       </v-icon>
-                      {{ creator.affiliation.name }}
+                      Affiliation:
+                    </div>
+                    <v-divider class="my-2"></v-divider>
+                    <div
+                      v-if="creator.affiliation.name"
+                      class="font-weight-bold mb-2"
+                    >
+                      <span
+                        v-if="creator.affiliation.url"
+                        class="d-inline-flex align-baseline"
+                      >
+                        <a :href="creator.affiliation.url" target="_blank">{{
+                          creator.affiliation.name
+                        }}</a>
+                        <v-icon class="ml-2" small>mdi-open-in-new</v-icon>
+                      </span>
+                      <span v-else>{{ creator.affiliation.name }}</span>
                     </div>
 
                     <div v-if="creator.affiliation.address">
                       {{ creator.affiliation.address }}
-                    </div>
-
-                    <div v-if="creator.affiliation.url">
-                      <a :href="creator.affiliation.url" target="_blank">{{
-                        creator.affiliation.url
-                      }}</a>
                     </div>
                   </v-card-text>
                 </v-card>
