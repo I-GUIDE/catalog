@@ -1,10 +1,13 @@
 <template>
   <v-container class="cd-contribute">
     <div v-if="!isLoading && wasLoaded" class="d-flex">
-      <div v-if="!isMd" class="sidebar pr-4 break-word">
-        <div class="table-of-contents">
+      <div
+        v-if="!$vuetify.breakpoint.mdAndDown"
+        class="sidebar pr-8 break-word"
+      >
+        <div class="sidebar--content">
           <div class="text-h6">Table of contents</div>
-          <ol class="text-body-2">
+          <ol class="text-body-2 mb-4">
             <template v-for="(item, index) of tableOfContents">
               <li
                 v-if="!(item.isShown === false)"
@@ -52,15 +55,148 @@
               </div>
             </v-card-text>
           </v-card>
+
+          <v-card v-if="hasSpatialFeatures" class="mb-8" flat outlined>
+            <v-card-title class="text-overline primary--text darken-4">
+              Spatial Coverage
+            </v-card-title>
+            <cd-spatial-coverage-map
+              :loader="loader"
+              :feature="data.spatialCoverage.geo"
+              :key="$route.fullPath"
+              :flat="true"
+            />
+            <v-divider></v-divider>
+            <v-expansion-panels accordion flat>
+              <v-expansion-panel>
+                <v-expansion-panel-header color="text-overline">
+                  Extent
+                </v-expansion-panel-header>
+
+                <v-expansion-panel-content>
+                  <v-card-text
+                    v-if="data.spatialCoverage.geo['@type'] == 'GeoShape'"
+                  >
+                    <v-row class="align-start">
+                      <v-col cols="12" class="dataset-info">
+                        <div v-bind="infoLabelAttr">North Latitude:</div>
+                        <div v-bind="infoValueAttr">
+                          {{ boxCoordinates.north }}°
+                        </div>
+
+                        <div v-bind="infoLabelAttr">East Longitude:</div>
+                        <div v-bind="infoValueAttr">
+                          {{ boxCoordinates.east }}°
+                        </div>
+
+                        <div v-bind="infoLabelAttr">South Latitude:</div>
+                        <div v-bind="infoValueAttr">
+                          {{ boxCoordinates.south }}°
+                        </div>
+
+                        <div v-bind="infoLabelAttr">West Longitude:</div>
+                        <div v-bind="infoValueAttr">
+                          {{ boxCoordinates.west }}°
+                        </div>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+
+                  <v-card-text
+                    v-if="data.spatialCoverage.geo['@type'] == 'GeoCoordinates'"
+                  >
+                    <v-row class="align-start">
+                      <v-col cols="12" sm="6" class="dataset-info">
+                        <div v-bind="infoLabelAttr">Latitude:</div>
+                        <div v-bind="infoValueAttr">
+                          {{ data.spatialCoverage.geo.latitude }}°
+                        </div>
+                      </v-col>
+
+                      <v-col cols="12" sm="6" class="dataset-info">
+                        <div v-bind="infoLabelAttr">Longitude:</div>
+                        <div v-bind="infoValueAttr">
+                          {{ data.spatialCoverage.geo.longitude }}°
+                        </div>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+
+              <v-expansion-panel>
+                <v-expansion-panel-header color="text-overline">
+                  Coordinate System
+                </v-expansion-panel-header>
+
+                <v-expansion-panel-content>
+                  <v-card-text class="dataset-info one-col">
+                    <div v-bind="infoLabelAttr">
+                      Coordinate System/Geographic Projection:
+                    </div>
+                    <div v-bind="infoValueAttr">WGS 84 EPSG:4326</div>
+
+                    <div v-bind="infoLabelAttr">Coordinate Units:</div>
+                    <div v-bind="infoValueAttr">Decimal degrees</div>
+
+                    <div v-bind="infoLabelAttr">Place/Area Name:</div>
+                    <div v-bind="infoValueAttr">Woodlawn, MD</div>
+                  </v-card-text>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-card>
+
+          <v-card v-if="data.temporalCoverage" flat outlined>
+            <v-card-title class="text-overline primary--text darken-4">
+              Temporal Coverage
+            </v-card-title>
+            <v-divider></v-divider>
+
+            <v-card-text>
+              <v-timeline align-top dense>
+                <v-timeline-item small>
+                  <div>
+                    <div class="font-weight-normal">
+                      <strong>Start Date</strong>
+                    </div>
+                    <div>{{ parseDate(data.temporalCoverage.startDate) }}</div>
+                  </div>
+                </v-timeline-item>
+
+                <v-timeline-item small color="orange">
+                  <div>
+                    <div class="font-weight-normal">
+                      <strong>End Date</strong>
+                    </div>
+                    <div>{{ parseDate(data.temporalCoverage.endDate) }}</div>
+                  </div>
+                </v-timeline-item>
+              </v-timeline>
+            </v-card-text>
+          </v-card>
         </div>
       </div>
 
-      <div id="overview" class="page-content" :class="{ 'is-sm': isMd }">
+      <div
+        id="overview"
+        class="page-content"
+        :class="{ 'is-sm': $vuetify.breakpoint.mdAndDown }"
+      >
         <h4 class="text-h4">{{ data.name }}</h4>
         <div
           class="d-flex justify-space-between mb-2 flex-column flex-sm-row align-normal align-sm-end"
         >
           <div class="order-2 order-sm-1">
+            <v-chip
+              small
+              class="mr-2"
+              color="green"
+              text-color="white"
+              title="The resource is in draft state and should not be considered final. Content and metadata may change."
+            >
+              Draft
+            </v-chip>
             <template v-if="data.dateModified">
               <span class="d-block d-sm-inline" v-bind="infoLabelAttr"
                 >Last Updated:</span
@@ -89,10 +225,73 @@
         </div>
         <v-divider class="my-4"></v-divider>
 
-        <v-row class="my-4 align-start" :no-gutters="isSm">
+        <v-row
+          class="my-4 align-start"
+          :no-gutters="$vuetify.breakpoint.smAndDown"
+        >
           <v-col cols="12" sm="6" class="dataset-info">
             <div v-bind="infoLabelAttr">Created By:</div>
-            <div v-bind="infoValueAttr">{{ createdBy }}</div>
+
+            <div class="infoValueAttr">
+              <v-menu
+                v-for="(creator, index) of data.creator"
+                offset-y
+                :close-on-content-click="false"
+                class="d-inline"
+                :key="index"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <span
+                    class="mr-2"
+                    v-bind="{ ...attrs, ...infoValueAttr }"
+                    v-on="on"
+                  >
+                    {{ creator.name }} <v-icon small>mdi-menu-down</v-icon>
+                  </span>
+                </template>
+                <v-card v-if="creator['@type'] == 'Person'">
+                  <v-card-title class="flex-column align-start justify-center">
+                    <div><v-icon>mdi-account</v-icon> {{ creator.name }}</div>
+                  </v-card-title>
+                  <v-divider></v-divider>
+
+                  <v-card-subtitle
+                    v-if="creator.email || creator.identifier"
+                    class="text-body-1"
+                  >
+                    <div v-if="creator.email" class="mb-1">
+                      <v-icon title="Email address">mdi-email-outline</v-icon>
+                      {{ creator.email }}
+                    </div>
+                    <div v-if="creator.identifier">
+                      <v-icon title="ORCID identifier">fab fa-orcid</v-icon>
+                      {{ creator.identifier }}
+                    </div>
+                  </v-card-subtitle>
+                  <v-card-text v-if="creator.affiliation" class="text-body-2">
+                    <div
+                      v-if="creator.affiliation.name"
+                      class="text-body-1 font-weight-bold mb-2"
+                    >
+                      <v-icon class="mr-1" title="Affiliation">
+                        mdi-domain
+                      </v-icon>
+                      {{ creator.affiliation.name }}
+                    </div>
+
+                    <div v-if="creator.affiliation.address">
+                      {{ creator.affiliation.address }}
+                    </div>
+
+                    <div v-if="creator.affiliation.url">
+                      <a :href="creator.affiliation.url" target="_blank">{{
+                        creator.affiliation.url
+                      }}</a>
+                    </div>
+                  </v-card-text>
+                </v-card>
+              </v-menu>
+            </div>
 
             <div v-bind="infoLabelAttr">Provider:</div>
             <div v-bind="infoValueAttr">
@@ -218,6 +417,7 @@
           <cz-file-explorer
             :rootDirectory="rootDirectory"
             :isReadOnly="true"
+            :hasFileMetadata="() => true"
             @showMetadata="onShowMetadata($event)"
           />
 
@@ -240,26 +440,38 @@
           <v-card
             v-for="(funding, index) of data.funding"
             :key="index"
-            class="mt-2"
+            class="my-4"
             flat
             outlined
           >
-            <v-card-title class="d-flex align-center">
-              <v-icon large left class="mr-2"> mdi-domain </v-icon>
-              <div>
-                <div class="font-weight-light">{{ funding.name }}</div>
-                <a
-                  class="text-subtitle-1 font-weight-light"
-                  :href="funding.url"
-                  target="_blank"
-                  >{{ funding.url }}
-                </a>
+            <v-card-title class="flex-column align-start">
+              <div class="font-weight-light">{{ funding.name }}</div>
+              <div v-if="funding.identifier" class="text-body-2">
+                Award number: {{ funding.identifier }}
               </div>
             </v-card-title>
 
-            <v-card-text class="font-weight-bold">
-              {{ funding.name }}
+            <v-card-text v-if="funding.description">
+              {{ funding.description }}
             </v-card-text>
+            <template v-if="funding.funder">
+              <v-card-title>
+                <v-icon class="mr-2"> mdi-domain </v-icon>
+                <div class="font-weight-light">Funding Organization:</div>
+              </v-card-title>
+              <v-card-text class="text-body-2">
+                <div class="text-body-1">
+                  {{ funding.funder.name }}
+                </div>
+                <div>{{ funding.funder.address }}</div>
+                <a
+                  class="font-weight-light"
+                  :href="funding.funder.url"
+                  target="_blank"
+                  >{{ funding.funder.url }}
+                </a>
+              </v-card-text>
+            </template>
           </v-card>
         </div>
 
@@ -292,7 +504,7 @@
         </div>
 
         <div
-          v-if="hasSpatialFeatures"
+          v-if="hasSpatialFeatures && $vuetify.breakpoint.mdAndDown"
           class="my-4 field text-body-1"
           id="coverage"
         >
@@ -377,7 +589,10 @@
           </v-row>
         </div>
 
-        <div v-if="data.temporalCoverage" class="mb-8 field text-body-1">
+        <div
+          v-if="data.temporalCoverage && $vuetify.breakpoint.mdAndDown"
+          class="mb-8 field text-body-1"
+        >
           <div class="text-overline primary--text darken-4">
             Temporal Coverage
           </div>
@@ -422,17 +637,26 @@
       </v-card-text>
     </v-card> -->
 
-    <v-dialog v-model="selectedMetadata" width="800">
+    <v-dialog v-model="showMetadata" width="800">
       <v-card>
-        <v-card-title>Some file</v-card-title>
+        <v-card-title class="flex-column align-start">
+          <div>{{ selectedMetadata.name }}</div>
+          <div class="text-caption">
+            {{ selectedMetadata.metadata?.contentSize }}
+          </div>
+        </v-card-title>
 
-        <v-card-text>File metadata...</v-card-text>
+        <v-card-text>
+          <div>Metadata here...</div>
+          <div>{{ selectedMetadata.metadata?.contentUrl }}</div>
+          <div>{{ selectedMetadata.metadata?.encodingFormat }}</div>
+        </v-card-text>
 
         <v-divider></v-divider>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="selectedMetadata = false">
+          <v-btn color="primary" text @click="showMetadata = false">
             Close
           </v-btn>
         </v-card-actions>
@@ -476,12 +700,16 @@ export default class CdDataset extends Vue {
   protected selectedMetadata: any = false;
   protected readmeMd = "";
   protected marked = marked;
+  protected showCoordinateSystem = false;
+  protected showExtent = false;
 
   /** Example folder/file tree structure */
   protected rootDirectory = {
     name: "root",
     children: [] as any[],
   };
+
+  protected showMetadata = false;
 
   protected config = {
     restrict: true,
@@ -538,12 +766,13 @@ export default class CdDataset extends Vue {
     {
       title: "Spatial Coverage",
       link: "#spatial-coverage",
-      isShown: !this.hasSpatialFeatures,
+      isShown: this.hasSpatialFeatures && this.$vuetify.breakpoint.mdAndDown,
     },
     {
       title: "Temporal Coverage",
       link: "#temporal-coverage",
-      isShown: this.data.temporalCoverage,
+      isShown:
+        !!this.data.temporalCoverage && this.$vuetify.breakpoint.mdAndDown,
     },
   ];
 
@@ -562,23 +791,12 @@ export default class CdDataset extends Vue {
   onShowMetadata(item) {
     console.log(item);
     this.selectedMetadata = item;
+    this.showMetadata = true;
   }
 
   onCopy(text: string) {
     navigator.clipboard.writeText(text);
     Notifications.toast({ message: "Copied to clipboard", type: "info" });
-  }
-
-  protected get createdBy() {
-    return this.data.creator?.map((c) => c.name).join(", ");
-  }
-
-  protected get isMd() {
-    return this.$vuetify.breakpoint.mdAndDown;
-  }
-
-  protected get isSm() {
-    return this.$vuetify.breakpoint.smAndDown;
   }
 
   protected loadFileExporer() {
@@ -649,6 +867,7 @@ export default class CdDataset extends Vue {
           file: {
             size: fileSizeBytes,
           },
+          metadata: m,
         });
       });
     }
@@ -741,7 +960,7 @@ export default class CdDataset extends Vue {
   flex-shrink: 0;
   position: relative;
 
-  .table-of-contents {
+  .sidebar--content {
     position: sticky;
     top: 6rem;
   }
@@ -786,8 +1005,8 @@ export default class CdDataset extends Vue {
   }
 }
 
-::v-deep .map-container {
-  width: 100%;
-  height: 20rem;
-}
+// ::v-deep .map-container {
+//   width: 100%;
+//   height: 20rem;
+// }
 </style>

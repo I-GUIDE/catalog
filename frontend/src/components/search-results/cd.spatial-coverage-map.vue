@@ -1,12 +1,17 @@
 <template>
-  <v-card class="cd-spatial-coverage-map" :class="{ flat }" :tile="flat" :outlined="flat">
+  <v-card
+    class="cd-spatial-coverage-map"
+    :class="{ flat }"
+    :tile="flat"
+    :outlined="flat"
+  >
     <div ref="map" class="map-container"></div>
   </v-card>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop, Ref } from "vue-property-decorator";
-import { Loader, LoaderOptions } from "google-maps";
+import { Loader } from "google-maps";
 
 const DEFAULT_ZOOM = 5;
 
@@ -17,7 +22,6 @@ const DEFAULT_ZOOM = 5;
 export default class CdSpatialCoverageMap extends Vue {
   @Prop() feature!: any;
   @Prop() loader!: Loader;
-  @Prop() loaderOptions!: LoaderOptions;
   @Prop() flat?: boolean;
 
   @Ref("map") mapContainer;
@@ -53,8 +57,6 @@ export default class CdSpatialCoverageMap extends Vue {
       });
     }
   }
-
-  created() { }
 
   protected async initMap() {
     const google = await this.loader.load();

@@ -178,7 +178,7 @@
             <div
               class="d-table-row d-lg-flex align-center flex-md-row flex-column gap-1"
             >
-              <small>Sort results by:</small>
+              <small class="mr-1">Sort results by:</small>
               <v-btn-toggle v-model="sort" dense :mandatory="!!searchQuery">
                 <v-btn small value="relevance">Relevance</v-btn>
                 <v-btn small value="name">Title</v-btn>
@@ -289,7 +289,6 @@
                   >
                     <cd-spatial-coverage-map
                       :loader="loader"
-                      :loader-options="options"
                       :feature="result.spatialCoverage"
                       :key="`map-${result.id}`"
                     />

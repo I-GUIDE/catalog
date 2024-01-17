@@ -76,7 +76,7 @@ export default class User extends Model {
     if (!this.isLoginListenerSet) {
       this.isLoginListenerSet = true; // Prevents registering the listener more than once
       console.info(`User: listening to login window...`);
-      window.addEventListener("message", async (event: MessageEvent) => {
+      window?.addEventListener("message", async (event: MessageEvent) => {
         if (
           event.origin !== APP_URL ||
           !event.data.hasOwnProperty("accessToken")
