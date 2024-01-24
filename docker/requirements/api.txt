@@ -1,3 +1,4 @@
+requests
 fastapi[all]==0.101.*
 uvicorn[standard]
 motor==3.*
