@@ -68,9 +68,7 @@ class SchemaBaseModel(BaseModel):
         return field_schema
 
     @classmethod
-    def remove_default_empty_list(
-        cls, field_schema: dict[str, Any]
-    ) -> dict[str, Any]:
+    def remove_default_empty_list(cls, field_schema: dict[str, Any]) -> dict[str, Any]:
         """Remove the default value of an empty list from the schema for the given field"""
         if "default" in field_schema and field_schema["default"] == []:
             field_schema.pop("default")
@@ -279,6 +277,21 @@ class PublisherOrganization(Organization):
         description="A URL to the homepage for the publisher organization or repository.",
         default=None,
     )
+
+
+class MediaObjectSourceOrganization(Organization):
+    name: str = Field(
+        description="Name of the organization that created the media object."
+    )
+
+    @classmethod
+    def __get_pydantic_json_schema__(
+            cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        json_schema = handler(core_schema)
+        json_schema = handler.resolve_ref_schema(json_schema)
+        json_schema["title"] = "Media Object Source Organization"
+        return json_schema
 
 
 class DefinedTerm(SchemaBaseModel):
@@ -537,6 +550,76 @@ class GeoShape(SchemaBaseModel):
         return v
 
 
+class PropertyValueBase(SchemaBaseModel):
+    type: str = Field(
+        alias="@type",
+        default="PropertyValue",
+        frozen=True,
+        description="A property-value pair.",
+    )
+    propertyID: Optional[str] = Field(
+        title="Property ID",
+        description="The ID of the property.",
+        default=None,
+    )
+    name: str = Field(description="The name of the property.")
+    value: str = Field(description="The value of the property.")
+    unitCode: Optional[str] = Field(
+        title="Measurement unit",
+        description="The unit of measurement for the value.",
+        default=None,
+    )
+    description: Optional[str] = Field(
+        description="A description of the property.",
+        default=None,
+    )
+    minValue: Optional[float] = Field(
+        title="Minimum value",
+        description="The minimum allowed value for the property.",
+        default=None,
+    )
+    maxValue: Optional[float] = Field(
+        title="Maximum value",
+        description="The maximum allowed value for the property.",
+        default=None,
+    )
+
+    @model_validator(mode="before")
+    def validate_min_max_values(cls, values):
+        if isinstance(values, dict):
+            min_value = values.get("minValue", None)
+            max_value = values.get("maxValue", None)
+            if min_value is not None and max_value is not None:
+                if min_value > max_value:
+                    raise ValueError(
+                        "Minimum value must be less than or equal to maximum value"
+                    )
+
+        return values
+
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        json_schema = handler(core_schema)
+        json_schema = handler.resolve_ref_schema(json_schema)
+        json_schema["title"] = "Property Value"
+        for field in ("propertyID", "unitCode", "description", "minValue", "maxValue"):
+            field_schema = cls.remove_any_of(json_schema, field)
+            field_schema = cls.remove_default_null(field_schema)
+            json_schema["properties"][field] = field_schema
+        return json_schema
+
+
+class PropertyValue(PropertyValueBase):
+    # using PropertyValueBase model instead of PropertyValue model as one of the types for the value field
+    # in order for the schema generation (schema.json) to work. Self referencing nested models leads to
+    # infinite loop in our custom schema generation code when trying to replace dict with key '$ref'
+    value: Union[str, PropertyValueBase, List[PropertyValueBase]] = Field(
+        description="The value of the property."
+    )
+
+
 class Place(SchemaBaseModel):
     type: str = Field(
         alias="@type",
@@ -548,6 +631,11 @@ class Place(SchemaBaseModel):
         description="Specifies the geographic coordinates of the place in the form of a point location, line, "
         "or area coverage extent.",
         default=None,
+    )
+    additionalProperty: Optional[List[PropertyValue]] = Field(
+        title="Additional properties",
+        default=[],
+        description="Additional properties of the place.",
     )
 
     @model_validator(mode="before")
@@ -564,12 +652,18 @@ class Place(SchemaBaseModel):
     def __get_pydantic_json_schema__(
         cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
     ) -> JsonSchemaValue:
-        # adjusting the schema to remove the anyOf key for name optional field
+        # adjusting the schema to remove the anyOf key for name and additionalProperty optional fields
         json_schema = handler(core_schema)
         json_schema = handler.resolve_ref_schema(json_schema)
-        for field in ("name",):
+        for field in (
+            "name",
+            "additionalProperty",
+        ):
             field_schema = cls.remove_any_of(json_schema, field)
-            field_schema = cls.remove_default_null(field_schema)
+            if field == "name":
+                field_schema = cls.remove_default_null(field_schema)
+            else:
+                field_schema = cls.remove_default_empty_list(field_schema)
             json_schema["properties"][field] = field_schema
 
         # adjusting the schema to remove the dict item {"type": "null"} from the list of types in anyOf
@@ -605,6 +699,31 @@ class MediaObject(SchemaBaseModel):
         "unit of measurement.",
     )
     name: str = Field(description="The name of the media object (file).")
+    additionalProperty: Optional[List[PropertyValue]] = Field(
+        title="Additional properties",
+        default=[],
+        description="Additional properties of the media object.",
+    )
+    variableMeasured: Optional[List[Union[str, PropertyValue]]] = Field(
+        title="Variables measured",
+        description="Measured variables.",
+        default=[],
+    )
+    spatialCoverage: Optional[Place] = Field(
+        title="Spatial coverage",
+        description="The spatial coverage of the media object.",
+        default=None,
+    )
+    temporalCoverage: Optional[TemporalCoverage] = Field(
+        title="Temporal coverage",
+        description="The temporal coverage of the media object.",
+        default=None,
+    )
+    sourceOrganization: Optional[MediaObjectSourceOrganization] = Field(
+        title="Source organization",
+        description="The organization that provided the media object.",
+        default=None,
+    )
 
     @classmethod
     def __get_pydantic_json_schema__(
@@ -617,6 +736,24 @@ class MediaObject(SchemaBaseModel):
             field_schema = json_schema["properties"][field]
             field_schema = cls.update_url_schema(field_schema)
             json_schema["properties"][field] = field_schema
+        # adjusting the schema for optional fields
+        for field in (
+            "additionalProperty",
+            "variableMeasured",
+            "spatialCoverage",
+            "temporalCoverage",
+            "sourceOrganization",
+        ):
+            field_schema = json_schema["properties"][field]
+            field_schema["anyOf"] = [
+                item for item in field_schema["anyOf"] if item != {"type": "null"}
+            ]
+            if field in ("additionalProperty", "variableMeasured"):
+                field_schema = cls.remove_default_empty_list(field_schema)
+            else:
+                field_schema = cls.remove_default_null(field_schema)
+            json_schema["properties"][field] = field_schema
+
         return json_schema
 
     @field_validator("contentSize")
