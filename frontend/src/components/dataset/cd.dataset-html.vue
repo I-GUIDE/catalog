@@ -252,9 +252,7 @@
                   </span>
                 </template>
                 <v-card v-if="creator['@type'] == 'Person'">
-                  <v-card-title
-                    class="text-body-1 secondary lighten-1 white--text"
-                  >
+                  <v-card-title class="text-body-1">
                     <!-- <v-icon color="white" class="mr-2"
                       >mdi-account-outline</v-icon
                     > -->
