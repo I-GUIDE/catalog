@@ -63,7 +63,9 @@ async def test_core_schema_creator_cardinality(core_data, core_model, multiple_c
             ]
     else:
         if creator_type == "person":
-            core_data["creator"] = [{"@type": "Person", "name": "John Doe", "email": "john.doe@gmail.com"}]
+            core_data["creator"] = [
+                {"@type": "Person", "name": "John Doe", "email": "john.doe@gmail.com"}
+            ]
         else:
             core_data["creator"] = [
                 {
@@ -349,7 +351,9 @@ async def test_core_schema_associated_media_cardinality(core_data, core_model, m
     ],
 )
 @pytest.mark.asyncio
-async def test_core_schema_associated_media_content_size(core_data, core_model, content_size_format):
+async def test_core_schema_associated_media_content_size(
+    core_data, core_model, content_size_format
+):
     """Test that a core metadata pydantic model can be created from core metadata json.
     Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
     valid values for the contentSize attribute of the associatedMedia property.
@@ -372,9 +376,240 @@ async def test_core_schema_associated_media_content_size(core_data, core_model, 
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
     assert core_model_instance.associatedMedia[0].contentSize == content_size_format
+    assert core_model_instance.associatedMedia[0].additionalProperty == []
 
 
-@pytest.mark.parametrize('include_coverage', [True, False])
+@pytest.mark.parametrize("set_additional_property", [True, False])
+@pytest.mark.asyncio
+async def test_core_schema_associated_media_additional_property(
+    core_data, core_model, set_additional_property
+):
+    """Test that a core metadata pydantic model can be created from core metadata json.
+    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
+    valid values for the additionalProperty attribute of the associatedMedia property.
+    Note: This test does not add a record to the database.
+    """
+
+    core_data = core_data
+    core_model = core_model
+    content_size_format = "100.17 KB"
+    core_data["associatedMedia"] = [
+        {
+            "@type": "MediaObject",
+            "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
+            "encodingFormat": "text/csv",
+            "contentSize": content_size_format,
+            "name": "USGS gage locations within the Harvey-affected areas in Texas",
+        }
+    ]
+    if set_additional_property:
+        core_data["associatedMedia"][0]["additionalProperty"] = [
+            {
+                "@type": "PropertyValue",
+                "name": "Feature Count",
+                "value": "7",
+            },
+            {
+                "@type": "PropertyValue",
+                "name": "Field Count",
+                "value": "10",
+                "minValue": 10,
+                "maxValue": 100.0,
+            },
+        ]
+
+    # validate the data model
+    core_model_instance = await utils.validate_data_model(core_data, core_model)
+    assert core_model_instance.associatedMedia[0].contentSize == content_size_format
+    if set_additional_property:
+        assert len(core_model_instance.associatedMedia[0].additionalProperty) == 2
+        assert (
+            core_model_instance.associatedMedia[0].additionalProperty[0].name
+            == "Feature Count"
+        )
+        assert core_model_instance.associatedMedia[0].additionalProperty[0].value == "7"
+        assert (
+            core_model_instance.associatedMedia[0].additionalProperty[1].name
+            == "Field Count"
+        )
+        assert core_model_instance.associatedMedia[0].additionalProperty[1].value == '10'
+        assert core_model_instance.associatedMedia[0].additionalProperty[1].minValue == 10
+        assert core_model_instance.associatedMedia[0].additionalProperty[1].maxValue == 100.0
+    else:
+        assert core_model_instance.associatedMedia[0].additionalProperty == []
+
+
+@pytest.mark.parametrize("set_spatial_coverage", [True, False])
+@pytest.mark.parametrize("spatial_coverage_with_additional_property", [True, False])
+@pytest.mark.asyncio
+async def test_core_schema_associated_media_spatial_coverage(
+    core_data,
+    core_model,
+    set_spatial_coverage,
+    spatial_coverage_with_additional_property,
+):
+    """Test that a core metadata pydantic model can be created from core metadata json.
+    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
+    valid values for the spatialCoverage attribute of the associatedMedia property.
+    Note: This test does not add a record to the database.
+    """
+
+    core_data = core_data
+    core_model = core_model
+    content_size_format = "100.17 KB"
+    coverage_value = {
+        "@type": "Place",
+        "name": "CUAHSI Office",
+        "geo": {"@type": "GeoCoordinates", "latitude": 42.4127, "longitude": -71.1197},
+    }
+    core_data["associatedMedia"] = [
+        {
+            "@type": "MediaObject",
+            "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
+            "encodingFormat": "text/csv",
+            "contentSize": content_size_format,
+            "name": "USGS gage locations within the Harvey-affected areas in Texas",
+        }
+    ]
+    if set_spatial_coverage:
+        core_data["associatedMedia"][0]["spatialCoverage"] = coverage_value
+        if spatial_coverage_with_additional_property:
+            core_data["associatedMedia"][0]["spatialCoverage"]["additionalProperty"] = [
+                {
+                    "@type": "PropertyValue",
+                    "name": "Geographic Coordinate System",
+                    "value": "WGS 84 EPSG:4326",
+                },
+            ]
+
+    # validate the data model
+    core_model_instance = await utils.validate_data_model(core_data, core_model)
+    assert core_model_instance.associatedMedia[0].contentSize == content_size_format
+    if set_spatial_coverage:
+        special_coverage = core_model_instance.associatedMedia[0].spatialCoverage
+        assert special_coverage.type == coverage_value["@type"]
+        assert special_coverage.name == coverage_value["name"]
+        geo = special_coverage.geo
+        assert geo.type == coverage_value["geo"]["@type"]
+        assert geo.latitude == coverage_value["geo"]["latitude"]
+        assert geo.longitude == coverage_value["geo"]["longitude"]
+        if spatial_coverage_with_additional_property:
+            assert len(core_model_instance.associatedMedia[0].spatialCoverage.additionalProperty) == 1
+            additional_property = core_model_instance.associatedMedia[0].spatialCoverage.additionalProperty[0]
+            assert additional_property.type == "PropertyValue"
+            assert additional_property.name == "Geographic Coordinate System"
+            assert additional_property.value == "WGS 84 EPSG:4326"
+        else:
+            assert core_model_instance.associatedMedia[0].spatialCoverage.additionalProperty == []
+    else:
+        assert core_model_instance.associatedMedia[0].spatialCoverage is None
+
+
+@pytest.mark.parametrize("set_temporal_coverage", [True, False])
+@pytest.mark.asyncio
+async def test_core_schema_associated_media_temporal_coverage(
+    core_data, core_model, set_temporal_coverage
+):
+    """Test that a core metadata pydantic model can be created from core metadata json.
+    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
+    valid values for the temporalCoverage attribute of the associatedMedia property.
+    Note: This test does not add a record to the database.
+    """
+
+    core_data = core_data
+    core_model = core_model
+    content_size_format = "100.17 KB"
+    coverage_value = {
+        "startDate": "2007-03-01T13:00:00",
+        "endDate": "2008-05-11T15:30:00",
+    }
+
+    core_data["associatedMedia"] = [
+        {
+            "@type": "MediaObject",
+            "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
+            "encodingFormat": "text/csv",
+            "contentSize": content_size_format,
+            "name": "USGS gage locations within the Harvey-affected areas in Texas",
+        }
+    ]
+    if set_temporal_coverage:
+        core_data["associatedMedia"][0]["temporalCoverage"] = coverage_value
+
+    # validate the data model
+    core_model_instance = await utils.validate_data_model(core_data, core_model)
+    assert core_model_instance.associatedMedia[0].contentSize == content_size_format
+    if set_temporal_coverage:
+        temporal_coverage = core_model_instance.associatedMedia[0].temporalCoverage
+        assert temporal_coverage.startDate == datetime.datetime(2007, 3, 1, 13, 0, 0)
+        assert temporal_coverage.endDate == datetime.datetime(2008, 5, 11, 15, 30, 0)
+    else:
+        assert core_model_instance.associatedMedia[0].temporalCoverage is None
+
+
+@pytest.mark.parametrize("set_source_organization", [True, False])
+@pytest.mark.asyncio
+async def test_core_schema_associated_media_source_organization(
+    core_data, core_model, set_source_organization
+):
+    """Test that a core metadata pydantic model can be created from core metadata json.
+    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
+    valid values for the sourceOrganization attribute of the associatedMedia property.
+    Note: This test does not add a record to the database.
+    """
+
+    core_data = core_data
+    core_model = core_model
+    content_size_format = "100.17 KB"
+    source_organization = {
+        "@type": "Organization",
+        "name": "National Hydrography Dataset",
+        "url": "https://www.usgs.gov/national-hydrography/national-hydrography-dataset",
+    }
+
+    if set_source_organization:
+        core_data["associatedMedia"] = [
+            {
+                "@type": "MediaObject",
+                "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
+                "encodingFormat": "text/csv",
+                "contentSize": content_size_format,
+                "name": "USGS gage locations within the Harvey-affected areas in Texas",
+                "sourceOrganization": source_organization,
+            }
+        ]
+    else:
+        core_data["associatedMedia"] = [
+            {
+                "@type": "MediaObject",
+                "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
+                "encodingFormat": "text/csv",
+                "contentSize": content_size_format,
+                "name": "USGS gage locations within the Harvey-affected areas in Texas",
+            }
+        ]
+
+    # validate the data model
+    core_model_instance = await utils.validate_data_model(core_data, core_model)
+    assert core_model_instance.associatedMedia[0].contentSize == content_size_format
+    if set_source_organization:
+        assert (
+            core_model_instance.associatedMedia[0].sourceOrganization.type
+            == source_organization["@type"]
+        )
+        assert (
+            core_model_instance.associatedMedia[0].sourceOrganization.name
+            == source_organization["name"]
+        )
+        assert (
+            core_model_instance.associatedMedia[0].sourceOrganization.url
+            == source_organization["url"]
+        )
+    else:
+        assert core_model_instance.associatedMedia[0].sourceOrganization is None
+
+
+@pytest.mark.parametrize("include_coverage", [True, False])
 @pytest.mark.asyncio
 async def test_core_schema_temporal_coverage_optional(core_data, core_model, include_coverage):
     """Test that a core metadata pydantic model can be created from core metadata json.
@@ -384,7 +619,10 @@ async def test_core_schema_temporal_coverage_optional(core_data, core_model, inc
     """
     core_data = core_data
     core_model = core_model
-    coverage_value = {"startDate": "2007-03-01T13:00:00", "endDate": "2008-05-11T15:30:00"}
+    coverage_value = {
+        "startDate": "2007-03-01T13:00:00",
+        "endDate": "2008-05-11T15:30:00",
+    }
     core_data.pop("temporalCoverage", None)
     if not include_coverage:
         core_data.pop("temporalCoverage", None)
@@ -466,35 +704,79 @@ async def test_core_schema_spatial_coverage_optional(core_data, core_model, incl
 
 
 @pytest.mark.parametrize(
-    'data_format',
+    "data_format",
     [
-        {
-            "@type": "Place",
-            "name": "CUAHSI Office"
-        },
+        {"@type": "Place", "name": "CUAHSI Office"},
         {
             "@type": "Place",
             "geo": {
                 "@type": "GeoCoordinates",
                 "latitude": 39.3280,
-                "longitude": 120.1633
-            }
+                "longitude": 120.1633,
+            },
         },
         {
             "@type": "Place",
+            "geo": {"@type": "GeoShape", "box": "39.3280 120.1633 40.445 123.7878"},
+        },
+        {
+            "@type": "Place",
+            "name": "Logan Watershed",
             "geo": {
                 "@type": "GeoShape",
-                "box": "39.3280 120.1633 40.445 123.7878"
-            }
-        }
+                "box": "41.70049003694901 -111.78438452093438 42.102360645589236 -111.51208495002092",
+            },
+            "additionalProperty": [
+                {
+                    "@type": "PropertyValue",
+                    "name": "Geographic Coordinate System",
+                    "value": "WGS 84 EPSG:4326",
+                },
+                {
+                    "@type": "PropertyValue",
+                    "name": "Geographic Coordinate System",
+                    "value": {
+                        "@type": "PropertyValue",
+                        "name": "Coordinate System",
+                        "value": "WGS 84 EPSG:4326",
+                    },
+                },
+            ],
+        },
+        {
+            "@type": "Place",
+            "name": "Logan Watershed",
+            "geo": {
+                "@type": "GeoShape",
+                "box": "41.70049003694901 -111.78438452093438 42.102360645589236 -111.51208495002092",
+            },
+            "additionalProperty": [
+                {
+                    "@type": "PropertyValue",
+                    "name": "Projected Coordinate System",
+                    "value": [
+                        {
+                            "@type": "PropertyValue",
+                            "name": "Coordinate Reference System",
+                            "value": "WGS_1984_UTM_Zone_12N",
+                        },
+                        {
+                            "@type": "PropertyValue",
+                            "name": "Datum",
+                            "value": "WGS_1984",
+                        },
+                    ],
+                },
+            ],
+        },
     ],
 )
 @pytest.mark.asyncio
 async def test_core_schema_spatial_coverage_value_type(core_data, core_model, data_format):
     """Test that a core metadata pydantic model can be created from core metadata json.
     Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
-    valid values for spatial coverage.
-    Note: This test does nat add a record to the database.
+    valid values for spatial coverage with optional additionalProperty attribute.
+    Note: This test does not add a record to the database.
     """
     core_data = core_data
     core_model = core_model
@@ -512,10 +794,54 @@ async def test_core_schema_spatial_coverage_value_type(core_data, core_model, da
             assert core_model_instance.spatialCoverage.geo.latitude == data_format["geo"]["latitude"]
             assert core_model_instance.spatialCoverage.geo.longitude == data_format["geo"]["longitude"]
         elif data_format["geo"]["@type"] == "GeoShape":
-            assert core_model_instance.spatialCoverage.geo.box == data_format["geo"]["box"]
-
+            assert (
+                core_model_instance.spatialCoverage.geo.box == data_format["geo"]["box"]
+            )
     else:
         assert core_model_instance.spatialCoverage.geo is None
+
+    if "additionalProperty" in data_format:
+        if len(core_model_instance.spatialCoverage.additionalProperty) == 1:
+            assert (
+                core_model_instance.spatialCoverage.additionalProperty[0].name
+                == "Projected Coordinate System"
+            )
+            assert (
+                core_model_instance.spatialCoverage.additionalProperty[0].type
+                == "PropertyValue"
+            )
+            # test that the value of the first item is a PropertyValue object
+            assert len(core_model_instance.spatialCoverage.additionalProperty[0].value) == 2
+
+            property_value_obj = core_model_instance.spatialCoverage.additionalProperty[0].value[0]
+            assert property_value_obj.type == "PropertyValue"
+            assert property_value_obj.name == "Coordinate Reference System"
+            assert property_value_obj.value == "WGS_1984_UTM_Zone_12N"
+            property_value_obj = core_model_instance.spatialCoverage.additionalProperty[0].value[1]
+            assert property_value_obj.type == "PropertyValue"
+            assert property_value_obj.name == "Datum"
+            assert property_value_obj.value == "WGS_1984"
+        else:
+            assert len(core_model_instance.spatialCoverage.additionalProperty) == 2
+            assert (
+                core_model_instance.spatialCoverage.additionalProperty[0].name
+                == "Geographic Coordinate System"
+            )
+            assert (
+                core_model_instance.spatialCoverage.additionalProperty[0].value
+                == "WGS 84 EPSG:4326"
+            )
+            assert (
+                core_model_instance.spatialCoverage.additionalProperty[1].name
+                == "Geographic Coordinate System"
+            )
+            # test that the value of the 2nd item is a PropertyValue object
+            property_value_obj = core_model_instance.spatialCoverage.additionalProperty[1].value
+            assert property_value_obj.type == "PropertyValue"
+            assert property_value_obj.name == "Coordinate System"
+            assert property_value_obj.value == "WGS 84 EPSG:4326"
+    else:
+        assert core_model_instance.spatialCoverage.additionalProperty == []
 
 
 @pytest.mark.parametrize('include_creative_works', [True, False])
