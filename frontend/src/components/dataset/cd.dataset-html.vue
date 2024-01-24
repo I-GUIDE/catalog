@@ -211,7 +211,7 @@
           </div>
           <v-btn
             v-if="!data.repository_identifier"
-            class="order-1 order-sm-2 mb-sm-0 mb-4"
+            class="order-1 order-sm-2 mb-sm-0 mb-4 mt-sm-0 mt-2"
             @click="
               $router.push({
                 name: 'dataset-edit',
@@ -1019,7 +1019,7 @@ export default class CdDataset extends Vue {
 
 .readme-container {
   .v-card__text {
-    // min-height: 30rem;
+    min-height: 5rem;
     overflow: auto;
     resize: vertical;
   }
@@ -1055,9 +1055,4 @@ export default class CdDataset extends Vue {
     grid-template-columns: auto;
   }
 }
-
-// ::v-deep .map-container {
-//   width: 100%;
-//   height: 20rem;
-// }
 </style>

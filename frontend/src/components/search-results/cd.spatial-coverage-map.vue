@@ -177,7 +177,6 @@ export default class CdSpatialCoverageMap extends Vue {
 
 <style lang="scss" scoped>
 .map-container {
-  min-width: 20rem;
   min-height: 10rem;
 }
 
