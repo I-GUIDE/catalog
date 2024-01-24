@@ -252,7 +252,9 @@
                   </span>
                 </template>
                 <v-card v-if="creator['@type'] == 'Person'">
-                  <v-card-title class="text-body-1 secondary white--text">
+                  <v-card-title
+                    class="text-body-1 secondary lighten-1 white--text"
+                  >
                     <!-- <v-icon color="white" class="mr-2"
                       >mdi-account-outline</v-icon
                     > -->
@@ -265,13 +267,21 @@
                     class="d-flex flex-column gap-1"
                   >
                     <div v-if="creator.email">
-                      <v-icon small title="Email address"
+                      <v-icon
+                        class="mr-1"
+                        small
+                        color="secondary"
+                        title="Email address"
                         >mdi-email-outline</v-icon
                       >
                       {{ creator.email }}
                     </div>
                     <div v-if="creator.identifier">
-                      <v-icon small title="ORCID identifier"
+                      <v-icon
+                        class="mr-1"
+                        small
+                        color="secondary"
+                        title="ORCID identifier"
                         >fab fa-orcid</v-icon
                       >
                       {{ creator.identifier }}
@@ -280,7 +290,12 @@
 
                   <v-card-text v-if="creator.affiliation" class="mt-4">
                     <div class="d-flex align-center">
-                      <v-icon small class="mr-1" title="Affiliation">
+                      <v-icon
+                        small
+                        color="secondary"
+                        class="mr-1"
+                        title="Affiliation"
+                      >
                         mdi-domain
                       </v-icon>
                       Affiliation:
@@ -453,43 +468,62 @@
           id="funding"
         >
           <div class="text-overline primary--text darken-4">Funding</div>
-          <v-divider class="primary my-1"></v-divider>
-          <v-card
-            v-for="(funding, index) of data.funding"
-            :key="index"
-            class="my-4"
-            flat
-            outlined
-          >
-            <v-card-title class="flex-column align-start">
-              <div class="font-weight-light">{{ funding.name }}</div>
-              <div v-if="funding.identifier" class="text-body-2">
-                Award number: {{ funding.identifier }}
-              </div>
-            </v-card-title>
+          <v-divider class="primary mt-1 mb-4"></v-divider>
+          <v-expansion-panels multiple>
+            <v-expansion-panel
+              v-for="(funding, index) of data.funding"
+              :key="index"
+              :readonly="!(funding.description || funding.funder)"
+            >
+              <v-expansion-panel-header>
+                <div>
+                  <div class="text-body-1">{{ funding.name }}</div>
 
-            <v-card-text v-if="funding.description">
-              {{ funding.description }}
-            </v-card-text>
-            <template v-if="funding.funder">
-              <v-card-title>
-                <v-icon class="mr-2"> mdi-domain </v-icon>
-                <div class="font-weight-light">Funding Organization:</div>
-              </v-card-title>
-              <v-card-text class="text-body-2">
-                <div class="text-body-1">
-                  {{ funding.funder.name }}
+                  <div
+                    v-if="funding.identifier"
+                    class="text-body-2 font-weight-light"
+                  >
+                    Award number: {{ funding.identifier }}
+                  </div>
                 </div>
-                <div>{{ funding.funder.address }}</div>
-                <a
-                  class="font-weight-light"
-                  :href="funding.funder.url"
-                  target="_blank"
-                  >{{ funding.funder.url }}
-                </a>
-              </v-card-text>
-            </template>
-          </v-card>
+
+                <template
+                  v-slot:actions
+                  v-if="!(funding.description || funding.funder)"
+                  ><span></span
+                ></template>
+              </v-expansion-panel-header>
+
+              <v-expansion-panel-content
+                v-if="funding.description || funding.funder"
+              >
+                <div
+                  class="pt-2 text-body-2 font-weight-light"
+                  v-if="funding.description"
+                >
+                  {{ funding.description }}
+                </div>
+                <template v-if="funding.funder">
+                  <div class="d-flex align-center text-body-1 mt-4 mb-2">
+                    <v-icon class="mr-2"> mdi-domain </v-icon>
+                    <div>Funding Organization:</div>
+                  </div>
+                  <div class="text-body-2 font-weight-light">
+                    <div class="text-body-1">
+                      {{ funding.funder.name }}
+                    </div>
+                    <div>{{ funding.funder.address }}</div>
+                    <a
+                      class="font-weight-light"
+                      :href="funding.funder.url"
+                      target="_blank"
+                      >{{ funding.funder.url }}
+                    </a>
+                  </div>
+                </template>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </div>
 
         <div
@@ -985,7 +1019,7 @@ export default class CdDataset extends Vue {
 
 .readme-container {
   .v-card__text {
-    height: 20rem;
+    // min-height: 30rem;
     overflow: auto;
     resize: vertical;
   }
