@@ -1,12 +1,14 @@
 import re
+import typing
 from datetime import datetime
 from enum import Enum
 from typing import Any, List, Optional, Union, Literal
 
-
+import pydantic_core
 from pydantic_core import CoreSchema
 from pydantic import (
     BaseModel,
+    ConfigDict,
     EmailStr,
     Field,
     HttpUrl,
@@ -74,6 +76,55 @@ class SchemaBaseModel(BaseModel):
             field_schema.pop("default")
         return field_schema
 
+    @classmethod
+    def __get_pydantic_json_schema__(
+        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
+    ) -> JsonSchemaValue:
+        # adjusting the json schema to make the UI work
+        json_schema = handler(core_schema)
+        json_schema = handler.resolve_ref_schema(json_schema)
+        for field, field_info in cls.model_fields.items():
+            if field not in json_schema["properties"]:
+                continue
+            # check if the field is an optional field
+            if (
+                type(field_info.annotation) is typing._UnionGenericAlias
+                and type(None) in field_info.annotation.__args__
+            ):
+                # check if the field is also a union type
+                if len(field_info.annotation.__args__) > 2:
+                    # remove the null type from the union type
+                    field_schema = json_schema["properties"][field]
+                    field_schema["anyOf"] = [
+                        item
+                        for item in field_schema["anyOf"]
+                        if item != {"type": "null"}
+                    ]
+                else:
+                    # field is not a union type - remove the anyOf key
+                    field_schema = cls.remove_any_of(json_schema, field)
+                # check if the field is an url type
+                if HttpUrlStr in field_info.annotation.__args__:
+                    field_schema = cls.update_url_schema(field_schema)
+                for data_type in field_info.annotation.__args__:
+                    origin_data_type = typing.get_origin(data_type)
+                    if origin_data_type is list:
+                        field_schema = cls.remove_default_empty_list(field_schema)
+                        break
+                field_schema = cls.remove_default_null(field_schema)
+                json_schema["properties"][field] = field_schema
+            else:
+                # field is not optional
+                if field in json_schema["properties"]:
+                    field_schema = json_schema["properties"][field]
+                    # check if the field is an url type
+                    if field_info.annotation is pydantic_core._pydantic_core.Url:
+                        field_schema = cls.update_url_schema(field_schema)
+                    field_schema = cls.remove_default_null(field_schema)
+                    json_schema["properties"][field] = field_schema
+
+        return json_schema
+
 
 class CreativeWork(SchemaBaseModel):
     type: str = Field(
@@ -83,27 +134,6 @@ class CreativeWork(SchemaBaseModel):
         "software source code, digital documents, etc.",
     )
     name: str = Field(description="Submission's name or title", title="Name or title")
-
-
-class _CreativeWorkMixin(CreativeWork):
-    """Mixin class for CreativeWork models to custom generate json schema"""
-
-    @classmethod
-    def __get_pydantic_json_schema__(
-        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
-    ) -> JsonSchemaValue:
-        # adjusting the schema to remove the anyOf key for url and description optional fields
-        # we are doing this because the schema based UI is currently not able to handle the anyOf key with
-        # two possible types - one of which is null (due to the field being optional)
-        json_schema = handler(core_schema)
-        json_schema = handler.resolve_ref_schema(json_schema)
-        for field in ("url", "description"):
-            field_schema = cls.remove_any_of(json_schema, field)
-            field_schema = cls.update_url_schema(field_schema)
-            field_schema = cls.remove_default_null(field_schema)
-            json_schema["properties"][field] = field_schema
-
-        return json_schema
 
 
 class Person(SchemaBaseModel):
@@ -125,23 +155,6 @@ class Person(SchemaBaseModel):
         default=[],
     )
 
-    @classmethod
-    def __get_pydantic_json_schema__(
-        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
-    ) -> JsonSchemaValue:
-        # adjusting the schema to remove the anyOf key for email and identifier optional fields
-        json_schema = handler(core_schema)
-        json_schema = handler.resolve_ref_schema(json_schema)
-        for field in ("email", "identifier"):
-            field_schema = cls.remove_any_of(json_schema, field)
-            if field == "email":
-                field_schema = cls.remove_default_null(field_schema)
-            else:
-                field_schema = cls.remove_default_empty_list(field_schema)
-            json_schema["properties"][field] = field_schema
-
-        return json_schema
-
 
 class Organization(SchemaBaseModel):
     type: Literal["Organization"] = Field(
@@ -160,21 +173,6 @@ class Organization(SchemaBaseModel):
         description="Full address for the organization - e.g., “8200 Old Main Hill, Logan, UT 84322-8200”.",
         default=None,
     )  # Should address be a string or another constrained type?
-
-    @classmethod
-    def __get_pydantic_json_schema__(
-        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
-    ) -> JsonSchemaValue:
-        # adjusting the schema to remove the anyOf key for url and address optional fields
-        json_schema = handler(core_schema)
-        json_schema = handler.resolve_ref_schema(json_schema)
-        for field in ("url", "address"):
-            field_schema = cls.remove_any_of(json_schema, field)
-            field_schema = cls.update_url_schema(field_schema)
-            field_schema = cls.remove_default_null(field_schema)
-            json_schema["properties"][field] = field_schema
-
-        return json_schema
 
 
 class Affiliation(Organization):
@@ -202,21 +200,6 @@ class Provider(Person):
         default=None,
     )
 
-    @classmethod
-    def __get_pydantic_json_schema__(
-        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
-    ) -> JsonSchemaValue:
-        # adjusting the schema to remove the anyOf key and default key for email, identifier and affiliation
-        # optional fields
-        json_schema = handler(core_schema)
-        json_schema = handler.resolve_ref_schema(json_schema)
-        for field in ("email", "identifier", "affiliation"):
-            field_schema = cls.remove_any_of(json_schema, field)
-            field_schema = cls.remove_default_null(field_schema)
-            json_schema["properties"][field] = field_schema
-
-        return json_schema
-
 
 class Creator(Person):
     identifier: Optional[str] = Field(
@@ -237,36 +220,9 @@ class Creator(Person):
         default=None,
     )
 
-    @classmethod
-    def __get_pydantic_json_schema__(
-        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
-    ) -> JsonSchemaValue:
-        # adjusting the schema to remove the anyOf key for affiliation optional field
-        json_schema = handler(core_schema)
-        json_schema = handler.resolve_ref_schema(json_schema)
-        for field in ("email", "identifier", "affiliation"):
-            field_schema = cls.remove_any_of(json_schema, field)
-            field_schema = cls.remove_default_null(field_schema)
-            json_schema["properties"][field] = field_schema
-
-        return json_schema
-
 
 class FunderOrganization(Organization):
-    @classmethod
-    def __get_pydantic_json_schema__(
-        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
-    ) -> JsonSchemaValue:
-        json_schema = handler(core_schema)
-        json_schema = handler.resolve_ref_schema(json_schema)
-        for field in ("url", "address"):
-            field_schema = cls.remove_any_of(json_schema, field)
-            field_schema = cls.update_url_schema(field_schema)
-            field_schema = cls.remove_default_null(field_schema)
-            json_schema["properties"][field] = field_schema
-        json_schema.update(title="Funding Organization")
-        return json_schema
-
+    model_config = ConfigDict(title="Funding Organization")
     name: str = Field(description="Name of the organization.")
 
 
@@ -280,18 +236,10 @@ class PublisherOrganization(Organization):
 
 
 class MediaObjectSourceOrganization(Organization):
+    model_config = ConfigDict(title="Media Object Source Organization")
     name: str = Field(
         description="Name of the organization that created the media object."
     )
-
-    @classmethod
-    def __get_pydantic_json_schema__(
-            cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
-    ) -> JsonSchemaValue:
-        json_schema = handler(core_schema)
-        json_schema = handler.resolve_ref_schema(json_schema)
-        json_schema["title"] = "Media Object Source Organization"
-        return json_schema
 
 
 class DefinedTerm(SchemaBaseModel):
@@ -336,7 +284,7 @@ class Published(DefinedTerm):
     )
 
 
-class HasPart(_CreativeWorkMixin):
+class HasPart(CreativeWork):
     url: Optional[HttpUrlStr] = Field(
         title="URL", description="The URL address to the data resource.", default=None
     )
@@ -346,7 +294,7 @@ class HasPart(_CreativeWorkMixin):
     )
 
 
-class IsPartOf(_CreativeWorkMixin):
+class IsPartOf(CreativeWork):
     url: Optional[HttpUrlStr] = Field(
         title="URL", description="The URL address to the data resource.", default=None
     )
@@ -357,7 +305,7 @@ class IsPartOf(_CreativeWorkMixin):
     )
 
 
-class SubjectOf(_CreativeWorkMixin):
+class SubjectOf(CreativeWork):
     url: Optional[HttpUrlStr] = Field(
         title="URL",
         description="The URL address that serves as a reference to access additional details related to the record. "
@@ -372,7 +320,7 @@ class SubjectOf(_CreativeWorkMixin):
     )
 
 
-class License(_CreativeWorkMixin):
+class License(CreativeWork):
     name: str = Field(
         description="A text string indicating the name of the license under which the resource is shared."
     )
@@ -434,19 +382,6 @@ class Grant(SchemaBaseModel):
         default=None,
     )
 
-    @classmethod
-    def __get_pydantic_json_schema__(
-        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
-    ) -> JsonSchemaValue:
-        # adjusting the schema to remove the anyOf key for description, identifier, and funder optional fields
-        json_schema = handler(core_schema)
-        json_schema = handler.resolve_ref_schema(json_schema)
-        for field in ("description", "identifier", "funder"):
-            field_schema = cls.remove_any_of(json_schema, field)
-            field_schema = cls.remove_default_null(field_schema)
-            json_schema["properties"][field] = field_schema
-        return json_schema
-
 
 class TemporalCoverage(SchemaBaseModel):
     startDate: datetime = Field(
@@ -466,19 +401,6 @@ class TemporalCoverage(SchemaBaseModel):
         # errorMessage= { "formatMinimum": "must be greater than or equal to Start date" }
         default=None,
     )
-
-    @classmethod
-    def __get_pydantic_json_schema__(
-        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
-    ) -> JsonSchemaValue:
-        # adjusting the schema to remove the anyOf key for endDate optional field
-        json_schema = handler(core_schema)
-        json_schema = handler.resolve_ref_schema(json_schema)
-        for field in ("endDate",):
-            field_schema = cls.remove_any_of(json_schema, field)
-            field_schema = cls.remove_default_null(field_schema)
-            json_schema["properties"][field] = field_schema
-        return json_schema
 
 
 class GeoCoordinates(SchemaBaseModel):
@@ -551,6 +473,8 @@ class GeoShape(SchemaBaseModel):
 
 
 class PropertyValueBase(SchemaBaseModel):
+    model_config = ConfigDict(title="Property Value")
+
     type: str = Field(
         alias="@type",
         default="PropertyValue",
@@ -597,19 +521,6 @@ class PropertyValueBase(SchemaBaseModel):
 
         return values
 
-    @classmethod
-    def __get_pydantic_json_schema__(
-        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
-    ) -> JsonSchemaValue:
-        json_schema = handler(core_schema)
-        json_schema = handler.resolve_ref_schema(json_schema)
-        json_schema["title"] = "Property Value"
-        for field in ("propertyID", "unitCode", "description", "minValue", "maxValue"):
-            field_schema = cls.remove_any_of(json_schema, field)
-            field_schema = cls.remove_default_null(field_schema)
-            json_schema["properties"][field] = field_schema
-        return json_schema
-
 
 class PropertyValue(PropertyValueBase):
     # using PropertyValueBase model instead of PropertyValue model as one of the types for the value field
@@ -647,36 +558,6 @@ class Place(SchemaBaseModel):
                 "Either place name or geo location of the place must be provided"
             )
         return values
-
-    @classmethod
-    def __get_pydantic_json_schema__(
-        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
-    ) -> JsonSchemaValue:
-        # adjusting the schema to remove the anyOf key for name and additionalProperty optional fields
-        json_schema = handler(core_schema)
-        json_schema = handler.resolve_ref_schema(json_schema)
-        for field in (
-            "name",
-            "additionalProperty",
-        ):
-            field_schema = cls.remove_any_of(json_schema, field)
-            if field == "name":
-                field_schema = cls.remove_default_null(field_schema)
-            else:
-                field_schema = cls.remove_default_empty_list(field_schema)
-            json_schema["properties"][field] = field_schema
-
-        # adjusting the schema to remove the dict item {"type": "null"} from the list of types in anyOf
-        # for geo optional field
-        for field in ("geo",):
-            field_schema = json_schema["properties"][field]
-            field_schema["anyOf"] = [
-                item for item in field_schema["anyOf"] if item != {"type": "null"}
-            ]
-            field_schema = cls.remove_default_null(field_schema)
-            json_schema["properties"][field] = field_schema
-
-        return json_schema
 
 
 class MediaObject(SchemaBaseModel):
@@ -724,37 +605,6 @@ class MediaObject(SchemaBaseModel):
         description="The organization that provided the media object.",
         default=None,
     )
-
-    @classmethod
-    def __get_pydantic_json_schema__(
-        cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
-    ) -> JsonSchemaValue:
-        # adjusting the schema for the contentUrl field
-        json_schema = handler(core_schema)
-        json_schema = handler.resolve_ref_schema(json_schema)
-        for field in ("contentUrl",):
-            field_schema = json_schema["properties"][field]
-            field_schema = cls.update_url_schema(field_schema)
-            json_schema["properties"][field] = field_schema
-        # adjusting the schema for optional fields
-        for field in (
-            "additionalProperty",
-            "variableMeasured",
-            "spatialCoverage",
-            "temporalCoverage",
-            "sourceOrganization",
-        ):
-            field_schema = json_schema["properties"][field]
-            field_schema["anyOf"] = [
-                item for item in field_schema["anyOf"] if item != {"type": "null"}
-            ]
-            if field in ("additionalProperty", "variableMeasured"):
-                field_schema = cls.remove_default_empty_list(field_schema)
-            else:
-                field_schema = cls.remove_default_null(field_schema)
-            json_schema["properties"][field] = field_schema
-
-        return json_schema
 
     @field_validator("contentSize")
     def validate_content_size(cls, v):
@@ -919,69 +769,11 @@ class CoreMetadata(SchemaBaseModel):
     def __get_pydantic_json_schema__(
         cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler
     ) -> JsonSchemaValue:
-        # adjusting the schema to remove the anyOf key for all the optional fields
-        json_schema = handler(core_schema)
-        json_schema = handler.resolve_ref_schema(json_schema)
-        for field in (
-            "identifier",
-            "publisher",
-            "datePublished",
-            "subjectOf",
-            "version",
-            "dateModified",
-            "funding",
-            "temporalCoverage",
-            "spatialCoverage",
-            "hasPart",
-            "isPartOf",
-            "associatedMedia",
-            "citation",
-        ):
-            field_schema = cls.remove_any_of(json_schema, field)
-            json_schema["properties"][field] = field_schema
-
-        # adjusting the schema to remove the dict item {"type": "null"} from the list of types in anyOf for
-        # inLanguage and creativeWorkStatus optional fields
-        for field in ("inLanguage", "creativeWorkStatus"):
-            field_schema = json_schema["properties"][field]
-            field_schema["anyOf"] = [
-                item for item in field_schema["anyOf"] if item != {"type": "null"}
-            ]
-            json_schema["properties"][field] = field_schema
-
-        for field in ("@context", "url"):
-            field_schema = json_schema["properties"][field]
-            field_schema = cls.update_url_schema(field_schema)
-            json_schema["properties"][field] = field_schema
-
-        # remove the default value of null from the schema for these optional fields
-        for field in (
-            "datePublished",
-            "dateModified",
-            "temporalCoverage",
-            "spatialCoverage",
-            "publisher",
-            "creativeWorkStatus",
-            "inLanguage",
-            "version",
-        ):
-            field_schema = json_schema["properties"][field]
-            field_schema = cls.remove_default_null(field_schema)
-            json_schema["properties"][field] = field_schema
-
-        # remove the default value of an empty list from the schema for these optional fields
-        for field in (
-            "identifier",
-            "subjectOf",
-            "funding",
-            "hasPart",
-            "isPartOf",
-            "associatedMedia",
-            "citation",
-        ):
-            field_schema = json_schema["properties"][field]
-            field_schema = cls.remove_default_empty_list(field_schema)
-            json_schema["properties"][field] = field_schema
+        json_schema = super().__get_pydantic_json_schema__(core_schema, handler)
+        field = "@context"
+        field_schema = json_schema["properties"][field]
+        field_schema = cls.update_url_schema(field_schema)
+        json_schema["properties"][field] = field_schema
         return json_schema
 
 
