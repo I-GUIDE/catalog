@@ -1,7 +1,7 @@
 import requests
 from datetime import datetime
 from typing import List, Optional, Union
-from pydantic import BaseModel, EmailStr, HttpUrl
+from pydantic import BaseModel, EmailStr
 
 from api.adapters.base import (
     AbstractRepositoryMetadataAdapter,
@@ -12,13 +12,14 @@ from api.exceptions import RepositoryException
 from api.models import schema
 from api.models.catalog import DatasetMetadataDOC
 from api.models.user import Submission
+from api.models.schema import HttpUrlStr
 
 
 class Creator(BaseModel):
     name: Optional[str] = None
     email: Optional[EmailStr] = None
     organization: Optional[str] = None
-    homepage: Optional[HttpUrl] = None
+    homepage: Optional[HttpUrlStr] = None
     address: Optional[str] = None
     identifiers: Optional[dict] = {}
 
@@ -39,7 +40,7 @@ class Creator(BaseModel):
             creator = schema.Organization.model_construct()
             creator.name = self.organization
             if self.homepage:
-                creator.url = str(self.homepage)
+                creator.url = self.homepage
             if self.address:
                 creator.address = self.address
 
@@ -50,7 +51,7 @@ class Award(BaseModel):
     funding_agency_name: str
     title: Optional[str] = None
     number: Optional[str] = None
-    funding_agency_url: Optional[HttpUrl] = None
+    funding_agency_url: Optional[HttpUrlStr] = None
 
     def to_dataset_grant(self):
         grant = schema.Grant.model_construct()
@@ -64,7 +65,7 @@ class Award(BaseModel):
         funder = schema.Organization.model_construct()
         funder.name = self.funding_agency_name
         if self.funding_agency_url:
-            funder.url = str(self.funding_agency_url)
+            funder.url = self.funding_agency_url
 
         grant.funder = funder
         return grant
@@ -119,7 +120,7 @@ class SpatialCoveragePoint(BaseModel):
 
 class ContentFile(BaseModel):
     file_name: str
-    url: HttpUrl
+    url: HttpUrlStr
     size: int
     content_type: str
     logical_file_type: str
@@ -128,7 +129,7 @@ class ContentFile(BaseModel):
 
     def to_dataset_media_object(self):
         media_object = schema.MediaObject.model_construct()
-        media_object.contentUrl = str(self.url)
+        media_object.contentUrl = self.url
         media_object.encodingFormat = self.content_type
         media_object.contentSize = f"{self.size/1000.00} KB"
         media_object.name = self.file_name
@@ -157,12 +158,12 @@ class Relation(BaseModel):
 
 class Rights(BaseModel):
     statement: str
-    url: HttpUrl
+    url: HttpUrlStr
 
     def to_dataset_license(self):
         _license = schema.License.model_construct()
         _license.name = self.statement
-        _license.url = str(self.url)
+        _license.url = self.url
         return _license
 
 
@@ -227,8 +228,8 @@ register_adapter(RepositoryType.HYDROSHARE, HydroshareMetadataAdapter)
 class _HydroshareResourceMetadata(BaseModel):
     title: str
     abstract: str
-    url: HttpUrl
-    identifier: HttpUrl
+    url: HttpUrlStr
+    identifier: HttpUrlStr
     creators: List[Creator]
     created: datetime
     modified: datetime
@@ -305,8 +306,8 @@ class _HydroshareResourceMetadata(BaseModel):
         dataset.provider = self.to_dataset_provider()
         dataset.name = self.title
         dataset.description = self.abstract
-        dataset.url = str(self.url)
-        dataset.identifier = [str(self.identifier)]
+        dataset.url = self.url
+        dataset.identifier = [self.identifier]
         dataset.creator = self.to_dataset_creators()
         dataset.dateCreated = self.created
         dataset.dateModified = self.modified
