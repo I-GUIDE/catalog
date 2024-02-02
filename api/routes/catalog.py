@@ -23,9 +23,6 @@ async def create_dataset(document: DatasetMetadataDOC, user: Annotated[User, Dep
     submission = document.as_submission()
     user.submissions.append(submission)
     await user.save(link_rule=WriteRules.WRITE)
-    # TODO: due to this bug (https://github.com/roman-right/beanie/issues/648) in beanie an
-    #  extra attribute (revision_id) seems to be added to the document - that's why the tests are failing
-    document.delete_revision_id()
     return document
 
 
@@ -39,7 +36,6 @@ async def get_dataset(submission_id: PydanticObjectId):
     if document is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
 
-    document.delete_revision_id()
     document = inject_repository_identifier(submission, document)
     return document
 
@@ -48,8 +44,6 @@ async def get_dataset(submission_id: PydanticObjectId):
 async def get_datasets(user: Annotated[User, Depends(get_current_user)]):
     documents = [inject_repository_identifier(submission, await DatasetMetadataDOC.get(submission.identifier)) for
                  submission in user.submissions]
-    for document in documents:
-        document.delete_revision_id()
     return documents
 
 
@@ -77,7 +71,6 @@ async def update_dataset(
     updated_submission.submitted = submission.submitted
     await updated_submission.replace()
     dataset = inject_repository_identifier(updated_submission, dataset)
-    dataset.delete_revision_id()
     return dataset
 
 
@@ -156,7 +149,6 @@ async def _save_to_db(repository_type: RepositoryType, identifier: str, user: Us
         dataset = updated_dataset
         submission = updated_submission
 
-    dataset.delete_revision_id()
     dataset = inject_repository_identifier(submission, dataset)
     return dataset
 

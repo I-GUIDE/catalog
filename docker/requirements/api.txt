@@ -2,7 +2,7 @@ requests
 fastapi[all]==0.101.*
 uvicorn[standard]
 motor==3.*
-beanie[httpx]==1.22.*
+beanie[httpx]==1.25.*
 python-jose==3.*
 pydantic==2.*
 pydantic-settings==2.*
