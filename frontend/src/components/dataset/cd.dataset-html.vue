@@ -1,13 +1,13 @@
 <template>
   <v-container class="cd-contribute">
     <div v-if="!isLoading && wasLoaded" class="d-flex">
-      <div
+      <v-container
         v-if="!$vuetify.breakpoint.mdAndDown"
         class="sidebar pr-8 break-word"
       >
         <div class="sidebar--content">
           <div class="text-h6">Table of contents</div>
-          <ol class="text-body-2 mb-4">
+          <ol class="text-body-2">
             <template v-for="(item, index) of tableOfContents">
               <li
                 v-if="!(item.isShown === false)"
@@ -18,7 +18,9 @@
                   item.title
                 }}</router-link> -->
 
-                <a :href="item.link">{{ item.title }}</a>
+                <a @click="$vuetify.goTo(item.link, scrollOptions)">{{
+                  item.title
+                }}</a>
               </li>
             </template>
           </ol>
@@ -56,7 +58,7 @@
             </v-card-text>
           </v-card>
 
-          <v-card v-if="hasSpatialFeatures" class="mb-8" flat outlined>
+          <v-card v-if="hasSpatialFeatures" class="mt-8" flat outlined>
             <v-card-title class="text-overline primary--text darken-4">
               Spatial Coverage
             </v-card-title>
@@ -78,24 +80,24 @@
                     v-if="data.spatialCoverage.geo['@type'] == 'GeoShape'"
                   >
                     <v-row class="align-start">
-                      <v-col cols="12" class="dataset-info">
+                      <v-col cols="12" class="dataset-info pa-0">
                         <div v-bind="infoLabelAttr">North Latitude:</div>
-                        <div v-bind="infoValueAttr">
+                        <div v-bind="infoValueAttr" class="text-right">
                           {{ boxCoordinates.north }}°
                         </div>
 
                         <div v-bind="infoLabelAttr">East Longitude:</div>
-                        <div v-bind="infoValueAttr">
+                        <div v-bind="infoValueAttr" class="text-right">
                           {{ boxCoordinates.east }}°
                         </div>
 
                         <div v-bind="infoLabelAttr">South Latitude:</div>
-                        <div v-bind="infoValueAttr">
+                        <div v-bind="infoValueAttr" class="text-right">
                           {{ boxCoordinates.south }}°
                         </div>
 
                         <div v-bind="infoLabelAttr">West Longitude:</div>
-                        <div v-bind="infoValueAttr">
+                        <div v-bind="infoValueAttr" class="text-right">
                           {{ boxCoordinates.west }}°
                         </div>
                       </v-col>
@@ -130,7 +132,7 @@
                 </v-expansion-panel-header>
 
                 <v-expansion-panel-content>
-                  <v-card-text class="dataset-info one-col">
+                  <v-card-text class="dataset-info one-col pa-0">
                     <div v-bind="infoLabelAttr">
                       Coordinate System/Geographic Projection:
                     </div>
@@ -147,7 +149,7 @@
             </v-expansion-panels>
           </v-card>
 
-          <v-card v-if="data.temporalCoverage" flat outlined>
+          <v-card v-if="data.temporalCoverage" class="mt-8" flat outlined>
             <v-card-title class="text-overline primary--text darken-4">
               Temporal Coverage
             </v-card-title>
@@ -176,7 +178,7 @@
             </v-card-text>
           </v-card>
         </div>
-      </div>
+      </v-container>
 
       <div
         id="overview"
@@ -404,7 +406,7 @@
           </v-col>
         </v-row>
 
-        <div class="mb-8 field" id="description">
+        <div class="mb-8 field" id="url">
           <div class="text-overline primary--text darken-4">URL</div>
           <v-divider class="primary my-1"></v-divider>
           <p class="text-body-1">
@@ -533,23 +535,18 @@
             Related Resources
           </div>
           <v-divider class="primary my-1"></v-divider>
-          <div>
-            <v-simple-table>
-              <template v-slot:default>
-                <tbody>
-                  <tr
-                    v-for="(part, index) in data.hasPart"
-                    :key="`hp-${index}`"
-                  >
-                    <td>Has Part</td>
-                    <td>
-                      <a :href="part.url" target="_blank">{{ part.name }}</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </template>
-            </v-simple-table>
-          </div>
+          <v-simple-table>
+            <template v-slot:default>
+              <tbody>
+                <tr v-for="(part, index) in data.hasPart" :key="`hp-${index}`">
+                  <td class="">Has Part</td>
+                  <td>
+                    <a :href="part.url" target="_blank">{{ part.name }}</a>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
         </div>
 
         <div
@@ -781,8 +778,13 @@ export default class CdDataset extends Vue {
     isViewMode: true,
   };
 
+  scrollOptions = {
+    offset: 20,
+    easing: "easeInOutCubic",
+  };
+
   protected tableOfContents = [
-    { title: "Overview", link: "#overview" },
+    { title: "Overview", link: 0 },
     {
       title: "Url",
       link: "#url",
@@ -838,7 +840,6 @@ export default class CdDataset extends Vue {
   }
 
   onShowMetadata(item) {
-    console.log(item);
     this.selectedMetadata = item;
     this.showMetadata = true;
   }
@@ -1005,7 +1006,7 @@ export default class CdDataset extends Vue {
 
 <style lang="scss" scoped>
 .sidebar {
-  flex-basis: 20rem;
+  flex-basis: 25rem;
   flex-shrink: 0;
   position: relative;
 
@@ -1050,7 +1051,7 @@ export default class CdDataset extends Vue {
   align-content: baseline;
 
   &.one-col {
-    grid-template-columns: auto;
+    grid-template-columns: 1fr;
   }
 }
 </style>

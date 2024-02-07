@@ -5,109 +5,110 @@
   >
     <div class="d-sm-block d-md-flex">
       <v-container class="sidebar flex-shrink-0">
-        <div class="text-subtitle-2 mb-6">Filter by:</div>
-        <!-- PUBLICATION YEAR -->
-        <div class="mb-4">
-          <v-checkbox
-            v-model="filter.publicationYear.isActive"
-            @change="onSearch"
-            label="Publication year"
-            dense
-            hide-details
-          />
-          <v-range-slider
-            v-model="publicationYear"
-            @change="onSliderControlChange('publicationYear')"
-            :class="{ 'grayed-out': !filter.publicationYear.isActive }"
-            :min="filter.publicationYear.min"
-            :max="filter.publicationYear.max"
-            class="mb-1"
-            hide-details
-          />
-          <div
-            class="d-flex gap-1"
-            :class="{ 'grayed-out': !filter.publicationYear.isActive }"
-          >
-            <v-text-field
-              @change="onSliderChange('publicationYear', 0, $event)"
-              :value="publicationYear[0]"
-              type="number"
-              small
+        <div class="sidebar--content">
+          <div class="text-subtitle-2 mb-6">Filter by:</div>
+          <!-- PUBLICATION YEAR -->
+          <div class="mb-4">
+            <v-checkbox
+              v-model="filter.publicationYear.isActive"
+              @change="onSearch"
+              label="Publication year"
               dense
-              outlined
               hide-details
             />
-            <v-text-field
-              @change="onSliderChange('publicationYear', 1, $event)"
-              :value="publicationYear[1]"
-              type="number"
-              small
-              dense
-              outlined
+            <v-range-slider
+              v-model="publicationYear"
+              @change="onSliderControlChange('publicationYear')"
+              :class="{ 'grayed-out': !filter.publicationYear.isActive }"
+              :min="filter.publicationYear.min"
+              :max="filter.publicationYear.max"
+              class="mb-1"
               hide-details
             />
+            <div
+              class="d-flex gap-1"
+              :class="{ 'grayed-out': !filter.publicationYear.isActive }"
+            >
+              <v-text-field
+                @change="onSliderChange('publicationYear', 0, $event)"
+                :value="publicationYear[0]"
+                type="number"
+                small
+                dense
+                outlined
+                hide-details
+              />
+              <v-text-field
+                @change="onSliderChange('publicationYear', 1, $event)"
+                :value="publicationYear[1]"
+                type="number"
+                small
+                dense
+                outlined
+                hide-details
+              />
+            </div>
           </div>
-        </div>
 
-        <!-- DATA COVERAGE -->
-        <div class="mb-6">
-          <v-checkbox
-            v-model="filter.dataCoverage.isActive"
-            @change="onSearch"
-            dense
-            label="Data temporal coverage"
-            hide-details
-          />
-          <v-range-slider
-            v-model="dataCoverage"
-            @change="onSliderControlChange('dataCoverage')"
-            :class="{ 'grayed-out': !filter.dataCoverage.isActive }"
-            :min="filter.dataCoverage.min"
-            :max="filter.dataCoverage.max"
-            class="mb-1"
-            hide-details
-          />
-          <div
-            class="d-flex gap-1"
-            :class="{ 'grayed-out': !filter.dataCoverage.isActive }"
-          >
-            <v-text-field
-              @change="onSliderChange('dataCoverage', 0, $event)"
-              :value="dataCoverage[0]"
-              type="number"
-              small
+          <!-- DATA COVERAGE -->
+          <div class="mb-6">
+            <v-checkbox
+              v-model="filter.dataCoverage.isActive"
+              @change="onSearch"
               dense
-              outlined
+              label="Data temporal coverage"
               hide-details
             />
-            <v-text-field
-              @change="onSliderChange('dataCoverage', 1, $event)"
-              :value="dataCoverage[1]"
-              type="number"
-              small
-              dense
-              outlined
+            <v-range-slider
+              v-model="dataCoverage"
+              @change="onSliderControlChange('dataCoverage')"
+              :class="{ 'grayed-out': !filter.dataCoverage.isActive }"
+              :min="filter.dataCoverage.min"
+              :max="filter.dataCoverage.max"
+              class="mb-1"
               hide-details
             />
+            <div
+              class="d-flex gap-1"
+              :class="{ 'grayed-out': !filter.dataCoverage.isActive }"
+            >
+              <v-text-field
+                @change="onSliderChange('dataCoverage', 0, $event)"
+                :value="dataCoverage[0]"
+                type="number"
+                small
+                dense
+                outlined
+                hide-details
+              />
+              <v-text-field
+                @change="onSliderChange('dataCoverage', 1, $event)"
+                :value="dataCoverage[1]"
+                type="number"
+                small
+                dense
+                outlined
+                hide-details
+              />
+            </div>
           </div>
-        </div>
 
-        <!-- CREATOR NAME -->
-        <v-text-field
-          @change="
-            filter.creatorName = $event;
-            onSearch();
-          "
-          :value="filter.creatorName"
-          label="Author / Creator name"
-          class="mb-6"
-          hide-details
-          clearable
-          outlined
-          dense
-        />
+          <!-- CREATOR NAME -->
+          <v-text-field
+            @change="
+              filter.creatorName = $event;
+              onSearch();
+            "
+            :value="filter.creatorName"
+            label="Author / Creator name"
+            class="mb-6"
+            hide-details
+            clearable
+            outlined
+            dense
+          />
 
-        <!-- <v-select
+          <!-- <v-select
           :items="clusters"
           v-model="filter.project.value"
           @change="onSearch"
@@ -122,19 +123,19 @@
           dense
         /> -->
 
-        <v-select
-          :items="filter.repository.options"
-          v-model="filter.repository.value"
-          @change="onSearch"
-          class="mb-6"
-          clearable
-          outlined
-          label="Repository"
-          hide-details
-          dense
-        />
+          <v-select
+            :items="filter.repository.options"
+            v-model="filter.repository.value"
+            @change="onSearch"
+            class="mb-6"
+            clearable
+            outlined
+            label="Repository"
+            hide-details
+            dense
+          />
 
-        <!-- <div>
+          <!-- <div>
           <div class="text-body-2">Content type</div>
           <v-checkbox
             v-for="(option, index) of filter.contentType.options"
@@ -148,10 +149,11 @@
           />
         </div> -->
 
-        <div class="text-center mt-8">
-          <v-btn @click="clearFilters" :disabled="!isSomeFilterActive"
-            >Clear Filters</v-btn
-          >
+          <div class="text-center mt-8">
+            <v-btn @click="clearFilters" :disabled="!isSomeFilterActive"
+              >Clear Filters</v-btn
+            >
+          </div>
         </div>
       </v-container>
 
@@ -765,7 +767,14 @@ export default class CdSearchResults extends Vue {
 
 <style lang="scss" scoped>
 .sidebar {
-  width: 20rem;
+  flex-basis: 20rem;
+  flex-shrink: 0;
+  position: relative;
+
+  .sidebar--content {
+    position: sticky;
+    top: 6rem;
+  }
 }
 
 .cd-search-results.is-small {
