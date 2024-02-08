@@ -25,14 +25,17 @@ export default class CdSpatialCoverageMap extends Vue {
   @Prop() flat?: boolean;
 
   @Ref("map") mapContainer;
-  protected map: google.maps.Map | null = null;
-  protected markers: google.maps.Marker[] = [];
-  protected rectangles: google.maps.Rectangle[] = [];
-  protected markerOptions: google.maps.MarkerOptions = {};
-  protected rectangleOptions: google.maps.RectangleOptions = {};
+  map: google.maps.Map | null = null;
+  markers: google.maps.Marker[] = [];
+  rectangles: google.maps.Rectangle[] = [];
+  markerOptions: google.maps.MarkerOptions = {};
+  rectangleOptions: google.maps.RectangleOptions = {};
 
   async mounted() {
-    await this.initMap();
+    if (this.mapContainer) {
+      await this.initMap();
+    }
+
     this.loadDrawing();
     if (this.map) {
       const bounds = new google.maps.LatLngBounds();
@@ -58,14 +61,16 @@ export default class CdSpatialCoverageMap extends Vue {
     }
   }
 
-  protected async initMap() {
+  async initMap() {
     const google = await this.loader.load();
 
-    this.map = new google.maps.Map(this.mapContainer, {
-      center: { lat: 39.8097343, lng: -98.5556199 },
-      zoom: DEFAULT_ZOOM,
-      gestureHandling: "cooperative",
-    });
+    if (this.mapContainer) {
+      this.map = new google.maps.Map(this.mapContainer, {
+        center: { lat: 39.8097343, lng: -98.5556199 },
+        zoom: DEFAULT_ZOOM,
+        gestureHandling: "cooperative",
+      });
+    }
 
     // Icon base from: http://kml4earth.appspot.com/icons.html
     const iconBase = "http://earth.google.com/images/kml-icons/";
@@ -97,7 +102,7 @@ export default class CdSpatialCoverageMap extends Vue {
     };
   }
 
-  protected loadDrawing() {
+  loadDrawing() {
     if (this.feature) {
       if (this.feature["@type"] === "GeoCoordinates") {
         const point: google.maps.ReadonlyLatLngLiteral = {
@@ -123,7 +128,7 @@ export default class CdSpatialCoverageMap extends Vue {
     }
   }
 
-  protected clearMarkers() {
+  clearMarkers() {
     if (this.markers.length) {
       this.markers.forEach((m) => {
         m.setMap(null);
@@ -132,7 +137,7 @@ export default class CdSpatialCoverageMap extends Vue {
     }
   }
 
-  protected loadMarkers(markers: google.maps.ReadonlyLatLngLiteral[]) {
+  loadMarkers(markers: google.maps.ReadonlyLatLngLiteral[]) {
     if (this.map) {
       this.clearMarkers();
 
@@ -148,7 +153,7 @@ export default class CdSpatialCoverageMap extends Vue {
     }
   }
 
-  protected clearRectangles() {
+  clearRectangles() {
     if (this.rectangles.length) {
       this.rectangles.forEach((r) => {
         r.setMap(null);
@@ -157,7 +162,7 @@ export default class CdSpatialCoverageMap extends Vue {
     }
   }
 
-  protected loadRectangles(rectangles: google.maps.LatLngBoundsLiteral[]) {
+  loadRectangles(rectangles: google.maps.LatLngBoundsLiteral[]) {
     if (this.map) {
       this.clearRectangles();
 

@@ -130,16 +130,16 @@ const initialData = {};
   components: { CzForm },
 })
 export default class CdContribute extends Vue {
-  protected isValid = false;
-  protected isEditMode = false;
-  protected isLoading = true;
-  protected wasLoaded = false;
-  protected submissionId = "";
-  protected errors = [];
-  protected data = initialData;
-  protected timesChanged = 0;
-  protected isSaving = false;
-  protected config = {
+  isValid = false;
+  isEditMode = false;
+  isLoading = true;
+  wasLoaded = false;
+  submissionId = "";
+  errors = [];
+  data = initialData;
+  timesChanged = 0;
+  isSaving = false;
+  config = {
     restrict: true,
     trim: false,
     showUnfocusedDescription: false,
@@ -159,23 +159,23 @@ export default class CdContribute extends Vue {
     },
   };
 
-  protected get schema() {
+  get schema() {
     return User.$state.schema;
   }
 
-  protected get uiSchema() {
+  get uiSchema() {
     return User.$state.uiSchema;
   }
 
-  // protected get schemaDefaults() {
+  // get schemaDefaults() {
   //   return User.$state.schemaDefaults;
   // }
 
-  protected get hasUnsavedChanges(): boolean {
+  get hasUnsavedChanges(): boolean {
     return User.$state.hasUnsavedChanges;
   }
 
-  protected set hasUnsavedChanges(value: boolean) {
+  set hasUnsavedChanges(value: boolean) {
     User.commit((state) => {
       state.hasUnsavedChanges = value;
     });
@@ -190,7 +190,7 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected async loadDataset() {
+  async loadDataset() {
     this.isLoading = true;
     try {
       const data = await User.fetchDataset(this.submissionId);
@@ -205,7 +205,7 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected async onSaveChanges() {
+  async onSaveChanges() {
     try {
       const wasSaved = await User.updateDataset(this.submissionId, this.data);
       if (wasSaved) {
@@ -229,7 +229,7 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected async onCreateSubmission() {
+  async onCreateSubmission() {
     try {
       const savedDatasetId = await User.submit(this.data);
       this.isSaving = false;
@@ -255,7 +255,7 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected async submit() {
+  async submit() {
     this.isSaving = true;
 
     if (this.isEditMode) {
@@ -265,7 +265,7 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected onCancel() {
+  onCancel() {
     if (this.isEditMode) {
       this.$router.push({
         name: "dataset",
@@ -276,7 +276,7 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected onDataChange(_data) {
+  onDataChange(_data) {
     console.log("change");
     // cz-form emits 'change' event multiple times during instantioation.
     const changesDuringInstantiation = 2;

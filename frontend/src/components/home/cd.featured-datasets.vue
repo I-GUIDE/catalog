@@ -98,6 +98,7 @@ import { Component, Vue } from "vue-property-decorator";
 import CdHomeSearch from "@/components/home/cd.home-search.vue";
 import Search from "@/models/search.model";
 import { formatDate } from "@/util";
+import { IResult } from "@/types";
 
 const numFeatured = 10;
 const featuredSearch = "Water";
@@ -107,22 +108,22 @@ const featuredSearch = "Water";
   components: { CdHomeSearch },
 })
 export default class CdFeaturedDatasets extends Vue {
-  protected selected: number | null = null;
-  protected formatDate = formatDate;
-  protected isLoading = false;
-  // protected datasets = FEATURED_DATASETS;  // JSON file setup. Unused for now.
+  selected: number | null = null;
+  formatDate = formatDate;
+  isLoading = false;
+  // datasets = FEATURED_DATASETS;  // JSON file setup. Unused for now.
 
-  protected getResultAuthors(result) {
+  getResultAuthors(result) {
     return result.creator.join(", ");
   }
 
-  public get datasets(): IResult[] {
+  get datasets(): IResult[] {
     return this.fetchedDatasets.length
       ? this.fetchedDatasets
       : new Array(numFeatured).fill(null);
   }
 
-  protected get fetchedDatasets() {
+  get fetchedDatasets() {
     return Search.$state.results;
   }
 
@@ -130,7 +131,7 @@ export default class CdFeaturedDatasets extends Vue {
     this.getFeaturedDatasets();
   }
 
-  public async getFeaturedDatasets() {
+  async getFeaturedDatasets() {
     try {
       this.isLoading = true;
       await Search.search({

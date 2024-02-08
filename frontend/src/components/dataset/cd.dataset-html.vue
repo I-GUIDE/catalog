@@ -736,28 +736,28 @@ const loader: Loader = new Loader(
   components: { CzForm, CdSpatialCoverageMap, CzFileExplorer, VueMarked },
 })
 export default class CdDataset extends Vue {
-  public loader = loader;
-  public options = options;
-  protected data: any = {};
-  protected isLoading = true;
-  protected wasLoaded = false;
-  protected submissionId = "";
-  protected tab = 0;
-  protected selectedMetadata: any = false;
-  protected readmeMd = "";
-  protected marked = marked;
-  protected showCoordinateSystem = false;
-  protected showExtent = false;
+  loader = loader;
+  options = options;
+  data: any = {};
+  isLoading = true;
+  wasLoaded = false;
+  submissionId = "";
+  tab = 0;
+  selectedMetadata: any = false;
+  readmeMd = "";
+  marked = marked;
+  showCoordinateSystem = false;
+  showExtent = false;
 
   /** Example folder/file tree structure */
-  protected rootDirectory = {
+  rootDirectory = {
     name: "root",
     children: [] as any[],
   };
 
-  protected showMetadata = false;
+  showMetadata = false;
 
-  protected config = {
+  config = {
     restrict: true,
     trim: false,
     showUnfocusedDescription: false,
@@ -783,7 +783,7 @@ export default class CdDataset extends Vue {
     easing: "easeInOutCubic",
   };
 
-  protected tableOfContents = [
+  tableOfContents = [
     { title: "Overview", link: 0 },
     {
       title: "Url",
@@ -827,11 +827,11 @@ export default class CdDataset extends Vue {
     },
   ];
 
-  protected infoLabelAttr = {
+  infoLabelAttr = {
     class: "text-subtitle-1 font-weight-light",
   };
 
-  protected infoValueAttr = {
+  infoValueAttr = {
     class: "text-body-1 mb-2",
   };
 
@@ -849,7 +849,7 @@ export default class CdDataset extends Vue {
     Notifications.toast({ message: "Copied to clipboard", type: "info" });
   }
 
-  protected loadFileExporer() {
+  loadFileExporer() {
     // Load file explorer
     if (this.data.associatedMedia?.length) {
       this.data.associatedMedia.map((m, index) => {
@@ -923,7 +923,7 @@ export default class CdDataset extends Vue {
     }
   }
 
-  protected async loadReadmeFile() {
+  async loadReadmeFile() {
     const readmeFile = this.data.associatedMedia.find(
       (f) => f.name.toLowerCase() === "readme.md"
     );
@@ -943,7 +943,7 @@ export default class CdDataset extends Vue {
     }
   }
 
-  protected async loadDataset() {
+  async loadDataset() {
     this.submissionId = this.$route.params.id;
     this.isLoading = true;
     try {
@@ -963,7 +963,7 @@ export default class CdDataset extends Vue {
     }
   }
 
-  protected parseDate(date: string): string {
+  parseDate(date: string): string {
     const parsed = new Date(Date.parse(date));
     return parsed.toLocaleString("default", {
       month: "long",
@@ -972,24 +972,24 @@ export default class CdDataset extends Vue {
     });
   }
 
-  // protected getTransformedSpatialCoverage() {
+  // getTransformedSpatialCoverage() {
   //   return { ...data.spatialCoverage, }
   // }
 
-  protected get hasSpatialFeatures(): boolean {
+  get hasSpatialFeatures(): boolean {
     const feat = this.data.spatialCoverage?.["@type"];
     return feat === "GeoShape" || feat === "GeoCoordinates" || feat === "Place";
   }
 
-  protected get schema() {
+  get schema() {
     return User.$state.schema;
   }
 
-  protected get uiSchema() {
+  get uiSchema() {
     return User.$state.uiSchema;
   }
 
-  protected get boxCoordinates() {
+  get boxCoordinates() {
     const extents = this.data.spatialCoverage.geo.box
       .trim()
       .split(" ")

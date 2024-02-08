@@ -82,6 +82,7 @@ import { fromEvent, from } from "rxjs";
 import { debounceTime, map, switchMap, tap } from "rxjs/operators";
 import SearchHistory from "@/models/search-history.model";
 import Search from "@/models/search.model";
+import { IHint } from "@/types";
 
 const typeaheadDebounceTime = 500;
 
@@ -95,18 +96,18 @@ export default class CdSearch extends Vue {
   @Ref("hintElements") hintElements;
   @Ref("btnDeleteHint") btnDeleteHint;
 
-  protected appName = APP_NAME;
+  appName = APP_NAME;
 
-  public valueInternal = "";
-  public previousValueInternal = "";
-  public hints: IHint[] = []; // used to reactively bind to template
-  public menu = false;
-  public isFetchingHints = false;
-  public showList = true;
-  public detectCrossover = false;
-  public rawDbHints: any[] = [];
+  valueInternal = "";
+  previousValueInternal = "";
+  hints: IHint[] = []; // used to reactively bind to template
+  menu = false;
+  isFetchingHints = false;
+  showList = true;
+  detectCrossover = false;
+  rawDbHints: any[] = [];
 
-  public get typeaheadHints(): IHint[] {
+  get typeaheadHints(): IHint[] {
     if (!this.rawDbHints || !this.valueInternal) {
       return this.localHints;
     }
@@ -114,11 +115,11 @@ export default class CdSearch extends Vue {
     return [...this.localHints, ...this.dbHints];
   }
 
-  public get localHints(): IHint[] {
+  get localHints(): IHint[] {
     return SearchHistory.searchHints(this.valueInternal);
   }
 
-  public get dbHints(): IHint[] {
+  get dbHints(): IHint[] {
     const minCharacters = 3;
     const valueInternal = this.valueInternal.toLocaleLowerCase();
     let hints = this.rawDbHints
@@ -145,7 +146,7 @@ export default class CdSearch extends Vue {
 
   // Buetify doesn't handle well reasigning list items array
   @Watch("hints", { deep: true })
-  public onHintsChanged() {
+  onHintsChanged() {
     // Reinstantiate component to reset state.
     this.showList = false;
     this.detectCrossover = false;
@@ -168,27 +169,29 @@ export default class CdSearch extends Vue {
       await this._onTypeahead();
     } catch (e) {}
     this.hints = this.typeaheadHints;
-    this.searchInput?.focus();
 
-    // https://www.learnrxjs.io/learn-rxjs/recipes/type-ahead
-    fromEvent(this.searchInput?.$el, "input")
-      .pipe(
-        tap(() => {
-          this.isFetchingHints = !!this.valueInternal;
-          // Show hints from local history while the database ones load
-          this.hints = this.localHints;
-          this.menu = true;
-        }),
-        debounceTime(typeaheadDebounceTime),
-        map((e: any) => e.target.value),
-        switchMap(() => from(this._onTypeahead()))
-      )
-      .subscribe(() => {
-        this._handleTypeahead(false);
-      });
+    if (this.searchInput) {
+      this.searchInput?.focus();
+      // https://www.learnrxjs.io/learn-rxjs/recipes/type-ahead
+      fromEvent(this.searchInput?.$el, "input")
+        .pipe(
+          tap(() => {
+            this.isFetchingHints = !!this.valueInternal;
+            // Show hints from local history while the database ones load
+            this.hints = this.localHints;
+            this.menu = true;
+          }),
+          debounceTime(typeaheadDebounceTime),
+          map((e: any) => e.target.value),
+          switchMap(() => from(this._onTypeahead()))
+        )
+        .subscribe(() => {
+          this._handleTypeahead(false);
+        });
+    }
   }
 
-  public onSearch() {
+  onSearch() {
     this._onChange();
     this.previousValueInternal = this.valueInternal;
     if (this.valueInternal && this.$route.name !== "search") {
@@ -202,7 +205,7 @@ export default class CdSearch extends Vue {
   /** Detects when the user crosses over from the beginning or end of the list items.
    * Then restores original value, hide the menu, and focus the input
    */
-  public onDetectCrossover(direction: "up" | "down") {
+  onDetectCrossover(direction: "up" | "down") {
     const hintIndex = this.hintElements.findIndex((e) =>
       e.$el.classList.contains("v-list-item--highlighted")
     );
@@ -223,7 +226,7 @@ export default class CdSearch extends Vue {
   }
 
   /** Handles moving up and down the list of hints using the arrow keys */
-  public onHintHighlighted() {
+  onHintHighlighted() {
     const hintIndex = this.hintElements.findIndex((e) =>
       e.$el.classList.contains("v-list-item--highlighted")
     );
@@ -233,12 +236,12 @@ export default class CdSearch extends Vue {
     }
   }
 
-  public browse(term: string) {
+  browse(term: string) {
     this.valueInternal = term;
     this.onSearch();
   }
 
-  public async onHintSelected(event: PointerEvent, hint: IHint) {
+  async onHintSelected(event: PointerEvent, hint: IHint) {
     // We only act on 'pointerdown' event. The enter key is already captured in the input.
     // The value is already populated by onHintHighlighted.
 
@@ -259,7 +262,7 @@ export default class CdSearch extends Vue {
     }
   }
 
-  public deleteHint(hint: IHint) {
+  deleteHint(hint: IHint) {
     SearchHistory.deleteHint(hint.key);
     this.hints = this.typeaheadHints;
   }

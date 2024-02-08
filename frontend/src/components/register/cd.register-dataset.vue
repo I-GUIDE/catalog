@@ -202,22 +202,22 @@ const identifierPattern = new RegExp(`^[0-9a-fA-F]{32}$`);
   components: {},
 })
 export default class CzRegisterDataset extends Vue {
-  protected url = "";
-  protected isFetching = false;
-  protected isValid = false;
-  protected submission: Partial<Submission> | null = null;
-  protected wasUnauthorized = false;
-  protected wasNotFound = false;
-  protected isDuplicate = false;
-  protected isRegistering = false;
-  protected exampleIdentifier = exampleIdentifier;
-  protected exampleUrl = exampleUrl;
+  url = "";
+  isFetching = false;
+  isValid = false;
+  submission: Partial<Submission> | null = null;
+  wasUnauthorized = false;
+  wasNotFound = false;
+  isDuplicate = false;
+  isRegistering = false;
+  exampleIdentifier = exampleIdentifier;
+  exampleUrl = exampleUrl;
 
-  protected get canReadDataset(): boolean {
+  get canReadDataset(): boolean {
     return !this.isFetching && this.isValid && !!this.url;
   }
 
-  protected get identifierFromUrl(): string {
+  get identifierFromUrl(): string {
     if (identifierPattern?.test(this.url)) {
       return this.url;
     } else if (identifierUrlPattern?.test(this.url)) {
@@ -236,13 +236,13 @@ export default class CzRegisterDataset extends Vue {
     this.$refs.txtIdentifier?.focus();
   }
 
-  protected onReadDataset() {
+  onReadDataset() {
     if (this.canReadDataset) {
       this._readDataset();
     }
   }
 
-  protected goToViewDataset() {
+  goToViewDataset() {
     if (this.submission?.id) {
       this.$router.push({
         name: "dataset",
@@ -253,13 +253,13 @@ export default class CzRegisterDataset extends Vue {
     }
   }
 
-  protected getDateInLocalTime(date: number): string {
+  getDateInLocalTime(date: number): string {
     const offset = new Date(date).getTimezoneOffset() * 60 * 1000;
     const localDateTime = date + offset;
     return new Date(localDateTime).toLocaleString();
   }
 
-  protected isValidUrlOrIdentifier(): true | string {
+  isValidUrlOrIdentifier(): true | string {
     if (!this.url) {
       return "required";
     }

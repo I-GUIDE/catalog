@@ -61,11 +61,11 @@ import { Component, Vue } from "vue-property-decorator";
   components: {},
 })
 export default class CdFooter extends Vue {
-  protected get version() {
+  get version() {
     return process.env.VUE_APP_VERSION || "0";
   }
 
-  protected get year() {
+  get year() {
     return new Date().getFullYear();
   }
 }

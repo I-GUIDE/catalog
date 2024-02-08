@@ -54,12 +54,12 @@ import User from "@/models/user.model";
   components: { CzForm },
 })
 export default class CdDataset extends Vue {
-  protected data = {};
-  protected isLoading = true;
-  protected wasLoaded = false;
-  protected submissionId = "";
+  data = {};
+  isLoading = true;
+  wasLoaded = false;
+  submissionId = "";
 
-  protected config = {
+  config = {
     restrict: true,
     trim: false,
     showUnfocusedDescription: false,
@@ -84,7 +84,7 @@ export default class CdDataset extends Vue {
     this.loadDataset();
   }
 
-  protected async loadDataset() {
+  async loadDataset() {
     this.submissionId = this.$route.params.id;
     this.isLoading = true;
     try {
@@ -100,11 +100,11 @@ export default class CdDataset extends Vue {
     }
   }
 
-  protected get schema() {
+  get schema() {
     return User.$state.schema;
   }
 
-  protected get uiSchema() {
+  get uiSchema() {
     return User.$state.uiSchema;
   }
 }

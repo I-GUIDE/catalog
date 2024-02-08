@@ -40,15 +40,15 @@ import User from "@/models/user.model";
   components: {},
 })
 export default class CzLogin extends Vue {
-  protected async openLogInDialog() {
+  async openLogInDialog() {
     User.logIn(this.onLoggedIn);
   }
 
-  protected onCancel() {
+  onCancel() {
     this.$emit("cancel");
   }
 
-  protected onLoggedIn() {
+  onLoggedIn() {
     this.$emit("logged-in");
   }
 }

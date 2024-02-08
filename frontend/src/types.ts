@@ -1,4 +1,4 @@
-interface IResult {
+export interface IResult {
   id: string;
   creator: string[];
   dateCreated: string;
@@ -21,12 +21,12 @@ interface IResult {
   spatialCoverage: any[];
 }
 
-interface IHint {
+export interface IHint {
   type: "db" | "local";
   key: string;
 }
 
-interface ISearchFilter {
+export interface ISearchFilter {
   publicationYear: {
     min: number;
     max: number;
@@ -52,7 +52,7 @@ interface ISearchFilter {
   creatorName: string;
 }
 
-interface ISearchParams {
+export interface ISearchParams {
   term: string;
   pageSize: number;
   pageNumber: number;
@@ -63,9 +63,9 @@ interface ISearchParams {
   creatorName?: string;
   providerName?: string;
   // clusters?: string[];
-  sortBy?: "name" | "dateCreated" | "relevance" | "registrationDate";
+  sortBy?: string;
 }
 
-interface ITypeaheadParams {
+export interface ITypeaheadParams {
   term: string;
 }

@@ -1,7 +1,7 @@
 <template>
   <v-app app>
     <v-app-bar
-      v-if="!$route.meta.hideNavigation"
+      v-if="!$route.meta?.hideNavigation"
       color="navbar"
       ref="appBar"
       id="app-bar"
@@ -102,7 +102,7 @@
         <v-sheet
           min-height="70vh"
           rounded
-          :elevation="$route.meta.hideNavigation || $route.meta.flat ? 0 : 2"
+          :elevation="$route.meta?.hideNavigation || $route.meta?.flat ? 0 : 2"
         >
           <router-view name="content" :key="$route.fullPath" />
         </v-sheet>
@@ -114,7 +114,7 @@
     </v-footer>
 
     <v-navigation-drawer
-      v-if="!$route.meta.hideNavigation || $route.meta.flat"
+      v-if="!$route.meta?.hideNavigation || $route.meta?.flat"
       class="mobile-nav-items"
       v-model="showMobileNavigation"
       temporary
@@ -204,14 +204,14 @@ import { setupRouteGuards } from "@/router/router";
   components: { CzNotifications, CzLogin },
 })
 export default class App extends Vue {
-  protected onOpenLogInDialog!: Subscription;
-  public showMobileNavigation = false;
-  protected logInDialog: any & { isActive: boolean } = {
+  onOpenLogInDialog!: Subscription;
+  showMobileNavigation = false;
+  logInDialog: any & { isActive: boolean } = {
     isActive: false,
     onLoggedIn: () => {},
     onCancel: () => {},
   };
-  public paths: any[] = [
+  paths: any[] = [
     {
       attrs: { to: "/" },
       label: "Home",
@@ -247,11 +247,11 @@ export default class App extends Vue {
     // },
   ];
 
-  protected get isLoggedIn(): boolean {
+  get isLoggedIn(): boolean {
     return User.$state.isLoggedIn;
   }
 
-  protected logOut() {
+  logOut() {
     Notifications.openDialog({
       title: "Log out?",
       content: "Are you sure you want to log out?",
@@ -290,7 +290,7 @@ export default class App extends Vue {
     this.onOpenLogInDialog.unsubscribe();
   }
 
-  protected openLogInDialog() {
+  openLogInDialog() {
     User.openLogInDialog();
   }
 }
