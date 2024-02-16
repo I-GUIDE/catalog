@@ -1,5 +1,5 @@
 requests
-fastapi[all]==0.101.*
+fastapi[all]==0.109.*
 uvicorn[standard]
 motor==3.*
 beanie[httpx]==1.25.*
