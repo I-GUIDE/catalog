@@ -32,10 +32,6 @@ class CoreMetadataDOC(Document, CoreMetadata):
             url=self.url,
         )
 
-    def delete_revision_id(self):
-        if hasattr(self, "revision_id"):
-            del self.revision_id
-
 
 class DatasetMetadataDOC(CoreMetadataDOC):
     repository_identifier: Optional[str] = None
