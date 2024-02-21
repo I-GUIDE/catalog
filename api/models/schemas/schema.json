@@ -1655,6 +1655,48 @@
             "required": [
               "name"
             ]
+          },
+          "sha256": {
+            "title": "SHA-256",
+            "description": "The SHA-256 hash of the media object.",
+            "type": "string"
+          },
+          "isPartOf": {
+            "title": "MediaObjectPartOf",
+            "description": "Link to or citation for a related metadata document that this media object is a part of",
+            "type": "object",
+            "properties": {
+              "@type": {
+                "title": "@Type",
+                "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
+                "default": "CreativeWork",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name or title",
+                "description": "Submission's name or title",
+                "type": "string"
+              },
+              "url": {
+                "title": "URL",
+                "description": "The URL address to the related metadata document.",
+                "minLength": 1,
+                "maxLength": 2083,
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
+              },
+              "description": {
+                "title": "Description",
+                "description": "Information about a related metadata document.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
           }
         },
         "required": [
@@ -2813,6 +2855,42 @@
         "name"
       ]
     },
+    "MediaObjectPartOf": {
+      "title": "MediaObjectPartOf",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "@Type",
+          "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
+          "default": "CreativeWork",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name or title",
+          "description": "Submission's name or title",
+          "type": "string"
+        },
+        "url": {
+          "title": "URL",
+          "description": "The URL address to the related metadata document.",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "description": {
+          "title": "Description",
+          "description": "Information about a related metadata document.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
     "MediaObject": {
       "title": "MediaObject",
       "type": "object",
@@ -3484,6 +3562,48 @@
             "address": {
               "title": "Address",
               "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "sha256": {
+          "title": "SHA-256",
+          "description": "The SHA-256 hash of the media object.",
+          "type": "string"
+        },
+        "isPartOf": {
+          "title": "MediaObjectPartOf",
+          "description": "Link to or citation for a related metadata document that this media object is a part of",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "title": "@Type",
+              "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
+              "default": "CreativeWork",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name or title",
+              "description": "Submission's name or title",
+              "type": "string"
+            },
+            "url": {
+              "title": "URL",
+              "description": "The URL address to the related metadata document.",
+              "minLength": 1,
+              "maxLength": 2083,
+              "type": "string",
+              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+              "errorMessage": {
+                "pattern": "must match format \"url\""
+              }
+            },
+            "description": {
+              "title": "Description",
+              "description": "Information about a related metadata document.",
               "type": "string"
             }
           },
