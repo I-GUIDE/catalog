@@ -80,7 +80,8 @@
 		"geo": {
 			"@type": "GeoShape",
 			"box": "40.1126 -88.2249 40.1126 -88.2249"
-		}
+		},
+		"additionalProperty": []
 	},
 	"hasPart": [
 		{
@@ -104,7 +105,14 @@
 			"contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
 			"encodingFormat": "text/csv",
 			"contentSize": "0.17 MB",
-			"name": "USGS gage locations within the Harvey-affected areas in Texas"
+			"name": "USGS gage locations within the Harvey-affected areas in Texas",
+            "sha256": "d8e8fca2dc0f896fd7cb4cb0031ba249",
+			"additionalProperty": [],
+			"variableMeasured": null,
+			"spatialCoverage": null,
+			"temporalCoverage": null,
+			"sourceOrganization": null,
+			"isPartOf": null
 		}
 	],
 	"citation": ["Citation for the dataset"]
