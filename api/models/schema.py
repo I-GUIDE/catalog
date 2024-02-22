@@ -450,6 +450,14 @@ class MediaObject(SchemaBaseModel):
 
         return v
 
+    @validator('sha256')
+    def validate_sha256_string_format(cls, v):
+        if v:
+            v = v.strip()
+            if v and not re.match(r"^[a-fA-F0-9]{64}$", v):
+                raise ValueError('invalid SHA-256 format')
+        return v
+
 
 class CoreMetadata(SchemaBaseModel):
     context: HttpUrl = Field(
