@@ -11,7 +11,7 @@
     "deploy": "node scripts/gh-pages-deploy.js"
   },
   "dependencies": {
-    "@cznethub/cznet-vue-core": "^0.1.84",
+    "@cznethub/cznet-vue-core": "^0.1.91",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@hrwg/vue-marked": "0.0.2",
     "@vue/composition-api": "^1.7.1",
@@ -21,7 +21,7 @@
     "google-maps": "^4.3.3",
     "lodash.isequal": "^4.5.0",
     "rxjs": "^7.8.0",
-    "vue": "^2.7.14",
+    "vue": "^2.7.16",
     "vue-browser-detect-plugin": "^0.1.18",
     "vue-cookies": "^1.8.2",
     "vue-i18n": "^8.28.2",

@@ -1,3 +1,5 @@
+import { ISearchParams, ITypeaheadParams } from "./types";
+
 /** Transforms the values in a dictionary into strings, and filters out falsey entries and array entries
  * Array values need to be stringified with `stringifyArrayParamValues`
  * @returns the resulting object after filter and transformation

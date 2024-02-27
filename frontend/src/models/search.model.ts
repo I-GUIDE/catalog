@@ -1,6 +1,7 @@
 import { Model } from "@vuex-orm/core";
 import { ENDPOINTS } from "@/constants";
 import { getQueryString } from "@/util";
+import { IResult, ISearchParams, ITypeaheadParams } from "../types";
 
 export interface ISearchState {
   results: IResult[];

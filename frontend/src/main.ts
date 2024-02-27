@@ -11,7 +11,6 @@ import browserDetect from "vue-browser-detect-plugin";
 import VueRouter from "vue-router";
 import VueI18n from "vue-i18n";
 import VueTimeago from "vue-timeago";
-import vueFilterPrettyBytes from "vue-filter-pretty-bytes";
 
 import { router } from "./router/router";
 import { orm } from "@/models/orm";
@@ -31,7 +30,6 @@ import { messages } from "./i18n/messages";
 
 Vue.config.productionTip = false;
 Vue.use(Vuex);
-Vue.use(vueFilterPrettyBytes);
 
 // Create Vuex Store and register database through Vuex ORM.
 const store = new Vuex.Store({
