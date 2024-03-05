@@ -15,12 +15,12 @@ def main(output_name: str = "api/models/schemas/schema.json"):
             class_definition = schema["definitions"][definition]
             # replace allOf with a single definition
             json_schema = json_schema.replace(
-                f'"allOf": [{{"$ref": "#/definitions/{definition}"}}]',
+                f'"allOf": [{{"$ref": "#/definitions/{definition}"}}]', 
                 json.dumps(class_definition)[1:-1]
             )
             #replace definition directly
             json_schema = json_schema.replace(
-                f'"$ref": "#/definitions/{definition}"',
+                f'"$ref": "#/definitions/{definition}"', 
                 json.dumps(class_definition)[1:-1]
             )
     embedded_schema = json.loads(json_schema)
