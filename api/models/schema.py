@@ -397,14 +397,6 @@ class MediaObject(SchemaBaseModel):
                     "unit of measurement."
     )
     name: str = Field(description="The name of the media object (file).")
-    additionalProperty: Optional[List[PropertyValue]] = Field(
-        title="Additional properties",
-        default=[],
-        description="Additional properties of the media object."
-    )
-    variableMeasured: Optional[List[Union[str, PropertyValue]]] = Field(
-        title="Variables measured", description="Measured variables."
-    )
     spatialCoverage: Optional[Place] = Field(
         title="Spatial coverage",
         description="The spatial coverage of the media object."
