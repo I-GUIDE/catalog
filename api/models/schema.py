@@ -397,14 +397,6 @@ class MediaObject(SchemaBaseModel):
                     "unit of measurement."
     )
     name: str = Field(description="The name of the media object (file).")
-    spatialCoverage: Optional[Place] = Field(
-        title="Spatial coverage",
-        description="The spatial coverage of the media object."
-    )
-    temporalCoverage: Optional[TemporalCoverage] = Field(
-        title="Temporal coverage",
-        description="The temporal coverage of the media object."
-    )
     sha256: Optional[str] = Field(title="SHA-256", description="The SHA-256 hash of the media object.")
     isPartOf: Optional[MediaObjectPartOf] = Field(
         title="Is part of",
