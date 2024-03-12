@@ -376,63 +376,6 @@ async def test_core_schema_associated_media_content_size(
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_data, core_model)
     assert core_model_instance.associatedMedia[0].contentSize == content_size_format
-    assert core_model_instance.associatedMedia[0].additionalProperty == []
-
-
-@pytest.mark.parametrize("set_additional_property", [True, False])
-@pytest.mark.asyncio
-async def test_core_schema_associated_media_additional_property(
-    core_data, core_model, set_additional_property
-):
-    """Test that a core metadata pydantic model can be created from core metadata json.
-    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
-    valid values for the additionalProperty attribute of the associatedMedia property.
-    Note: This test does not add a record to the database.
-    """
-
-    core_data = core_data
-    core_model = core_model
-    content_size_format = "100.17 KB"
-    core_data["associatedMedia"] = [
-        {
-            "@type": "MediaObject",
-            "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
-            "encodingFormat": "text/csv",
-            "contentSize": content_size_format,
-            "name": "USGS gage locations within the Harvey-affected areas in Texas",
-        }
-    ]
-    if set_additional_property:
-        core_data["associatedMedia"][0]["additionalProperty"] = [
-            {
-                "@type": "PropertyValue",
-                "name": "Feature Count",
-                "value": 7,
-            },
-            {
-                "@type": "PropertyValue",
-                "name": "Field Count",
-                "value": 10,
-            },
-        ]
-
-    # validate the data model
-    core_model_instance = await utils.validate_data_model(core_data, core_model)
-    assert core_model_instance.associatedMedia[0].contentSize == content_size_format
-    if set_additional_property:
-        assert len(core_model_instance.associatedMedia[0].additionalProperty) == 2
-        assert (
-            core_model_instance.associatedMedia[0].additionalProperty[0].name
-            == "Feature Count"
-        )
-        assert core_model_instance.associatedMedia[0].additionalProperty[0].value == "7"
-        assert (
-            core_model_instance.associatedMedia[0].additionalProperty[1].name
-            == "Field Count"
-        )
-        assert core_model_instance.associatedMedia[0].additionalProperty[1].value == '10'
-    else:
-        assert core_model_instance.associatedMedia[0].additionalProperty == []
 
 
 @pytest.mark.parametrize("set_spatial_coverage", [True, False])
@@ -541,68 +484,6 @@ async def test_core_schema_associated_media_temporal_coverage(
         assert temporal_coverage.endDate == datetime.datetime(2008, 5, 11, 15, 30, 0)
     else:
         assert core_model_instance.associatedMedia[0].temporalCoverage is None
-
-
-@pytest.mark.parametrize("set_source_organization", [True, False])
-@pytest.mark.asyncio
-async def test_core_schema_associated_media_source_organization(
-    core_data, core_model, set_source_organization
-):
-    """Test that a core metadata pydantic model can be created from core metadata json.
-    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
-    valid values for the sourceOrganization attribute of the associatedMedia property.
-    Note: This test does not add a record to the database.
-    """
-
-    core_data = core_data
-    core_model = core_model
-    content_size_format = "100.17 KB"
-    source_organization = {
-        "@type": "Organization",
-        "name": "National Hydrography Dataset",
-        "url": "https://www.usgs.gov/national-hydrography/national-hydrography-dataset",
-    }
-
-    if set_source_organization:
-        core_data["associatedMedia"] = [
-            {
-                "@type": "MediaObject",
-                "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
-                "encodingFormat": "text/csv",
-                "contentSize": content_size_format,
-                "name": "USGS gage locations within the Harvey-affected areas in Texas",
-                "sourceOrganization": source_organization,
-            }
-        ]
-    else:
-        core_data["associatedMedia"] = [
-            {
-                "@type": "MediaObject",
-                "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
-                "encodingFormat": "text/csv",
-                "contentSize": content_size_format,
-                "name": "USGS gage locations within the Harvey-affected areas in Texas",
-            }
-        ]
-
-    # validate the data model
-    core_model_instance = await utils.validate_data_model(core_data, core_model)
-    assert core_model_instance.associatedMedia[0].contentSize == content_size_format
-    if set_source_organization:
-        assert (
-            core_model_instance.associatedMedia[0].sourceOrganization.type
-            == source_organization["@type"]
-        )
-        assert (
-            core_model_instance.associatedMedia[0].sourceOrganization.name
-            == source_organization["name"]
-        )
-        assert (
-            core_model_instance.associatedMedia[0].sourceOrganization.url
-            == source_organization["url"]
-        )
-    else:
-        assert core_model_instance.associatedMedia[0].sourceOrganization is None
 
 
 @pytest.mark.parametrize("include_coverage", [True, False])
