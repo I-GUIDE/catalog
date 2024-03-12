@@ -413,10 +413,6 @@ class MediaObject(SchemaBaseModel):
         title="Temporal coverage",
         description="The temporal coverage of the media object."
     )
-    sourceOrganization: Optional[MediaObjectSourceOrganization] = Field(
-        title="Source organization",
-        description="The organization that provided the media object."
-    )
     sha256: Optional[str] = Field(title="SHA-256", description="The SHA-256 hash of the media object.")
     isPartOf: Optional[MediaObjectPartOf] = Field(
         title="Is part of",
@@ -561,6 +557,17 @@ class CoreMetadata(SchemaBaseModel):
     citation: Optional[List[str]] = Field(title="Citation", description="A bibliographic citation for the resource.")
 
 
-class DatasetSchema(CoreMetadata):
+class DatasetMetadata(CoreMetadata):
     # used only for generating the JSON-LD schema for a dataset.
-    pass
+    variableMeasured: Optional[List[Union[str, PropertyValue]]] = Field(
+        title="Variables measured", description="Measured variables."
+    )
+    additionalProperty: Optional[List[PropertyValue]] = Field(
+        title="Additional properties",
+        default=[],
+        description="Additional properties of the Dataset."
+    )
+    sourceOrganization: Optional[MediaObjectSourceOrganization] = Field(
+        title="Source organization",
+        description="The organization that provided the data for this dataset."
+    )

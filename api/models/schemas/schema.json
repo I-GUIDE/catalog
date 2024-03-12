@@ -1,5 +1,5 @@
 {
-  "title": "DatasetSchema",
+  "title": "DatasetMetadata",
   "type": "object",
   "properties": {
     "@context": {
@@ -1014,350 +1014,6 @@
             "description": "The name of the media object (file).",
             "type": "string"
           },
-          "additionalProperty": {
-            "title": "Additional properties",
-            "description": "Additional properties of the media object.",
-            "default": [],
-            "type": "array",
-            "items": {
-              "title": "PropertyValue",
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "title": "@Type",
-                  "description": "A property-value pair.",
-                  "default": "PropertyValue",
-                  "const": "PropertyValue",
-                  "type": "string"
-                },
-                "propertyID": {
-                  "title": "Property ID",
-                  "description": "The ID of the property.",
-                  "type": "string"
-                },
-                "name": {
-                  "title": "Name",
-                  "description": "The name of the property.",
-                  "type": "string"
-                },
-                "value": {
-                  "title": "Value",
-                  "description": "The value of the property.",
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "title": "PropertyValue",
-                      "type": "object",
-                      "properties": {
-                        "@type": {
-                          "title": "@Type",
-                          "description": "A property-value pair.",
-                          "default": "PropertyValue",
-                          "const": "PropertyValue",
-                          "type": "string"
-                        },
-                        "propertyID": {
-                          "title": "Property ID",
-                          "description": "The ID of the property.",
-                          "type": "string"
-                        },
-                        "name": {
-                          "title": "Name",
-                          "description": "The name of the property.",
-                          "type": "string"
-                        },
-                        "value": {
-                          "title": "Value",
-                          "description": "The value of the property.",
-                          "type": "string"
-                        },
-                        "unitCode": {
-                          "title": "Measurement unit",
-                          "description": "The unit of measurement for the value.",
-                          "type": "string"
-                        },
-                        "description": {
-                          "title": "Description",
-                          "description": "A description of the property.",
-                          "type": "string"
-                        },
-                        "minValue": {
-                          "title": "Minimum value",
-                          "description": "The minimum allowed value for the property.",
-                          "type": "number"
-                        },
-                        "maxValue": {
-                          "title": "Maximum value",
-                          "description": "The maximum allowed value for the property.",
-                          "type": "number"
-                        }
-                      },
-                      "required": [
-                        "name",
-                        "value"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
-                        "title": "PropertyValue",
-                        "type": "object",
-                        "properties": {
-                          "@type": {
-                            "title": "@Type",
-                            "description": "A property-value pair.",
-                            "default": "PropertyValue",
-                            "const": "PropertyValue",
-                            "type": "string"
-                          },
-                          "propertyID": {
-                            "title": "Property ID",
-                            "description": "The ID of the property.",
-                            "type": "string"
-                          },
-                          "name": {
-                            "title": "Name",
-                            "description": "The name of the property.",
-                            "type": "string"
-                          },
-                          "value": {
-                            "title": "Value",
-                            "description": "The value of the property.",
-                            "type": "string"
-                          },
-                          "unitCode": {
-                            "title": "Measurement unit",
-                            "description": "The unit of measurement for the value.",
-                            "type": "string"
-                          },
-                          "description": {
-                            "title": "Description",
-                            "description": "A description of the property.",
-                            "type": "string"
-                          },
-                          "minValue": {
-                            "title": "Minimum value",
-                            "description": "The minimum allowed value for the property.",
-                            "type": "number"
-                          },
-                          "maxValue": {
-                            "title": "Maximum value",
-                            "description": "The maximum allowed value for the property.",
-                            "type": "number"
-                          }
-                        },
-                        "required": [
-                          "name",
-                          "value"
-                        ]
-                      }
-                    }
-                  ]
-                },
-                "unitCode": {
-                  "title": "Measurement unit",
-                  "description": "The unit of measurement for the value.",
-                  "type": "string"
-                },
-                "description": {
-                  "title": "Description",
-                  "description": "A description of the property.",
-                  "type": "string"
-                },
-                "minValue": {
-                  "title": "Minimum value",
-                  "description": "The minimum allowed value for the property.",
-                  "type": "number"
-                },
-                "maxValue": {
-                  "title": "Maximum value",
-                  "description": "The maximum allowed value for the property.",
-                  "type": "number"
-                }
-              },
-              "required": [
-                "name",
-                "value"
-              ]
-            }
-          },
-          "variableMeasured": {
-            "title": "Variables measured",
-            "description": "Measured variables.",
-            "type": "array",
-            "items": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "title": "PropertyValue",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "title": "@Type",
-                      "description": "A property-value pair.",
-                      "default": "PropertyValue",
-                      "const": "PropertyValue",
-                      "type": "string"
-                    },
-                    "propertyID": {
-                      "title": "Property ID",
-                      "description": "The ID of the property.",
-                      "type": "string"
-                    },
-                    "name": {
-                      "title": "Name",
-                      "description": "The name of the property.",
-                      "type": "string"
-                    },
-                    "value": {
-                      "title": "Value",
-                      "description": "The value of the property.",
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "title": "PropertyValue",
-                          "type": "object",
-                          "properties": {
-                            "@type": {
-                              "title": "@Type",
-                              "description": "A property-value pair.",
-                              "default": "PropertyValue",
-                              "const": "PropertyValue",
-                              "type": "string"
-                            },
-                            "propertyID": {
-                              "title": "Property ID",
-                              "description": "The ID of the property.",
-                              "type": "string"
-                            },
-                            "name": {
-                              "title": "Name",
-                              "description": "The name of the property.",
-                              "type": "string"
-                            },
-                            "value": {
-                              "title": "Value",
-                              "description": "The value of the property.",
-                              "type": "string"
-                            },
-                            "unitCode": {
-                              "title": "Measurement unit",
-                              "description": "The unit of measurement for the value.",
-                              "type": "string"
-                            },
-                            "description": {
-                              "title": "Description",
-                              "description": "A description of the property.",
-                              "type": "string"
-                            },
-                            "minValue": {
-                              "title": "Minimum value",
-                              "description": "The minimum allowed value for the property.",
-                              "type": "number"
-                            },
-                            "maxValue": {
-                              "title": "Maximum value",
-                              "description": "The maximum allowed value for the property.",
-                              "type": "number"
-                            }
-                          },
-                          "required": [
-                            "name",
-                            "value"
-                          ]
-                        },
-                        {
-                          "type": "array",
-                          "items": {
-                            "title": "PropertyValue",
-                            "type": "object",
-                            "properties": {
-                              "@type": {
-                                "title": "@Type",
-                                "description": "A property-value pair.",
-                                "default": "PropertyValue",
-                                "const": "PropertyValue",
-                                "type": "string"
-                              },
-                              "propertyID": {
-                                "title": "Property ID",
-                                "description": "The ID of the property.",
-                                "type": "string"
-                              },
-                              "name": {
-                                "title": "Name",
-                                "description": "The name of the property.",
-                                "type": "string"
-                              },
-                              "value": {
-                                "title": "Value",
-                                "description": "The value of the property.",
-                                "type": "string"
-                              },
-                              "unitCode": {
-                                "title": "Measurement unit",
-                                "description": "The unit of measurement for the value.",
-                                "type": "string"
-                              },
-                              "description": {
-                                "title": "Description",
-                                "description": "A description of the property.",
-                                "type": "string"
-                              },
-                              "minValue": {
-                                "title": "Minimum value",
-                                "description": "The minimum allowed value for the property.",
-                                "type": "number"
-                              },
-                              "maxValue": {
-                                "title": "Maximum value",
-                                "description": "The maximum allowed value for the property.",
-                                "type": "number"
-                              }
-                            },
-                            "required": [
-                              "name",
-                              "value"
-                            ]
-                          }
-                        }
-                      ]
-                    },
-                    "unitCode": {
-                      "title": "Measurement unit",
-                      "description": "The unit of measurement for the value.",
-                      "type": "string"
-                    },
-                    "description": {
-                      "title": "Description",
-                      "description": "A description of the property.",
-                      "type": "string"
-                    },
-                    "minValue": {
-                      "title": "Minimum value",
-                      "description": "The minimum allowed value for the property.",
-                      "type": "number"
-                    },
-                    "maxValue": {
-                      "title": "Maximum value",
-                      "description": "The maximum allowed value for the property.",
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "name",
-                    "value"
-                  ]
-                }
-              ]
-            }
-          },
           "spatialCoverage": {
             "title": "Place",
             "description": "The spatial coverage of the media object.",
@@ -1619,43 +1275,6 @@
               "startDate"
             ]
           },
-          "sourceOrganization": {
-            "title": "MediaObjectSourceOrganization",
-            "description": "The organization that provided the media object.",
-            "type": "object",
-            "properties": {
-              "@type": {
-                "title": "@Type",
-                "default": "Organization",
-                "const": "Organization",
-                "type": "string"
-              },
-              "name": {
-                "title": "Name",
-                "description": "Name of the organization that created the media object.",
-                "type": "string"
-              },
-              "url": {
-                "title": "URL",
-                "description": "A URL to the homepage for the organization.",
-                "minLength": 1,
-                "maxLength": 2083,
-                "type": "string",
-                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-                "errorMessage": {
-                  "pattern": "must match format \"url\""
-                }
-              },
-              "address": {
-                "title": "Address",
-                "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
-                "type": "string"
-              }
-            },
-            "required": [
-              "name"
-            ]
-          },
           "sha256": {
             "title": "SHA-256",
             "description": "The SHA-256 hash of the media object.",
@@ -1714,6 +1333,387 @@
       "items": {
         "type": "string"
       }
+    },
+    "variableMeasured": {
+      "title": "Variables measured",
+      "description": "Measured variables.",
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "title": "PropertyValue",
+            "type": "object",
+            "properties": {
+              "@type": {
+                "title": "@Type",
+                "description": "A property-value pair.",
+                "default": "PropertyValue",
+                "const": "PropertyValue",
+                "type": "string"
+              },
+              "propertyID": {
+                "title": "Property ID",
+                "description": "The ID of the property.",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "description": "The name of the property.",
+                "type": "string"
+              },
+              "value": {
+                "title": "Value",
+                "description": "The value of the property.",
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "title": "PropertyValue",
+                    "type": "object",
+                    "properties": {
+                      "@type": {
+                        "title": "@Type",
+                        "description": "A property-value pair.",
+                        "default": "PropertyValue",
+                        "const": "PropertyValue",
+                        "type": "string"
+                      },
+                      "propertyID": {
+                        "title": "Property ID",
+                        "description": "The ID of the property.",
+                        "type": "string"
+                      },
+                      "name": {
+                        "title": "Name",
+                        "description": "The name of the property.",
+                        "type": "string"
+                      },
+                      "value": {
+                        "title": "Value",
+                        "description": "The value of the property.",
+                        "type": "string"
+                      },
+                      "unitCode": {
+                        "title": "Measurement unit",
+                        "description": "The unit of measurement for the value.",
+                        "type": "string"
+                      },
+                      "description": {
+                        "title": "Description",
+                        "description": "A description of the property.",
+                        "type": "string"
+                      },
+                      "minValue": {
+                        "title": "Minimum value",
+                        "description": "The minimum allowed value for the property.",
+                        "type": "number"
+                      },
+                      "maxValue": {
+                        "title": "Maximum value",
+                        "description": "The maximum allowed value for the property.",
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "value"
+                    ]
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "title": "PropertyValue",
+                      "type": "object",
+                      "properties": {
+                        "@type": {
+                          "title": "@Type",
+                          "description": "A property-value pair.",
+                          "default": "PropertyValue",
+                          "const": "PropertyValue",
+                          "type": "string"
+                        },
+                        "propertyID": {
+                          "title": "Property ID",
+                          "description": "The ID of the property.",
+                          "type": "string"
+                        },
+                        "name": {
+                          "title": "Name",
+                          "description": "The name of the property.",
+                          "type": "string"
+                        },
+                        "value": {
+                          "title": "Value",
+                          "description": "The value of the property.",
+                          "type": "string"
+                        },
+                        "unitCode": {
+                          "title": "Measurement unit",
+                          "description": "The unit of measurement for the value.",
+                          "type": "string"
+                        },
+                        "description": {
+                          "title": "Description",
+                          "description": "A description of the property.",
+                          "type": "string"
+                        },
+                        "minValue": {
+                          "title": "Minimum value",
+                          "description": "The minimum allowed value for the property.",
+                          "type": "number"
+                        },
+                        "maxValue": {
+                          "title": "Maximum value",
+                          "description": "The maximum allowed value for the property.",
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "value"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "unitCode": {
+                "title": "Measurement unit",
+                "description": "The unit of measurement for the value.",
+                "type": "string"
+              },
+              "description": {
+                "title": "Description",
+                "description": "A description of the property.",
+                "type": "string"
+              },
+              "minValue": {
+                "title": "Minimum value",
+                "description": "The minimum allowed value for the property.",
+                "type": "number"
+              },
+              "maxValue": {
+                "title": "Maximum value",
+                "description": "The maximum allowed value for the property.",
+                "type": "number"
+              }
+            },
+            "required": [
+              "name",
+              "value"
+            ]
+          }
+        ]
+      }
+    },
+    "additionalProperty": {
+      "title": "Additional properties",
+      "description": "Additional properties of the Dataset.",
+      "default": [],
+      "type": "array",
+      "items": {
+        "title": "PropertyValue",
+        "type": "object",
+        "properties": {
+          "@type": {
+            "title": "@Type",
+            "description": "A property-value pair.",
+            "default": "PropertyValue",
+            "const": "PropertyValue",
+            "type": "string"
+          },
+          "propertyID": {
+            "title": "Property ID",
+            "description": "The ID of the property.",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "description": "The name of the property.",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "description": "The value of the property.",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "title": "PropertyValue",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "title": "@Type",
+                    "description": "A property-value pair.",
+                    "default": "PropertyValue",
+                    "const": "PropertyValue",
+                    "type": "string"
+                  },
+                  "propertyID": {
+                    "title": "Property ID",
+                    "description": "The ID of the property.",
+                    "type": "string"
+                  },
+                  "name": {
+                    "title": "Name",
+                    "description": "The name of the property.",
+                    "type": "string"
+                  },
+                  "value": {
+                    "title": "Value",
+                    "description": "The value of the property.",
+                    "type": "string"
+                  },
+                  "unitCode": {
+                    "title": "Measurement unit",
+                    "description": "The unit of measurement for the value.",
+                    "type": "string"
+                  },
+                  "description": {
+                    "title": "Description",
+                    "description": "A description of the property.",
+                    "type": "string"
+                  },
+                  "minValue": {
+                    "title": "Minimum value",
+                    "description": "The minimum allowed value for the property.",
+                    "type": "number"
+                  },
+                  "maxValue": {
+                    "title": "Maximum value",
+                    "description": "The maximum allowed value for the property.",
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "name",
+                  "value"
+                ]
+              },
+              {
+                "type": "array",
+                "items": {
+                  "title": "PropertyValue",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "title": "@Type",
+                      "description": "A property-value pair.",
+                      "default": "PropertyValue",
+                      "const": "PropertyValue",
+                      "type": "string"
+                    },
+                    "propertyID": {
+                      "title": "Property ID",
+                      "description": "The ID of the property.",
+                      "type": "string"
+                    },
+                    "name": {
+                      "title": "Name",
+                      "description": "The name of the property.",
+                      "type": "string"
+                    },
+                    "value": {
+                      "title": "Value",
+                      "description": "The value of the property.",
+                      "type": "string"
+                    },
+                    "unitCode": {
+                      "title": "Measurement unit",
+                      "description": "The unit of measurement for the value.",
+                      "type": "string"
+                    },
+                    "description": {
+                      "title": "Description",
+                      "description": "A description of the property.",
+                      "type": "string"
+                    },
+                    "minValue": {
+                      "title": "Minimum value",
+                      "description": "The minimum allowed value for the property.",
+                      "type": "number"
+                    },
+                    "maxValue": {
+                      "title": "Maximum value",
+                      "description": "The maximum allowed value for the property.",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "value"
+                  ]
+                }
+              }
+            ]
+          },
+          "unitCode": {
+            "title": "Measurement unit",
+            "description": "The unit of measurement for the value.",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "description": "A description of the property.",
+            "type": "string"
+          },
+          "minValue": {
+            "title": "Minimum value",
+            "description": "The minimum allowed value for the property.",
+            "type": "number"
+          },
+          "maxValue": {
+            "title": "Maximum value",
+            "description": "The maximum allowed value for the property.",
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ]
+      }
+    },
+    "sourceOrganization": {
+      "title": "MediaObjectSourceOrganization",
+      "description": "The organization that provided the data for this dataset.",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "@Type",
+          "default": "Organization",
+          "const": "Organization",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "description": "Name of the organization that created the media object.",
+          "type": "string"
+        },
+        "url": {
+          "title": "URL",
+          "description": "A URL to the homepage for the organization.",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "address": {
+          "title": "Address",
+          "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
     }
   },
   "required": [
@@ -2819,42 +2819,6 @@
         "name"
       ]
     },
-    "MediaObjectSourceOrganization": {
-      "title": "MediaObjectSourceOrganization",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "title": "@Type",
-          "default": "Organization",
-          "const": "Organization",
-          "type": "string"
-        },
-        "name": {
-          "title": "Name",
-          "description": "Name of the organization that created the media object.",
-          "type": "string"
-        },
-        "url": {
-          "title": "URL",
-          "description": "A URL to the homepage for the organization.",
-          "minLength": 1,
-          "maxLength": 2083,
-          "type": "string",
-          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-          "errorMessage": {
-            "pattern": "must match format \"url\""
-          }
-        },
-        "address": {
-          "title": "Address",
-          "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name"
-      ]
-    },
     "MediaObjectPartOf": {
       "title": "MediaObjectPartOf",
       "type": "object",
@@ -2926,350 +2890,6 @@
           "title": "Name",
           "description": "The name of the media object (file).",
           "type": "string"
-        },
-        "additionalProperty": {
-          "title": "Additional properties",
-          "description": "Additional properties of the media object.",
-          "default": [],
-          "type": "array",
-          "items": {
-            "title": "PropertyValue",
-            "type": "object",
-            "properties": {
-              "@type": {
-                "title": "@Type",
-                "description": "A property-value pair.",
-                "default": "PropertyValue",
-                "const": "PropertyValue",
-                "type": "string"
-              },
-              "propertyID": {
-                "title": "Property ID",
-                "description": "The ID of the property.",
-                "type": "string"
-              },
-              "name": {
-                "title": "Name",
-                "description": "The name of the property.",
-                "type": "string"
-              },
-              "value": {
-                "title": "Value",
-                "description": "The value of the property.",
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "title": "PropertyValue",
-                    "type": "object",
-                    "properties": {
-                      "@type": {
-                        "title": "@Type",
-                        "description": "A property-value pair.",
-                        "default": "PropertyValue",
-                        "const": "PropertyValue",
-                        "type": "string"
-                      },
-                      "propertyID": {
-                        "title": "Property ID",
-                        "description": "The ID of the property.",
-                        "type": "string"
-                      },
-                      "name": {
-                        "title": "Name",
-                        "description": "The name of the property.",
-                        "type": "string"
-                      },
-                      "value": {
-                        "title": "Value",
-                        "description": "The value of the property.",
-                        "type": "string"
-                      },
-                      "unitCode": {
-                        "title": "Measurement unit",
-                        "description": "The unit of measurement for the value.",
-                        "type": "string"
-                      },
-                      "description": {
-                        "title": "Description",
-                        "description": "A description of the property.",
-                        "type": "string"
-                      },
-                      "minValue": {
-                        "title": "Minimum value",
-                        "description": "The minimum allowed value for the property.",
-                        "type": "number"
-                      },
-                      "maxValue": {
-                        "title": "Maximum value",
-                        "description": "The maximum allowed value for the property.",
-                        "type": "number"
-                      }
-                    },
-                    "required": [
-                      "name",
-                      "value"
-                    ]
-                  },
-                  {
-                    "type": "array",
-                    "items": {
-                      "title": "PropertyValue",
-                      "type": "object",
-                      "properties": {
-                        "@type": {
-                          "title": "@Type",
-                          "description": "A property-value pair.",
-                          "default": "PropertyValue",
-                          "const": "PropertyValue",
-                          "type": "string"
-                        },
-                        "propertyID": {
-                          "title": "Property ID",
-                          "description": "The ID of the property.",
-                          "type": "string"
-                        },
-                        "name": {
-                          "title": "Name",
-                          "description": "The name of the property.",
-                          "type": "string"
-                        },
-                        "value": {
-                          "title": "Value",
-                          "description": "The value of the property.",
-                          "type": "string"
-                        },
-                        "unitCode": {
-                          "title": "Measurement unit",
-                          "description": "The unit of measurement for the value.",
-                          "type": "string"
-                        },
-                        "description": {
-                          "title": "Description",
-                          "description": "A description of the property.",
-                          "type": "string"
-                        },
-                        "minValue": {
-                          "title": "Minimum value",
-                          "description": "The minimum allowed value for the property.",
-                          "type": "number"
-                        },
-                        "maxValue": {
-                          "title": "Maximum value",
-                          "description": "The maximum allowed value for the property.",
-                          "type": "number"
-                        }
-                      },
-                      "required": [
-                        "name",
-                        "value"
-                      ]
-                    }
-                  }
-                ]
-              },
-              "unitCode": {
-                "title": "Measurement unit",
-                "description": "The unit of measurement for the value.",
-                "type": "string"
-              },
-              "description": {
-                "title": "Description",
-                "description": "A description of the property.",
-                "type": "string"
-              },
-              "minValue": {
-                "title": "Minimum value",
-                "description": "The minimum allowed value for the property.",
-                "type": "number"
-              },
-              "maxValue": {
-                "title": "Maximum value",
-                "description": "The maximum allowed value for the property.",
-                "type": "number"
-              }
-            },
-            "required": [
-              "name",
-              "value"
-            ]
-          }
-        },
-        "variableMeasured": {
-          "title": "Variables measured",
-          "description": "Measured variables.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "title": "PropertyValue",
-                "type": "object",
-                "properties": {
-                  "@type": {
-                    "title": "@Type",
-                    "description": "A property-value pair.",
-                    "default": "PropertyValue",
-                    "const": "PropertyValue",
-                    "type": "string"
-                  },
-                  "propertyID": {
-                    "title": "Property ID",
-                    "description": "The ID of the property.",
-                    "type": "string"
-                  },
-                  "name": {
-                    "title": "Name",
-                    "description": "The name of the property.",
-                    "type": "string"
-                  },
-                  "value": {
-                    "title": "Value",
-                    "description": "The value of the property.",
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "title": "PropertyValue",
-                        "type": "object",
-                        "properties": {
-                          "@type": {
-                            "title": "@Type",
-                            "description": "A property-value pair.",
-                            "default": "PropertyValue",
-                            "const": "PropertyValue",
-                            "type": "string"
-                          },
-                          "propertyID": {
-                            "title": "Property ID",
-                            "description": "The ID of the property.",
-                            "type": "string"
-                          },
-                          "name": {
-                            "title": "Name",
-                            "description": "The name of the property.",
-                            "type": "string"
-                          },
-                          "value": {
-                            "title": "Value",
-                            "description": "The value of the property.",
-                            "type": "string"
-                          },
-                          "unitCode": {
-                            "title": "Measurement unit",
-                            "description": "The unit of measurement for the value.",
-                            "type": "string"
-                          },
-                          "description": {
-                            "title": "Description",
-                            "description": "A description of the property.",
-                            "type": "string"
-                          },
-                          "minValue": {
-                            "title": "Minimum value",
-                            "description": "The minimum allowed value for the property.",
-                            "type": "number"
-                          },
-                          "maxValue": {
-                            "title": "Maximum value",
-                            "description": "The maximum allowed value for the property.",
-                            "type": "number"
-                          }
-                        },
-                        "required": [
-                          "name",
-                          "value"
-                        ]
-                      },
-                      {
-                        "type": "array",
-                        "items": {
-                          "title": "PropertyValue",
-                          "type": "object",
-                          "properties": {
-                            "@type": {
-                              "title": "@Type",
-                              "description": "A property-value pair.",
-                              "default": "PropertyValue",
-                              "const": "PropertyValue",
-                              "type": "string"
-                            },
-                            "propertyID": {
-                              "title": "Property ID",
-                              "description": "The ID of the property.",
-                              "type": "string"
-                            },
-                            "name": {
-                              "title": "Name",
-                              "description": "The name of the property.",
-                              "type": "string"
-                            },
-                            "value": {
-                              "title": "Value",
-                              "description": "The value of the property.",
-                              "type": "string"
-                            },
-                            "unitCode": {
-                              "title": "Measurement unit",
-                              "description": "The unit of measurement for the value.",
-                              "type": "string"
-                            },
-                            "description": {
-                              "title": "Description",
-                              "description": "A description of the property.",
-                              "type": "string"
-                            },
-                            "minValue": {
-                              "title": "Minimum value",
-                              "description": "The minimum allowed value for the property.",
-                              "type": "number"
-                            },
-                            "maxValue": {
-                              "title": "Maximum value",
-                              "description": "The maximum allowed value for the property.",
-                              "type": "number"
-                            }
-                          },
-                          "required": [
-                            "name",
-                            "value"
-                          ]
-                        }
-                      }
-                    ]
-                  },
-                  "unitCode": {
-                    "title": "Measurement unit",
-                    "description": "The unit of measurement for the value.",
-                    "type": "string"
-                  },
-                  "description": {
-                    "title": "Description",
-                    "description": "A description of the property.",
-                    "type": "string"
-                  },
-                  "minValue": {
-                    "title": "Minimum value",
-                    "description": "The minimum allowed value for the property.",
-                    "type": "number"
-                  },
-                  "maxValue": {
-                    "title": "Maximum value",
-                    "description": "The maximum allowed value for the property.",
-                    "type": "number"
-                  }
-                },
-                "required": [
-                  "name",
-                  "value"
-                ]
-              }
-            ]
-          }
         },
         "spatialCoverage": {
           "title": "Place",
@@ -3532,43 +3152,6 @@
             "startDate"
           ]
         },
-        "sourceOrganization": {
-          "title": "MediaObjectSourceOrganization",
-          "description": "The organization that provided the media object.",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "title": "@Type",
-              "default": "Organization",
-              "const": "Organization",
-              "type": "string"
-            },
-            "name": {
-              "title": "Name",
-              "description": "Name of the organization that created the media object.",
-              "type": "string"
-            },
-            "url": {
-              "title": "URL",
-              "description": "A URL to the homepage for the organization.",
-              "minLength": 1,
-              "maxLength": 2083,
-              "type": "string",
-              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-              "errorMessage": {
-                "pattern": "must match format \"url\""
-              }
-            },
-            "address": {
-              "title": "Address",
-              "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
-              "type": "string"
-            }
-          },
-          "required": [
-            "name"
-          ]
-        },
         "sha256": {
           "title": "SHA-256",
           "description": "The SHA-256 hash of the media object.",
@@ -3616,6 +3199,42 @@
         "contentUrl",
         "encodingFormat",
         "contentSize",
+        "name"
+      ]
+    },
+    "MediaObjectSourceOrganization": {
+      "title": "MediaObjectSourceOrganization",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "title": "@Type",
+          "default": "Organization",
+          "const": "Organization",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "description": "Name of the organization that created the media object.",
+          "type": "string"
+        },
+        "url": {
+          "title": "URL",
+          "description": "A URL to the homepage for the organization.",
+          "minLength": 1,
+          "maxLength": 2083,
+          "type": "string",
+          "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+          "errorMessage": {
+            "pattern": "must match format \"url\""
+          }
+        },
+        "address": {
+          "title": "Address",
+          "description": "Full address for the organization - e.g., \u201c8200 Old Main Hill, Logan, UT 84322-8200\u201d.",
+          "type": "string"
+        }
+      },
+      "required": [
         "name"
       ]
     }
