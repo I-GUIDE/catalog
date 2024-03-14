@@ -107,8 +107,8 @@ class PublisherOrganization(Organization):
     )
 
 
-class MediaObjectSourceOrganization(Organization):
-    name: str = Field(description="Name of the organization that created the media object.")
+class SourceOrganization(Organization):
+    name: str = Field(description="Name of the organization that created the data.")
 
 
 class DefinedTerm(SchemaBaseModel):
@@ -545,16 +545,15 @@ class CoreMetadata(SchemaBaseModel):
 
 
 class DatasetMetadata(CoreMetadata):
-    # used only for generating the JSON-LD schema for a dataset.
     variableMeasured: Optional[List[Union[str, PropertyValue]]] = Field(
         title="Variables measured", description="Measured variables."
     )
     additionalProperty: Optional[List[PropertyValue]] = Field(
         title="Additional properties",
         default=[],
-        description="Additional properties of the Dataset."
+        description="Additional properties of the dataset."
     )
-    sourceOrganization: Optional[MediaObjectSourceOrganization] = Field(
+    sourceOrganization: Optional[SourceOrganization] = Field(
         title="Source organization",
         description="The organization that provided the data for this dataset."
     )
