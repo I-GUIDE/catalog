@@ -337,6 +337,9 @@ class PropertyValueBase(SchemaBaseModel):
     maxValue: Optional[float] = Field(
         title="Maximum value", description="The maximum allowed value for the property."
     )
+    measurementTechnique: Optional[str] = Field(
+        title="Measurement technique", description="A technique or technology used in a measurement."
+    )
 
     class Config:
         title = "PropertyValue"

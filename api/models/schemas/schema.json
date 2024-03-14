@@ -799,6 +799,11 @@
                         "title": "Maximum value",
                         "description": "The maximum allowed value for the property.",
                         "type": "number"
+                      },
+                      "measurementTechnique": {
+                        "title": "Measurement technique",
+                        "description": "A technique or technology used in a measurement.",
+                        "type": "string"
                       }
                     },
                     "required": [
@@ -853,6 +858,11 @@
                           "title": "Maximum value",
                           "description": "The maximum allowed value for the property.",
                           "type": "number"
+                        },
+                        "measurementTechnique": {
+                          "title": "Measurement technique",
+                          "description": "A technique or technology used in a measurement.",
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -882,6 +892,11 @@
                 "title": "Maximum value",
                 "description": "The maximum allowed value for the property.",
                 "type": "number"
+              },
+              "measurementTechnique": {
+                "title": "Measurement technique",
+                "description": "A technique or technology used in a measurement.",
+                "type": "string"
               }
             },
             "required": [
@@ -1155,6 +1170,11 @@
                         "title": "Maximum value",
                         "description": "The maximum allowed value for the property.",
                         "type": "number"
+                      },
+                      "measurementTechnique": {
+                        "title": "Measurement technique",
+                        "description": "A technique or technology used in a measurement.",
+                        "type": "string"
                       }
                     },
                     "required": [
@@ -1209,6 +1229,11 @@
                           "title": "Maximum value",
                           "description": "The maximum allowed value for the property.",
                           "type": "number"
+                        },
+                        "measurementTechnique": {
+                          "title": "Measurement technique",
+                          "description": "A technique or technology used in a measurement.",
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -1238,6 +1263,11 @@
                 "title": "Maximum value",
                 "description": "The maximum allowed value for the property.",
                 "type": "number"
+              },
+              "measurementTechnique": {
+                "title": "Measurement technique",
+                "description": "A technique or technology used in a measurement.",
+                "type": "string"
               }
             },
             "required": [
@@ -1250,7 +1280,7 @@
     },
     "additionalProperty": {
       "title": "Additional properties",
-      "description": "Additional properties of the Dataset.",
+      "description": "Additional properties of the dataset.",
       "default": [],
       "type": "array",
       "items": {
@@ -1326,6 +1356,11 @@
                     "title": "Maximum value",
                     "description": "The maximum allowed value for the property.",
                     "type": "number"
+                  },
+                  "measurementTechnique": {
+                    "title": "Measurement technique",
+                    "description": "A technique or technology used in a measurement.",
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -1380,6 +1415,11 @@
                       "title": "Maximum value",
                       "description": "The maximum allowed value for the property.",
                       "type": "number"
+                    },
+                    "measurementTechnique": {
+                      "title": "Measurement technique",
+                      "description": "A technique or technology used in a measurement.",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -1409,6 +1449,11 @@
             "title": "Maximum value",
             "description": "The maximum allowed value for the property.",
             "type": "number"
+          },
+          "measurementTechnique": {
+            "title": "Measurement technique",
+            "description": "A technique or technology used in a measurement.",
+            "type": "string"
           }
         },
         "required": [
@@ -1418,7 +1463,7 @@
       }
     },
     "sourceOrganization": {
-      "title": "MediaObjectSourceOrganization",
+      "title": "SourceOrganization",
       "description": "The organization that provided the data for this dataset.",
       "type": "object",
       "properties": {
@@ -1430,7 +1475,7 @@
         },
         "name": {
           "title": "Name",
-          "description": "Name of the organization that created the media object.",
+          "description": "Name of the organization that created the data.",
           "type": "string"
         },
         "url": {
@@ -2078,6 +2123,11 @@
           "title": "Maximum value",
           "description": "The maximum allowed value for the property.",
           "type": "number"
+        },
+        "measurementTechnique": {
+          "title": "Measurement technique",
+          "description": "A technique or technology used in a measurement.",
+          "type": "string"
         }
       },
       "required": [
@@ -2158,6 +2208,11 @@
                   "title": "Maximum value",
                   "description": "The maximum allowed value for the property.",
                   "type": "number"
+                },
+                "measurementTechnique": {
+                  "title": "Measurement technique",
+                  "description": "A technique or technology used in a measurement.",
+                  "type": "string"
                 }
               },
               "required": [
@@ -2212,6 +2267,11 @@
                     "title": "Maximum value",
                     "description": "The maximum allowed value for the property.",
                     "type": "number"
+                  },
+                  "measurementTechnique": {
+                    "title": "Measurement technique",
+                    "description": "A technique or technology used in a measurement.",
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -2241,6 +2301,11 @@
           "title": "Maximum value",
           "description": "The maximum allowed value for the property.",
           "type": "number"
+        },
+        "measurementTechnique": {
+          "title": "Measurement technique",
+          "description": "A technique or technology used in a measurement.",
+          "type": "string"
         }
       },
       "required": [
@@ -2393,6 +2458,11 @@
                         "title": "Maximum value",
                         "description": "The maximum allowed value for the property.",
                         "type": "number"
+                      },
+                      "measurementTechnique": {
+                        "title": "Measurement technique",
+                        "description": "A technique or technology used in a measurement.",
+                        "type": "string"
                       }
                     },
                     "required": [
@@ -2447,6 +2517,11 @@
                           "title": "Maximum value",
                           "description": "The maximum allowed value for the property.",
                           "type": "number"
+                        },
+                        "measurementTechnique": {
+                          "title": "Measurement technique",
+                          "description": "A technique or technology used in a measurement.",
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -2476,6 +2551,11 @@
                 "title": "Maximum value",
                 "description": "The maximum allowed value for the property.",
                 "type": "number"
+              },
+              "measurementTechnique": {
+                "title": "Measurement technique",
+                "description": "A technique or technology used in a measurement.",
+                "type": "string"
               }
             },
             "required": [
@@ -2680,8 +2760,8 @@
         "name"
       ]
     },
-    "MediaObjectSourceOrganization": {
-      "title": "MediaObjectSourceOrganization",
+    "SourceOrganization": {
+      "title": "SourceOrganization",
       "type": "object",
       "properties": {
         "@type": {
@@ -2692,7 +2772,7 @@
         },
         "name": {
           "title": "Name",
-          "description": "Name of the organization that created the media object.",
+          "description": "Name of the organization that created the data.",
           "type": "string"
         },
         "url": {
