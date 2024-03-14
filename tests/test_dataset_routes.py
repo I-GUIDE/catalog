@@ -35,6 +35,7 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
         assert a_property.pop("maxValue") is None
         assert a_property.pop("unitCode") is None
         assert a_property.pop("propertyID") is None
+        assert a_property.pop("measurementTechnique") is None
 
     assert response_data == dataset_data
     # there should be one related submission record in the db
@@ -108,6 +109,7 @@ async def test_update_dataset(client_test, dataset_data):
         assert a_property.pop("maxValue") is None
         assert a_property.pop("unitCode") is None
         assert a_property.pop("propertyID") is None
+        assert a_property.pop("measurementTechnique") is None
     assert response_data == dataset_data
 
 
@@ -174,6 +176,8 @@ async def test_get_datasets_exclude_none(client_test, dataset_data):
         assert "maxValue" not in a_property
         assert "unitCode" not in a_property
         assert "propertyID" not in a_property
+        assert "measurementTechnique" not in a_property
+
 
 @pytest.mark.parametrize("multiple", [True, False])
 @pytest.mark.asyncio

@@ -26,6 +26,11 @@ async def test_dataset_schema_additional_property(
                 "@type": "PropertyValue",
                 "name": "Field Count",
                 "value": "10",
+                "unitCode": "count",
+                "description": "Number of fields in the dataset",
+                "minValue": "5",
+                "maxValue": "15",
+                "measurementTechnique": "Counting",
             },
         ]
     if set_additional_property:
@@ -41,6 +46,14 @@ async def test_dataset_schema_additional_property(
         assert dataset_model_instance.additionalProperty[0].value == additional_property[0]["value"]
         assert dataset_model_instance.additionalProperty[1].name == additional_property[1]["name"]
         assert dataset_model_instance.additionalProperty[1].value == additional_property[1]["value"]
+        assert dataset_model_instance.additionalProperty[1].unitCode == additional_property[1]["unitCode"]
+        assert dataset_model_instance.additionalProperty[1].description == additional_property[1]["description"]
+        assert dataset_model_instance.additionalProperty[1].minValue == float(additional_property[1]["minValue"])
+        assert dataset_model_instance.additionalProperty[1].maxValue == float(additional_property[1]["maxValue"])
+        assert (
+                dataset_model_instance.additionalProperty[1].measurementTechnique
+                == additional_property[1]["measurementTechnique"]
+        )
     else:
         assert dataset_model_instance.additionalProperty == []
 
@@ -136,6 +149,7 @@ async def test_dataset_schema_variable_cardinality(
         assert dataset_instance.variableMeasured[0].value == "10.5"
     else:
         assert dataset_instance.variableMeasured == []
+
 
 @pytest.mark.parametrize(
     "data_format",

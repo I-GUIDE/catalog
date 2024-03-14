@@ -132,7 +132,8 @@
             "unitCode": "m",
             "minValue": 1358.2,
             "maxValue": 3040.8,
-            "description": "Digital Elevation Model"
+            "description": "Digital Elevation Model",
+			"measurementTechnique": "Lidar"
         }
     ],
   "sourceOrganization": {
