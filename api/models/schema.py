@@ -418,7 +418,7 @@ class MediaObject(SchemaBaseModel):
         description="The organization that provided the media object."
     )
     sha256: Optional[str] = Field(title="SHA-256", description="The SHA-256 hash of the media object.")
-    isPartOf: Optional[MediaObjectPartOf] = Field(
+    isPartOf: Optional[List[MediaObjectPartOf]] = Field(
         title="Is part of",
         description="Link to or citation for a related metadata document that this media object is a part of",
     )

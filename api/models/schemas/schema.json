@@ -1662,46 +1662,49 @@
             "type": "string"
           },
           "isPartOf": {
-            "title": "MediaObjectPartOf",
+            "title": "Is part of",
             "description": "Link to or citation for a related metadata document that this media object is a part of",
-            "type": "object",
-            "properties": {
-              "@type": {
-                "title": "@Type",
-                "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
-                "default": "CreativeWork",
-                "type": "string"
-              },
-              "name": {
-                "title": "Name or title",
-                "description": "Submission's name or title",
-                "type": "string"
-              },
-              "url": {
-                "title": "URL",
-                "description": "The URL address to the related metadata document.",
-                "minLength": 1,
-                "maxLength": 2083,
-                "type": "string",
-                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-                "errorMessage": {
-                  "pattern": "must match format \"url\""
+            "type": "array",
+            "items": {
+              "title": "MediaObjectPartOf",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "title": "@Type",
+                  "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
+                  "default": "CreativeWork",
+                  "type": "string"
+                },
+                "name": {
+                  "title": "Name or title",
+                  "description": "Submission's name or title",
+                  "type": "string"
+                },
+                "url": {
+                  "title": "URL",
+                  "description": "The URL address to the related metadata document.",
+                  "minLength": 1,
+                  "maxLength": 2083,
+                  "type": "string",
+                  "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                  "errorMessage": {
+                    "pattern": "must match format \"url\""
+                  }
+                },
+                "description": {
+                  "title": "Description",
+                  "description": "Information about a related metadata document.",
+                  "type": "string"
                 }
               },
-              "description": {
-                "title": "Description",
-                "description": "Information about a related metadata document.",
-                "type": "string"
-              }
-            },
-            "required": [
-              "name"
-            ]
+              "required": [
+                "name"
+              ]
+            }
           }
         },
         "required": [
           "contentUrl",
-          "encodingFormat",
           "contentSize",
           "name"
         ]
@@ -3575,46 +3578,49 @@
           "type": "string"
         },
         "isPartOf": {
-          "title": "MediaObjectPartOf",
+          "title": "Is part of",
           "description": "Link to or citation for a related metadata document that this media object is a part of",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "title": "@Type",
-              "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
-              "default": "CreativeWork",
-              "type": "string"
-            },
-            "name": {
-              "title": "Name or title",
-              "description": "Submission's name or title",
-              "type": "string"
-            },
-            "url": {
-              "title": "URL",
-              "description": "The URL address to the related metadata document.",
-              "minLength": 1,
-              "maxLength": 2083,
-              "type": "string",
-              "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
-              "errorMessage": {
-                "pattern": "must match format \"url\""
+          "type": "array",
+          "items": {
+            "title": "MediaObjectPartOf",
+            "type": "object",
+            "properties": {
+              "@type": {
+                "title": "@Type",
+                "description": "Submission type can include various forms of content, such as datasets, software source code, digital documents, etc.",
+                "default": "CreativeWork",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name or title",
+                "description": "Submission's name or title",
+                "type": "string"
+              },
+              "url": {
+                "title": "URL",
+                "description": "The URL address to the related metadata document.",
+                "minLength": 1,
+                "maxLength": 2083,
+                "type": "string",
+                "pattern": "^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$",
+                "errorMessage": {
+                  "pattern": "must match format \"url\""
+                }
+              },
+              "description": {
+                "title": "Description",
+                "description": "Information about a related metadata document.",
+                "type": "string"
               }
             },
-            "description": {
-              "title": "Description",
-              "description": "Information about a related metadata document.",
-              "type": "string"
-            }
-          },
-          "required": [
-            "name"
-          ]
+            "required": [
+              "name"
+            ]
+          }
         }
       },
       "required": [
         "contentUrl",
-        "encodingFormat",
         "contentSize",
         "name"
       ]
