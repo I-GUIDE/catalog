@@ -387,7 +387,7 @@ class MediaObject(SchemaBaseModel):
     contentUrl: HttpUrl = Field(
         title="Content URL",
         description="The direct URL link to access or download the actual content of the media object.")
-    encodingFormat: str = Field(
+    encodingFormat: Optional[str] = Field(
         title="Encoding format",
         description="Represents the specific file format in which the media is encoded."
     )  # TODO enum for encoding formats
