@@ -379,6 +379,33 @@ async def test_core_schema_associated_media_content_size(
     assert core_model_instance.associatedMedia[0].additionalProperty == []
 
 
+@pytest.mark.asyncio
+async def test_core_schema_associated_media_encoding_format_optional(
+    core_data, core_model
+):
+    """Test that a core metadata pydantic model can be created from core metadata json.
+    Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
+    that encodingFormat attribute of the associatedMedia property is optional.
+    Note: This test does nat add a record to the database.
+    """
+
+    core_data = core_data
+    core_model = core_model
+
+    core_data["associatedMedia"] = [
+        {
+            "@type": "MediaObject",
+            "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
+            "contentSize": "100.17 KB",
+            "name": "USGS gage locations within the Harvey-affected areas in Texas",
+        }
+    ]
+
+    # validate the data model
+    core_model_instance = await utils.validate_data_model(core_data, core_model)
+    assert core_model_instance.associatedMedia[0].encodingFormat is None
+
+
 @pytest.mark.parametrize("set_additional_property", [True, False])
 @pytest.mark.asyncio
 async def test_core_schema_associated_media_additional_property(
