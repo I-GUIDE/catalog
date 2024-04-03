@@ -3,12 +3,14 @@ import os
 
 import typer
 
-from api.models.schema import DatasetMetadata
+from api.models.schema import GenericDatasetMetadata
+
+# TODO: Need to generate schemas for all models and each needs to be written to a separate file
 
 
 def main(output_name: str = "api/models/schemas/schema.json"):
-    schema = DatasetMetadata.schema()
-    json_schema = DatasetMetadata.schema_json()#indent=2)
+    schema = GenericDatasetMetadata.schema()
+    json_schema = GenericDatasetMetadata.schema_json()#indent=2)
     # Have to run it a few times for the definitions to get updated before inserted into another model
     while "#/definitions/" in json_schema:
         for definition in schema["definitions"]:
