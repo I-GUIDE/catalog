@@ -7,7 +7,7 @@ from api.adapters.base import AbstractRepositoryMetadataAdapter, AbstractReposit
 from api.adapters.utils import RepositoryType, register_adapter
 from api.exceptions import RepositoryException
 from api.models import schema
-from api.models.catalog import DatasetMetadataDOC
+from api.models.catalog import HSResourceMetadataDOC
 from api.models.user import Submission
 
 
@@ -195,13 +195,13 @@ class HydroshareMetadataAdapter(AbstractRepositoryMetadataAdapter):
     repo_api_handler = _HydroshareRequestHandler()
 
     @staticmethod
-    def to_catalog_record(metadata: dict) -> DatasetMetadataDOC:
+    def to_catalog_record(metadata: dict) -> HSResourceMetadataDOC:
         """Converts hydroshare resource metadata to a catalog dataset record"""
         hs_metadata_model = _HydroshareResourceMetadata(**metadata)
         return hs_metadata_model.to_catalog_dataset()
 
     @staticmethod
-    def to_repository_record(catalog_record: DatasetMetadataDOC):
+    def to_repository_record(catalog_record: HSResourceMetadataDOC):
         """Converts dataset catalog record to hydroshare resource metadata"""
         raise NotImplementedError
 
@@ -294,7 +294,7 @@ class _HydroshareResourceMetadata(BaseModel):
         return provider
 
     def to_catalog_dataset(self):
-        dataset = DatasetMetadataDOC.construct()
+        dataset = HSResourceMetadataDOC.construct()
         dataset.provider = self.to_dataset_provider()
         dataset.name = self.title
         dataset.description = self.abstract

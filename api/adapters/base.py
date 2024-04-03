@@ -1,7 +1,7 @@
 import abc
-
+from typing import Type
 from api.config import Settings, get_settings
-from api.models.catalog import DatasetMetadataDOC
+from api.models.catalog import CoreMetadataDOC
 from api.models.user import Submission
 
 
@@ -19,13 +19,13 @@ class AbstractRepositoryMetadataAdapter(abc.ABC):
 
     @staticmethod
     @abc.abstractmethod
-    def to_catalog_record(metadata: dict) -> DatasetMetadataDOC:
+    def to_catalog_record(metadata: dict) -> Type[CoreMetadataDOC]:
         """Converts repository metadata to a catalog dataset record"""
         ...
 
     @staticmethod
     @abc.abstractmethod
-    def to_repository_record(catalog_record: DatasetMetadataDOC):
+    def to_repository_record(catalog_record: Type[CoreMetadataDOC]):
         """Converts dataset catalog dataset record to repository metadata"""
         ...
 
