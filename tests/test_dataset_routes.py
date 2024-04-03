@@ -135,28 +135,6 @@ async def test_delete_dataset(client_test, dataset_data, test_user_access_token)
     assert submission_response.status_code == 200
 
 
-# @pytest.mark.parametrize("multiple", [True, False])
-# @pytest.mark.asyncio
-# async def test_get_datasets(client_test, dataset_data, multiple):
-#     """Testing the get all datasets for a given user"""
-#
-#     # add a dataset record to the db
-#     dataset_response = await client_test.post("api/catalog/dataset", json=dataset_data)
-#     assert dataset_response.status_code == 201
-#     if multiple:
-#         # add another dataset record to the db
-#         dataset_response = await client_test.post("api/catalog/dataset", json=dataset_data)
-#         assert dataset_response.status_code == 201
-#
-#     dataset_response = await client_test.get("api/catalog/dataset")
-#     assert dataset_response.status_code == 200
-#     dataset_response_data = dataset_response.json()
-#     if multiple:
-#         assert len(dataset_response_data) == 2
-#     else:
-#         assert len(dataset_response_data) == 1
-
-
 @pytest.mark.asyncio
 async def test_get_datasets_exclude_none(client_test, dataset_data):
     """Testing exclude none is applied to dataset response model"""
@@ -186,7 +164,6 @@ async def test_register_s3_netcdf_dataset(client_test):
     """Testing registering metadata for a netcdf dataset stored on s3"""
 
     # set the path to the netcdf file on s3
-    path = "catalogapi/.hs/netcdf/netcdf_valid.nc.json"
     s3_path = {
         "path": "catalogapi/.hs/netcdf/netcdf_valid.nc.json",
         "bucket": "pkdash",
@@ -194,9 +171,6 @@ async def test_register_s3_netcdf_dataset(client_test):
     }
 
     dataset_response = await client_test.put("api/catalog/repository/s3/netcdf", json=s3_path)
-    # print response content
-    print(dataset_response.content)
-
     assert dataset_response.status_code == 201
     response_data = dataset_response.json()
     assert response_data['additionalType'] == 'NetCDF'
