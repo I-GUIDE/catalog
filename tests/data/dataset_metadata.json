@@ -5,6 +5,7 @@
 	"description": "This is a test dataset metadata json file to test catalog api",
 	"url": "https://hydroshare.org/resource/e2fdf99cbb0c4275b32afd3c16ae6863",
 	"identifier": ["https://www.hydroshare.org/resource/6625bdbde41c45c2b906f32be7ea70f0/"],
+	"additionalType": "Generic",
 	"creator": [
 		{
 			"@type": "Person",

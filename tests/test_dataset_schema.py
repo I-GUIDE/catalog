@@ -6,7 +6,7 @@ from tests import utils
 @pytest.mark.parametrize("set_additional_property", [True, False])
 @pytest.mark.asyncio
 async def test_dataset_schema_additional_property(
-    dataset_data, dataset_model, set_additional_property
+    dataset_data, generic_dataset_model, set_additional_property
 ):
     """Test that a dataset metadata pydantic model can be created from dataset metadata json.
     Purpose of the test is to validate dataset metadata schema as defined by the pydantic model where we are testing
@@ -15,7 +15,7 @@ async def test_dataset_schema_additional_property(
     """
 
     dataset_data = dataset_data
-    dataset_model = dataset_model
+    dataset_model = generic_dataset_model
     additional_property = [
             {
                 "@type": "PropertyValue",
@@ -61,7 +61,7 @@ async def test_dataset_schema_additional_property(
 @pytest.mark.parametrize("set_source_organization", [True, False])
 @pytest.mark.asyncio
 async def test_dataset_schema_source_organization(
-    dataset_data, dataset_model, set_source_organization
+    dataset_data, generic_dataset_model, set_source_organization
 ):
     """Test that a dataset metadata pydantic model can be created from dataset metadata json.
     Purpose of the test is to validate dataset metadata schema as defined by the pydantic model where we are testing
@@ -70,7 +70,7 @@ async def test_dataset_schema_source_organization(
     """
 
     dataset_data = dataset_data
-    dataset_model = dataset_model
+    dataset_model = generic_dataset_model
     source_organization = {
         "@type": "Organization",
         "name": "National Hydrography Dataset",
@@ -95,7 +95,7 @@ async def test_dataset_schema_source_organization(
 @pytest.mark.parametrize("multiple_variable", [True, False, None])
 @pytest.mark.asyncio
 async def test_dataset_schema_variable_cardinality(
-    dataset_data, dataset_model, multiple_variable
+    dataset_data, generic_dataset_model, multiple_variable
 ):
     """Test that a dataset pydantic model can be created from dataset json data.
     Purpose of the test is to validate dataset pydantic model where the variableMeasured property can
@@ -103,7 +103,7 @@ async def test_dataset_schema_variable_cardinality(
     Note: This test does nat add a record to the database.
     """
     dataset_data = dataset_data
-    dataset_model = dataset_model
+    dataset_model = generic_dataset_model
 
     if multiple_variable and multiple_variable is not None:
         dataset_data["variableMeasured"] = [
@@ -172,7 +172,7 @@ async def test_dataset_schema_variable_cardinality(
 )
 @pytest.mark.asyncio
 async def test_dataset_schema_variable_value_type(
-    dataset_data, dataset_model, data_format
+    dataset_data, generic_dataset_model, data_format
 ):
     """Test that a dataset pydantic model can be created from dataset json data.
     Purpose of the test is to validate dataset pydantic model where we are testing allowed value types for
@@ -180,7 +180,7 @@ async def test_dataset_schema_variable_value_type(
     Note: This test does nat add a record to the database.
     """
     dataset_data = dataset_data
-    dataset_model = dataset_model
+    dataset_model = generic_dataset_model
     dataset_data["variableMeasured"] = data_format
     # validate the data model
     dataset_instance = await utils.validate_data_model(dataset_data, dataset_model)
@@ -203,7 +203,7 @@ async def test_dataset_schema_variable_value_type(
 @pytest.mark.parametrize("multiple_distribution", [True, False])
 @pytest.mark.asyncio
 async def test_dataset_schema_distribution_cardinality(
-    dataset_data, dataset_model, multiple_distribution
+    dataset_data, generic_dataset_model, multiple_distribution
 ):
     """Test that a dataset pydantic model can be created from dataset json data.
     Purpose of the test is to validate dataset pydantic model where we are testing the distribution property can have
@@ -211,7 +211,7 @@ async def test_dataset_schema_distribution_cardinality(
     Note: This test does nat add a record to the database.
     """
     dataset_data = dataset_data
-    dataset_model = dataset_model
+    dataset_model = generic_dataset_model
     if multiple_distribution:
         dataset_data["distribution"] = [
             {
@@ -310,7 +310,7 @@ async def test_dataset_schema_distribution_cardinality(
 )
 @pytest.mark.asyncio
 async def test_dataset_schema_distribution_value_type(
-    dataset_data, dataset_model, data_format
+    dataset_data, generic_dataset_model, data_format
 ):
     """Test that a dataset pydantic model can be created from dataset json data.
     Purpose of the test is to validate dataset pydantic model where we are testing allowed value types
@@ -318,7 +318,7 @@ async def test_dataset_schema_distribution_value_type(
     Note: This test does nat add a record to the database.
     """
     dataset_data = dataset_data
-    dataset_model = dataset_model
+    dataset_model = generic_dataset_model
     dataset_data["distribution"] = data_format
     # validate the data model
     dataset_instance = await utils.validate_data_model(dataset_data, dataset_model)
@@ -349,7 +349,7 @@ async def test_dataset_schema_distribution_value_type(
 @pytest.mark.parametrize("multiple_data_catalog", [True, False])
 @pytest.mark.asyncio
 async def test_dataset_schema_data_catalog_cardinality(
-    dataset_data, dataset_model, multiple_data_catalog
+    dataset_data, generic_dataset_model, multiple_data_catalog
 ):
     """Test that a dataset pydantic model can be created from dataset json data.
     Purpose of the test is to validate dataset pydantic model where the includedInDataCatalog property can
@@ -357,7 +357,7 @@ async def test_dataset_schema_data_catalog_cardinality(
     Note: This test does nat add a record to the database.
     """
     dataset_data = dataset_data
-    dataset_model = dataset_model
+    dataset_model = generic_dataset_model
     if multiple_data_catalog:
         dataset_data["includedInDataCatalog"] = [
             {

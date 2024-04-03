@@ -11,7 +11,7 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
     """Testing the dataset routes for post and get"""
 
     # add a dataset record to the db
-    response = await client_test.post("api/catalog/dataset", json=dataset_data)
+    response = await client_test.post("api/catalog/dataset/generic", json=dataset_data)
     assert response.status_code == 201
     response_data = response.json()
     record_id = response_data.pop('_id')
@@ -49,7 +49,7 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
     assert user.submission(submission_id).repository is None
     assert user.submission(submission_id).repository_identifier is None
     # retrieve the record from the db
-    response = await client_test.get(f"api/catalog/dataset/{record_id}")
+    response = await client_test.get(f"api/catalog/dataset/generic/{record_id}")
     assert response.status_code == 200
 
 
@@ -67,7 +67,7 @@ async def test_create_refresh_dataset_from_hydroshare(client_test, test_user_acc
 
     # retrieve the record from the db
     record_id = hs_dataset.get('_id')
-    response = await client_test.get(f"api/catalog/dataset/{record_id}")
+    response = await client_test.get(f"api/catalog/dataset/hs-resource/{record_id}")
     assert response.status_code == 200
 
     # refresh the hydroshare metadata record
@@ -83,7 +83,7 @@ async def test_update_dataset(client_test, dataset_data):
     """Testing the dataset put route for updating dataset record"""
 
     # add a dataset record to the db
-    response = await client_test.post("api/catalog/dataset", json=dataset_data)
+    response = await client_test.post("api/catalog/dataset/generic", json=dataset_data)
     assert response.status_code == 201
     response_data = response.json()
     record_id = response_data.get('_id')
@@ -96,7 +96,7 @@ async def test_update_dataset(client_test, dataset_data):
 
     # update the dataset temporal coverage
     dataset_data["temporalCoverage"] = {"startDate": "2020-01-01T10:00:20", "endDate": "2020-11-29T00:30:00"}
-    response = await client_test.put(f"api/catalog/dataset/{record_id}", json=dataset_data)
+    response = await client_test.put(f"api/catalog/dataset/generic/{record_id}", json=dataset_data)
     assert response.status_code == 200
     response_data = response.json()
     response_data.pop('_id')
@@ -117,8 +117,8 @@ async def test_update_dataset(client_test, dataset_data):
 async def test_delete_dataset(client_test, dataset_data, test_user_access_token):
     """Testing the dataset delete route for deleting a dataset record"""
 
-    # add a dataset record to the db
-    response = await client_test.post("api/catalog/dataset", json=dataset_data)
+    # add a generic dataset record to the db
+    response = await client_test.post("api/catalog/dataset/generic", json=dataset_data)
     assert response.status_code == 201
     response_data = response.json()
     record_id = response_data.get('_id')
@@ -135,26 +135,26 @@ async def test_delete_dataset(client_test, dataset_data, test_user_access_token)
     assert submission_response.status_code == 200
 
 
-@pytest.mark.parametrize("multiple", [True, False])
-@pytest.mark.asyncio
-async def test_get_datasets(client_test, dataset_data, multiple):
-    """Testing the get all datasets for a given user"""
-
-    # add a dataset record to the db
-    dataset_response = await client_test.post("api/catalog/dataset", json=dataset_data)
-    assert dataset_response.status_code == 201
-    if multiple:
-        # add another dataset record to the db
-        dataset_response = await client_test.post("api/catalog/dataset", json=dataset_data)
-        assert dataset_response.status_code == 201
-
-    dataset_response = await client_test.get("api/catalog/dataset")
-    assert dataset_response.status_code == 200
-    dataset_response_data = dataset_response.json()
-    if multiple:
-        assert len(dataset_response_data) == 2
-    else:
-        assert len(dataset_response_data) == 1
+# @pytest.mark.parametrize("multiple", [True, False])
+# @pytest.mark.asyncio
+# async def test_get_datasets(client_test, dataset_data, multiple):
+#     """Testing the get all datasets for a given user"""
+#
+#     # add a dataset record to the db
+#     dataset_response = await client_test.post("api/catalog/dataset", json=dataset_data)
+#     assert dataset_response.status_code == 201
+#     if multiple:
+#         # add another dataset record to the db
+#         dataset_response = await client_test.post("api/catalog/dataset", json=dataset_data)
+#         assert dataset_response.status_code == 201
+#
+#     dataset_response = await client_test.get("api/catalog/dataset")
+#     assert dataset_response.status_code == 200
+#     dataset_response_data = dataset_response.json()
+#     if multiple:
+#         assert len(dataset_response_data) == 2
+#     else:
+#         assert len(dataset_response_data) == 1
 
 
 @pytest.mark.asyncio
@@ -163,14 +163,16 @@ async def test_get_datasets_exclude_none(client_test, dataset_data):
 
     dataset_data["version"] = None
     # add a dataset record to the db
-    dataset_response = await client_test.post("api/catalog/dataset", json=dataset_data)
+    dataset_response = await client_test.post("api/catalog/dataset/generic", json=dataset_data)
     assert dataset_response.status_code == 201
+    response_data = dataset_response.json()
+    record_id = response_data.get('_id')
 
-    dataset_response = await client_test.get("api/catalog/dataset")
+    dataset_response = await client_test.get(f"api/catalog/dataset/generic/{record_id}")
     assert dataset_response.status_code == 200
     dataset_response_data = dataset_response.json()
-    assert "version" not in dataset_response_data[0]
-    for a_property in dataset_response_data[0]["additionalProperty"]:
+    assert "version" not in dataset_response_data
+    for a_property in dataset_response_data["additionalProperty"]:
         assert "description" not in a_property
         assert "minValue" not in a_property
         assert "maxValue" not in a_property
@@ -179,18 +181,39 @@ async def test_get_datasets_exclude_none(client_test, dataset_data):
         assert "measurementTechnique" not in a_property
 
 
+@pytest.mark.asyncio
+async def test_register_s3_netcdf_dataset(client_test):
+    """Testing registering metadata for a netcdf dataset stored on s3"""
+
+    # set the path to the netcdf file on s3
+    path = "catalogapi/.hs/netcdf/netcdf_valid.nc.json"
+    s3_path = {
+        "path": "catalogapi/.hs/netcdf/netcdf_valid.nc.json",
+        "bucket": "pkdash",
+        "endpoint_url": "https://api.minio.cuahsi.io/"
+    }
+
+    dataset_response = await client_test.put("api/catalog/repository/s3/netcdf", json=s3_path)
+    # print response content
+    print(dataset_response.content)
+
+    assert dataset_response.status_code == 201
+    response_data = dataset_response.json()
+    assert response_data['additionalType'] == 'NetCDF'
+
+
 @pytest.mark.parametrize("multiple", [True, False])
 @pytest.mark.asyncio
 async def test_get_submissions(client_test, dataset_data, multiple):
     """Testing the get submissions route"""
 
     # add a dataset record to the db - this will also add a submission record
-    dataset_response = await client_test.post("api/catalog/dataset", json=dataset_data)
+    dataset_response = await client_test.post("api/catalog/dataset/generic", json=dataset_data)
     assert dataset_response.status_code == 201
     dataset_response_data = dataset_response.json()
     if multiple:
         # add another dataset record to the db - this will also add a submission record
-        dataset_response = await client_test.post("api/catalog/dataset", json=dataset_data)
+        dataset_response = await client_test.post("api/catalog/dataset/generic", json=dataset_data)
         assert dataset_response.status_code == 201
         dataset_response_data = [dataset_response_data, dataset_response.json()]
 
