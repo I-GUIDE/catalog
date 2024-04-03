@@ -3,7 +3,13 @@ import datetime
 from beanie import Document
 
 from api.models.user import Submission
-from .schema import CoreMetadata, DatasetMetadata
+from .schema import (
+    CoreMetadata,
+    GenericDatasetMetadata,
+    HSResourceMetadata,
+    HSNetCDFMetadata,
+    HSRasterMetadata,
+)
 
 
 class CoreMetadataDOC(Document, CoreMetadata):
@@ -31,5 +37,23 @@ class CoreMetadataDOC(Document, CoreMetadata):
         )
 
 
-class DatasetMetadataDOC(CoreMetadataDOC, DatasetMetadata):
+class HSResourceMetadataDOC(CoreMetadataDOC, HSResourceMetadata):
+    repository_identifier: str = None
+
+    def as_submission(self) -> Submission:
+        submission = super().as_submission()
+        submission.repository = "HydroShare"
+        submission.repository_identifier = self.repository_identifier
+        return submission
+
+
+class GenericDatasetMetadataDOC(CoreMetadataDOC, GenericDatasetMetadata):
+    repository_identifier: str = None
+
+
+class NetCDFMetadataDOC(CoreMetadataDOC, HSNetCDFMetadata):
+    repository_identifier: str = None
+
+
+class RasterMetadataDOC(CoreMetadataDOC, HSRasterMetadata):
     repository_identifier: str = None

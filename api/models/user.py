@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 class Submission(Document):
     title: str = None
     authors: List[str] = []
+    # id of the metadata record that was submitted
     identifier: PydanticObjectId
     submitted: datetime = datetime.utcnow()
     url: HttpUrl = None
