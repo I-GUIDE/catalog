@@ -286,6 +286,7 @@ async def test_core_schema_associated_media_cardinality(core_data, core_model, m
                 "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
                 "encodingFormat": "text/csv",
                 "contentSize": "0.17 GB",
+                "sha256": "2fba6f2ebac562dac6a57acf0fdc5fdfabc9654b3c910aa6ef69cf4385997e19",
                 "name": "USGS gage locations within the Harvey-affected areas in Texas",
             },
             {
@@ -293,6 +294,7 @@ async def test_core_schema_associated_media_cardinality(core_data, core_model, m
                 "contentUrl": "https://www.hydroshare.org/resource/81cb3f6c0dde4433ae4f43a26a889864/data/contents/HydroClientMovie.mp4",
                 "encodingFormat": "video/mp4",
                 "contentSize": "79.2 MB",
+                "sha256": "2fba6f2ebac562dac6a57acf0fdc5fdfabc9654b3c910aa6ef69cf4385997e20",
                 "name": "HydroClient Video",
             },
         ]
@@ -306,6 +308,7 @@ async def test_core_schema_associated_media_cardinality(core_data, core_model, m
                 "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
                 "encodingFormat": "text/csv",
                 "contentSize": "0.17 MB",
+                "sha256": "2fba6f2ebac562dac6a57acf0fdc5fdfabc9654b3c910aa6ef69cf4385997e19",
                 "name": "USGS gage locations within the Harvey-affected areas in Texas",
             }
         ]
@@ -326,11 +329,17 @@ async def test_core_schema_associated_media_cardinality(core_data, core_model, m
         assert core_model_instance.associatedMedia[1].contentSize == associated_media[1]["contentSize"]
         assert core_model_instance.associatedMedia[0].encodingFormat == associated_media[0]["encodingFormat"]
         assert core_model_instance.associatedMedia[1].encodingFormat == associated_media[1]["encodingFormat"]
+        assert core_model_instance.associatedMedia[0].contentUrl == associated_media[0]["contentUrl"]
+        assert core_model_instance.associatedMedia[1].contentUrl == associated_media[1]["contentUrl"]
+        assert core_model_instance.associatedMedia[0].sha256 == associated_media[0]["sha256"]
+        assert core_model_instance.associatedMedia[1].sha256 == associated_media[1]["sha256"]
     elif multiple_media is not None:
         assert core_model_instance.associatedMedia[0].type == associated_media[0]["@type"]
         assert core_model_instance.associatedMedia[0].name == associated_media[0]["name"]
         assert core_model_instance.associatedMedia[0].contentSize == associated_media[0]["contentSize"]
         assert core_model_instance.associatedMedia[0].encodingFormat == associated_media[0]["encodingFormat"]
+        assert core_model_instance.associatedMedia[0].contentUrl == associated_media[0]["contentUrl"]
+        assert core_model_instance.associatedMedia[0].sha256 == associated_media[0]["sha256"]
 
 
 @pytest.mark.parametrize(
@@ -369,6 +378,7 @@ async def test_core_schema_associated_media_content_size(
             "contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
             "encodingFormat": "text/csv",
             "contentSize": content_size_format,
+            "sha256": "2fba6f2ebac562dac6a57acf0fdc5fdfabc9654b3c910aa6ef69cf4385997e19",
             "name": "USGS gage locations within the Harvey-affected areas in Texas",
         }
     ]
