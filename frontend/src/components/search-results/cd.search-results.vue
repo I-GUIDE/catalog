@@ -226,8 +226,9 @@
                 class="mb-16 text-body-2"
                 :key="result.identifier"
               >
-                <a
-                  @click="goToDataset(result.id)"
+                <a 
+                  :href="result.url"
+                  target="_blank"
                   class="result-title text-body-1 text-decoration-none"
                   v-html="highlight(result, 'name')"
                 ></a>

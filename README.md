@@ -1,5 +1,5 @@
-# I-GUIDE catalog API
-I-GUIDE Catalog API
+# HydroShare catalog API
+HydroShare Catalog API
 
 ### Getting Started
 ```console

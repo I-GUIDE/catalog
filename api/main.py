@@ -69,7 +69,7 @@ static_dir = os.path.join(parent_dir, "models/schemas")
 app.mount("/api/schemas", StaticFiles(directory=static_dir), name="schemas")
 
 openapi_schema = get_openapi(
-    title="I-GUIDE Catalog API",
+    title="HydroShare Catalog API",
     version="1.0",
     description="Standardized interface with validation for managing catalog",
     routes=app.routes,

@@ -12,18 +12,18 @@
         </p>
         <p>
           Learn more about
-          <a href="https://www.i-guide.org/" target="_blank">I-GUIDE</a>
+          <a href="https://www.hydroshare.org/" target="_blank">HydroShare</a>
         </p>
         <p>
           Visit
-          <a href="https://www.i-guide.org/" target="_blank">i-guide.org</a>
+          <a href="https://www.hydroshare.org/" target="_blank">hydroshare.org</a>
         </p>
       </div>
 
       <div>
         <div class="mb-4 text-h6">Open Source</div>
         <p>
-          The I-GUIDE Catalog and Discover system are Open Source. Find us on
+          The HydroShare Catalog and Discover system are Open Source. Find us on
           <a href="https://github.com/I-GUIDE/catalogapi" target="_blank"
             >GitHub</a
           >.
@@ -34,7 +34,7 @@
             >here</a
           >
         </p>
-        <p>This is Version {{ version }} of the I-GUIDE catalog</p>
+        <p>This is Version {{ version }} of the HydroShare catalog</p>
       </div>
     </div>
 
@@ -43,8 +43,7 @@
     <div class="text-center d-flex flex-column align-center mt-4">
       <p>
         (c) {{ year }} CUAHSI. ﻿This material is based upon work supported by
-        the National Science Foundation (NSF) under awards 2012893, 2012593, and
-        2012748.<br />
+        the National Science Foundation (NSF).<br />
         Any opinions, findings, conclusions, or recommendations expressed in
         this material are those of the authors and do not necessarily reflect
         the views of the NSF.
