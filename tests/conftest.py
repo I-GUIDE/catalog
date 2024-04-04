@@ -76,56 +76,56 @@ async def test_user_access_token():
 @pytest_asyncio.fixture
 async def core_metadata(change_test_dir):
     with open("data/core_metadata.json", "r") as f:
-        return json.loads(f.read())
+        yield json.loads(f.read())
 
 
 @pytest_asyncio.fixture
 async def dataset_data(change_test_dir):
     with open("data/dataset_metadata.json", "r") as f:
-        return json.loads(f.read())
+        yield json.loads(f.read())
 
 
 @pytest_asyncio.fixture
 async def netcdf_metadata(change_test_dir):
     with open("data/netcdf_metadata.json", "r") as f:
-        return json.loads(f.read())
+        yield json.loads(f.read())
 
 
 @pytest_asyncio.fixture
 async def raster_metadata(change_test_dir):
     with open("data/raster_metadata.json", "r") as f:
-        return json.loads(f.read())
+        yield json.loads(f.read())
 
 
 @pytest_asyncio.fixture
 async def hs_resource_model():
-    return HSResourceMetadata
+    yield HSResourceMetadata
 
 
 @pytest_asyncio.fixture
 async def core_model():
-    return CoreMetadata
+    yield CoreMetadata
 
 
 @pytest_asyncio.fixture
 async def generic_dataset_model():
-    return GenericDatasetMetadata
+    yield GenericDatasetMetadata
 
 
 @pytest_asyncio.fixture
 async def netcdf_metadata_model():
-    return HSNetCDFMetadata
+    yield HSNetCDFMetadata
 
 
 @pytest_asyncio.fixture
 async def raster_metadata_model():
-    return HSRasterMetadata
+    yield HSRasterMetadata
 
 
 @pytest_asyncio.fixture
 async def hydroshare_resource_metadata(change_test_dir):
     with open("data/hydroshare_resource_meta.json", "r") as f:
-        return json.loads(f.read())
+        yield json.loads(f.read())
 
 
 @pytest_asyncio.fixture
@@ -149,4 +149,4 @@ async def hydroshare_collection_metadata(hydroshare_resource_metadata):
         {"type": "This resource is described by", "value": "another resource"},
     ]
     collection_meta["relations"] = relations
-    return collection_meta
+    yield collection_meta
