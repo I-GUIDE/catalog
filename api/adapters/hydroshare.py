@@ -164,7 +164,7 @@ class Rights(BaseModel):
 
 class _HydroshareRequestHandler(AbstractRepositoryRequestHandler):
 
-    def get_metadata(self, record_id: str):
+    def get_metadata(self, record_id: str) -> dict:
         hs_meta_url = self.settings.hydroshare_meta_read_url % record_id
         hs_file_url = self.settings.hydroshare_file_read_url % record_id
 
@@ -195,7 +195,7 @@ class HydroshareMetadataAdapter(AbstractRepositoryMetadataAdapter):
     repo_api_handler = _HydroshareRequestHandler()
 
     @staticmethod
-    def to_catalog_record(metadata: dict) -> HSResourceMetadataDOC:
+    def to_catalog_record(metadata: dict, meta_model_type: HSResourceMetadataDOC) -> HSResourceMetadataDOC:
         """Converts hydroshare resource metadata to a catalog dataset record"""
         hs_metadata_model = _HydroshareResourceMetadata(**metadata)
         return hs_metadata_model.to_catalog_dataset()

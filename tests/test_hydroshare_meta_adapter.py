@@ -18,7 +18,7 @@ async def test_hydroshare_resource_meta_adapter(hydroshare_resource_metadata, co
                                                             "units": "Decimal degrees",
                                                             "projection": "Unknown"}
 
-    dataset = adapter.to_catalog_record(hydroshare_resource_metadata)
+    dataset = adapter.to_catalog_record(hydroshare_resource_metadata, type(hs_resource_model))
     try:
         hs_resource_model(**dataset.dict())
     except ValidationError as err:
@@ -105,7 +105,7 @@ async def test_hydroshare_collection_meta_adapter(hydroshare_collection_metadata
     """Test the HydroshareMetaAdapter for Collection Resource"""
 
     adapter = get_adapter_by_type(RepositoryType.HYDROSHARE)
-    dataset = adapter.to_catalog_record(hydroshare_collection_metadata)
+    dataset = adapter.to_catalog_record(hydroshare_collection_metadata, type(hs_resource_model))
     try:
         hs_resource_model(**dataset.dict())
     except ValidationError as err:

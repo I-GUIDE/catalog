@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from api.adapters.utils import get_adapter_by_type, RepositoryType
 from api.authentication.user import get_current_user
 from api.models.catalog import (
+    T,
     CoreMetadataDOC,
     GenericDatasetMetadataDOC,
     HSResourceMetadataDOC,
@@ -30,8 +31,8 @@ class S3Path(BaseModel):
 
 def inject_repository_identifier(
     submission: Submission,
-    document: Type[CoreMetadataDOC],
-):
+    document: T,
+) -> T:
     if submission.repository_identifier:
         document.repository_identifier = submission.repository_identifier
     return document
@@ -205,7 +206,8 @@ async def register_hydroshare_resource_metadata(
             detail="This resource has already been submitted by this user",
         )
     dataset = await _save_to_db(
-        repository_type=RepositoryType.HYDROSHARE, identifier=identifier, user=user
+        repository_type=RepositoryType.HYDROSHARE, identifier=identifier,
+        meta_model_type=HSResourceMetadataDOC, user=user
     )
     return dataset
 
@@ -239,6 +241,7 @@ async def refresh_dataset_from_hydroshare(
         repository_type=RepositoryType.HYDROSHARE,
         identifier=identifier,
         user=user,
+        meta_model_type=HSResourceMetadataDOC,
         submission=submission,
     )
     return dataset
@@ -258,6 +261,7 @@ async def register_s3_netcdf_dataset(request_model: S3Path, user: Annotated[User
     identifier = f"{endpoint_url}+{bucket}+{path}"
     submission: Submission = user.submission_by_repository(repo_type=RepositoryType.S3, identifier=identifier)
     dataset = await _save_to_db(repository_type=RepositoryType.S3, identifier=identifier, user=user,
+                                meta_model_type=NetCDFMetadataDOC,
                                 submission=submission)
     return dataset
 
@@ -266,12 +270,13 @@ async def _save_to_db(
     repository_type: RepositoryType,
     identifier: str,
     user: User,
+    meta_model_type: Type[T],
     submission: Submission = None,
-):
+) -> T:
     adapter = get_adapter_by_type(repository_type=repository_type)
     # fetch metadata from repository as catalog dataset
     repo_dataset = await _get_repo_meta_as_catalog_record(
-        adapter=adapter, identifier=identifier
+        adapter=adapter, identifier=identifier, meta_model_type=meta_model_type
     )
     if submission is None:
         # new registration
@@ -305,7 +310,7 @@ async def _save_to_db(
     return dataset
 
 
-async def _get_repo_meta_as_catalog_record(adapter, identifier: str):
+async def _get_repo_meta_as_catalog_record(adapter, identifier: str, meta_model_type: Type[T]) -> T:
     try:
         metadata = await adapter.get_metadata(identifier)
     except Exception as ex:
@@ -313,5 +318,5 @@ async def _get_repo_meta_as_catalog_record(adapter, identifier: str):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"{str(ex)}",
         )
-    catalog_dataset: Type[CoreMetadataDOC] = adapter.to_catalog_record(metadata)
+    catalog_dataset: T = adapter.to_catalog_record(metadata, meta_model_type=meta_model_type)
     return catalog_dataset

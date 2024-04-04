@@ -1,4 +1,5 @@
 import datetime
+from typing import TypeVar
 
 from beanie import Document
 
@@ -57,3 +58,8 @@ class NetCDFMetadataDOC(CoreMetadataDOC, HSNetCDFMetadata):
 
 class RasterMetadataDOC(CoreMetadataDOC, HSRasterMetadata):
     repository_identifier: str = None
+
+
+# T is a type variable that can be used for type hinting for any schema model that inherits from CoreMetadataDOC
+
+T = TypeVar("T", bound=CoreMetadataDOC)
