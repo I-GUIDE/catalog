@@ -11,8 +11,6 @@ async def test_core_schema(core_metadata, generic_dataset_model):
     Purpose of the test is to validate core metadata schema as defined by the pydantic model. Note: This test does nat
     add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
 
     # validate the data model
     generic_model_instance = await utils.validate_data_model(core_metadata, generic_dataset_model)
@@ -28,9 +26,7 @@ async def test_core_schema_creator_cardinality(core_metadata, generic_dataset_mo
     Purpose of the test is to validate core metadata schema as defined by the pydantic model where we can have one or
     more creators. Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    # core metadata model for dataset
-    generic_dataset_model = generic_dataset_model
+
     core_metadata.pop("creator")
     if multiple_creators:
         if creator_type == "person":
@@ -141,13 +137,12 @@ async def test_core_schema_creator_person_optional_attributes(core_metadata, gen
     Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
     email and identifier attributes are optional. Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    core_model = generic_dataset_model
+
     core_metadata.pop("creator")
     core_metadata["creator"] = [data_format]
 
     # validate the data model
-    core_model_instance = await utils.validate_data_model(core_metadata, core_model)
+    core_model_instance = await utils.validate_data_model(core_metadata, generic_dataset_model)
 
     assert core_model_instance.creator[0].type == "Person"
     assert core_model_instance.creator[0].name == "John Doe"
@@ -204,8 +199,7 @@ async def test_core_schema_creator_affiliation_optional_attributes(core_metadata
     Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
     creator affiliation optional attributes. Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     core_metadata.pop("creator")
     core_metadata["creator"] = [data_format]
 
@@ -254,8 +248,7 @@ async def test_core_schema_creator_organization_optional_attributes(core_metadat
     Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
     optional attributes of the organization object. Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     core_metadata.pop("creator")
     core_metadata["creator"] = [data_format]
 
@@ -276,8 +269,7 @@ async def test_core_schema_associated_media_cardinality(core_metadata, generic_d
     Purpose of the test is to validate core metadata schema as defined by the pydantic model where we are testing
     one or more associated media objects can be created. Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     if multiple_media:
         associated_media = [
             {
@@ -366,9 +358,6 @@ async def test_core_schema_associated_media_content_size(
     Note: This test does nat add a record to the database.
     """
 
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
-
     core_metadata["associatedMedia"] = [
         {
             "@type": "MediaObject",
@@ -394,9 +383,6 @@ async def test_core_schema_associated_media_is_part_of_optional(
     that the isPartOf attribute of the associatedMedia is optional.
     Note: This test does nat add a record to the database.
     """
-
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
 
     core_metadata["associatedMedia"] = [
         {
@@ -433,8 +419,7 @@ async def test_core_schema_temporal_coverage_optional(core_metadata, generic_dat
     temporal coverage can be optional.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     coverage_value = {
         "startDate": "2007-03-01T13:00:00",
         "endDate": "2008-05-11T15:30:00",
@@ -468,8 +453,7 @@ async def test_core_schema_temporal_coverage_format(core_metadata, generic_datas
     that endDate is optional for temporal coverage.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     core_metadata["temporalCoverage"] = data_format
 
     # validate the data model
@@ -489,8 +473,7 @@ async def test_core_schema_spatial_coverage_optional(core_metadata, generic_data
     spatial coverage can be optional.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    core_model = generic_dataset_model
+
     coverage_value = {
         "@type": "Place",
         "name": "CUAHSI Office",
@@ -594,8 +577,7 @@ async def test_core_schema_spatial_coverage_value_type(core_metadata, generic_da
     valid values for spatial coverage with optional additionalProperty attribute.
     Note: This test does not add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     core_metadata["spatialCoverage"] = data_format
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_metadata, generic_dataset_model)
@@ -665,8 +647,6 @@ async def test_create_dataset_creative_works_status_optional(core_metadata, gene
     Note: This test does nat add a record to the database.
     """
 
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
     if not include_creative_works:
         core_metadata.pop("creativeWorkStatus", None)
     else:
@@ -695,8 +675,6 @@ async def test_core_schema_keywords_cardinality(core_metadata, generic_dataset_m
     Note: This test does nat add a record to the database.
     """
 
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
     core_metadata.pop("keywords", None)
     if include_multiple:
         core_metadata["keywords"] = ["Leaf wetness", "Core"]
@@ -723,8 +701,6 @@ async def test_core_schema_keywords_optional(core_metadata, generic_dataset_mode
     Note: This test does nat add a record to the database.
     """
 
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
     core_metadata.pop("keywords", None)
     if include_keywords:
         core_metadata["keywords"] = ["Leaf wetness", "Core"]
@@ -760,8 +736,6 @@ async def test_core_schema_license_value_type(core_metadata, generic_dataset_mod
     Note: This test does nat add a record to the database.
     """
 
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
     core_metadata["license"] = data_format
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_metadata, generic_dataset_model)
@@ -807,8 +781,6 @@ async def test_core_schema_license_optional_attributes(core_metadata, generic_da
     Note: This test does nat add a record to the database.
     """
 
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
     core_metadata["license"] = data_format
     # validate the data model
     core_model_instance = await utils.validate_data_model(core_metadata, generic_dataset_model)
@@ -829,10 +801,8 @@ async def test_core_schema_has_part_of_cardinality(core_metadata, generic_datase
     that the hasPartOf property is optional and one or more values can be added for this property.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
-    core_metadata.pop("hasPart", None)
 
+    core_metadata.pop("hasPart", None)
     has_parts = []
     if is_multiple and is_multiple is not None:
         has_parts = [
@@ -915,8 +885,7 @@ async def test_core_schema_has_part_optional_attributes(core_metadata, generic_d
     the optional attributes of hasPart property.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     core_metadata.pop("hasPart", None)
     core_metadata["hasPart"] = [data_format]
 
@@ -938,8 +907,7 @@ async def test_core_schema_is_part_of_cardinality(core_metadata, generic_dataset
     that the isPartOf property is optional and one or more values can be added for this property.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     core_metadata.pop("isPartOf", None)
     is_part_of = []
     if is_multiple and is_multiple is not None:
@@ -1023,8 +991,7 @@ async def test_core_schema_is_part_of_optional_attributes(core_metadata, generic
     the optional attributes of the isPartOf property.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     core_metadata.pop("isPartOf", None)
     core_metadata["isPartOf"] = [data_format]
 
@@ -1047,8 +1014,7 @@ async def test_core_schema_date_value_type(core_metadata, generic_dataset_model,
     Also testing that dateModified and datePublished are optional.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     # TODO: test 'date' type after knowing whether we need to support both date and datetime
     if dt_type == "date":
         core_metadata["dateCreated"] = "2020-01-01"
@@ -1087,8 +1053,7 @@ async def test_core_schema_provider_value_type(core_metadata, generic_dataset_mo
     allowed value types for the provider.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     core_metadata.pop("provider", None)
     if provider_type == "person":
         core_metadata["provider"] = {
@@ -1124,8 +1089,7 @@ async def test_core_schema_subject_of_cardinality(core_metadata, generic_dataset
     that the subjectOf property is optional and one or more values can be added for this property.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     if multiple_values is None:
         core_metadata.pop("subjectOf", None)
     elif multiple_values:
@@ -1181,8 +1145,7 @@ async def test_core_schema_version_cardinality(core_metadata, generic_dataset_mo
     that the version property is optional.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     if include_version:
         core_metadata["version"] = "v1.0"
     else:
@@ -1204,8 +1167,7 @@ async def test_core_schema_language_cardinality(core_metadata, generic_dataset_m
     that the inLanguage property is optional.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     if include_language:
         core_metadata["inLanguage"] = "en-US"
     else:
@@ -1227,8 +1189,6 @@ async def test_core_schema_funding_cardinality(core_metadata, generic_dataset_mo
     that the funding property is optional and one or more values can be added to this property.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
 
     if multiple_funding and multiple_funding is not None:
         core_metadata["funding"] = [
@@ -1264,19 +1224,14 @@ async def test_core_schema_funding_cardinality(core_metadata, generic_dataset_mo
             == "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment - 1"
         )
         assert core_model_instance.funding[0].identifier == "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329"
-        # assert core_model_instance.funding[0].funder.type == "Organization"
-        # assert core_model_instance.funding[0].funder.name == "National Science Foundation"
-        # assert core_model_instance.funding[0].funder.url[0] == "https://ror.org/021nxhr62"
-        # assert core_model_instance.funding[0].funder.identifier[1] == "https://doi.org/10.13039/100000001"
+
         assert core_model_instance.funding[1].type == "MonetaryGrant"
         assert (
             core_model_instance.funding[1].name
             == "HDR Institute: Geospatial Understanding through an Integrative Discovery Environment - 2"
         )
         assert core_model_instance.funding[1].description == "Test grant description"
-        # assert core_model_instance.funding[1].funder.type == "Person"
-        # assert core_model_instance.funding[1].funder.name == "John Doe"
-        # assert core_model_instance.funding[1].funder.email == "johnd@gmail.com"
+
     elif multiple_funding is not None:
         assert core_model_instance.funding[0].type == "MonetaryGrant"
         assert (
@@ -1285,9 +1240,6 @@ async def test_core_schema_funding_cardinality(core_metadata, generic_dataset_mo
         )
         assert core_model_instance.funding[0].identifier == "https://nsf.gov/awardsearch/showAward?AWD_ID=2118329"
         assert core_model_instance.funding[0].description == "Test grant description"
-        # assert core_model_instance.funding[0].funder.type == "Person"
-        # assert core_model_instance.funding[0].funder.name == "John Doe"
-        # assert core_model_instance.funding[0].funder.email == "johnd@gmail.com"
     else:
         assert core_model_instance.funding is None
 
@@ -1300,8 +1252,7 @@ async def test_core_schema_funding_funder_optional(core_metadata, generic_datase
     value for the funder attribute of the funding property is optional.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     core_metadata.pop("funding", None)
     if include_funder:
         core_metadata["funding"] = [
@@ -1372,8 +1323,7 @@ async def test_core_schema_citation_optional(core_metadata, generic_dataset_mode
     citation is optional for the funding property.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     core_metadata.pop("citation", None)
     if include_citation:
         core_metadata["citation"] = ["Test citation"]
@@ -1394,8 +1344,7 @@ async def test_core_schema_publisher_optional(core_metadata, generic_dataset_mod
     publisher is optional.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     core_metadata.pop("publisher", None)
     if include_publisher:
         core_metadata["publisher"] = {
@@ -1415,6 +1364,7 @@ async def test_core_schema_publisher_optional(core_metadata, generic_dataset_mod
     else:
         assert core_model_instance.publisher is None
 
+
 @pytest.mark.parametrize('include_additional_type', [True, False])
 @pytest.mark.asyncio
 async def test_core_schema_additional_type_optional(core_metadata, generic_dataset_model, include_additional_type):
@@ -1423,8 +1373,7 @@ async def test_core_schema_additional_type_optional(core_metadata, generic_datas
     additionalType is optional.
     Note: This test does nat add a record to the database.
     """
-    core_metadata = core_metadata
-    generic_dataset_model = generic_dataset_model
+
     core_metadata.pop("additionalType", None)
     if include_additional_type:
         core_metadata["additionalType"] = "NetCDF"

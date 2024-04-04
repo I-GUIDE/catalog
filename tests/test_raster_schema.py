@@ -9,8 +9,7 @@ async def test_raster_schema(raster_metadata, raster_metadata_model):
     Purpose of the test is to validate raster metadata schema as defined by the pydantic model. Note: This test does nat
     add a record to the database.
     """
-    raster_metadata = raster_metadata
-    raster_metadata_model = raster_metadata_model
+
     # remove additionalType field
     raster_metadata.pop("additionalType")
     # validate the data model

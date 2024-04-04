@@ -9,8 +9,7 @@ async def test_netcdf_schema(netcdf_metadata, netcdf_metadata_model):
     Purpose of the test is to validate netcdf metadata schema as defined by the pydantic model. Note: This test does nat
     add a record to the database.
     """
-    netcdf_metadata = netcdf_metadata
-    netcdf_metadata_model = netcdf_metadata_model
+
     # remove additionalType field
     netcdf_metadata.pop("additionalType")
     # validate the data model

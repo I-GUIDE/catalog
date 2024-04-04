@@ -14,8 +14,6 @@ async def test_dataset_schema_additional_property(
     Note: This test does not add a record to the database.
     """
 
-    dataset_data = dataset_data
-    dataset_model = generic_dataset_model
     additional_property = [
             {
                 "@type": "PropertyValue",
@@ -39,7 +37,7 @@ async def test_dataset_schema_additional_property(
         dataset_data.pop("additionalProperty", None)
 
     # validate the data model
-    dataset_model_instance = await utils.validate_data_model(dataset_data, dataset_model)
+    dataset_model_instance = await utils.validate_data_model(dataset_data, generic_dataset_model)
     if set_additional_property:
         assert len(dataset_model_instance.additionalProperty) == 2
         assert dataset_model_instance.additionalProperty[0].name == additional_property[0]["name"]
@@ -69,8 +67,6 @@ async def test_dataset_schema_source_organization(
     Note: This test does not add a record to the database.
     """
 
-    dataset_data = dataset_data
-    dataset_model = generic_dataset_model
     source_organization = {
         "@type": "Organization",
         "name": "National Hydrography Dataset",
@@ -83,7 +79,7 @@ async def test_dataset_schema_source_organization(
         dataset_data.pop("sourceOrganization", None)
 
     # validate the data model
-    dataset_instance = await utils.validate_data_model(dataset_data, dataset_model)
+    dataset_instance = await utils.validate_data_model(dataset_data, generic_dataset_model)
     if set_source_organization:
         assert dataset_instance.sourceOrganization.type == source_organization["@type"]
         assert dataset_instance.sourceOrganization.name == source_organization["name"]
@@ -102,8 +98,6 @@ async def test_dataset_schema_variable_cardinality(
     have 0 or more values.
     Note: This test does nat add a record to the database.
     """
-    dataset_data = dataset_data
-    dataset_model = generic_dataset_model
 
     if multiple_variable and multiple_variable is not None:
         dataset_data["variableMeasured"] = [
@@ -133,7 +127,7 @@ async def test_dataset_schema_variable_cardinality(
         dataset_data["variableMeasured"] = []
 
     # validate the dataset model
-    dataset_instance = await utils.validate_data_model(dataset_data, dataset_model)
+    dataset_instance = await utils.validate_data_model(dataset_data, generic_dataset_model)
     # checking dataset specific metadata
     if multiple_variable and multiple_variable is not None:
         assert len(dataset_instance.variableMeasured) == 2
@@ -179,11 +173,10 @@ async def test_dataset_schema_variable_value_type(
     the variableMeasured property.
     Note: This test does nat add a record to the database.
     """
-    dataset_data = dataset_data
-    dataset_model = generic_dataset_model
+
     dataset_data["variableMeasured"] = data_format
     # validate the data model
-    dataset_instance = await utils.validate_data_model(dataset_data, dataset_model)
+    dataset_instance = await utils.validate_data_model(dataset_data, generic_dataset_model)
     # checking dataset specific metadata
     if isinstance(data_format[0], dict):
         assert dataset_instance.variableMeasured[0].type == "PropertyValue"
@@ -210,8 +203,7 @@ async def test_dataset_schema_distribution_cardinality(
     one or more values.
     Note: This test does nat add a record to the database.
     """
-    dataset_data = dataset_data
-    dataset_model = generic_dataset_model
+
     if multiple_distribution:
         dataset_data["distribution"] = [
             {
@@ -238,7 +230,7 @@ async def test_dataset_schema_distribution_cardinality(
             "encodingFormat": "text/csv",
         }
 
-    dataset_instance = await utils.validate_data_model(dataset_data, dataset_model)
+    dataset_instance = await utils.validate_data_model(dataset_data, generic_dataset_model)
     # checking dataset specific metadata
     if multiple_distribution:
         assert len(dataset_instance.distribution) == 2
@@ -317,11 +309,10 @@ async def test_dataset_schema_distribution_value_type(
     for distribution property.
     Note: This test does nat add a record to the database.
     """
-    dataset_data = dataset_data
-    dataset_model = generic_dataset_model
+
     dataset_data["distribution"] = data_format
     # validate the data model
-    dataset_instance = await utils.validate_data_model(dataset_data, dataset_model)
+    dataset_instance = await utils.validate_data_model(dataset_data, generic_dataset_model)
     # checking dataset specific metadata
     assert dataset_instance.distribution.type == "DataDownload"
     assert dataset_instance.distribution.name == "Fiber_opticdist.zip"
@@ -356,8 +347,7 @@ async def test_dataset_schema_data_catalog_cardinality(
     have one or more values.
     Note: This test does nat add a record to the database.
     """
-    dataset_data = dataset_data
-    dataset_model = generic_dataset_model
+
     if multiple_data_catalog:
         dataset_data["includedInDataCatalog"] = [
             {
@@ -401,7 +391,7 @@ async def test_dataset_schema_data_catalog_cardinality(
             }
         ]
     # validate the dataset model
-    dataset_instance = await utils.validate_data_model(dataset_data, dataset_model)
+    dataset_instance = await utils.validate_data_model(dataset_data, generic_dataset_model)
     # checking dataset specific metadata
     if multiple_data_catalog:
         assert len(dataset_instance.includedInDataCatalog) == 2
