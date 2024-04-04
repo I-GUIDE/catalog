@@ -165,8 +165,8 @@ async def test_register_s3_netcdf_dataset(client_test):
 
     # set the path to the netcdf file on s3
     s3_path = {
-        "path": "catalogapi/.hs/netcdf/netcdf_valid.nc.json",
-        "bucket": "pkdash",
+        "path": "data/.hs/netcdf/netcdf_valid.nc.json",
+        "bucket": "catalog-api-test",
         "endpoint_url": "https://api.minio.cuahsi.io/"
     }
 
