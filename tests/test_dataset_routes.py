@@ -14,7 +14,7 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
     response = await client_test.post("api/catalog/dataset/generic", json=dataset_data)
     assert response.status_code == 201
     response_data = response.json()
-    record_id = response_data.pop('_id')
+    record_id = response_data.pop("_id")
 
     # adjust the temporal coverage dates for comparison
     if dataset_data["temporalCoverage"]["startDate"].endswith("Z"):
@@ -62,11 +62,11 @@ async def test_create_refresh_dataset_from_hydroshare(client_test, test_user_acc
     response = await client_test.get(f"api/catalog/repository/hydroshare/{hs_published_res_id}")
     assert response.status_code == 200
     hs_dataset = response.json()
-    assert hs_dataset['repository_identifier'] == hs_published_res_id
+    assert hs_dataset["repository_identifier"] == hs_published_res_id
     await _check_hs_submission(hs_dataset, test_user_access_token, hs_published_res_id)
 
     # retrieve the record from the db
-    record_id = hs_dataset.get('_id')
+    record_id = hs_dataset.get("_id")
     response = await client_test.get(f"api/catalog/dataset/hs-resource/{record_id}")
     assert response.status_code == 200
 
@@ -86,17 +86,22 @@ async def test_update_dataset(client_test, dataset_data):
     response = await client_test.post("api/catalog/dataset/generic", json=dataset_data)
     assert response.status_code == 201
     response_data = response.json()
-    record_id = response_data.get('_id')
+    record_id = response_data.get("_id")
     # update the dataset name
-    dataset_data['name'] = 'Updated title'
+    dataset_data["name"] = "Updated title"
     # remove citation
-    dataset_data['citation'] = []
+    dataset_data["citation"] = []
     # remove publisher
-    dataset_data['publisher'] = None
+    dataset_data["publisher"] = None
 
     # update the dataset temporal coverage
-    dataset_data["temporalCoverage"] = {"startDate": "2020-01-01T10:00:20", "endDate": "2020-11-29T00:30:00"}
-    response = await client_test.put(f"api/catalog/dataset/generic/{record_id}", json=dataset_data)
+    dataset_data["temporalCoverage"] = {
+        "startDate": "2020-01-01T10:00:20",
+        "endDate": "2020-11-29T00:30:00",
+    }
+    response = await client_test.put(
+        f"api/catalog/dataset/generic/{record_id}", json=dataset_data
+    )
     assert response.status_code == 200
     response_data = response.json()
     response_data.pop('_id')
@@ -121,7 +126,7 @@ async def test_delete_dataset(client_test, dataset_data, test_user_access_token)
     response = await client_test.post("api/catalog/dataset/generic", json=dataset_data)
     assert response.status_code == 201
     response_data = response.json()
-    record_id = response_data.get('_id')
+    record_id = response_data.get("_id")
     # delete the dataset record
     response = await client_test.delete(f"api/catalog/dataset/{record_id}")
     assert response.status_code == 200
@@ -144,7 +149,7 @@ async def test_get_datasets_exclude_none(client_test, dataset_data):
     dataset_response = await client_test.post("api/catalog/dataset/generic", json=dataset_data)
     assert dataset_response.status_code == 201
     response_data = dataset_response.json()
-    record_id = response_data.get('_id')
+    record_id = response_data.get("_id")
 
     dataset_response = await client_test.get(f"api/catalog/dataset/generic/{record_id}")
     assert dataset_response.status_code == 200
@@ -161,19 +166,40 @@ async def test_get_datasets_exclude_none(client_test, dataset_data):
 
 @pytest.mark.asyncio
 async def test_register_s3_netcdf_dataset(client_test):
-    """Testing registering metadata for a netcdf dataset stored on s3"""
+    """Testing registering metadata for a netcdf dataset stored on minIO"""
 
-    # set the path to the netcdf file on s3
+    # set the path to the netcdf file on s3 (minIO)
     s3_path = {
         "path": "data/.hs/netcdf/netcdf_valid.nc.json",
         "bucket": "catalog-api-test",
-        "endpoint_url": "https://api.minio.cuahsi.io/"
+        "endpoint_url": "https://api.minio.cuahsi.io/",
     }
 
     dataset_response = await client_test.put("api/catalog/repository/s3/netcdf", json=s3_path)
     assert dataset_response.status_code == 201
     response_data = dataset_response.json()
-    assert response_data['additionalType'] == 'NetCDF'
+    assert response_data["additionalType"] == "NetCDF"
+    assert response_data["repository_identifier"] == f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
+
+
+@pytest.mark.asyncio
+async def test_register_aws_s3_netcdf_dataset(client_test):
+    """Testing registering metadata for a netcdf dataset stored on AWS s3"""
+
+    # set the path to the netcdf file on amazon s3
+    s3_path = {
+        "path": "data/.hs/netcdf/netcdf_valid.nc.json",
+        "bucket": "iguide-catalog",
+        "endpoint_url": "https://iguide-catalog.s3.us-west-2.amazonaws.com/",
+    }
+
+    dataset_response = await client_test.put(
+        "api/catalog/repository/s3/netcdf", json=s3_path
+    )
+    assert dataset_response.status_code == 201
+    response_data = dataset_response.json()
+    assert response_data["additionalType"] == "NetCDF"
+    assert response_data["repository_identifier"] == f"{s3_path['endpoint_url']}{s3_path['path']}"
 
 
 @pytest.mark.parametrize("multiple", [True, False])
