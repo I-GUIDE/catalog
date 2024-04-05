@@ -26,6 +26,9 @@ class _S3RequestHandler(AbstractRepositoryRequestHandler):
         #  data file and metadata file. If have the path for the data file we can check that the data file
         #  exists and then retrieve the metadata file and catalog the metadata.
 
+        # check if the endpoint URL is an AWS S3 URL
+        if endpoint_url.endswith("amazonaws.com"):
+            endpoint_url = None
         s3 = boto3.client(
             "s3", config=Config(signature_version=UNSIGNED), endpoint_url=endpoint_url
         )
@@ -50,7 +53,6 @@ class _S3RequestHandler(AbstractRepositoryRequestHandler):
 
         # remove additionalType field - this will be set by the schema model
         data.pop("additionalType", None)
-
         return data
 
 

@@ -258,8 +258,13 @@ async def register_s3_netcdf_dataset(request_model: S3Path, user: Annotated[User
     path = request_model.path
     bucket = request_model.bucket
     endpoint_url = request_model.endpoint_url
-    identifier = f"{endpoint_url}+{bucket}+{path}"
+    endpoint_url = endpoint_url.rstrip("/")
+    if endpoint_url.endswith("amazonaws.com"):
+        identifier = f"{endpoint_url}/{path}"
+    else:
+        identifier = f"{endpoint_url}/{bucket}/{path}"
     submission: Submission = user.submission_by_repository(repo_type=RepositoryType.S3, identifier=identifier)
+    identifier = f"{endpoint_url}+{bucket}+{path}"
     dataset = await _save_to_db(repository_type=RepositoryType.S3, identifier=identifier, user=user,
                                 meta_model_type=NetCDFMetadataDOC,
                                 submission=submission)
@@ -278,6 +283,12 @@ async def _save_to_db(
     repo_dataset = await _get_repo_meta_as_catalog_record(
         adapter=adapter, identifier=identifier, meta_model_type=meta_model_type
     )
+    if repository_type == RepositoryType.S3:
+        s3_endpoint_url, bucket, path = identifier.split("+")
+        if s3_endpoint_url.endswith("amazonaws.com"):
+            identifier = f"{s3_endpoint_url}/{path}"
+        else:
+            identifier = f"{s3_endpoint_url}/{bucket}/{path}"
     if submission is None:
         # new registration
         await repo_dataset.insert()
