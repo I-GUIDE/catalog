@@ -1,10 +1,14 @@
-import boto3
 import json
-from botocore.client import Config
+from http import HTTPStatus
+
+import boto3
 from botocore import UNSIGNED
+from botocore.client import Config
+from botocore.exceptions import ClientError as S3ClientError
 
 from api.adapters.base import AbstractRepositoryMetadataAdapter, AbstractRepositoryRequestHandler
 from api.adapters.utils import RepositoryType, register_adapter
+from api.exceptions import RepositoryException
 from api.models.catalog import DatasetMetadataDOC
 from api.models.user import Submission
 
@@ -17,12 +21,25 @@ class _S3RequestHandler(AbstractRepositoryRequestHandler):
         file_key = record_id.split("+")[2]
 
         s3 = boto3.client('s3', config=Config(signature_version=UNSIGNED), endpoint_url=endpoint_url)
-        
-        response = s3.get_object(Bucket=bucket_name, Key=file_key)
-        json_content = response['Body'].read().decode('utf-8')
+        try:
+            response = s3.get_object(Bucket=bucket_name, Key=file_key)
+        except S3ClientError as ex:
+            if ex.response["Error"]["Code"] == "NoSuchKey":
+                raise RepositoryException(
+                    detail=f"Specified metadata file was not found in S3: {bucket_name}/{file_key}",
+                    status_code=HTTPStatus.NOT_FOUND
+                )
+            else:
+                err_msg = f"Error accessing S3 file({bucket_name}/{file_key}): {str(ex)}"
+                raise RepositoryException(detail=err_msg, status_code=HTTPStatus.BAD_REQUEST)
 
+        json_content = response['Body'].read().decode('utf-8')
         # Parse the JSON content
-        data = json.loads(json_content)
+        try:
+            data = json.loads(json_content)
+        except json.JSONDecodeError as ex:
+            err_msg = f"Invalid JSON content in S3 file ({file_key}). Error: {str(ex)}"
+            raise RepositoryException(detail=err_msg, status_code=HTTPStatus.BAD_REQUEST)
 
         return data
 
