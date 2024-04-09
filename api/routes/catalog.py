@@ -219,6 +219,27 @@ async def refresh_dataset_from_hydroshare(
     return dataset
 
 
+@router.put("/repository/s3/generic",
+            response_model=GenericDatasetMetadataDOC,
+            summary="Register a S3 generic dataset metadata record in the catalog",
+            description="Retrieves the metadata for the generic dataset from S3 repository and creates a new metadata "
+                        "record in the catalog",
+            status_code=status.HTTP_201_CREATED
+            )
+async def register_s3_generic_dataset(request_model: S3Path, user: Annotated[User, Depends(get_current_user)]):
+    path = request_model.path
+    bucket = request_model.bucket
+    endpoint_url = request_model.endpoint_url
+    endpoint_url = endpoint_url.rstrip("/")
+    identifier = get_s3_object_url_path(endpoint_url, path, bucket)
+    submission: Submission = user.submission_by_repository(repo_type=RepositoryType.S3, identifier=identifier)
+    identifier = f"{endpoint_url}+{bucket}+{path}"
+    dataset = await _save_to_db(repository_type=RepositoryType.S3, identifier=identifier, user=user,
+                                meta_model_type=GenericDatasetMetadataDOC,
+                                submission=submission)
+    return dataset
+
+
 @router.put("/repository/s3/netcdf",
             response_model=NetCDFMetadataDOC,
             summary="Register a S3 NetCDF dataset metadata record in the catalog",
