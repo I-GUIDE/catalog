@@ -135,9 +135,12 @@ async def register_s3_dataset(request_model: S3Path, user: Annotated[User, Depen
     path = request_model.path
     bucket = request_model.bucket
     endpoint_url = request_model.endpoint_url
-    identifier = f"{endpoint_url}+{bucket}+{path}"
+    endpoint_url = endpoint_url.rstrip("/")
+    identifier = f"{endpoint_url}/{bucket}/{path}"
     submission: Submission = user.submission_by_repository(repo_type=RepositoryType.S3, identifier=identifier)
-    dataset = await _save_to_db(repository_type=RepositoryType.S3, identifier=identifier, user=user, submission=submission)
+    identifier = f"{endpoint_url}+{bucket}+{path}"
+    dataset = await _save_to_db(repository_type=RepositoryType.S3, identifier=identifier, user=user,
+                                submission=submission)
     return dataset
 
 
@@ -145,6 +148,9 @@ async def _save_to_db(repository_type: RepositoryType, identifier: str, user: Us
     adapter = get_adapter_by_type(repository_type=repository_type)
     # fetch metadata from repository as catalog dataset
     repo_dataset: DatasetMetadataDOC = await _get_repo_meta_as_catalog_record(adapter=adapter, identifier=identifier)
+    if repository_type == RepositoryType.S3:
+        s3_endpoint_url, bucket, path = identifier.split("+")
+        identifier = f"{s3_endpoint_url}/{bucket}/{path}"
     if submission is None:
         # new registration
         await repo_dataset.insert()
