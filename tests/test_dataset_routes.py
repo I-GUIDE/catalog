@@ -179,6 +179,31 @@ async def test_get_datasets_exclude_none(client_test, dataset_data):
         assert "measurementTechnique" not in a_property
 
 
+@pytest.mark.asyncio
+async def test_register_minio_s3_dataset(client_test):
+    """Testing registering metadata for a generic dataset stored on minIO s3"""
+
+    # set the path to the generic metadata file on minIO s3
+    s3_path = {
+        "path": "data/.hs/dataset_metadata.json",
+        "bucket": "catalog-api-test",
+        "endpoint_url": "https://api.minio.cuahsi.io/",
+    }
+
+    dataset_response = await client_test.put(
+        "api/catalog/repository/s3", json=s3_path
+    )
+    assert dataset_response.status_code == 200
+    ds_metadata = dataset_response.json()
+    expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
+    assert ds_metadata["repository_identifier"] == expected_repository_identifier
+
+    # retrieve the record from the db
+    record_id = ds_metadata.get('_id')
+    response = await client_test.get(f"api/catalog/dataset/{record_id}")
+    assert response.status_code == 200
+
+
 @pytest.mark.parametrize("multiple", [True, False])
 @pytest.mark.asyncio
 async def test_get_submissions(client_test, dataset_data, multiple):
