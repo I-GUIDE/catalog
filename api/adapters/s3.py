@@ -1,16 +1,18 @@
 import json
+from http import HTTPStatus
 from typing import Type
 
 import boto3
-from botocore.exceptions import ClientError as S3ClientError
-from botocore.client import Config
 from botocore import UNSIGNED
+from botocore.client import Config
+from botocore.exceptions import ClientError as S3ClientError
 
 from api.adapters.base import (
     AbstractRepositoryMetadataAdapter,
     AbstractRepositoryRequestHandler,
 )
 from api.adapters.utils import RepositoryType, register_adapter
+from api.exceptions import RepositoryException
 from api.models.catalog import T
 from api.models.user import Submission
 
@@ -36,20 +38,21 @@ class _S3RequestHandler(AbstractRepositoryRequestHandler):
             response = s3.get_object(Bucket=bucket_name, Key=file_key)
         except S3ClientError as ex:
             if ex.response["Error"]["Code"] == "NoSuchKey":
-                raise FileNotFoundError(
-                    f"Expected metadata file not found in S3 bucket: {bucket_name}/{file_key}"
+                raise RepositoryException(
+                    detail=f"Specified metadata file was not found in S3: {bucket_name}/{file_key}",
+                    status_code=HTTPStatus.NOT_FOUND
                 )
             else:
-                raise ex
+                err_msg = f"Error accessing S3 file({bucket_name}/{file_key}): {str(ex)}"
+                raise RepositoryException(detail=err_msg, status_code=HTTPStatus.BAD_REQUEST)
 
         json_content = response["Body"].read().decode("utf-8")
         # parse the JSON content
         try:
             data = json.loads(json_content)
         except json.JSONDecodeError as ex:
-            raise ValueError(
-                f"Invalid JSON content in S3 file ({file_key}). Error: {str(ex)}"
-            )
+            err_msg = f"Invalid JSON content in S3 file ({file_key}). Error: {str(ex)}"
+            raise RepositoryException(detail=err_msg, status_code=HTTPStatus.BAD_REQUEST)
 
         # remove additionalType field - this will be set by the schema model
         data.pop("additionalType", None)
