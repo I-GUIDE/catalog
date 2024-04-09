@@ -165,7 +165,32 @@ async def test_get_datasets_exclude_none(client_test, dataset_data):
 
 
 @pytest.mark.asyncio
-async def test_register_s3_netcdf_dataset(client_test):
+async def test_register_minio_s3_generic_dataset(client_test):
+    """Testing registering metadata for a generic dataset stored on minIO s3"""
+
+    # set the path to the generic metadata file on minIO s3
+    s3_path = {
+        "path": "data/.hs/dataset_metadata.json",
+        "bucket": "catalog-api-test",
+        "endpoint_url": "https://api.minio.cuahsi.io/",
+    }
+
+    dataset_response = await client_test.put(
+        "api/catalog/repository/s3/generic", json=s3_path
+    )
+    assert dataset_response.status_code == 201
+    ds_metadata = dataset_response.json()
+    expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
+    assert ds_metadata["repository_identifier"] == expected_repository_identifier
+
+    # retrieve the record from the db
+    record_id = ds_metadata.get('_id')
+    response = await client_test.get(f"api/catalog/dataset/generic/{record_id}")
+    assert response.status_code == 200
+
+
+@pytest.mark.asyncio
+async def test_register_minio_s3_netcdf_dataset(client_test):
     """Testing registering metadata for a netcdf dataset stored on minIO"""
 
     # set the path to the netcdf file on s3 (minIO)
@@ -177,9 +202,15 @@ async def test_register_s3_netcdf_dataset(client_test):
 
     dataset_response = await client_test.put("api/catalog/repository/s3/netcdf", json=s3_path)
     assert dataset_response.status_code == 201
-    response_data = dataset_response.json()
-    assert response_data["additionalType"] == "NetCDF"
-    assert response_data["repository_identifier"] == f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
+    ds_metadata = dataset_response.json()
+    assert ds_metadata["additionalType"] == "NetCDF"
+    expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
+    assert ds_metadata["repository_identifier"] == expected_repository_identifier
+
+    # retrieve the record from the db
+    record_id = ds_metadata.get('_id')
+    response = await client_test.get(f"api/catalog/dataset/netcdf/{record_id}")
+    assert response.status_code == 200
 
 
 @pytest.mark.asyncio
@@ -197,9 +228,14 @@ async def test_register_aws_s3_netcdf_dataset(client_test):
         "api/catalog/repository/s3/netcdf", json=s3_path
     )
     assert dataset_response.status_code == 201
-    response_data = dataset_response.json()
-    assert response_data["additionalType"] == "NetCDF"
-    assert response_data["repository_identifier"] == f"{s3_path['endpoint_url']}{s3_path['path']}"
+    ds_metadata = dataset_response.json()
+    assert ds_metadata["additionalType"] == "NetCDF"
+    assert ds_metadata["repository_identifier"] == f"{s3_path['endpoint_url']}{s3_path['path']}"
+
+    # retrieve the record from the db
+    record_id = ds_metadata.get('_id')
+    response = await client_test.get(f"api/catalog/dataset/netcdf/{record_id}")
+    assert response.status_code == 200
 
 
 @pytest.mark.parametrize("multiple", [True, False])
