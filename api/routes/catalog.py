@@ -71,6 +71,20 @@ async def get_generic_dataset(submission_id: PydanticObjectId):
 
 
 @router.get(
+    "/dataset/netcdf/{submission_id}",
+    response_model=NetCDFMetadataDOC,
+    summary="Get a netcdf dataset metadata record",
+    description="Retrieves a netcdf dataset metadata record by submission identifier",
+    response_model_exclude_none=True,
+)
+async def get_generic_dataset(submission_id: PydanticObjectId):
+    document: NetCDFMetadataDOC = await _get_metadata_doc(
+        submission_id, NetCDFMetadataDOC
+    )
+    return document
+
+
+@router.get(
     "/dataset/hs-resource/{submission_id}",
     response_model=HSResourceMetadataDOC,
     response_model_exclude_none=True,
