@@ -4,7 +4,7 @@ from beanie import PydanticObjectId, WriteRules
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 
-from api.adapters.utils import get_adapter_by_type, RepositoryType
+from api.adapters.utils import get_adapter_by_type, RepositoryType, get_s3_object_url_path
 from api.authentication.user import get_current_user
 from api.models.catalog import (
     T,
@@ -64,23 +64,9 @@ async def create_generic_dataset(
     response_model_exclude_none=True,
 )
 async def get_generic_dataset(submission_id: PydanticObjectId):
-    submission: Submission = await Submission.find_one(
-        Submission.identifier == submission_id
+    document: GenericDatasetMetadataDOC = await _get_metadata_doc(
+        submission_id, GenericDatasetMetadataDOC
     )
-    if submission is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Metadata record was not found",
-        )
-
-    document: GenericDatasetMetadataDOC = await GenericDatasetMetadataDOC.get(submission.identifier)
-    if document is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Metadata record was not found",
-        )
-
-    document = inject_repository_identifier(submission, document)
     return document
 
 
@@ -92,23 +78,9 @@ async def get_generic_dataset(submission_id: PydanticObjectId):
     description="Retrieves a HydroShare resource metadata record by submission identifier",
 )
 async def get_hydroshare_dataset(submission_id: PydanticObjectId):
-    submission: Submission = await Submission.find_one(
-        Submission.identifier == submission_id
+    document: HSResourceMetadataDOC = await _get_metadata_doc(
+        submission_id, HSResourceMetadataDOC
     )
-    if submission is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Metadata record was not found",
-        )
-
-    document: HSResourceMetadataDOC = await HSResourceMetadataDOC.get(submission.identifier)
-    if document is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Metadata record was not found",
-        )
-
-    document = inject_repository_identifier(submission, document)
     return document
 
 
@@ -152,7 +124,7 @@ async def update_dataset(
 
 @router.delete("/dataset/{submission_id}",
                response_model=dict,
-               summary="Delete a metadata record in catalog",
+               summary="Delete a metadata record from the catalog",
                description="Deletes a metadata record in catalog along with the submission record",
                )
 async def delete_dataset(
@@ -259,10 +231,7 @@ async def register_s3_netcdf_dataset(request_model: S3Path, user: Annotated[User
     bucket = request_model.bucket
     endpoint_url = request_model.endpoint_url
     endpoint_url = endpoint_url.rstrip("/")
-    if endpoint_url.endswith("amazonaws.com"):
-        identifier = f"{endpoint_url}/{path}"
-    else:
-        identifier = f"{endpoint_url}/{bucket}/{path}"
+    identifier = get_s3_object_url_path(endpoint_url, path, bucket)
     submission: Submission = user.submission_by_repository(repo_type=RepositoryType.S3, identifier=identifier)
     identifier = f"{endpoint_url}+{bucket}+{path}"
     dataset = await _save_to_db(repository_type=RepositoryType.S3, identifier=identifier, user=user,
@@ -285,10 +254,7 @@ async def _save_to_db(
     )
     if repository_type == RepositoryType.S3:
         s3_endpoint_url, bucket, path = identifier.split("+")
-        if s3_endpoint_url.endswith("amazonaws.com"):
-            identifier = f"{s3_endpoint_url}/{path}"
-        else:
-            identifier = f"{s3_endpoint_url}/{bucket}/{path}"
+        identifier = get_s3_object_url_path(s3_endpoint_url, path, bucket)
     if submission is None:
         # new registration
         await repo_dataset.insert()
@@ -322,12 +288,27 @@ async def _save_to_db(
 
 
 async def _get_repo_meta_as_catalog_record(adapter, identifier: str, meta_model_type: Type[T]) -> T:
-    try:
-        metadata = await adapter.get_metadata(identifier)
-    except Exception as ex:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"{str(ex)}",
-        )
+    metadata = await adapter.get_metadata(identifier)
     catalog_dataset: T = adapter.to_catalog_record(metadata, meta_model_type=meta_model_type)
     return catalog_dataset
+
+
+async def _get_metadata_doc(submission_id: PydanticObjectId, meta_model_type: Type[T]) -> T:
+    submission: Submission = await Submission.find_one(
+        Submission.identifier == submission_id
+    )
+    if submission is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Metadata record was not found",
+        )
+
+    document: meta_model_type = await meta_model_type.get(submission.identifier)
+    if document is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Metadata record was not found",
+        )
+
+    document = inject_repository_identifier(submission, document)
+    return document
