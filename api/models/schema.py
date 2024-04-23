@@ -107,8 +107,8 @@ class PublisherOrganization(Organization):
     )
 
 
-class MediaObjectSourceOrganization(Organization):
-    name: str = Field(description="Name of the organization that created the media object.")
+class SourceOrganization(Organization):
+    name: str = Field(description="Name of the organization that created the data.")
 
 
 class DefinedTerm(SchemaBaseModel):
@@ -337,6 +337,9 @@ class PropertyValueBase(SchemaBaseModel):
     maxValue: Optional[float] = Field(
         title="Maximum value", description="The maximum allowed value for the property."
     )
+    measurementTechnique: Optional[str] = Field(
+        title="Measurement technique", description="A technique or technology used in a measurement."
+    )
 
     class Config:
         title = "PropertyValue"
@@ -397,26 +400,6 @@ class MediaObject(SchemaBaseModel):
                     "unit of measurement."
     )
     name: str = Field(description="The name of the media object (file).")
-    additionalProperty: Optional[List[PropertyValue]] = Field(
-        title="Additional properties",
-        default=[],
-        description="Additional properties of the media object."
-    )
-    variableMeasured: Optional[List[Union[str, PropertyValue]]] = Field(
-        title="Variables measured", description="Measured variables."
-    )
-    spatialCoverage: Optional[Place] = Field(
-        title="Spatial coverage",
-        description="The spatial coverage of the media object."
-    )
-    temporalCoverage: Optional[TemporalCoverage] = Field(
-        title="Temporal coverage",
-        description="The temporal coverage of the media object."
-    )
-    sourceOrganization: Optional[MediaObjectSourceOrganization] = Field(
-        title="Source organization",
-        description="The organization that provided the media object."
-    )
     sha256: Optional[str] = Field(title="SHA-256", description="The SHA-256 hash of the media object.")
     isPartOf: Optional[List[MediaObjectPartOf]] = Field(
         title="Is part of",
@@ -562,6 +545,16 @@ class CoreMetadata(SchemaBaseModel):
     citation: Optional[List[str]] = Field(title="Citation", description="A bibliographic citation for the resource.")
 
 
-class DatasetSchema(CoreMetadata):
-    # used only for generating the JSON-LD schema for a dataset.
-    pass
+class DatasetMetadata(CoreMetadata):
+    variableMeasured: Optional[List[Union[str, PropertyValue]]] = Field(
+        title="Variables measured", description="Measured variables."
+    )
+    additionalProperty: Optional[List[PropertyValue]] = Field(
+        title="Additional properties",
+        default=[],
+        description="Additional properties of the dataset."
+    )
+    sourceOrganization: Optional[SourceOrganization] = Field(
+        title="Source organization",
+        description="The organization that provided the data for this dataset."
+    )
