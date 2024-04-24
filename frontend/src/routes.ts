@@ -1,4 +1,4 @@
-import { RouteConfig } from "vue-router";
+import { RouteRecordRaw } from "vue-router";
 import CdHome from "@/components/home/cd.home.vue";
 import CdSearchResults from "@/components/search-results/cd.search-results.vue";
 import CdSubmissions from "@/components/submissions/cd.submissions.vue";
@@ -7,8 +7,9 @@ import CdContribute from "@/components/contribute/cd.contribute.vue";
 import CdDataset from "@/components/dataset/cd.dataset.vue";
 import AuthRedirect from "@/components/account/auth-redirect.vue";
 import CdRegisterDataset from "@/components/register/cd.register-dataset.vue";
+import { hasLoggedInGuard, hasUnsavedChangesGuard } from "./guards";
 
-export const routes: RouteConfig[] = [
+export const routes: RouteRecordRaw[] = [
   {
     name: "home",
     path: "/",
@@ -36,12 +37,10 @@ export const routes: RouteConfig[] = [
       footer: CdFooter,
     },
     meta: {
-      hasLoggedInGuard: true,
-      // hasAccessTokenGuard: true,
-      hasUnsavedChangesGuard: true,
       title: "Contribute",
       flat: true,
     },
+    beforeEnter: [hasLoggedInGuard, hasUnsavedChangesGuard],
   },
   {
     name: "register",
@@ -51,9 +50,9 @@ export const routes: RouteConfig[] = [
       footer: CdFooter,
     },
     meta: {
-      hasLoggedInGuard: true,
       title: "Register Dataset",
     },
+    beforeEnter: [hasLoggedInGuard],
   },
   {
     name: "submissions",
@@ -64,8 +63,8 @@ export const routes: RouteConfig[] = [
     },
     meta: {
       title: "My Submissions",
-      hasLoggedInGuard: true,
     },
+    beforeEnter: [hasLoggedInGuard],
   },
   {
     name: "dataset",
@@ -81,10 +80,9 @@ export const routes: RouteConfig[] = [
     components: { content: CdContribute, footer: CdFooter },
     meta: {
       title: "Edit Dataset",
-      hasUnsavedChangesGuard: true,
-      hasLoggedInGuard: true,
       flat: true,
     },
+    beforeEnter: [hasLoggedInGuard, hasUnsavedChangesGuard],
   },
   {
     name: "auth-redirect",
@@ -96,8 +94,7 @@ export const routes: RouteConfig[] = [
       hideNavigation: true,
     },
   },
-  {
-    path: "*",
-    redirect: "/",
-  },
+  /** @see https://router.vuejs.org/guide/migration/#removed-star-or-catch-all-routes */
+  { path: "/:pathMatch(.*)*", name: "not-found", component: CdHome },
+  { path: "/:pathMatch(.*)", name: "bad-not-found", component: CdHome },
 ];

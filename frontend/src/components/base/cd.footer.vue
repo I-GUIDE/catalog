@@ -54,21 +54,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, toNative } from "vue-facing-decorator";
 
 @Component({
   name: "cd-footer",
   components: {},
 })
-export default class CdFooter extends Vue {
-  protected get version() {
-    return process.env.VUE_APP_VERSION || "0";
+class CdFooter extends Vue {
+  get version() {
+    return import.meta.env.VITE_APP_VERSION || "0";
   }
 
-  protected get year() {
+  get year() {
     return new Date().getFullYear();
   }
 }
+export default toNative(CdFooter);
 </script>
 
 <style lang="scss" scoped>

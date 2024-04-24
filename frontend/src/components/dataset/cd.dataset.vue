@@ -30,7 +30,7 @@
     </div>
     <v-alert
       v-else-if="!wasLoaded && !isLoading"
-      border="left"
+      border="start"
       colored-border
       type="error"
       elevation="2"
@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, toNative } from "vue-facing-decorator";
 import { CzForm } from "@cznethub/cznet-vue-core";
 
 import User from "@/models/user.model";
@@ -54,13 +54,13 @@ import User from "@/models/user.model";
   name: "cd-contribute",
   components: { CzForm },
 })
-export default class CdDataset extends Vue {
-  protected data = {};
-  protected isLoading = true;
-  protected wasLoaded = false;
-  protected submissionId = "";
+class CdDataset extends Vue {
+  data = {};
+  isLoading = true;
+  wasLoaded = false;
+  submissionId = "";
 
-  protected config = {
+  config = {
     restrict: true,
     trim: false,
     showUnfocusedDescription: false,
@@ -72,7 +72,7 @@ export default class CdDataset extends Vue {
     hideArraySummaryValidation: false,
     vuetify: {
       commonAttrs: {
-        dense: true,
+        density: "compact",
         outlined: true,
         "persistent-hint": true,
         "hide-details": false,
@@ -85,8 +85,8 @@ export default class CdDataset extends Vue {
     this.loadDataset();
   }
 
-  protected async loadDataset() {
-    this.submissionId = this.$route.params.id;
+  async loadDataset() {
+    this.submissionId = this.$route?.params.id as string;
     this.isLoading = true;
     try {
       const data = await User.fetchDataset(this.submissionId);
@@ -101,14 +101,15 @@ export default class CdDataset extends Vue {
     }
   }
 
-  protected get schema() {
+  get schema() {
     return User.$state.schema;
   }
 
-  protected get uiSchema() {
+  get uiSchema() {
     return User.$state.uiSchema;
   }
 }
+export default toNative(CdDataset);
 </script>
 
 <style lang="scss" scoped></style>

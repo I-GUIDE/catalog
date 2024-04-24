@@ -1,7 +1,7 @@
 <template>
   <v-container
     class="cd-search-results text-body-1"
-    :class="{ 'is-small': $vuetify.breakpoint.smAndDown }"
+    :class="{ 'is-small': $vuetify.display.smAndDown }"
   >
     <div class="d-sm-block d-md-flex">
       <v-container class="sidebar flex-shrink-0">
@@ -12,7 +12,7 @@
             v-model="filter.publicationYear.isActive"
             @change="onSearch"
             label="Publication year"
-            dense
+            density="compact"
             hide-details
           />
           <v-range-slider
@@ -33,7 +33,7 @@
               :value="publicationYear[0]"
               type="number"
               small
-              dense
+              density="compact"
               outlined
               hide-details
             />
@@ -42,7 +42,7 @@
               :value="publicationYear[1]"
               type="number"
               small
-              dense
+              density="compact"
               outlined
               hide-details
             />
@@ -54,7 +54,7 @@
           <v-checkbox
             v-model="filter.dataCoverage.isActive"
             @change="onSearch"
-            dense
+            density="compact"
             label="Data temporal coverage"
             hide-details
           />
@@ -76,7 +76,7 @@
               :value="dataCoverage[0]"
               type="number"
               small
-              dense
+              density="compact"
               outlined
               hide-details
             />
@@ -85,7 +85,7 @@
               :value="dataCoverage[1]"
               type="number"
               small
-              dense
+              density="compact"
               outlined
               hide-details
             />
@@ -104,7 +104,7 @@
           hide-details
           clearable
           outlined
-          dense
+          density="compact"
         />
 
         <!-- <v-select
@@ -119,7 +119,7 @@
           outlined
           :label="$t('searchResults.filters.projectLabel')"
           hide-details
-          dense
+          density="compact"
         /> -->
 
         <v-select
@@ -131,7 +131,7 @@
           outlined
           label="Repository"
           hide-details
-          dense
+          density="compact"
         />
 
         <!-- <div>
@@ -144,7 +144,7 @@
             :label="option"
             :value="option"
             hide-details
-            dense
+            density="compact"
           />
         </div> -->
 
@@ -168,18 +168,15 @@
           <div
             class="my-6 d-lg-flex flex-row justify-space-between gap-1 d-table"
           >
-            <!-- <div class="d-table-row d-lg-flex align-center flex-row">
-              <small class="d-table-cell text-right text-lg-left pr-2 py-2" style="white-space: nowrap">View mode:</small>
-              <v-btn-toggle class="d-table-cell" v-model="view" dense mandatory>
-                <v-btn small><v-icon small>mdi-view-list-outline</v-icon></v-btn>
-                <v-btn small><v-icon small>mdi-map</v-icon></v-btn>
-              </v-btn-toggle>
-            </div> -->
             <div
               class="d-table-row d-lg-flex align-center flex-md-row flex-column gap-1"
             >
               <small>Sort results by:</small>
-              <v-btn-toggle v-model="sort" dense :mandatory="!!searchQuery">
+              <v-btn-toggle
+                v-model="sort"
+                density="compact"
+                :mandatory="!!searchQuery"
+              >
                 <v-btn small value="relevance">Relevance</v-btn>
                 <v-btn small value="name">Title</v-btn>
                 <v-btn small value="dateCreated">Date Created</v-btn>
@@ -240,10 +237,10 @@
                   }"
                   v-html="
                     `<span class='text--secondary text-body-2'>${formatDate(
-                      result.dateCreated
+                      result.dateCreated,
                     )}</span>${result.dateCreated ? ' - ' : ''}${highlight(
                       result,
-                      'description'
+                      'description',
                     )}`
                   "
                 ></p>
@@ -323,7 +320,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue, Watch, toNative } from "vue-facing-decorator";
 import { sameRouteNavigationErrorHandler } from "@/constants";
 import { Loader, LoaderOptions } from "google-maps";
 import { formatDate } from "@/util";
@@ -337,15 +334,15 @@ import { MIN_YEAR, MAX_YEAR } from "@/constants";
 
 const options: LoaderOptions = { libraries: ["drawing"] };
 const loader: Loader = new Loader(
-  process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
-  options
+  import.meta.env.VITE_APP_GOOGLE_MAPS_API_KEY,
+  options,
 );
 
 @Component({
   name: "cd-search-results",
   components: { CdSearch, CdSpatialCoverageMap },
 })
-export default class CdSearchResults extends Vue {
+class CdSearchResults extends Vue {
   public loader = loader;
   public options = options;
   public isIntersecting = false;
@@ -360,7 +357,7 @@ export default class CdSearchResults extends Vue {
   public preferredSort: "name" | "dateCreated" | "relevance" = "relevance";
   // public view: 'list' | 'map' = 'list'
   public formatDate = formatDate;
-  protected descriptionRefs: any[] = [];
+  descriptionRefs: any[] = [];
   public filter: ISearchFilter = {
     publicationYear: {
       min: MIN_YEAR,
@@ -478,7 +475,7 @@ export default class CdSearchResults extends Vue {
     );
   }
 
-  protected displayRefs() {
+  displayRefs() {
     this.descriptionRefs = (this.$refs["description"] as any[]) || [];
   }
 
@@ -500,12 +497,12 @@ export default class CdSearchResults extends Vue {
     };
   }
 
-  protected hasShowMoreButton(index) {
+  hasShowMoreButton(index) {
     const lines = this._countLines(this.descriptionRefs[index]);
     return lines >= 3;
   }
 
-  private _countLines(el) {
+  _countLines(el) {
     if (el && document.defaultView) {
       const divHeight = el.offsetHeight;
       const lineHeight = +document.defaultView
@@ -520,7 +517,7 @@ export default class CdSearchResults extends Vue {
   created() {
     this._loadRouteParams();
 
-    this.sort = this.$route.query["q"]
+    this.sort = this.$route?.query["q"]
       ? this.preferredSort
       : "registrationDate";
 
@@ -545,7 +542,7 @@ export default class CdSearchResults extends Vue {
     this.onSearch();
   }
 
-  protected goToDataset(id: string) {
+  goToDataset(id: string) {
     this.$router.push({ path: `dataset/${id}` });
   }
 
@@ -585,7 +582,7 @@ export default class CdSearchResults extends Vue {
     this.onSearch();
   }
 
-  // protected async onSearchAll() {
+  // async onSearchAll() {
   //   this.hasMore = true;
   //   this.isSearching = true;
   //   this.pageNumber = 1;
@@ -675,7 +672,7 @@ export default class CdSearchResults extends Vue {
       let hits = result.highlights
         .filter((highlight) => highlight.path === "creator.name")
         .map((hit) =>
-          hit.texts.filter((t) => t.type === "hit").map((t) => t.value)
+          hit.texts.filter((t) => t.type === "hit").map((t) => t.value),
         )
         .flat();
 
@@ -700,7 +697,7 @@ export default class CdSearchResults extends Vue {
       let hits = result.highlights
         .filter((highlight) => highlight.path === path)
         .map((hit) =>
-          hit.texts.filter((t) => t.type === "hit").map((t) => t.value)
+          hit.texts.filter((t) => t.type === "hit").map((t) => t.value),
         )
         .flat();
 
@@ -714,48 +711,48 @@ export default class CdSearchResults extends Vue {
   }
 
   /** Load route query parameters into component values. */
-  private _loadRouteParams() {
+  _loadRouteParams() {
     // SEARCH QUERY
-    this.searchQuery = this.$route.query["q"] as string;
+    this.searchQuery = this.$route?.query["q"] as string;
 
     // CREATOR NAME
-    this.filter.creatorName = (this.$route.query["cn"] as string) || "";
+    this.filter.creatorName = (this.$route?.query["cn"] as string) || "";
 
     // REPOSITORY
-    this.filter.repository.value = (this.$route.query["r"] as string) || "";
+    this.filter.repository.value = (this.$route?.query["r"] as string) || "";
 
     // CONTENT TYPE
-    // this.filter.contentType.value = (this.$route.query["ct"] as string[]) || [];
+    // this.filter.contentType.value = (this.$route?.query["ct"] as string[]) || [];
 
     // PROJECT
-    // this.filter.project.value = this.$route.query["p"]
-    //   ? ([this.$route.query["p"]].flat() as string[])
+    // this.filter.project.value = this.$route?.query["p"]
+    //   ? ([this.$route?.query["p"]].flat() as string[])
     //   : [];
 
     // PUBLICATION YEAR
-    if (this.$route.query["py"]) {
+    if (this.$route?.query["py"]) {
       this.filter.publicationYear.isActive = true;
       this.publicationYear =
-        ((this.$route.query["py"] as [string, string])?.map((n) => +n) as [
+        ((this.$route?.query["py"] as [string, string])?.map((n) => +n) as [
           number,
-          number
+          number,
         ]) || this.publicationYear;
     }
 
     // DATA COVERAGE
-    if (this.$route.query["dc"]) {
+    if (this.$route?.query["dc"]) {
       this.filter.dataCoverage.isActive = true;
       this.dataCoverage =
-        ((this.$route.query["dc"] as [string, string])?.map((n) => +n) as [
+        ((this.$route?.query["dc"] as [string, string])?.map((n) => +n) as [
           number,
-          number
+          number,
         ]) || this.dataCoverage;
     }
 
     // SORT
-    if (this.$route.query["s"]) {
+    if (this.$route?.query["s"]) {
       this.sort =
-        (this.$route.query["s"] as
+        (this.$route?.query["s"] as
           | "name"
           | "dateCreated"
           | "relevance"
@@ -767,6 +764,7 @@ export default class CdSearchResults extends Vue {
     return result.spatialCoverage?.["@type"];
   }
 }
+export default toNative(CdSearchResults);
 </script>
 
 <style lang="scss" scoped>
@@ -807,7 +805,7 @@ export default class CdSearchResults extends Vue {
   opacity: 0.55;
 }
 
-::v-deep .v-select--chips .v-select__selections .v-chip--select:first-child {
+:deep(.v-select--chips .v-select__selections .v-chip--select:first-child) {
   margin-top: 1rem;
 }
 </style>

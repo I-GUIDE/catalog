@@ -1,8 +1,9 @@
 <template>
   <v-menu offset-y v-model="menu">
-    <template v-slot:activator="{ on }">
+    <template #activator="{ props }">
       <v-text-field
-        ref="search"
+        v-bind="props"
+        ref="searchInput"
         @keydown.up="onDetectCrossover('up')"
         @keydown.down="onDetectCrossover('down')"
         @keyup.up="onHintHighlighted()"
@@ -10,17 +11,16 @@
         @keydown.enter="onSearch"
         @click:clear="$emit('clear')"
         v-model.trim.lazy="valueInternal"
-        class="cz-search white"
+        class="cz-search"
         prepend-inner-icon="mdi-magnify"
         :placeholder="$t(`home.search.inputPlaceholder`)"
         rounded
         full-width
         hide-details
         flat
-        outlined
-        dense
+        variant="solo"
+        density="compact"
         clearable
-        v-on="on"
       />
     </template>
 
@@ -32,56 +32,56 @@
     />
 
     <v-list max-height="20rem">
-      <v-list-item-group v-if="showList">
-        <v-list-item
-          v-for="(hint, index) of hints"
-          ref="hintElements"
-          :key="index"
-          dense
-          @pointerdown="onHintSelected($event, hint)"
+      <v-list-item
+        v-if="showList"
+        v-for="(hint, index) of hints"
+        ref="hintElements"
+        :key="index"
+        density="compact"
+        @pointerdown="onHintSelected($event, hint)"
+        :prepend-icon="hint.type === 'local' ? 'mdi-history' : 'mdi-magnify'"
+      >
+        <v-list-item-title
+          :class="{ 'accent--text': hint.type === 'local' }"
+          class="font-weight-regular"
+          >{{ hint.key }}</v-list-item-title
         >
-          <v-list-item-icon>
-            <v-icon dense v-if="hint.type === 'local'">mdi-history</v-icon>
-            <v-icon dense v-else>mdi-magnify</v-icon>
-          </v-list-item-icon>
 
-          <v-list-item-content>
-            <v-list-item-title
-              :class="{ 'accent--text': hint.type === 'local' }"
-              class="font-weight-regular"
-              >{{ hint.key }}</v-list-item-title
-            >
-          </v-list-item-content>
-
-          <v-list-item-action class="ma-0 pa-0" v-if="hint.type === 'local'">
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  icon
-                  x-small
-                  v-bind="attrs"
-                  v-on="on"
-                  @click.stop="deleteHint(hint)"
-                >
-                  <v-icon ref="btnDeleteHint">mdi-close</v-icon>
-                </v-btn>
-              </template>
-              <span>Delete</span>
-            </v-tooltip>
-          </v-list-item-action>
-        </v-list-item>
-      </v-list-item-group>
+        <v-list-item-action class="ma-0 pa-0" v-if="hint.type === 'local'">
+          <v-tooltip bottom>
+            <template #activator="{ props }">
+              <v-btn icon x-small v-bind="props" @click.stop="deleteHint(hint)">
+                <v-icon ref="btnDeleteHint">mdi-close</v-icon>
+              </v-btn>
+            </template>
+            <span>Delete</span>
+          </v-tooltip>
+        </v-list-item-action>
+      </v-list-item>
     </v-list>
   </v-menu>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Ref, Watch } from "vue-property-decorator";
+import {
+  Component,
+  Vue,
+  Prop,
+  Ref,
+  Watch,
+  toNative,
+} from "vue-facing-decorator";
 import { APP_NAME, sameRouteNavigationErrorHandler } from "@/constants";
 import { fromEvent, from } from "rxjs";
 import { debounceTime, map, switchMap, tap } from "rxjs/operators";
 import SearchHistory from "@/models/search-history.model";
 import Search from "@/models/search.model";
+import type {
+  VBtn,
+  VListItem,
+  VTextField,
+} from "vuetify/lib/components/index.mjs";
+import { IHint } from "@/types";
 
 const typeaheadDebounceTime = 500;
 
@@ -89,13 +89,13 @@ const typeaheadDebounceTime = 500;
   name: "cd-search",
   components: {},
 })
-export default class CdSearch extends Vue {
+class CdSearch extends Vue {
   @Prop() value!: string;
-  @Ref("search") searchInput;
-  @Ref("hintElements") hintElements;
-  @Ref("btnDeleteHint") btnDeleteHint;
+  @Ref("searchInput") searchInput!: InstanceType<typeof VTextField>;
+  @Ref("hintElements") hintElements!: InstanceType<typeof VListItem>[];
+  @Ref("btnDeleteHint") btnDeleteHint!: InstanceType<typeof VBtn>[];
 
-  protected appName = APP_NAME;
+  appName = APP_NAME;
 
   public valueInternal = "";
   public previousValueInternal = "";
@@ -130,16 +130,16 @@ export default class CdSearch extends Vue {
         (t) =>
           t.type === "hit" &&
           t.value.length > minCharacters &&
-          t.value.toLowerCase().indexOf(valueInternal) >= 0
+          t.value.toLowerCase().indexOf(valueInternal) >= 0,
       )
       .map((t) => t.value.toLowerCase())
       .filter(
         (v: string) =>
-          v !== valueInternal && !this.localHints.some((h) => h.key === v)
+          v !== valueInternal && !this.localHints.some((h) => h.key === v),
       );
 
     hints = [...new Set(hints)].slice(0, 10) as string[]; // get unique ones
-    hints = hints.map((key) => ({ type: "db", key } as IHint));
+    hints = hints.map((key) => ({ type: "db", key }) as IHint);
     return hints;
   }
 
@@ -171,7 +171,7 @@ export default class CdSearch extends Vue {
     this.searchInput?.focus();
 
     // https://www.learnrxjs.io/learn-rxjs/recipes/type-ahead
-    fromEvent(this.searchInput.$el, "input")
+    fromEvent(this.searchInput?.$el, "input")
       .pipe(
         tap(() => {
           this.isFetchingHints = !!this.valueInternal;
@@ -181,7 +181,7 @@ export default class CdSearch extends Vue {
         }),
         debounceTime(typeaheadDebounceTime),
         map((e: any) => e.target.value),
-        switchMap(() => from(this._onTypeahead()))
+        switchMap(() => from(this._onTypeahead())),
       )
       .subscribe(() => {
         this._handleTypeahead(false);
@@ -191,7 +191,7 @@ export default class CdSearch extends Vue {
   public onSearch() {
     this._onChange();
     this.previousValueInternal = this.valueInternal;
-    if (this.valueInternal && this.$route.name !== "search") {
+    if (this.valueInternal && this.$route?.name !== "search") {
       this.$router
         .push({ name: "search", query: { q: this.valueInternal } })
         .catch(sameRouteNavigationErrorHandler);
@@ -204,7 +204,7 @@ export default class CdSearch extends Vue {
    */
   public onDetectCrossover(direction: "up" | "down") {
     const hintIndex = this.hintElements.findIndex((e) =>
-      e.$el.classList.contains("v-list-item--highlighted")
+      e.$el.classList.contains("v-list-item--highlighted"),
     );
     if (this.detectCrossover) {
       const hasCrossedOver =
@@ -225,7 +225,7 @@ export default class CdSearch extends Vue {
   /** Handles moving up and down the list of hints using the arrow keys */
   public onHintHighlighted() {
     const hintIndex = this.hintElements.findIndex((e) =>
-      e.$el.classList.contains("v-list-item--highlighted")
+      e.$el.classList.contains("v-list-item--highlighted"),
     );
 
     if (hintIndex >= 0) {
@@ -264,7 +264,7 @@ export default class CdSearch extends Vue {
     this.hints = this.typeaheadHints;
   }
 
-  private async _onTypeahead() {
+  async _onTypeahead() {
     if (!this.valueInternal?.trim()) {
       this.isFetchingHints = false;
       this.hints = this.typeaheadHints;
@@ -280,7 +280,7 @@ export default class CdSearch extends Vue {
     }
   }
 
-  private _handleTypeahead(bringUpHintsMenu = true) {
+  _handleTypeahead(bringUpHintsMenu = true) {
     this.hints = this.typeaheadHints;
     if (this.valueInternal) {
       this.menu = bringUpHintsMenu || this.menu;
@@ -288,10 +288,11 @@ export default class CdSearch extends Vue {
     }
   }
 
-  private _onChange() {
+  _onChange() {
     this.$emit("input", this.valueInternal);
   }
 }
+export default toNative(CdSearch);
 </script>
 
 <style lang="scss" scoped>
@@ -301,9 +302,5 @@ export default class CdSearch extends Vue {
 
 .search-container {
   max-width: 45rem;
-}
-
-.v-item-group {
-  background: #fff;
 }
 </style>

@@ -1,12 +1,12 @@
 <template>
   <v-container class="cd-featured-datasets text-center py-12">
     <div class="display-1 my-4">{{ $t("home.featuredData.title") }}</div>
-    <v-subheader
+    <v-list-subheader
       class="text-body-1 my-4 d-inline-block"
       style="max-width: 35rem"
     >
       {{ $t("home.featuredData.subtitle") }}
-    </v-subheader>
+    </v-list-subheader>
     <v-slide-group
       v-model="selected"
       v-if="fetchedDatasets.length || isLoading"
@@ -14,7 +14,7 @@
       class="pa-4"
       show-arrows
     >
-      <v-slide-item
+      <v-slide-group-item
         v-for="(result, index) in datasets"
         :key="index"
         v-slot="{ toggle }"
@@ -85,7 +85,7 @@
           </template>
           <v-skeleton-loader v-else type="image"></v-skeleton-loader>
         </v-card>
-      </v-slide-item>
+      </v-slide-group-item>
     </v-slide-group>
     <div v-else class="text-body-2">
       No data to feature right now. Check again soon...
@@ -94,10 +94,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, toNative } from "vue-facing-decorator";
 import CdHomeSearch from "@/components/home/cd.home-search.vue";
 import Search from "@/models/search.model";
 import { formatDate } from "@/util";
+import { IResult } from "@/types";
 
 const numFeatured = 10;
 const featuredSearch = "Water";
@@ -106,13 +107,13 @@ const featuredSearch = "Water";
   name: "cd-featured-datasets",
   components: { CdHomeSearch },
 })
-export default class CdFeaturedDatasets extends Vue {
-  protected selected: number | null = null;
-  protected formatDate = formatDate;
-  protected isLoading = false;
-  // protected datasets = FEATURED_DATASETS;  // JSON file setup. Unused for now.
+class CdFeaturedDatasets extends Vue {
+  selected: number | null = null;
+  formatDate = formatDate;
+  isLoading = false;
+  // datasets = FEATURED_DATASETS;  // JSON file setup. Unused for now.
 
-  protected getResultAuthors(result) {
+  getResultAuthors(result) {
     return result.creator.join(", ");
   }
 
@@ -122,7 +123,7 @@ export default class CdFeaturedDatasets extends Vue {
       : new Array(numFeatured).fill(null);
   }
 
-  protected get fetchedDatasets() {
+  get fetchedDatasets() {
     return Search.$state.results;
   }
 
@@ -145,6 +146,7 @@ export default class CdFeaturedDatasets extends Vue {
     }
   }
 }
+export default toNative(CdFeaturedDatasets);
 </script>
 
 <style lang="scss" scoped>
@@ -155,7 +157,7 @@ export default class CdFeaturedDatasets extends Vue {
   overflow: visible;
 }
 
-::v-deep .v-card--link:before {
+:deep(.v-card--link:before) {
   background: transparent !important;
 }
 
@@ -212,7 +214,7 @@ export default class CdFeaturedDatasets extends Vue {
   }
 }
 
-::v-deep .v-card:hover {
+:deep(.v-card:hover) {
   transform: scale(1.05);
   z-index: 1;
 
@@ -237,7 +239,7 @@ export default class CdFeaturedDatasets extends Vue {
   border-bottom-right-radius: 1rem;
 }
 
-::v-deep .v-slide-group.v-item-group {
+:deep(.v-slide-group.v-item-group) {
   z-index: 2;
 
   & > .v-slide-group__next {

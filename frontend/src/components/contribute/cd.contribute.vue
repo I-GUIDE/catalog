@@ -29,10 +29,9 @@
       <v-btn @click="onCancel">Cancel</v-btn>
 
       <v-menu :disabled="isValid" open-on-hover bottom left offset-y>
-        <template v-slot:activator="{ on, attrs }">
+        <template #activator="{ props }">
           <div
-            v-bind="attrs"
-            v-on="on"
+            v-bind="props"
             class="d-flex form-controls flex-column flex-sm-row"
           >
             <v-badge
@@ -71,7 +70,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, toNative } from "vue-facing-decorator";
 import { Notifications, CzForm } from "@cznethub/cznet-vue-core";
 
 import User from "@/models/user.model";
@@ -82,17 +81,17 @@ const initialData = {};
   name: "cd-contribute",
   components: { CzForm },
 })
-export default class CdContribute extends Vue {
-  protected isValid = false;
-  protected isEditMode = false;
-  protected isLoading = true;
-  protected wasLoaded = false;
-  protected submissionId = "";
-  protected errors = [];
-  protected data = initialData;
-  protected timesChanged = 0;
-  protected isSaving = false;
-  protected config = {
+class CdContribute extends Vue {
+  isValid = false;
+  isEditMode = false;
+  isLoading = true;
+  wasLoaded = false;
+  submissionId = "";
+  errors = [];
+  data = initialData;
+  timesChanged = 0;
+  isSaving = false;
+  config = {
     restrict: true,
     trim: false,
     showUnfocusedDescription: false,
@@ -104,31 +103,31 @@ export default class CdContribute extends Vue {
     hideArraySummaryValidation: false,
     vuetify: {
       commonAttrs: {
-        dense: true,
-        outlined: true,
+        density: "compact",
+        variant: "outlined",
         "persistent-hint": true,
         "hide-details": false,
       },
     },
   };
 
-  protected get schema() {
+  get schema() {
     return User.$state.schema;
   }
 
-  protected get uiSchema() {
+  get uiSchema() {
     return User.$state.uiSchema;
   }
 
-  // protected get schemaDefaults() {
+  // get schemaDefaults() {
   //   return User.$state.schemaDefaults;
   // }
 
-  protected get hasUnsavedChanges(): boolean {
+  get hasUnsavedChanges(): boolean {
     return User.$state.hasUnsavedChanges;
   }
 
-  protected set hasUnsavedChanges(value: boolean) {
+  set hasUnsavedChanges(value: boolean) {
     User.commit((state) => {
       state.hasUnsavedChanges = value;
     });
@@ -136,14 +135,14 @@ export default class CdContribute extends Vue {
 
   created() {
     this.hasUnsavedChanges = false;
-    if (this.$route.name === "dataset-edit") {
+    if (this.$route?.name === "dataset-edit") {
       this.isEditMode = true;
-      this.submissionId = this.$route.params.id;
+      this.submissionId = this.$route?.params.id;
       this.loadDataset();
     }
   }
 
-  protected async loadDataset() {
+  async loadDataset() {
     this.isLoading = true;
     try {
       const data = await User.fetchDataset(this.submissionId);
@@ -158,7 +157,7 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected async onSaveChanges() {
+  async onSaveChanges() {
     try {
       const wasSaved = await User.updateDataset(this.submissionId, this.data);
       if (wasSaved) {
@@ -182,7 +181,7 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected async onCreateSubmission() {
+  async onCreateSubmission() {
     try {
       const savedDatasetId = await User.submit(this.data);
       this.isSaving = false;
@@ -208,7 +207,7 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected async submit() {
+  async submit() {
     this.isSaving = true;
 
     if (this.isEditMode) {
@@ -218,7 +217,7 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected onCancel() {
+  onCancel() {
     if (this.isEditMode) {
       this.$router.push({
         name: "dataset",
@@ -229,7 +228,7 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected onDataChange(_data) {
+  onDataChange(_data) {
     // cz-form emits 'change' event multiple times during instantioation.
     const changesDuringInstantiation = this.isEditMode ? 2 : 3;
 
@@ -253,6 +252,7 @@ export default class CdContribute extends Vue {
   //   });
   // }
 }
+export default toNative(CdContribute);
 </script>
 
 <style lang="scss" scoped></style>

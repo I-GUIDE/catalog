@@ -8,7 +8,7 @@
           id="my_submissions_search"
           class="ma-1 my-2 my-sm-0"
           v-model="filters.searchStr"
-          dense
+          density="compact"
           clearable
           outlined
           hide-details
@@ -64,14 +64,14 @@
               :sort-by="
                 sortBy.key ||
                 Object.keys(enumSubmissionSorts).find(
-                  (k) => enumSubmissionSorts[k] === sortBy
+                  (k) => enumSubmissionSorts[k] === sortBy,
                 )
               "
               :sort-desc="sortDesc"
               item-key="id"
               hide-default-footer
             >
-              <template v-slot:header>
+              <template #header>
                 <div elevation="0" class="has-bg-light-gray pa-4">
                   <div
                     class="d-flex justify-space-between full-width flex-column flex-md-row"
@@ -93,7 +93,7 @@
                         return-object
                         class="mr-1 sort-control my-md-0 my-2"
                         outlined
-                        dense
+                        density="compact"
                         hide-details="auto"
                         label="Sort by"
                       />
@@ -106,7 +106,7 @@
                         return-object
                         class="sort-control my-md-0 my-2"
                         outlined
-                        dense
+                        density="compact"
                         hide-details="auto"
                         label="Order"
                       />
@@ -115,7 +115,7 @@
                 </div>
               </template>
 
-              <template v-slot:default="{ items }">
+              <template #default="{ items }">
                 <v-divider />
                 <div
                   :id="`submission-${index}`"
@@ -128,7 +128,7 @@
                     <div class="flex-grow-1 mr-4">
                       <table
                         class="text-body-1"
-                        :class="{ 'is-xs-small': $vuetify.breakpoint.xs }"
+                        :class="{ 'is-xs-small': $vuetify.display.xs }"
                       >
                         <tr>
                           <td
@@ -249,15 +249,15 @@
                 </div>
               </template>
 
-              <template v-slot:footer>
+              <template #footer>
                 <div class="footer d-flex justify-space-between align-center">
                   <div>
                     <span class="grey--text text-body-2 mr-1"
                       >Items per page</span
                     >
                     <v-menu offset-y>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn text v-bind="attrs" v-on="on">
+                      <template #activator="{ props }">
+                        <v-btn variant="text" v-bind="props">
                           {{ itemsPerPage }}
                           <v-icon>mdi-chevron-down</v-icon>
                         </v-btn>
@@ -305,14 +305,14 @@
                 </div>
               </template>
 
-              <template v-slot:no-data>
+              <template #no-data>
                 <div class="text-subtitle-1 text--secondary ma-4">
                   You don't have any submissions that match the selected
                   criteria.
                 </div>
               </template>
 
-              <template v-slot:no-results>
+              <template #no-results>
                 <div class="text-subtitle-1 text--secondary ma-4">
                   You don't have any submissions that match the selected
                   criteria.
@@ -377,7 +377,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, toNative } from "vue-facing-decorator";
 import {
   ISubmission,
   EnumSubmissionSorts,
@@ -395,31 +395,31 @@ import User from "@/models/user.model";
   name: "cd-submissions",
   components: {},
 })
-export default class CdSubmissions extends Vue {
-  protected isUpdating: { [key: string]: boolean } = {};
-  protected isDeleting: { [key: string]: boolean } = {};
-  protected isDeleteDialogActive = false;
-  protected deleteDialogData: {
+class CdSubmissions extends Vue {
+  isUpdating: { [key: string]: boolean } = {};
+  isDeleting: { [key: string]: boolean } = {};
+  isDeleteDialogActive = false;
+  deleteDialogData: {
     submission: ISubmission;
   } | null = null;
 
-  protected filters: {
+  filters: {
     searchStr: string;
   } = { searchStr: "" };
 
-  protected itemsPerPageArray = itemsPerPageArray;
-  protected page = 1;
-  protected enumSubmissionSorts = EnumSubmissionSorts;
-  protected enumSortDirections = EnumSortDirections;
-  protected sortDirectionsOverrides = sortDirectionsOverrides;
-  protected currentItems = [];
-  protected loggedInSubject = new Subscription();
+  itemsPerPageArray = itemsPerPageArray;
+  page = 1;
+  enumSubmissionSorts = EnumSubmissionSorts;
+  enumSortDirections = EnumSortDirections;
+  sortDirectionsOverrides = sortDirectionsOverrides;
+  currentItems = [];
+  loggedInSubject = new Subscription();
 
-  protected get sortBy() {
+  get sortBy() {
     return Submission.$state.sortBy;
   }
 
-  protected set sortBy(sortBy: { key: string; label: string }) {
+  set sortBy(sortBy: { key: string; label: string }) {
     Submission.commit((state) => {
       state.sortBy = sortBy;
     });
@@ -427,41 +427,41 @@ export default class CdSubmissions extends Vue {
     this._loadSortDirection();
   }
 
-  protected get sortDirection(): { key: string; label: string } {
+  get sortDirection(): { key: string; label: string } {
     return Submission.$state.sortDirection;
   }
 
-  protected set sortDirection(sortDirection: { key: string; label: string }) {
+  set sortDirection(sortDirection: { key: string; label: string }) {
     Submission.commit((state) => {
       state.sortDirection = sortDirection;
     });
   }
 
-  protected get itemsPerPage() {
+  get itemsPerPage() {
     return Submission.$state.itemsPerPage;
   }
 
-  protected set itemsPerPage(itemsPerPage: number) {
+  set itemsPerPage(itemsPerPage: number) {
     Submission.commit((state) => {
       state.itemsPerPage = itemsPerPage;
     });
   }
 
-  protected get isFetching() {
+  get isFetching() {
     return Submission.$state.isFetching;
   }
 
-  protected get sortOptions() {
+  get sortOptions() {
     return Object.keys(EnumSubmissionSorts).map((key) => {
       return { key: key, label: EnumSubmissionSorts[key] };
     });
   }
 
-  protected get isLoggedIn() {
+  get isLoggedIn() {
     return User.$state.isLoggedIn;
   }
 
-  protected get sortDirectionOptions() {
+  get sortDirectionOptions() {
     return Object.keys(EnumSortDirections).map((key) => {
       return {
         key,
@@ -472,28 +472,28 @@ export default class CdSubmissions extends Vue {
     });
   }
 
-  protected get isAnyFilterAcitve() {
+  get isAnyFilterAcitve() {
     return Object.keys(this.filters).find(
-      (key) => this.filters[key] && this.filters[key].length
+      (key) => this.filters[key] && this.filters[key].length,
     );
   }
 
-  protected get filteredSubmissions() {
+  get filteredSubmissions() {
     return Submission.all();
   }
 
-  protected get submissions(): ISubmission[] {
+  get submissions(): ISubmission[] {
     return Submission.all();
   }
 
-  protected get numberOfPages() {
+  get numberOfPages() {
     if (this.isAnyFilterAcitve) {
       return Math.ceil(this.currentItems.length / this.itemsPerPage);
     }
     return Math.ceil(this.submissions.length / this.itemsPerPage);
   }
 
-  protected get sortDesc(): boolean {
+  get sortDesc(): boolean {
     return this.sortDirection.key === "desc";
   }
 
@@ -513,15 +513,15 @@ export default class CdSubmissions extends Vue {
     this.loggedInSubject.unsubscribe();
   }
 
-  protected nextPage() {
+  nextPage() {
     if (this.page + 1 <= this.numberOfPages) this.page += 1;
   }
 
-  protected formerPage() {
+  formerPage() {
     if (this.page - 1 >= 1) this.page -= 1;
   }
 
-  protected getDateInLocalTime(date: number): string {
+  getDateInLocalTime(date: number): string {
     const offset = new Date(date).getTimezoneOffset() * 60 * 1000;
     // TODO: subtracting offset because db stored dates seem to have the time shifted
     const localDateTime = date - offset;
@@ -530,7 +530,7 @@ export default class CdSubmissions extends Vue {
     return localizedDate;
   }
 
-  protected exportSubmissions() {
+  exportSubmissions() {
     const parsedSubmissions = this.filteredSubmissions.map((s) => {
       return {
         authors: s.authors.join("; "),
@@ -555,7 +555,7 @@ export default class CdSubmissions extends Vue {
     const element = document.createElement("a");
     element.setAttribute(
       "href",
-      "data:text/plain;charset=utf-8," + encodeURIComponent(csvContent)
+      "data:text/plain;charset=utf-8," + encodeURIComponent(csvContent),
     );
     element.setAttribute("download", filename);
 
@@ -567,12 +567,12 @@ export default class CdSubmissions extends Vue {
     document.body.removeChild(element);
   }
 
-  protected onDelete(submission: ISubmission) {
+  onDelete(submission: ISubmission) {
     this.deleteDialogData = { submission };
     this.isDeleteDialogActive = true;
   }
 
-  protected async onUpdate(submission: ISubmission) {
+  async onUpdate(submission: ISubmission) {
     if (submission.repoIdentifier) {
       this.$set(this.isUpdating, submission.id || "", true);
       await Submission.updateSubmission(submission.repoIdentifier);
@@ -580,39 +580,40 @@ export default class CdSubmissions extends Vue {
     }
   }
 
-  protected async onDeleteSubmission() {
+  async onDeleteSubmission() {
     this.$set(
       this.isDeleting,
       this.deleteDialogData?.submission.id || "",
-      true
+      true,
     );
 
     if (this.deleteDialogData) {
       await Submission.deleteSubmission(
         this.deleteDialogData.submission.identifier,
-        this.deleteDialogData?.submission.id
+        this.deleteDialogData?.submission.id,
       );
     }
 
     this.$set(
       this.isDeleting,
       this.deleteDialogData?.submission.id || "",
-      false
+      false,
     );
 
     this.deleteDialogData = null;
   }
 
   /** Use this function to load the correct sort option in case we have mutaded the entries to override the labels */
-  private _loadSortDirection() {
+  _loadSortDirection() {
     const selectedOption = this.sortDirectionOptions.find(
-      (s) => s.key === this.sortDirection.key
+      (s) => s.key === this.sortDirection.key,
     );
     if (selectedOption) {
       this.sortDirection = selectedOption;
     }
   }
 }
+export default toNative(CdSubmissions);
 </script>
 
 <style lang="scss" scoped>
@@ -685,7 +686,7 @@ export default class CdSubmissions extends Vue {
 }
 
 .v-speed-dial {
-  ::v-deep .v-speed-dial__list {
+  :deep(.v-speed-dial__list) {
     width: auto;
 
     .v-btn {

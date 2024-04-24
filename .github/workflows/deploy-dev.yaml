@@ -15,14 +15,14 @@ env:
   DB_PROTOCOL: mongodb+srv
   HYDROSHARE_META_READ_URL: https://www.hydroshare.org/hsapi2/resource/%s/json/
   HYDROSHARE_FILE_READ_URL: https://www.hydroshare.org/hsapi/resource/%s/files/
-  VUE_APP_NAME: CZNet Discovery
-  VUE_APP_LOGIN_URL: https://orcid.org/oauth/authorize
-  VUE_APP_API_URL: api
-  VUE_APP_HEAP_ANALYTICS_APP_ID: ""
-  VUE_APP_GOOGLE_MAPS_API_KEY: ""
-  VUE_APP_SUPPORT_EMAIL: help@cuahsi.io
-  VUE_APP_REALM_APP_ID: data-axdrs
-  VUE_APP_SEARCH_RESOLVER: filtering_cznet
+  VITE_APP_NAME: CZNet Discovery
+  VITE_APP_LOGIN_URL: https://orcid.org/oauth/authorize
+  VITE_APP_API_URL: api
+  VITE_APP_HEAP_ANALYTICS_APP_ID: ""
+  VITE_APP_GOOGLE_MAPS_API_KEY: ""
+  VITE_APP_SUPPORT_EMAIL: help@cuahsi.io
+  VITE_APP_REALM_APP_ID: data-axdrs
+  VITE_APP_SEARCH_RESOLVER: filtering_cznet
 
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
         DB_USERNAME: ${{ secrets.DB_USERNAME_BETA }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD_BETA }}
       run: |
-        variables=("OIDC_ISSUER" "DB_USERNAME" "DB_PASSWORD" "DB_HOST" "DATABASE_NAME" "DB_PROTOCOL" "TESTING" "VUE_APP_LOGIN_URL" "HYDROSHARE_META_READ_URL" "HYDROSHARE_FILE_READ_URL")
+        variables=("OIDC_ISSUER" "DB_USERNAME" "DB_PASSWORD" "DB_HOST" "DATABASE_NAME" "DB_PROTOCOL" "TESTING" "VITE_APP_LOGIN_URL" "HYDROSHARE_META_READ_URL" "HYDROSHARE_FILE_READ_URL")
 
         # Empty the .env file
         > .env
@@ -58,7 +58,7 @@ jobs:
 
     - name: Compile the frontend env file
       run: |
-        variables=("VUE_APP_NAME" "VUE_APP_API_URL" "VUE_APP_SUPPORT_EMAIL" "VUE_APP_URL" "VUE_APP_LOGIN_URL" "VUE_APP_CLIENT_ID" "VUE_APP_GOOGLE_MAPS_API_KEY")
+        variables=("VITE_APP_NAME" "VITE_APP_API_URL" "VITE_APP_SUPPORT_EMAIL" "VITE_APP_URL" "VITE_APP_LOGIN_URL" "VITE_APP_CLIENT_ID" "VITE_APP_GOOGLE_MAPS_API_KEY")
 
         # Empty the .env file
         > frontend/.env
