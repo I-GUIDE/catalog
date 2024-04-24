@@ -7,7 +7,7 @@ from api.adapters.utils import get_adapter_by_type, RepositoryType
 from api.authentication.user import get_current_user
 from api.models.catalog import DatasetMetadataDOC
 from api.models.user import Submission, User
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
 
 router = APIRouter()
 
@@ -16,6 +16,12 @@ def inject_repository_identifier(submission: Submission, document: DatasetMetada
     if submission.repository_identifier:
         document.repository_identifier = submission.repository_identifier
     return document
+
+
+class S3Path(BaseModel):
+    path: str
+    bucket: str
+    endpoint_url: HttpUrl = 'https://api.minio.cuahsi.io'
 
 
 @router.post("/dataset/", response_model=DatasetMetadataDOC, status_code=status.HTTP_201_CREATED)
@@ -124,14 +130,9 @@ async def refresh_dataset_from_hydroshare(identifier: str, user: Annotated[User,
     return dataset
 
 
-class S3Path(BaseModel):
-    path: str
-    bucket: str
-    endpoint_url: str = 'https://api.minio.cuahsi.io'
-
-
 @router.put("/repository/s3", response_model=DatasetMetadataDOC)
 async def register_s3_dataset(request_model: S3Path, user: Annotated[User, Depends(get_current_user)]):
+    """User provides the path to the S3 object. The metadata is fetched from the s3 object and saved to the catalog."""
     path = request_model.path
     bucket = request_model.bucket
     endpoint_url = request_model.endpoint_url
@@ -142,6 +143,39 @@ async def register_s3_dataset(request_model: S3Path, user: Annotated[User, Depen
     dataset = await _save_to_db(repository_type=RepositoryType.S3, identifier=identifier, user=user,
                                 submission=submission)
     return dataset
+
+
+@router.post("/dataset/s3", response_model=DatasetMetadataDOC, status_code=status.HTTP_201_CREATED)
+async def create_dataset(
+        s3_path: S3Path,
+        document: DatasetMetadataDOC,
+        user: Annotated[User, Depends(get_current_user)]
+):
+    """User provides the metadata for the dataset and the path to the S3 object. The metadata is saved
+    to the catalog. The S3 object is not fetched. Also, the metadata is currently not saved to the S3 object.
+    """
+    path = s3_path.path
+    bucket = s3_path.bucket
+    endpoint_url = s3_path.endpoint_url
+    endpoint_url = endpoint_url.rstrip("/")
+    if endpoint_url.endswith("amazonaws.com"):
+        identifier = f"{endpoint_url}/{path}"
+    else:
+        identifier = f"{endpoint_url}/{bucket}/{path}"
+    submission: Submission = user.submission_by_repository(repo_type=RepositoryType.S3, identifier=identifier)
+    if submission is not None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="This resource has already been submitted by this user",
+        )
+    await document.insert()
+    submission = document.as_submission()
+    submission.repository_identifier = identifier
+    submission.repository = RepositoryType.S3
+    user.submissions.append(submission)
+    await user.save(link_rule=WriteRules.WRITE)
+    document = inject_repository_identifier(submission, document)
+    return document
 
 
 async def _save_to_db(repository_type: RepositoryType, identifier: str, user: User, submission: Submission = None):
