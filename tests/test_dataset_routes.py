@@ -53,6 +53,46 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
     assert response.status_code == 200
 
 
+@pytest.mark.parametrize('object_store_type', ['s3', 'minio'])
+@pytest.mark.asyncio
+async def test_create_dataset_s3(client_test, dataset_data, test_user_access_token, object_store_type):
+    """Testing the s3 dataset routes for post and get"""
+
+    if object_store_type == "minio":
+        # set the path to the generic metadata file on minIO s3
+        s3_path = {
+            "path": "data/.hs/dataset_metadata.json",
+            "bucket": "catalog-api-test",
+            "endpoint_url": "https://api.minio.cuahsi.io/",
+        }
+    else:
+        # set the path to the generic metadata file on AWS s3
+        s3_path = {
+            "path": "data/.hs/dataset_metadata.json",
+            "bucket": "iguide-catalog",
+            "endpoint_url": "https://iguide-catalog.s3.us-west-2.amazonaws.com/",
+        }
+
+    payload = {
+        "s3_path": s3_path,
+        "document": dataset_data
+    }
+
+    response = await client_test.post("api/catalog/dataset/s3", json=payload)
+    assert response.status_code == 201
+    ds_metadata = response.json()
+    if object_store_type == "minio":
+        expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
+    else:
+        expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['path']}"
+    assert ds_metadata["repository_identifier"] == expected_repository_identifier
+
+    # retrieve the record from the db
+    record_id = ds_metadata.pop('_id')
+    response = await client_test.get(f"api/catalog/dataset/{record_id}")
+    assert response.status_code == 200
+
+
 @pytest.mark.asyncio
 async def test_create_refresh_dataset_from_hydroshare(client_test, test_user_access_token):
     """Testing catalog registration/refresh of hydroshare metadata record"""
