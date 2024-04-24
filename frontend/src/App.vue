@@ -13,14 +13,13 @@
         <router-link :to="{ path: `/` }" class="logo">
           <img :src="'/img/logo-w.png'" alt="home" />
         </router-link>
-        <div class="spacer"></div>
+        <v-spacer></v-spacer>
         <v-card
           class="nav-items mr-2 d-flex mr-4"
           :elevation="2"
           v-if="!$vuetify.display.mdAndDown"
         >
           <v-btn
-            color="white"
             v-for="path of paths"
             :key="path.attrs.to || path.attrs.href"
             v-bind="path.attrs"
@@ -91,7 +90,7 @@
       </v-container>
     </v-main>
 
-    <v-footer class="mt-8 secondary lighten-4">
+    <v-footer class="mt-8 bg-navbar-lighten-4">
       <router-view name="footer" />
     </v-footer>
 

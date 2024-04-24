@@ -47,7 +47,7 @@ export const install: UserModule = ({ app }) => {
         darkTheme,
       },
       variations: {
-        colors: ["primary", "secondary"],
+        colors: ["primary", "secondary", "info", "navbar"],
         lighten: 4,
         darken: 4,
       },

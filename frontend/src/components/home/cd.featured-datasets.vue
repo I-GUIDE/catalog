@@ -30,20 +30,20 @@
         >
           <template v-if="!isLoading && result">
             <div class="d-flex full-height card-wrapper">
-              <div class="card-icon info lighten-3">
+              <div class="card-icon bg-info-lighten-3">
                 <div class="page-icons">
                   <div class="page-icon elevation-1">
-                    <v-icon>mdi-text-long</v-icon>
+                    <v-icon size="x-small">mdi-text-long</v-icon>
                   </div>
                   <div class="page-icon elevation-1">
-                    <v-icon>mdi-text-long</v-icon>
-                    <v-icon>mdi-chart-multiple</v-icon>
-                    <v-icon>mdi-chart-bar</v-icon>
-                    <v-icon>mdi-text-long</v-icon>
+                    <v-icon size="x-small">mdi-text-long</v-icon>
+                    <v-icon size="x-small">mdi-chart-multiple</v-icon>
+                    <v-icon size="x-small">mdi-chart-bar</v-icon>
+                    <v-icon size="x-small">mdi-text-long</v-icon>
                   </div>
                 </div>
               </div>
-              <div class="card-content info lighten-4">
+              <div class="card-content bg-info-lighten-4">
                 <v-card-text class="pb-0 d-flex justify-space-between">
                   <div>
                     <template v-if="result.dateCreated">{{
@@ -51,7 +51,7 @@
                     }}</template>
                   </div>
                   <v-btn
-                    class="primary lighten-1"
+                    color="primary-lighten-1"
                     :href="result.url"
                     target="_blank"
                     small
