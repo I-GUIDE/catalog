@@ -164,6 +164,7 @@
               searchQuery = '';
               onSearch(true);
             "
+            :inputAttrs="{ variant: 'outlined' }"
           />
           <div
             class="my-6 d-lg-flex flex-row justify-space-between gap-1 d-table"
@@ -175,9 +176,12 @@
               <v-btn-toggle
                 v-model="sort"
                 density="compact"
+                size="small"
+                divided
+                variant="outlined"
                 :mandatory="!!searchQuery"
               >
-                <v-btn small value="relevance">Relevance</v-btn>
+                <v-btn density="compact" value="relevance">Relevance</v-btn>
                 <v-btn small value="name">Title</v-btn>
                 <v-btn small value="dateCreated">Date Created</v-btn>
                 <!-- <v-btn small value="registrationDate">Date Registered</v-btn> -->

@@ -2,7 +2,9 @@
   <v-menu offset-y v-model="menu">
     <template #activator="{ props }">
       <v-text-field
-        v-bind="props"
+        class="cz-search"
+        variant="solo"
+        v-bind="{ ...props, ...inputAttrs }"
         ref="searchInput"
         @keydown.up="onDetectCrossover('up')"
         @keydown.down="onDetectCrossover('down')"
@@ -11,14 +13,12 @@
         @keydown.enter="onSearch"
         @click:clear="$emit('clear')"
         v-model.trim.lazy="valueInternal"
-        class="cz-search"
         prepend-inner-icon="mdi-magnify"
         :placeholder="$t(`home.search.inputPlaceholder`)"
         rounded
         full-width
         hide-details
         flat
-        variant="solo"
         density="compact"
         clearable
       />
@@ -91,6 +91,7 @@ const typeaheadDebounceTime = 500;
 })
 class CdSearch extends Vue {
   @Prop() value!: string;
+  @Prop({ default: () => ({}) }) inputAttrs: any;
   @Ref("searchInput") searchInput!: InstanceType<typeof VTextField>;
   @Ref("hintElements") hintElements!: InstanceType<typeof VListItem>[];
   @Ref("btnDeleteHint") btnDeleteHint!: InstanceType<typeof VBtn>[];

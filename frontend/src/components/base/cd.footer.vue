@@ -1,11 +1,11 @@
 <template>
   <v-container
     flat
-    class="footer text--secondary d-flex flex-column align-center full-width body-2"
+    class="footer text--secondary d-flex flex-column align-center full-width text-body-2 font-weight-light"
   >
     <div class="d-lg-flex justify-space-between full-width">
       <div class="mb-4">
-        <div class="mb-4 text-h6 mb-1">Contact Us</div>
+        <div class="mb-4 text-h6 mb-1 text-medium-emphasis">Contact Us</div>
         <!-- <p><router-link to="/contact">Contact</router-link></p> -->
         <p>
           <a :href="'mailto:' + $t('footer.supportEmail')">Email Support</a>
@@ -21,7 +21,7 @@
       </div>
 
       <div>
-        <div class="mb-4 text-h6">Open Source</div>
+        <div class="mb-4 text-h6 text-medium-emphasis">Open Source</div>
         <p>
           The I-GUIDE Catalog and Discover system are Open Source. Find us on
           <a href="https://github.com/I-GUIDE/catalogapi" target="_blank"
@@ -75,5 +75,9 @@ export default toNative(CdFooter);
 <style lang="scss" scoped>
 .footer {
   padding: 2rem 0;
+}
+
+p {
+  margin-bottom: 1rem;
 }
 </style>

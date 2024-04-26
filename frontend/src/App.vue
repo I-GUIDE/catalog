@@ -43,16 +43,7 @@
           <template v-else>
             <v-menu bottom left offset-y>
               <template #activator="{ props }">
-                <v-btn
-                  v-bind="props"
-                  :color="
-                    $route.matched.some((p) => p.name === 'profile')
-                      ? 'primary'
-                      : ''
-                  "
-                  elevation="2"
-                  rounded
-                >
+                <v-btn v-bind="props" variant="elevated" elevation="2" rounded>
                   <v-icon>mdi-account-circle</v-icon>
                   <v-icon>mdi-menu-down</v-icon>
                 </v-btn>
@@ -90,7 +81,7 @@
       </v-container>
     </v-main>
 
-    <v-footer class="mt-8 bg-navbar-lighten-4">
+    <v-footer class="mt-8 bg-blue-grey-lighten-4">
       <router-view name="footer" />
     </v-footer>
 

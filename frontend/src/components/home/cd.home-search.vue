@@ -21,7 +21,7 @@
         {{ $t("home.search.subtitle") }}
       </div>
       <div class="search-container full-width px-4 text-center mb-4">
-        <div class="has-text-shadow font-weight-light text-h6 mb-2">
+        <div class="has-text-shadow font-weight-regular text-h6 mb-2">
           {{ $t("home.search.inputLabel") }}
         </div>
         <cd-search />
