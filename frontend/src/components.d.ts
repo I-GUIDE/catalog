@@ -22,7 +22,6 @@ declare module 'vue' {
     'Cd.searchResults': typeof import('./components/search-results/cd.search-results.vue')['default']
     'Cd.spatialCoverageMap': typeof import('./components/search-results/cd.spatial-coverage-map.vue')['default']
     'Cd.submissions': typeof import('./components/submissions/cd.submissions.vue')['default']
-    'Cz.login': typeof import('./components/account/cz.login.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

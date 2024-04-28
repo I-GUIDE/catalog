@@ -17,11 +17,14 @@
           />
           <v-range-slider
             v-model="publicationYear"
-            @change="onSliderControlChange('publicationYear')"
+            @end="onSliderControlChange(filter.publicationYear)"
             :class="{ 'grayed-out': !filter.publicationYear.isActive }"
             :min="filter.publicationYear.min"
             :max="filter.publicationYear.max"
             class="mb-1"
+            step="1"
+            track-size="1"
+            thumb-size="15"
             hide-details
           />
           <div
@@ -29,21 +32,33 @@
             :class="{ 'grayed-out': !filter.publicationYear.isActive }"
           >
             <v-text-field
-              @change="onSliderChange('publicationYear', 0, $event)"
+              @update:model-value="
+                onSliderChange(
+                  publicationYear,
+                  0,
+                  +$event,
+                  filter.publicationYear,
+                )
+              "
               :value="publicationYear[0]"
               type="number"
-              small
+              variant="outlined"
               density="compact"
-              outlined
               hide-details
             />
             <v-text-field
-              @change="onSliderChange('publicationYear', 1, $event)"
+              @update:model-value="
+                onSliderChange(
+                  publicationYear,
+                  1,
+                  +$event,
+                  filter.publicationYear,
+                )
+              "
               :value="publicationYear[1]"
               type="number"
-              small
+              variant="outlined"
               density="compact"
-              outlined
               hide-details
             />
           </div>
@@ -60,11 +75,14 @@
           />
           <v-range-slider
             v-model="dataCoverage"
-            @change="onSliderControlChange('dataCoverage')"
+            @change="onSliderControlChange(filter.dataCoverage)"
             :class="{ 'grayed-out': !filter.dataCoverage.isActive }"
             :min="filter.dataCoverage.min"
             :max="filter.dataCoverage.max"
             class="mb-1"
+            step="1"
+            track-size="1"
+            thumb-size="15"
             hide-details
           />
           <div
@@ -72,21 +90,23 @@
             :class="{ 'grayed-out': !filter.dataCoverage.isActive }"
           >
             <v-text-field
-              @change="onSliderChange('dataCoverage', 0, $event)"
+              @update:model-value="
+                onSliderChange(dataCoverage, 0, +$event, filter.dataCoverage)
+              "
               :value="dataCoverage[0]"
               type="number"
-              small
+              variant="outlined"
               density="compact"
-              outlined
               hide-details
             />
             <v-text-field
-              @change="onSliderChange('dataCoverage', 1, $event)"
+              @update:model-value="
+                onSliderChange(dataCoverage, 1, +$event, filter.dataCoverage)
+              "
               :value="dataCoverage[1]"
               type="number"
-              small
+              variant="outlined"
               density="compact"
-              outlined
               hide-details
             />
           </div>
@@ -103,7 +123,7 @@
           class="mb-6"
           hide-details
           clearable
-          outlined
+          variant="outlined"
           density="compact"
         />
 
@@ -128,10 +148,10 @@
           @change="onSearch"
           class="mb-6"
           clearable
-          outlined
+          variant="outlined"
+          density="compact"
           label="Repository"
           hide-details
-          density="compact"
         />
 
         <!-- <div>
@@ -172,7 +192,7 @@
             <div
               class="d-table-row d-lg-flex align-center flex-md-row flex-column gap-1"
             >
-              <small>Sort results by:</small>
+              <small class="mr-2">Sort results by:</small>
               <v-btn-toggle
                 v-model="sort"
                 density="compact"
@@ -251,10 +271,10 @@
 
                 <v-btn
                   v-if="hasShowMoreButton(index)"
-                  x-small
-                  text
+                  size="x-small"
+                  variant="text"
                   color="primary"
-                  @click="$set(result, 'showMore', !result.showMore)"
+                  @click="result.showMore = !result.showMore"
                   >Show {{ result.showMore ? "less" : "more" }}...</v-btn
                 >
 
@@ -335,6 +355,8 @@ import SearchHistory from "@/models/search-history.model";
 import Search from "@/models/search.model";
 import { Notifications } from "@cznethub/cznet-vue-core";
 import { MIN_YEAR, MAX_YEAR } from "@/constants";
+import { ISearchFilter, ISearchParams } from "@/types";
+import { IResult } from "@/types";
 
 const options: LoaderOptions = { libraries: ["drawing"] };
 const loader: Loader = new Loader(
@@ -383,7 +405,7 @@ class CdSearchResults extends Vue {
     // },
     repository: {
       options: ["HydroShare"],
-      value: "",
+      value: null,
     },
     creatorName: "",
   };
@@ -428,14 +450,14 @@ class CdSearchResults extends Vue {
 
     // PUBLICATION YEAR
     if (this.filter.publicationYear.isActive) {
-      this.$set(queryParams, "publishedStart", this.publicationYear[0]);
-      this.$set(queryParams, "publishedEnd", this.publicationYear[1]);
+      queryParams.publishedStart = this.publicationYear[0];
+      queryParams.publishedEnd = this.publicationYear[1];
     }
 
     // DATA COVERAGE
     if (this.filter.dataCoverage.isActive) {
-      this.$set(queryParams, "dataCoverageStart", this.dataCoverage[0]);
-      this.$set(queryParams, "dataCoverageEnd", this.dataCoverage[1]);
+      queryParams.dataCoverageStart = this.dataCoverage[0];
+      queryParams.dataCoverageEnd = this.dataCoverage[1];
     }
 
     // CREATOR NAME
@@ -501,12 +523,12 @@ class CdSearchResults extends Vue {
     };
   }
 
-  hasShowMoreButton(index) {
+  hasShowMoreButton(index: number) {
     const lines = this._countLines(this.descriptionRefs[index]);
     return lines >= 3;
   }
 
-  _countLines(el) {
+  _countLines(el: HTMLElement) {
     if (el && document.defaultView) {
       const divHeight = el.offsetHeight;
       const lineHeight = +document.defaultView
@@ -528,21 +550,33 @@ class CdSearchResults extends Vue {
     this.onSearch();
   }
 
-  /** @param path: the filter object to act on.
+  /** @param field: the filter object to act on.
    *  @param index: 0 or 1 (min or max).
    *  @param value: the value to set.
    */
-  public onSliderChange(path: string, index: 0 | 1, value: number) {
+  public onSliderChange(
+    field: [number, number],
+    index: 0 | 1,
+    value: number,
+    filter: { min: number; max: number; isActive: boolean },
+  ) {
+    console.log("onSliderChange");
+    console.log(value);
     // Conditional to prevent change event triggers on focus change where the value has not changed.
-    if (this[path][index] !== value) {
-      this.$set(this.filter[path], "isActive", true);
-      this.$set(this[path], index, value);
+    if (field[index] !== value) {
+      filter.isActive = true;
+      field[index] = value;
       this.onSearch();
     }
   }
 
-  public onSliderControlChange(path: any) {
-    this.$set(this.filter[path], "isActive", true);
+  public onSliderControlChange(filter: {
+    min: number;
+    max: number;
+    isActive: boolean;
+  }) {
+    console.log("onSliderControlChange");
+    filter.isActive = true;
     this.onSearch();
   }
 
@@ -550,8 +584,8 @@ class CdSearchResults extends Vue {
     this.$router.push({ path: `dataset/${id}` });
   }
 
-  public onIntersect(entries, observer) {
-    this.isIntersecting = entries[0].intersectionRatio >= 0.5;
+  public onIntersect(entries: any[], _observer: any) {
+    this.isIntersecting = entries[0]?.intersectionRatio >= 0.5;
     if (
       this.isIntersecting &&
       this.results.length &&
@@ -570,7 +604,7 @@ class CdSearchResults extends Vue {
     this.filter.dataCoverage.isActive = false;
     // this.filter.contentType.value = [];
     // this.filter.project.value = [];
-    this.filter.repository.value = "";
+    this.filter.repository.value = null;
     this.filter.creatorName = "";
 
     if (wasSomeActive) {
@@ -579,7 +613,10 @@ class CdSearchResults extends Vue {
   }
 
   @Watch("sort")
-  public onSortChange(newSort, _oldSort) {
+  public onSortChange(
+    newSort: "name" | "dateCreated" | "relevance" | "registrationDate",
+    _oldSort: string,
+  ) {
     if (newSort !== "registrationDate") {
       this.preferredSort = newSort;
     }
@@ -690,11 +727,11 @@ class CdSearchResults extends Vue {
   }
 
   /** Applies highlights to a string or string[] field and returns the new content as HTML */
-  public highlight(result: IResult, path: string) {
+  public highlight(result: IResult, path: keyof IResult) {
     const div = document.createElement("DIV");
-    div.innerHTML = Array.isArray(result[path])
-      ? result[path].join(", ")
-      : result[path];
+    const field = result[path];
+
+    div.innerHTML = Array.isArray(field) ? field.join(", ") : field;
     let content = div.textContent || div.innerText || "";
 
     if (result.highlights) {
@@ -723,7 +760,7 @@ class CdSearchResults extends Vue {
     this.filter.creatorName = (this.$route?.query["cn"] as string) || "";
 
     // REPOSITORY
-    this.filter.repository.value = (this.$route?.query["r"] as string) || "";
+    this.filter.repository.value = (this.$route?.query["r"] as string) || null;
 
     // CONTENT TYPE
     // this.filter.contentType.value = (this.$route?.query["ct"] as string[]) || [];

@@ -22,7 +22,7 @@ export interface IResult {
   score: number; // unused for now...
   url: string;
   funding: string[];
-  spatialCoverage: any[];
+  spatialCoverage: any;
 }
 
 export interface IHint {
@@ -60,10 +60,10 @@ export interface ISearchParams {
   term: string;
   pageSize: number;
   pageNumber: number;
-  publishedStart?: Date;
-  publishedEnd?: Date;
-  dataCoverageStart?: Date;
-  dataCoverageEnd?: Date;
+  publishedStart?: number;
+  publishedEnd?: number;
+  dataCoverageStart?: number;
+  dataCoverageEnd?: number;
   creatorName?: string;
   providerName?: string;
   // clusters?: string[];
