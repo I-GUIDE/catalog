@@ -27,39 +27,37 @@
             thumb-size="15"
             hide-details
           />
-          <div
-            class="d-flex gap-1"
-            :class="{ 'grayed-out': !filter.publicationYear.isActive }"
-          >
-            <v-text-field
-              @update:model-value="
-                onSliderChange(
-                  publicationYear,
-                  0,
-                  +$event,
-                  filter.publicationYear,
-                )
+          <div :class="{ 'grayed-out': !filter.publicationYear.isActive }">
+            <v-number-input
+              v-model="publicationYear[0]"
+              @blur="
+                filter.publicationYear.isActive = true;
+                onSearch();
               "
-              :value="publicationYear[0]"
-              type="number"
+              @keyup.enter="
+                filter.publicationYear.isActive = true;
+                onSearch();
+              "
+              inset
+              label="Start"
               variant="outlined"
               density="compact"
-              hide-details
             />
-            <v-text-field
-              @update:model-value="
-                onSliderChange(
-                  publicationYear,
-                  1,
-                  +$event,
-                  filter.publicationYear,
-                )
+
+            <v-number-input
+              v-model="publicationYear[1]"
+              @blur="
+                filter.publicationYear.isActive = true;
+                onSearch();
               "
-              :value="publicationYear[1]"
-              type="number"
+              @keyup.enter="
+                filter.publicationYear.isActive = true;
+                onSearch();
+              "
+              inset
+              label="End"
               variant="outlined"
               density="compact"
-              hide-details
             />
           </div>
         </div>
@@ -79,35 +77,44 @@
             :class="{ 'grayed-out': !filter.dataCoverage.isActive }"
             :min="filter.dataCoverage.min"
             :max="filter.dataCoverage.max"
+            hide-details
             class="mb-1"
             step="1"
             track-size="1"
             thumb-size="15"
-            hide-details
           />
-          <div
-            class="d-flex gap-1"
-            :class="{ 'grayed-out': !filter.dataCoverage.isActive }"
-          >
-            <v-text-field
-              @update:model-value="
-                onSliderChange(dataCoverage, 0, +$event, filter.dataCoverage)
+          <div :class="{ 'grayed-out': !filter.dataCoverage.isActive }">
+            <v-number-input
+              v-model="dataCoverage[0]"
+              @blur="
+                filter.dataCoverage.isActive = true;
+                onSearch();
+              "
+              @keyup.enter="
+                filter.dataCoverage.isActive = true;
+                onSearch();
               "
               :value="dataCoverage[0]"
-              type="number"
+              inset
+              label="Start"
               variant="outlined"
               density="compact"
-              hide-details
             />
-            <v-text-field
-              @update:model-value="
-                onSliderChange(dataCoverage, 1, +$event, filter.dataCoverage)
+
+            <v-number-input
+              v-model="dataCoverage[1]"
+              @blur="
+                filter.dataCoverage.isActive = true;
+                onSearch();
               "
-              :value="dataCoverage[1]"
-              type="number"
+              @keyup.enter="
+                filter.dataCoverage.isActive = true;
+                onSearch();
+              "
+              inset
+              label="End"
               variant="outlined"
               density="compact"
-              hide-details
             />
           </div>
         </div>
@@ -357,6 +364,8 @@ import { Notifications } from "@cznethub/cznet-vue-core";
 import { MIN_YEAR, MAX_YEAR } from "@/constants";
 import { ISearchFilter, ISearchParams } from "@/types";
 import { IResult } from "@/types";
+import { clamp } from "@vueuse/core";
+import { VNumberInput } from "vuetify/labs/VNumberInput";
 
 const options: LoaderOptions = { libraries: ["drawing"] };
 const loader: Loader = new Loader(
@@ -366,7 +375,7 @@ const loader: Loader = new Loader(
 
 @Component({
   name: "cd-search-results",
-  components: { CdSearch, CdSpatialCoverageMap },
+  components: { CdSearch, CdSpatialCoverageMap, VNumberInput },
 })
 class CdSearchResults extends Vue {
   public loader = loader;
@@ -410,14 +419,24 @@ class CdSearchResults extends Vue {
     creatorName: "",
   };
 
-  public get publicationYear() {
+  public get publicationYear(): [number, number] {
     return SearchResults.$state.publicationYear;
   }
 
   public set publicationYear(range: [number, number]) {
-    // TODO: validate input
     SearchResults.commit((state) => {
-      state.publicationYear = range;
+      state.publicationYear = [
+        clamp(
+          range[0],
+          this.filter.publicationYear.min,
+          this.filter.publicationYear.max,
+        ),
+        clamp(
+          range[1],
+          this.filter.publicationYear.min,
+          this.filter.publicationYear.max,
+        ),
+      ];
     });
   }
 
@@ -426,9 +445,19 @@ class CdSearchResults extends Vue {
   }
 
   public set dataCoverage(range: [number, number]) {
-    // TODO: validate input
     SearchResults.commit((state) => {
-      state.dataCoverage = range;
+      state.dataCoverage = [
+        clamp(
+          range[0],
+          this.filter.dataCoverage.min,
+          this.filter.dataCoverage.max,
+        ),
+        clamp(
+          range[1],
+          this.filter.dataCoverage.min,
+          this.filter.dataCoverage.max,
+        ),
+      ];
     });
   }
 
@@ -450,14 +479,30 @@ class CdSearchResults extends Vue {
 
     // PUBLICATION YEAR
     if (this.filter.publicationYear.isActive) {
-      queryParams.publishedStart = this.publicationYear[0];
-      queryParams.publishedEnd = this.publicationYear[1];
+      queryParams.publishedStart = clamp(
+        this.publicationYear[0],
+        this.filter.publicationYear.min,
+        this.filter.publicationYear.max,
+      );
+      queryParams.publishedEnd = clamp(
+        this.publicationYear[1],
+        this.filter.publicationYear.min,
+        this.filter.publicationYear.max,
+      );
     }
 
     // DATA COVERAGE
     if (this.filter.dataCoverage.isActive) {
-      queryParams.dataCoverageStart = this.dataCoverage[0];
-      queryParams.dataCoverageEnd = this.dataCoverage[1];
+      queryParams.dataCoverageStart = clamp(
+        this.dataCoverage[0],
+        this.filter.dataCoverage.min,
+        this.filter.dataCoverage.max,
+      );
+      queryParams.dataCoverageEnd = clamp(
+        this.dataCoverage[1],
+        this.filter.dataCoverage.min,
+        this.filter.dataCoverage.max,
+      );
     }
 
     // CREATOR NAME
@@ -512,7 +557,13 @@ class CdSearchResults extends Vue {
       cn: this.filter.creatorName || undefined,
       r: this.filter.repository.value || undefined,
       py: this.filter.publicationYear.isActive
-        ? this.publicationYear.map((n) => n.toString()) || undefined
+        ? this.publicationYear.map((n) =>
+            clamp(
+              n,
+              this.filter.publicationYear.min,
+              this.filter.publicationYear.max,
+            ).toString(),
+          ) || undefined
         : undefined,
       dc: this.filter.dataCoverage.isActive
         ? this.dataCoverage.map((n) => n.toString()) || undefined
@@ -548,26 +599,6 @@ class CdSearchResults extends Vue {
       : "registrationDate";
 
     this.onSearch();
-  }
-
-  /** @param field: the filter object to act on.
-   *  @param index: 0 or 1 (min or max).
-   *  @param value: the value to set.
-   */
-  public onSliderChange(
-    field: [number, number],
-    index: 0 | 1,
-    value: number,
-    filter: { min: number; max: number; isActive: boolean },
-  ) {
-    console.log("onSliderChange");
-    console.log(value);
-    // Conditional to prevent change event triggers on focus change where the value has not changed.
-    if (field[index] !== value) {
-      filter.isActive = true;
-      field[index] = value;
-      this.onSearch();
-    }
   }
 
   public onSliderControlChange(filter: {

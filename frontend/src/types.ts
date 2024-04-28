@@ -47,7 +47,7 @@ export interface ISearchFilter {
   // },
   repository: {
     options: string[];
-    value: string;
+    value: string | null;
   };
   // project: {
   //   // options: string[],
