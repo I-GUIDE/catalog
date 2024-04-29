@@ -1,16 +1,16 @@
 <template>
   <div class="cd-submissions">
-    <div class="cd-submissions--header">
+    <div>
       <div class="text-h4">My Submissions</div>
       <v-divider class="mb-4" />
       <div class="d-flex align-sm-center flex-column flex-sm-row">
         <v-text-field
           id="my_submissions_search"
           class="ma-1 my-2 my-sm-0"
-          v-model="filters.searchStr"
+          v-model="searchStr"
           density="compact"
           clearable
-          outlined
+          variant="outlined"
           hide-details
           prepend-inner-icon="mdi-magnify"
           label="Search..."
@@ -60,14 +60,8 @@
               :items="filteredSubmissions"
               :items-per-page.sync="itemsPerPage"
               :page.sync="page"
-              :search="filters.searchStr"
-              :sort-by="
-                sortBy.key ||
-                Object.keys(enumSubmissionSorts).find(
-                  (k) => enumSubmissionSorts[k] === sortBy,
-                )
-              "
-              :sort-desc="sortDesc"
+              :search="searchStr"
+              :sort-by="[sortBy]"
               item-key="id"
               hide-default-footer
             >
@@ -88,11 +82,11 @@
                       <v-select
                         id="sort-by"
                         :items="sortOptions"
-                        v-model="sortBy"
+                        v-model="sortBy.key"
                         item-text="label"
                         return-object
-                        class="mr-1 sort-control my-md-0 my-2"
-                        outlined
+                        class="sort-control mr-2"
+                        variant="outlined"
                         density="compact"
                         hide-details="auto"
                         label="Sort by"
@@ -101,11 +95,11 @@
                       <v-select
                         id="sort-order"
                         :items="sortDirectionOptions"
-                        v-model="sortDirection"
+                        v-model="sortBy.order"
                         item-text="label"
                         return-object
-                        class="sort-control my-md-0 my-2"
-                        outlined
+                        class="sort-control"
+                        variant="outlined"
                         density="compact"
                         hide-details="auto"
                         label="Order"
@@ -120,7 +114,7 @@
                 <div
                   :id="`submission-${index}`"
                   v-for="(item, index) in items"
-                  :key="item.id"
+                  :key="item.raw.id"
                 >
                   <div
                     class="table-item d-flex justify-space-between flex-column flex-md-row"
@@ -136,18 +130,18 @@
                             :id="`sub-${index}-title`"
                             class="text-h6 title"
                           >
-                            {{ item.title }}
+                            {{ item.raw.title }}
                           </td>
                         </tr>
-                        <tr v-if="item.authors.length">
+                        <tr v-if="item.raw.authors?.length">
                           <th class="pr-4 body-2">Authors:</th>
-                          <td>{{ item.authors.join(" | ") }}</td>
+                          <td>{{ item.raw.authors.join(" | ") }}</td>
                         </tr>
 
                         <tr>
                           <th class="pr-4 body-2">Submission Date:</th>
                           <td :id="`sub-${index}-date`">
-                            {{ getDateInLocalTime(item.date) }}
+                            {{ getDateInLocalTime(item.raw.date) }}
                           </td>
                         </tr>
                         <!-- TODO: get the identifier in the schema, not the db identifier -->
@@ -168,7 +162,7 @@
                         @click="
                           $router.push({
                             name: 'dataset',
-                            params: { id: item.identifier },
+                            params: { id: item.raw.identifier },
                           })
                         "
                       >
@@ -177,9 +171,9 @@
 
                       <!-- VIEW IN REPOSITORY -->
                       <v-btn
-                        v-if="item.repoIdentifier"
+                        v-if="item.raw.repoIdentifier"
                         :id="`sub-${index}-view-repo`"
-                        :href="item.url"
+                        :href="item.raw.url"
                         target="_blank"
                         color="blue-grey lighten-4"
                         rounded
@@ -190,19 +184,21 @@
 
                       <!-- UPDATE -->
                       <v-btn
-                        v-if="item.repoIdentifier"
+                        v-if="item.raw.repoIdentifier"
                         :id="`sub-${index}-update`"
-                        @click="onUpdate(item)"
-                        :disabled="isUpdating[item.id] || isDeleting[item.id]"
+                        @click="onUpdate(item.raw)"
+                        :disabled="
+                          isUpdating[item.raw.id] || isDeleting[item.raw.id]
+                        "
                         rounded
                       >
-                        <v-icon v-if="isUpdating[item.id]"
+                        <v-icon v-if="isUpdating[item.raw.id]"
                           >fas fa-circle-notch fa-spin</v-icon
                         >
                         <v-icon v-else>mdi-update</v-icon
                         ><span class="ml-1">
                           {{
-                            isUpdating[item.id]
+                            isUpdating[item.raw.id]
                               ? "Updating Record..."
                               : "Update Record"
                           }}</span
@@ -216,10 +212,12 @@
                         @click="
                           $router.push({
                             name: 'dataset-edit',
-                            params: { id: item.identifier },
+                            params: { id: item.raw.identifier },
                           })
                         "
-                        :disabled="isUpdating[item.id] || isDeleting[item.id]"
+                        :disabled="
+                          isUpdating[item.raw.id] || isDeleting[item.raw.id]
+                        "
                         rounded
                       >
                         <v-icon>mdi-pencil</v-icon
@@ -229,17 +227,19 @@
                       <!-- DELETE -->
                       <v-btn
                         :id="`sub-${index}-delete`"
-                        @click="onDelete(item)"
-                        :disabled="isUpdating[item.id] || isDeleting[item.id]"
+                        @click="onDelete(item.raw)"
+                        :disabled="
+                          isUpdating[item.raw.id] || isDeleting[item.raw.id]
+                        "
                         rounded
                       >
-                        <v-icon v-if="isDeleting[item.id]"
+                        <v-icon v-if="isDeleting[item.raw.id]"
                           >fas fa-circle-notch fa-spin</v-icon
                         >
                         <v-icon v-else>mdi-delete</v-icon
                         ><span class="ml-1">
                           {{
-                            isDeleting[item.id] ? "Deleting..." : "Delete"
+                            isDeleting[item.raw.id] ? "Deleting..." : "Delete"
                           }}</span
                         >
                       </v-btn>
@@ -351,11 +351,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            class="dialog-cancel"
-            @click="isDeleteDialogActive = false"
-            text
-          >
+          <v-btn class="dialog-cancel" @click="isDeleteDialogActive = false">
             Cancel
           </v-btn>
 
@@ -366,7 +362,6 @@
               onDeleteSubmission();
             "
             color="red darken-1"
-            text
           >
             Delete
           </v-btn>
@@ -381,13 +376,9 @@ import { Component, Vue, toNative } from "vue-facing-decorator";
 import {
   ISubmission,
   EnumSubmissionSorts,
-  EnumSortDirections,
 } from "@/components/submissions/types";
 import { Subscription } from "rxjs";
-import {
-  itemsPerPageArray,
-  sortDirectionsOverrides,
-} from "@/components/submissions/constants";
+import { itemsPerPageArray } from "@/components/submissions/constants";
 import Submission from "@/models/submission.model";
 import User from "@/models/user.model";
 
@@ -403,15 +394,11 @@ class CdSubmissions extends Vue {
     submission: ISubmission;
   } | null = null;
 
-  filters: {
-    searchStr: string;
-  } = { searchStr: "" };
+  searchStr: string = "";
 
   itemsPerPageArray = itemsPerPageArray;
   page = 1;
   enumSubmissionSorts = EnumSubmissionSorts;
-  enumSortDirections = EnumSortDirections;
-  sortDirectionsOverrides = sortDirectionsOverrides;
   currentItems = [];
   loggedInSubject = new Subscription();
 
@@ -419,22 +406,18 @@ class CdSubmissions extends Vue {
     return Submission.$state.sortBy;
   }
 
-  set sortBy(sortBy: { key: string; label: string }) {
+  set sortBy(sortBy: { key: string; order: "asc" | "desc" }) {
     Submission.commit((state) => {
       state.sortBy = sortBy;
     });
-
-    this._loadSortDirection();
   }
 
-  get sortDirection(): { key: string; label: string } {
-    return Submission.$state.sortDirection;
+  get sortOptions() {
+    return ["title", "date"];
   }
 
-  set sortDirection(sortDirection: { key: string; label: string }) {
-    Submission.commit((state) => {
-      state.sortDirection = sortDirection;
-    });
+  get sortDirectionOptions() {
+    return ["asc", "desc"];
   }
 
   get itemsPerPage() {
@@ -451,34 +434,15 @@ class CdSubmissions extends Vue {
     return Submission.$state.isFetching;
   }
 
-  get sortOptions() {
-    return Object.keys(EnumSubmissionSorts).map((key) => {
-      return { key: key, label: EnumSubmissionSorts[key] };
-    });
-  }
-
   get isLoggedIn() {
     return User.$state.isLoggedIn;
   }
 
-  get sortDirectionOptions() {
-    return Object.keys(EnumSortDirections).map((key) => {
-      return {
-        key,
-        label:
-          sortDirectionsOverrides[this.sortBy.key]?.[key] ||
-          EnumSortDirections[key],
-      };
-    });
-  }
-
   get isAnyFilterAcitve() {
-    return Object.keys(this.filters).find(
-      (key) => this.filters[key] && this.filters[key].length,
-    );
+    return !!this.searchStr.length;
   }
 
-  get filteredSubmissions() {
+  get filteredSubmissions(): ISubmission[] {
     return Submission.all();
   }
 
@@ -493,10 +457,6 @@ class CdSubmissions extends Vue {
     return Math.ceil(this.submissions.length / this.itemsPerPage);
   }
 
-  get sortDesc(): boolean {
-    return this.sortDirection.key === "desc";
-  }
-
   created() {
     if (User.$state.isLoggedIn) {
       Submission.fetchSubmissions();
@@ -505,8 +465,6 @@ class CdSubmissions extends Vue {
     this.loggedInSubject = User.loggedIn$.subscribe(() => {
       Submission.fetchSubmissions();
     });
-
-    this._loadSortDirection();
   }
 
   beforeDestroy() {
@@ -544,6 +502,7 @@ class CdSubmissions extends Vue {
 
     const headerRow = columnLabels.join(",") + "\n";
     const rows = parsedSubmissions.map((s) => {
+      // @ts-ignore
       return Object.keys(s).map((key) => `"${s[key]}"`);
     });
 
@@ -574,18 +533,16 @@ class CdSubmissions extends Vue {
 
   async onUpdate(submission: ISubmission) {
     if (submission.repoIdentifier) {
-      this.$set(this.isUpdating, submission.id || "", true);
+      this.isUpdating[submission.id] = true;
       await Submission.updateSubmission(submission.repoIdentifier);
-      this.$set(this.isUpdating, submission.id || "", false);
+      this.isUpdating[submission.id] = false;
     }
   }
 
   async onDeleteSubmission() {
-    this.$set(
-      this.isDeleting,
-      this.deleteDialogData?.submission.id || "",
-      true,
-    );
+    if (this.deleteDialogData?.submission.id) {
+      this.isDeleting[this.deleteDialogData.submission.id] = true;
+    }
 
     if (this.deleteDialogData) {
       await Submission.deleteSubmission(
@@ -594,23 +551,10 @@ class CdSubmissions extends Vue {
       );
     }
 
-    this.$set(
-      this.isDeleting,
-      this.deleteDialogData?.submission.id || "",
-      false,
-    );
-
-    this.deleteDialogData = null;
-  }
-
-  /** Use this function to load the correct sort option in case we have mutaded the entries to override the labels */
-  _loadSortDirection() {
-    const selectedOption = this.sortDirectionOptions.find(
-      (s) => s.key === this.sortDirection.key,
-    );
-    if (selectedOption) {
-      this.sortDirection = selectedOption;
+    if (this.deleteDialogData?.submission.id) {
+      this.isDeleting[this.deleteDialogData.submission.id] = false;
     }
+    this.deleteDialogData = null;
   }
 }
 export default toNative(CdSubmissions);
