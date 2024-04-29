@@ -8,7 +8,7 @@
       <cz-form
         :schema="schema"
         :uischema="uiSchema"
-        :isValid.sync="isValid"
+        v-model:isValid="isValid"
         :errors.sync="errors"
         @update:errors="onUpdateErrors"
         @update:model-value="onDataChange"
@@ -36,7 +36,7 @@
             class="d-flex form-controls flex-column flex-sm-row"
           >
             <v-badge
-              :value="!!errors.length"
+              :model-value="!isValid"
               bordered
               color="error"
               icon="mdi-exclamation-thick"
