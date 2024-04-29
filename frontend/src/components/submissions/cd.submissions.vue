@@ -40,7 +40,9 @@
     </div>
 
     <template v-if="isFetching">
-      <v-progress-circular indeterminate color="primary" />
+      <div class="d-flex justify-center align-center mt-16">
+        <v-progress-circular indeterminate color="primary" />
+      </div>
     </template>
     <template v-else>
       <div v-if="submissions.length" class="mt-4">

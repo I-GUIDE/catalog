@@ -14,14 +14,12 @@ export const hasNextRouteGuard: NavigationGuard = () => {
 };
 
 export const hasLoggedInGuard: NavigationGuard = (to, from, next) => {
-  console.log("hasLoggedInGuard");
   if (!User.$state.isLoggedIn) User.openLogInDialog({ path: to.path });
   // next(from.path)
   else next();
 };
 
 export const hasUnsavedChangesGuard: NavigationGuard = (to, from, next) => {
-  console.log("hasUnsavedChangesGuard");
   if (User.$state.hasUnsavedChanges) {
     Notifications.openDialog({
       title: "You have unsaved changes",

@@ -80,7 +80,7 @@ export default class Submission extends Model implements ISubmission {
   }
 
   static async fetchSubmissions() {
-    console.log("Fetching submissions...");
+    console.log("[Submission]: Fetching submissions...");
     try {
       this.commit((state) => {
         return (state.isFetching = true);
@@ -117,7 +117,7 @@ export default class Submission extends Model implements ISubmission {
 
   // TODO: modify endpoint so that it can perform the delete with the db id itself
   static async deleteSubmission(identifier: string, id: string) {
-    console.log("Deleting submission...");
+    console.log("[Submission]: Deleting submission...");
     try {
       const response: Response = await fetch(
         `${ENDPOINTS.deleteSubmission}/${identifier}/`,
