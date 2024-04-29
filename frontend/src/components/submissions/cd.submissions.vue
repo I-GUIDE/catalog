@@ -48,7 +48,7 @@
           <div id="total_submissions" class="mb-4 text-h6">
             {{ submissions.length }} Total Submissions
           </div>
-          <p v-if="isAnyFilterAcitve" class="text--secondary">
+          <p v-if="isAnyFilterAcitve" class="text-medium-emphasis">
             {{ currentItems.length }} Results
           </p>
         </div>
@@ -306,14 +306,14 @@
               </template>
 
               <template #no-data>
-                <div class="text-subtitle-1 text--secondary ma-4">
+                <div class="text-subtitle-1 text-medium-emphasis ma-4">
                   You don't have any submissions that match the selected
                   criteria.
                 </div>
               </template>
 
               <template #no-results>
-                <div class="text-subtitle-1 text--secondary ma-4">
+                <div class="text-subtitle-1 text-medium-emphasis ma-4">
                   You don't have any submissions that match the selected
                   criteria.
                 </div>

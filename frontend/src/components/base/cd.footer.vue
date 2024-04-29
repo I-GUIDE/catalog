@@ -1,7 +1,7 @@
 <template>
   <v-container
     flat
-    class="footer text--secondary d-flex flex-column align-center full-width text-body-2 font-weight-light"
+    class="footer d-flex flex-column align-center full-width text-body-2 font-weight-light"
   >
     <div class="d-lg-flex justify-space-between full-width">
       <div class="mb-4">

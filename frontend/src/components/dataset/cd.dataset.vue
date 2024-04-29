@@ -25,7 +25,7 @@
         :config="config"
       />
     </template>
-    <div v-else-if="isLoading" class="text-h6 text--secondary my-12">
+    <div v-else-if="isLoading" class="text-h6 text-medium-emphasis my-12">
       <v-progress-circular indeterminate color="primary" />
     </div>
     <v-alert

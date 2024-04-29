@@ -40,7 +40,7 @@ export const routes: RouteRecordRaw[] = [
       title: "Contribute",
       flat: true,
     },
-    beforeEnter: [hasLoggedInGuard, hasUnsavedChangesGuard],
+    beforeEnter: [hasLoggedInGuard],
   },
   {
     name: "register",
@@ -82,7 +82,7 @@ export const routes: RouteRecordRaw[] = [
       title: "Edit Dataset",
       flat: true,
     },
-    beforeEnter: [hasLoggedInGuard, hasUnsavedChangesGuard],
+    beforeEnter: [hasLoggedInGuard],
   },
   {
     name: "auth-redirect",

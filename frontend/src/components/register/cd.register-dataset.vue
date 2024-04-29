@@ -3,8 +3,16 @@
     <div class="text-h4">Register Dataset</div>
     <v-divider class="mb-4" />
 
-    <v-alert border="start" colored-border type="info" elevation="1">
-      <div class="d-flex justify-space-between flex-sm-row flex-column">
+    <v-alert
+      border="start"
+      type="info"
+      variant="outlined"
+      prominent
+      density="compact"
+    >
+      <div
+        class="d-flex justify-space-between align-center flex-sm-row flex-column text-body-1"
+      >
         <div>
           Use this form to register existing datasets from
           <a href="https://www.hydroshare.org/">HydroShare</a>.
@@ -34,13 +42,13 @@
         type="url"
         hide-details="auto"
         persistent-hint
-        outlined
+        variant="outlined"
         @keypress.enter="onReadDataset"
       >
       </v-text-field>
 
       <div
-        class="text-subtitle-1 text--secondary pl-3 mb-4 mt-1"
+        class="text-subtitle-1 text-medium-emphasis pl-3 mb-4 mt-1"
         style="word-break: break-word"
       >
         {{ `e.g. '${exampleUrl}' or '${exampleIdentifier}'` }}
@@ -114,7 +122,7 @@
         >
           mdi-check-circle
         </v-icon>
-        <div class="text-h6 text--secondary">
+        <div class="text-h6 text-medium-emphasis">
           Your dataset has been registered:
         </div>
       </div>

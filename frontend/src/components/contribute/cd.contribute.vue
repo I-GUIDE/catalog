@@ -1,6 +1,6 @@
 <template>
   <v-container class="cd-contribute">
-    <div class="display-1">
+    <div class="text-h4">
       {{ isEditMode ? "Edit Submission" : "Contribute" }}
     </div>
 
@@ -9,15 +9,16 @@
         :schema="schema"
         :uischema="uiSchema"
         :isValid.sync="isValid"
-        :data.sync="data"
         :errors.sync="errors"
+        @update:errors="onUpdateErrors"
+        @update:model-value="onDataChange"
         :config="config"
-        @update:data="onDataChange"
+        v-model="data"
         ref="form"
       />
     </template>
 
-    <div v-else-if="isLoading" class="text-h6 text--secondary my-12">
+    <div v-else-if="isLoading" class="text-h6 text-medium-emphasis my-12">
       <v-progress-circular indeterminate color="primary" />
     </div>
 
@@ -53,27 +54,31 @@
           </div>
         </template>
 
-        <div class="white pa-4">
-          <ul
-            v-for="(error, index) of errors"
-            :key="index"
-            class="text-subtitle-1"
-          >
-            <li>
-              <b>{{ error.title }}</b> {{ error.message }}.
-            </li>
-          </ul>
-        </div>
+        <v-card class="bg-white">
+          <v-card-text>
+            <ul
+              v-for="(error, index) of errors"
+              :key="index"
+              class="text-subtitle-1 ml-4"
+            >
+              <li>
+                <b>{{ error.title }}</b> {{ error.message }}.
+              </li>
+            </ul>
+          </v-card-text>
+        </v-card>
       </v-menu>
     </div>
   </v-container>
 </template>
 
 <script lang="ts">
-import { Component, Vue, toNative } from "vue-facing-decorator";
+import { Component, Vue, toNative, Hook } from "vue-facing-decorator";
 import { Notifications, CzForm } from "@cznethub/cznet-vue-core";
 
 import User from "@/models/user.model";
+import { hasUnsavedChangesGuard } from "@/guards";
+import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 const initialData = {};
 
@@ -87,7 +92,7 @@ class CdContribute extends Vue {
   isLoading = true;
   wasLoaded = false;
   submissionId = "";
-  errors = [];
+  errors: { title: string; message: string }[] = [];
   data = initialData;
   timesChanged = 0;
   isSaving = false;
@@ -137,7 +142,7 @@ class CdContribute extends Vue {
     this.hasUnsavedChanges = false;
     if (this.$route?.name === "dataset-edit") {
       this.isEditMode = true;
-      this.submissionId = this.$route?.params.id;
+      this.submissionId = this.$route?.params.id as string;
       this.loadDataset();
     }
   }
@@ -217,6 +222,10 @@ class CdContribute extends Vue {
     }
   }
 
+  onUpdateErrors(errors: { title: string; message: string }[]) {
+    this.errors = errors;
+  }
+
   onCancel() {
     if (this.isEditMode) {
       this.$router.push({
@@ -228,7 +237,7 @@ class CdContribute extends Vue {
     }
   }
 
-  onDataChange(_data) {
+  onDataChange(_data: any) {
     // cz-form emits 'change' event multiple times during instantioation.
     const changesDuringInstantiation = this.isEditMode ? 2 : 3;
 
@@ -239,18 +248,14 @@ class CdContribute extends Vue {
     this.hasUnsavedChanges = this.timesChanged > changesDuringInstantiation;
   }
 
-  // mounted() {
-  //   Notifications.toast({
-  //     message: `Failed to perform search`,
-  //     type: "error",
-  //   });
-
-  //   Notifications.openDialog({
-  //     title: "some title",
-  //     content: "some content",
-  //     onConfirm: () => {},
-  //   });
-  // }
+  @Hook
+  beforeRouteLeave(
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized,
+    next: NavigationGuardNext,
+  ) {
+    hasUnsavedChangesGuard(to, from, next);
+  }
 }
 export default toNative(CdContribute);
 </script>

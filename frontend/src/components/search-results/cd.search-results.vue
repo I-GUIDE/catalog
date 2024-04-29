@@ -243,7 +243,7 @@
             <template v-else>
               <div
                 v-if="!results.length"
-                class="text-body-2 text--secondary text-center mt-8"
+                class="text-body-2 text-medium-emphasis text-center mt-8"
               >
                 <div class="mb-8">No results found.</div>
                 <v-icon x-large>mdi-book-remove-multiple</v-icon>
@@ -267,7 +267,7 @@
                     'snip-3': !result.showMore,
                   }"
                   v-html="
-                    `<span class='text--secondary text-body-2'>${formatDate(
+                    `<span class='text-medium-emphasis text-body-2'>${formatDate(
                       result.dateCreated,
                     )}</span>${result.dateCreated ? ' - ' : ''}${highlight(
                       result,
@@ -334,13 +334,13 @@
           ></div>
           <div
             v-if="isFetchingMore"
-            class="text-subtitle-2 text--secondary text-center"
+            class="text-subtitle-2 text-medium-emphasis text-center"
           >
             Loading more results...
           </div>
           <div
             v-if="results.length && !hasMore"
-            class="text-subtitle-2 text--secondary text-center"
+            class="text-subtitle-2 text-medium-emphasis text-center"
           >
             End of results.
           </div>
