@@ -14,6 +14,7 @@
             label="Publication year"
             density="compact"
             hide-details
+            color="primary"
           />
           <v-range-slider
             v-model="publicationYear"
@@ -21,6 +22,7 @@
             :class="{ 'grayed-out': !filter.publicationYear.isActive }"
             :min="filter.publicationYear.min"
             :max="filter.publicationYear.max"
+            color="primary"
             class="mb-1"
             step="1"
             track-size="1"
@@ -70,6 +72,7 @@
             density="compact"
             label="Data temporal coverage"
             hide-details
+            color="primary"
           />
           <v-range-slider
             v-model="dataCoverage"
@@ -78,6 +81,7 @@
             :min="filter.dataCoverage.min"
             :max="filter.dataCoverage.max"
             hide-details
+            color="primary"
             class="mb-1"
             step="1"
             track-size="1"
