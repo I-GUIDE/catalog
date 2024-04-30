@@ -1,9 +1,10 @@
 <template>
-  <v-autocomplete
+  <v-combobox
     :items="hints"
     @keydown.enter="onSearch"
     @click:clear="$emit('clear')"
-    v-model:search="valueInternal"
+    v-model="valueInternal"
+    v-model:menu="menu"
     ref="searchInput"
     prepend-inner-icon="mdi-magnify"
     item-props
@@ -11,18 +12,20 @@
     item-value="key"
     rounded
     :placeholder="$t(`home.search.inputPlaceholder`)"
-    variant="outlined"
     density="compact"
     clearable
+    :loading="isFetchingHints"
     hide-no-data
+    variant="solo"
     v-bind="inputAttrs"
+    no-filter
   >
     <template #item="{ props, item }">
       <v-list-item
         v-bind="props"
+        density="compact"
         @pointerdown="onHintSelected($event, item.raw)"
         @keydown.enter="onHintSelected($event, item.raw)"
-        density="compact"
       >
         <template #prepend>
           <v-icon size="x-small">{{
@@ -55,71 +58,7 @@
         </template>
       </v-list-item>
     </template>
-  </v-autocomplete>
-
-  <!-- <v-menu offset-y v-model="menu">
-    <template #activator="{ props }">
-      <v-text-field
-        class="cz-search"
-        variant="solo"
-        v-bind="{ ...props, ...inputAttrs }"
-        ref="searchInput"
-        @keydown.up="onDetectCrossover('up')"
-        @keydown.down="onDetectCrossover('down')"
-        @keyup.up="onHintHighlighted()"
-        @keyup.down="onHintHighlighted()"
-        @keydown.enter="onSearch"
-        @click:clear="$emit('clear')"
-        v-model.trim.lazy="valueInternal"
-        prepend-inner-icon="mdi-magnify"
-        :placeholder="$t(`home.search.inputPlaceholder`)"
-        rounded
-        full-width
-        hide-details
-        flat
-        density="compact"
-        clearable
-      />
-    </template>
-
-    <v-progress-linear
-      v-if="isFetchingHints"
-      indeterminate
-      absolute
-      color="yellow darken-2"
-    />
-
-    <v-list>
-      <v-list-item
-        v-if="showList"
-        v-for="(hint, index) of hints"
-        ref="hintElements"
-        :key="index"
-        density="compact"
-        @pointerdown="onHintSelected($event, hint)"
-      >
-        <template #prepend>
-          <v-icon size="x-small">{{
-            hint.type === "local" ? "mdi-history" : "mdi-magnify"
-          }}</v-icon>
-        </template>
-        <template #title>
-          <v-list-item-title
-            :class="{ 'text-accent': hint.type === 'local' }"
-            class="font-weight-regular"
-            >{{ hint.key }}</v-list-item-title
-          >
-        </template>
-        <template #append>
-          <v-list-item-action class="ma-0 pa-0" v-if="hint.type === 'local'">
-            <v-btn icon flat size="x-small" @click.stop="deleteHint(hint)">
-              <v-icon ref="btnDeleteHint">mdi-close</v-icon>
-            </v-btn>
-          </v-list-item-action>
-        </template>
-      </v-list-item>
-    </v-list>
-  </v-menu> -->
+  </v-combobox>
 </template>
 
 <script lang="ts">
@@ -228,24 +167,31 @@ class CdSearch extends Vue {
       await this._onTypeahead();
     } catch (e) {}
     this.hints = this.typeaheadHints;
-    this.searchInput?.focus();
+
+    // Initially, set focus on the input, but hide menu.
+    setTimeout(() => {
+      this.searchInput?.focus();
+      this.menu = false;
+    }, 0);
 
     // https://www.learnrxjs.io/learn-rxjs/recipes/type-ahead
-    fromEvent(this.searchInput?.$el, "input")
-      .pipe(
-        tap(() => {
-          this.isFetchingHints = !!this.valueInternal;
-          // Show hints from local history while the database ones load
-          this.hints = this.localHints;
-          this.menu = true;
-        }),
-        debounceTime(typeaheadDebounceTime),
-        map((e: any) => e.target.value),
-        switchMap(() => from(this._onTypeahead())),
-      )
-      .subscribe(() => {
-        this._handleTypeahead(false);
-      });
+    if (this.searchInput) {
+      fromEvent(this.searchInput?.$el, "input")
+        .pipe(
+          tap(() => {
+            this.isFetchingHints = !!this.valueInternal;
+            // Show hints from local history while the database ones load
+            this.hints = this.localHints;
+            this.menu = true;
+          }),
+          debounceTime(typeaheadDebounceTime),
+          map((e: any) => e.target.value),
+          switchMap(() => from(this._onTypeahead())),
+        )
+        .subscribe(() => {
+          this._handleTypeahead();
+        });
+    }
   }
 
   public onSearch() {
@@ -260,24 +206,17 @@ class CdSearch extends Vue {
   }
 
   public async onHintSelected(event: PointerEvent, hint: IHint) {
-    // We only act on 'pointerdown' event. The enter key is already captured in the input.
-    // The value is already populated by onHintHighlighted.
-
     // Ignore clicks on the action buttons
-    // if (
-    //   this.btnDeleteHint &&
-    //   this.btnDeleteHint.map((btn) => btn.$el).includes(event.target)
-    // ) {
-    //   return;
-    // }
+    if (
+      // @ts-ignore
+      event.target?.classList.contains("mdi-close")
+    ) {
+      return;
+    }
 
-    // if (event.type === "pointerdown") {
     this.valueInternal = hint.key;
     this.isFetchingHints = !!this.valueInternal;
     this.onSearch();
-    // await this._onTypeahead();
-    // this._handleTypeahead(false);
-    // }
   }
 
   public deleteHint(hint: IHint) {
@@ -301,10 +240,9 @@ class CdSearch extends Vue {
     }
   }
 
-  _handleTypeahead(bringUpHintsMenu = true) {
+  _handleTypeahead() {
     this.hints = this.typeaheadHints;
     if (this.valueInternal) {
-      this.menu = bringUpHintsMenu || this.menu;
       this.isFetchingHints = false;
     }
   }
