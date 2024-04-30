@@ -186,7 +186,7 @@
         <v-container class="results-content">
           <cd-search
             v-model="searchQuery"
-            @input="onSearch"
+            @update:model-value="onSearch"
             @clear="
               searchQuery = '';
               onSearch(true);
@@ -683,7 +683,7 @@ class CdSearchResults extends Vue {
     if (!this.searchQuery && useAllResultsSort) {
       this.sort = "registrationDate";
     } else if (this.searchQuery && this.sort === "registrationDate") {
-      this.sort = this.preferredSort; // TODO: use previous sort
+      this.sort = this.preferredSort;
     }
 
     this.hasMore = true;

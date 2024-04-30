@@ -1,5 +1,63 @@
 <template>
-  <v-menu offset-y v-model="menu">
+  <v-autocomplete
+    :items="hints"
+    @keydown.enter="onSearch"
+    @click:clear="$emit('clear')"
+    v-model:search="valueInternal"
+    ref="searchInput"
+    prepend-inner-icon="mdi-magnify"
+    item-props
+    item-title="key"
+    item-value="key"
+    rounded
+    :placeholder="$t(`home.search.inputPlaceholder`)"
+    variant="outlined"
+    density="compact"
+    clearable
+    hide-no-data
+    v-bind="inputAttrs"
+  >
+    <template #item="{ props, item }">
+      <v-list-item
+        v-bind="props"
+        @pointerdown="onHintSelected($event, item.raw)"
+        @keydown.enter="onHintSelected($event, item.raw)"
+        density="compact"
+      >
+        <template #prepend>
+          <v-icon size="x-small">{{
+            item.raw.type === "local" ? "mdi-history" : "mdi-magnify"
+          }}</v-icon>
+        </template>
+        <template #title>
+          <v-list-item-title
+            :class="{ 'text-accent': item.raw.type === 'local' }"
+            class="font-weight-regular"
+            >{{ item.raw.key }}</v-list-item-title
+          >
+        </template>
+        <template #append>
+          <v-list-item-action
+            tabindex="-1"
+            class="ma-0 pa-0"
+            v-if="item.raw.type === 'local'"
+          >
+            <v-btn
+              tabindex="-1"
+              icon
+              flat
+              size="x-small"
+              @click.stop="deleteHint(item.raw)"
+            >
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-list-item-action>
+        </template>
+      </v-list-item>
+    </template>
+  </v-autocomplete>
+
+  <!-- <v-menu offset-y v-model="menu">
     <template #activator="{ props }">
       <v-text-field
         class="cz-search"
@@ -31,7 +89,7 @@
       color="yellow darken-2"
     />
 
-    <v-list max-height="20rem">
+    <v-list>
       <v-list-item
         v-if="showList"
         v-for="(hint, index) of hints"
@@ -39,27 +97,29 @@
         :key="index"
         density="compact"
         @pointerdown="onHintSelected($event, hint)"
-        :prepend-icon="hint.type === 'local' ? 'mdi-history' : 'mdi-magnify'"
       >
-        <v-list-item-title
-          :class="{ 'accent--text': hint.type === 'local' }"
-          class="font-weight-regular"
-          >{{ hint.key }}</v-list-item-title
-        >
-
-        <v-list-item-action class="ma-0 pa-0" v-if="hint.type === 'local'">
-          <v-tooltip bottom>
-            <template #activator="{ props }">
-              <v-btn icon x-small v-bind="props" @click.stop="deleteHint(hint)">
-                <v-icon ref="btnDeleteHint">mdi-close</v-icon>
-              </v-btn>
-            </template>
-            <span>Delete</span>
-          </v-tooltip>
-        </v-list-item-action>
+        <template #prepend>
+          <v-icon size="x-small">{{
+            hint.type === "local" ? "mdi-history" : "mdi-magnify"
+          }}</v-icon>
+        </template>
+        <template #title>
+          <v-list-item-title
+            :class="{ 'text-accent': hint.type === 'local' }"
+            class="font-weight-regular"
+            >{{ hint.key }}</v-list-item-title
+          >
+        </template>
+        <template #append>
+          <v-list-item-action class="ma-0 pa-0" v-if="hint.type === 'local'">
+            <v-btn icon flat size="x-small" @click.stop="deleteHint(hint)">
+              <v-icon ref="btnDeleteHint">mdi-close</v-icon>
+            </v-btn>
+          </v-list-item-action>
+        </template>
       </v-list-item>
     </v-list>
-  </v-menu>
+  </v-menu> -->
 </template>
 
 <script lang="ts">
@@ -88,13 +148,12 @@ const typeaheadDebounceTime = 500;
 @Component({
   name: "cd-search",
   components: {},
+  emits: ["update:model-value", "clear"],
 })
 class CdSearch extends Vue {
-  @Prop() value!: string;
+  @Prop() modelValue!: string;
   @Prop({ default: () => ({}) }) inputAttrs: any;
   @Ref("searchInput") searchInput!: InstanceType<typeof VTextField>;
-  @Ref("hintElements") hintElements!: InstanceType<typeof VListItem>[];
-  @Ref("btnDeleteHint") btnDeleteHint!: InstanceType<typeof VBtn>[];
 
   appName = APP_NAME;
 
@@ -163,8 +222,8 @@ class CdSearch extends Vue {
   }
 
   async mounted() {
-    this.valueInternal = this.value;
-    this.previousValueInternal = this.value;
+    this.valueInternal = this.modelValue;
+    this.previousValueInternal = this.modelValue;
     try {
       await this._onTypeahead();
     } catch (e) {}
@@ -200,64 +259,25 @@ class CdSearch extends Vue {
     this.menu = false;
   }
 
-  /** Detects when the user crosses over from the beginning or end of the list items.
-   * Then restores original value, hide the menu, and focus the input
-   */
-  public onDetectCrossover(direction: "up" | "down") {
-    const hintIndex = this.hintElements.findIndex((e) =>
-      e.$el.classList.contains("v-list-item--highlighted"),
-    );
-    if (this.detectCrossover) {
-      const hasCrossedOver =
-        (direction === "down" && hintIndex === this.hints.length - 1) ||
-        (direction === "up" && hintIndex === 0);
-
-      if (hasCrossedOver) {
-        this.valueInternal = this.previousValueInternal;
-        this.menu = false;
-        this.detectCrossover = false;
-        return;
-      }
-    } else {
-      this.detectCrossover = true;
-    }
-  }
-
-  /** Handles moving up and down the list of hints using the arrow keys */
-  public onHintHighlighted() {
-    const hintIndex = this.hintElements.findIndex((e) =>
-      e.$el.classList.contains("v-list-item--highlighted"),
-    );
-
-    if (hintIndex >= 0) {
-      this.valueInternal = this.hints[hintIndex].key;
-    }
-  }
-
-  public browse(term: string) {
-    this.valueInternal = term;
-    this.onSearch();
-  }
-
   public async onHintSelected(event: PointerEvent, hint: IHint) {
     // We only act on 'pointerdown' event. The enter key is already captured in the input.
     // The value is already populated by onHintHighlighted.
 
     // Ignore clicks on the action buttons
-    if (
-      this.btnDeleteHint &&
-      this.btnDeleteHint.map((btn) => btn.$el).includes(event.target)
-    ) {
-      return;
-    }
+    // if (
+    //   this.btnDeleteHint &&
+    //   this.btnDeleteHint.map((btn) => btn.$el).includes(event.target)
+    // ) {
+    //   return;
+    // }
 
-    if (event.type === "pointerdown") {
-      this.valueInternal = hint.key;
-      this.isFetchingHints = !!this.valueInternal;
-      this.onSearch();
-      await this._onTypeahead();
-      this._handleTypeahead(false);
-    }
+    // if (event.type === "pointerdown") {
+    this.valueInternal = hint.key;
+    this.isFetchingHints = !!this.valueInternal;
+    this.onSearch();
+    // await this._onTypeahead();
+    // this._handleTypeahead(false);
+    // }
   }
 
   public deleteHint(hint: IHint) {
@@ -266,7 +286,7 @@ class CdSearch extends Vue {
   }
 
   async _onTypeahead() {
-    if (!this.valueInternal?.trim()) {
+    if (!this.valueInternal?.trim?.()) {
       this.isFetchingHints = false;
       this.hints = this.typeaheadHints;
       return;
@@ -290,7 +310,7 @@ class CdSearch extends Vue {
   }
 
   _onChange() {
-    this.$emit("input", this.valueInternal);
+    this.$emit("update:model-value", this.valueInternal);
   }
 }
 export default toNative(CdSearch);
