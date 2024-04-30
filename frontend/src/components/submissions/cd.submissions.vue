@@ -85,8 +85,8 @@
                         id="sort-by"
                         :items="sortOptions"
                         v-model="sortBy.key"
-                        item-text="label"
-                        return-object
+                        item-title="label"
+                        item-value="key"
                         class="sort-control mr-2"
                         variant="outlined"
                         density="compact"
@@ -98,8 +98,8 @@
                         id="sort-order"
                         :items="sortDirectionOptions"
                         v-model="sortBy.order"
-                        item-text="label"
-                        return-object
+                        item-title="label"
+                        item-value="key"
                         class="sort-control"
                         variant="outlined"
                         density="compact"
@@ -378,6 +378,7 @@ import { Component, Vue, toNative } from "vue-facing-decorator";
 import {
   ISubmission,
   EnumSubmissionSorts,
+  EnumSortDirections,
 } from "@/components/submissions/types";
 import { Subscription } from "rxjs";
 import { itemsPerPageArray } from "@/components/submissions/constants";
@@ -415,11 +416,20 @@ class CdSubmissions extends Vue {
   }
 
   get sortOptions() {
-    return ["title", "date"];
+    return Object.keys(EnumSubmissionSorts).map((key) => {
+      // @ts-ignore
+      return { key, label: EnumSubmissionSorts[key] as string };
+    });
   }
 
   get sortDirectionOptions() {
-    return ["asc", "desc"];
+    return Object.keys(EnumSortDirections).map((key) => {
+      return {
+        key,
+        // @ts-ignore
+        label: EnumSortDirections[key],
+      };
+    });
   }
 
   get itemsPerPage() {
