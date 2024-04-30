@@ -593,11 +593,6 @@ class CdSearchResults extends Vue {
 
   created() {
     this._loadRouteParams();
-
-    this.sort = this.$route?.query["q"]
-      ? this.preferredSort
-      : "registrationDate";
-
     this.onSearch();
   }
 
@@ -606,7 +601,6 @@ class CdSearchResults extends Vue {
     max: number;
     isActive: boolean;
   }) {
-    console.log("onSliderControlChange");
     filter.isActive = true;
     this.onSearch();
   }
@@ -615,7 +609,7 @@ class CdSearchResults extends Vue {
     this.$router.push({ path: `dataset/${id}` });
   }
 
-  public onIntersect(entries: any[], _observer: any) {
+  public onIntersect(_isIntersecting: boolean, entries: any[], _observer: any) {
     this.isIntersecting = entries[0]?.intersectionRatio >= 0.5;
     if (
       this.isIntersecting &&
@@ -653,31 +647,6 @@ class CdSearchResults extends Vue {
     }
     this.onSearch();
   }
-
-  // async onSearchAll() {
-  //   this.hasMore = true;
-  //   this.isSearching = true;
-  //   this.pageNumber = 1;
-
-  //   try {
-  //     this.hasMore = await Search.search({
-  //       ...this.queryParams,
-  //     });
-  //   } catch (e) {
-  //     console.log(e);
-  //     Search.commit((state) => {
-  //       state.results = [];
-  //     });
-  //     Notifications.toast({
-  //       message: `Failed to perform search`,
-  //       type: "error",
-  //     });
-  //   }
-  //   this.isSearching = false;
-  //   this.$nextTick(() => {
-  //     this.displayRefs();
-  //   });
-  // }
 
   public async onSearch(useAllResultsSort?: boolean) {
     if (!this.searchQuery && useAllResultsSort) {
