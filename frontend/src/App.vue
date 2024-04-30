@@ -9,7 +9,7 @@
       fixed
       app
     >
-      <v-container class="d-flex align-end full-height pa-0 align-center">
+      <v-container class="d-flex align-end full-height py-1 align-center">
         <router-link :to="{ path: `/` }" class="logo">
           <img :src="'/img/logo-w.png'" alt="home" />
         </router-link>
@@ -24,9 +24,8 @@
             :key="path.attrs.to || path.attrs.href"
             v-bind="path.attrs"
             :id="`navbar-nav-${path.label.replaceAll(/[\/\s]/g, ``)}`"
-            :elevation="0"
-            active-class="primary"
-            :class="path.isActive?.() ? 'primary' : ''"
+            :class="path.isActive?.() ? 'bg-primary' : ''"
+            selected-class="bg-primary"
           >
             {{ path.label }}
           </v-btn>
@@ -277,6 +276,13 @@ export default toNative(App);
   img {
     height: 100%;
   }
+}
+
+// Workaround for selected-class property not working as intended
+.v-toolbar .v-btn--active,
+.v-navigation-drawer .v-list-item--active {
+  background-color: rgb(var(--v-theme-primary));
+  color: #fff;
 }
 
 #footer {

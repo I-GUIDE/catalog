@@ -256,7 +256,7 @@
               >
                 <a
                   @click="goToDataset(result.id)"
-                  class="result-title text-body-1 text-decoration-none"
+                  class="result-title text-body-1 cursor-pointer"
                   v-html="highlight(result, 'name')"
                 ></a>
 

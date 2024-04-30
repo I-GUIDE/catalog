@@ -6,9 +6,10 @@
     <v-alert
       border="start"
       type="info"
-      variant="outlined"
+      variant="text"
       prominent
       density="compact"
+      elevation="1"
     >
       <div
         class="d-flex justify-space-between align-center flex-sm-row flex-column text-body-1"
@@ -166,10 +167,12 @@
       <v-alert
         class="text-subtitle-1 ma-2 mt-8"
         border="start"
-        colored-border
         type="warning"
-        elevation="2"
         icon="mdi-magnify-remove-outline"
+        variant="text"
+        elevation="2"
+        density="compact"
+        prominent
       >
         We could not find a resource matching the criteria above. Please make
         sure that the URL or identifier is correct and try again.
@@ -179,10 +182,12 @@
       <v-alert
         class="text-subtitle-1 ma-2 mt-8"
         border="start"
-        colored-border
         type="warning"
         elevation="2"
         icon="mdi-content-duplicate"
+        density="compact"
+        variant="text"
+        prominent
       >
         The resource provided has already been registered.
       </v-alert>

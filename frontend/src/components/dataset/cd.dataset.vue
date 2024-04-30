@@ -31,7 +31,8 @@
     <v-alert
       v-else-if="!wasLoaded && !isLoading"
       border="start"
-      colored-border
+      variant="text"
+      prominent
       type="error"
       elevation="2"
       >Failed to load dataset</v-alert
