@@ -10,7 +10,7 @@
         <div class="mb-4">
           <v-checkbox
             v-model="filter.publicationYear.isActive"
-            @change="pushSearchRoute"
+            @update:model-value="pushSearchRoute"
             label="Publication year"
             density="compact"
             hide-details
@@ -68,7 +68,7 @@
         <div class="mb-6">
           <v-checkbox
             v-model="filter.dataCoverage.isActive"
-            @change="pushSearchRoute"
+            @update:model-value="pushSearchRoute"
             density="compact"
             label="Data temporal coverage"
             hide-details
@@ -76,7 +76,7 @@
           />
           <v-range-slider
             v-model="dataCoverage"
-            @change="onSliderControlChange(filter.dataCoverage)"
+            @update:model-value="onSliderControlChange(filter.dataCoverage)"
             :class="{ 'grayed-out': !filter.dataCoverage.isActive }"
             :min="filter.dataCoverage.min"
             :max="filter.dataCoverage.max"
@@ -125,7 +125,7 @@
 
         <!-- CREATOR NAME -->
         <v-text-field
-          @change="
+          @update:model-value="
             filter.creatorName = $event;
             pushSearchRoute();
           "
@@ -141,7 +141,7 @@
         <!-- <v-select
           :items="clusters"
           v-model="filter.project.value"
-          @change="onSearch"
+          @update:model-value="onSearch"
           class="mb-6"
           multiple
           small-chips
@@ -156,7 +156,7 @@
         <v-select
           :items="filter.repository.options"
           v-model="filter.repository.value"
-          @change="pushSearchRoute"
+          @update:model-value="pushSearchRoute"
           class="mb-6"
           clearable
           variant="outlined"
@@ -170,7 +170,7 @@
           <v-checkbox
             v-for="(option, index) of filter.contentType.options"
             v-model="filter.contentType.value"
-            @change="onSearch"
+            @update:model-value="onSearch"
             :key="index"
             :label="option"
             :value="option"
@@ -472,7 +472,7 @@ class CdSearchResults extends Vue {
     // },
     repository: {
       options: ["HydroShare"],
-      value: "",
+      value: null,
     },
     creatorName: "",
   };
@@ -792,7 +792,7 @@ class CdSearchResults extends Vue {
     this.filter.creatorName = (useRoute().query["cn"] as string) || "";
 
     // REPOSITORY
-    this.filter.repository.value = (useRoute().query["r"] as string) || "";
+    this.filter.repository.value = (useRoute().query["r"] as string) || null;
 
     // CONTENT TYPE
     // this.filter.contentType.value = (useRoute().query["ct"] as string[]) || [];
