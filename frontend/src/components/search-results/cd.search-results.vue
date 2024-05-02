@@ -444,7 +444,7 @@ class CdSearchResults extends Vue {
   hasMore = true;
   isSearching = false;
   isFetchingMore = false;
-  sort = "relevance";
+  sort: "name" | "dateCreated" | "relevance" | "registrationDate" = "relevance";
   sortEmpty = "registrationDate";
   formatDate = formatDate;
   descriptionRefs: any[] = [];
@@ -574,6 +574,7 @@ class CdSearchResults extends Vue {
     if (this.searchQuery && this.sort) {
       queryParams.sortBy = this.sort;
     } else if (this.sortEmpty) {
+      // @ts-ignore
       queryParams.sortBy = this.sortEmpty;
     }
 
@@ -802,7 +803,7 @@ class CdSearchResults extends Vue {
     if (this.$route.query["py"]) {
       this.filter.publicationYear.isActive = true;
       this.publicationYear =
-        ((this.$route.query["py"] as [string, string])?.map((n) => +n) as [
+        ((this.$route?.query["py"] as [string, string])?.map((n) => +n) as [
           number,
           number,
         ]) || this.publicationYear;
@@ -821,11 +822,19 @@ class CdSearchResults extends Vue {
     // SORT
     if (this.$route.query["s"]) {
       if (this.searchQuery) {
-        // @ts-ignore
-        this.sort = this.$route.query["s"];
+        this.sort =
+          (this.$route?.query["s"] as
+            | "name"
+            | "dateCreated"
+            | "relevance"
+            | "registrationDate") || this.sort;
       } else {
-        // @ts-ignore
-        this.sortEmpty = this.$route.query["s"];
+        this.sortEmpty =
+          (this.$route?.query["s"] as
+            | "name"
+            | "dateCreated"
+            | "relevance"
+            | "registrationDate") || this.sort;
       }
     }
   }
