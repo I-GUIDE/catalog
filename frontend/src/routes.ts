@@ -7,7 +7,7 @@ import CdContribute from "@/components/contribute/cd.contribute.vue";
 import AuthRedirect from "@/components/account/auth-redirect.vue";
 import CdRegisterDataset from "@/components/register/cd.register-dataset.vue";
 import { hasLoggedInGuard } from "./guards";
-import CdDatasetHtml from "./components/dataset/cd.dataset-html.vue";
+import CdDataset from "./components/dataset/cd.dataset.vue";
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -71,7 +71,7 @@ export const routes: RouteRecordRaw[] = [
   {
     name: "dataset",
     path: "/dataset/:id",
-    components: { content: CdDatasetHtml, footer: CdFooter },
+    components: { content: CdDataset, footer: CdFooter },
     meta: {
       title: "Dataset",
       flat: true,
