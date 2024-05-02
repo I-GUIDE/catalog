@@ -1,7 +1,55 @@
 <template>
   <v-container class="cd-contribute">
-    <div class="text-h4">
-      {{ isEditMode ? "Edit Submission" : "Contribute" }}
+    <div class="display-1 d-sm-flex d-block justify-space-between align-center">
+      <div>{{ isEditMode ? "Edit Submission" : "Contribute" }}</div>
+
+      <div
+        v-if="!(isEditMode && (isLoading || !wasLoaded))"
+        class="d-flex form-controls flex-column flex-sm-row flex-grow-1 flex-sm-grow-0 gap-1"
+      >
+        <v-spacer></v-spacer>
+        <v-btn @click="onCancel">Cancel</v-btn>
+
+        <v-menu :disabled="isValid" open-on-hover bottom left offset-y>
+          <template #activator="{ props }">
+            <div
+              v-bind="props"
+              class="d-flex form-controls flex-column flex-sm-row"
+            >
+              <v-badge
+                :model-value="!isValid"
+                bordered
+                color="error"
+                icon="mdi-exclamation-thick"
+                overlap
+              >
+                <v-btn
+                  color="primary"
+                  block
+                  depressed
+                  @click="submit"
+                  :disabled="isSaving || !isValid || !hasUnsavedChanges"
+                  >{{ isEditMode ? "Save Changes" : "Save" }}</v-btn
+                >
+              </v-badge>
+            </div>
+          </template>
+
+          <v-card class="bg-white">
+            <v-card-text>
+              <ul
+                v-for="(error, index) of errors"
+                :key="index"
+                class="text-subtitle-1 ml-4"
+              >
+                <li>
+                  <b>{{ error.title }}</b> {{ error.message }}.
+                </li>
+              </ul>
+            </v-card-text>
+          </v-card>
+        </v-menu>
+      </div>
     </div>
 
     <template v-if="!isEditMode || (!isLoading && wasLoaded)">

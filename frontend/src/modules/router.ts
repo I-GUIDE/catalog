@@ -1,5 +1,6 @@
 import { createMemoryHistory, createRouter } from "vue-router";
 import { routes } from "@/routes";
+import User from "@/models/user.model";
 
 export const router = createRouter({
   history: createMemoryHistory(),
@@ -9,17 +10,12 @@ export const router = createRouter({
   },
 });
 
-// export const install: UserModule = ({ app }) => {
-//   // Install the store instance as a plugin
-//   app.use(router)
-// }
-
 /** Call before navigating to an external url to save the next route in state and navigate to it after callback url */
-// export function saveNextRoute() {
-//   const next = useRouter().currentRoute.value.query.next;
-//   if (next) {
-//     User.commit((state) => {
-//       state.next = next;
-//     });
-//   }
-// }
+export function saveNextRoute() {
+  const next = router.currentRoute.value.query.next;
+  if (next) {
+    User.commit((state) => {
+      state.next = next;
+    });
+  }
+}

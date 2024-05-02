@@ -4,10 +4,10 @@ import CdSearchResults from "@/components/search-results/cd.search-results.vue";
 import CdSubmissions from "@/components/submissions/cd.submissions.vue";
 import CdFooter from "@/components/base/cd.footer.vue";
 import CdContribute from "@/components/contribute/cd.contribute.vue";
-import CdDataset from "@/components/dataset/cd.dataset.vue";
 import AuthRedirect from "@/components/account/auth-redirect.vue";
 import CdRegisterDataset from "@/components/register/cd.register-dataset.vue";
-import { hasLoggedInGuard, hasUnsavedChangesGuard } from "./guards";
+import { hasLoggedInGuard } from "./guards";
+import CdDatasetHtml from "./components/dataset/cd.dataset-html.vue";
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -69,7 +69,7 @@ export const routes: RouteRecordRaw[] = [
   {
     name: "dataset",
     path: "/dataset/:id",
-    components: { content: CdDataset, footer: CdFooter },
+    components: { content: CdDatasetHtml, footer: CdFooter },
     meta: {
       title: "Dataset",
     },

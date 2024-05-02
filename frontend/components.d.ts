@@ -12,6 +12,7 @@ declare module 'vue' {
     'Cd.contact': typeof import('./src/components/contact/cd.contact.vue')['default']
     'Cd.contribute': typeof import('./src/components/contribute/cd.contribute.vue')['default']
     'Cd.dataset': typeof import('./src/components/dataset/cd.dataset.vue')['default']
+    'Cd.datasetHtml': typeof import('./src/components/dataset/cd.dataset-html.vue')['default']
     'Cd.featuredDatasets': typeof import('./src/components/home/cd.featured-datasets.vue')['default']
     'Cd.footer': typeof import('./src/components/base/cd.footer.vue')['default']
     'Cd.home': typeof import('./src/components/home/cd.home.vue')['default']

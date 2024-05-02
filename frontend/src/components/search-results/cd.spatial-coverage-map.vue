@@ -1,12 +1,17 @@
 <template>
-  <v-card class="cd-spatial-coverage-map">
+  <v-card
+    class="cd-spatial-coverage-map"
+    :class="{ flat }"
+    :tile="flat"
+    :outlined="flat"
+  >
     <div ref="map" class="map-container"></div>
   </v-card>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop, Ref, toNative } from "vue-facing-decorator";
-import { Loader, LoaderOptions } from "google-maps";
+import { Loader } from "google-maps";
 
 const DEFAULT_ZOOM = 5;
 
@@ -17,9 +22,9 @@ const DEFAULT_ZOOM = 5;
 class CdSpatialCoverageMap extends Vue {
   @Prop() feature!: any;
   @Prop() loader!: Loader;
-  @Prop() loaderOptions!: LoaderOptions;
+  @Prop() flat?: boolean;
 
-  @Ref("map") mapContainer;
+  @Ref("map") mapContainer!: InstanceType<typeof HTMLDivElement>;
   map: google.maps.Map | null = null;
   markers: google.maps.Marker[] = [];
   rectangles: google.maps.Rectangle[] = [];
@@ -27,7 +32,10 @@ class CdSpatialCoverageMap extends Vue {
   rectangleOptions: google.maps.RectangleOptions = {};
 
   async mounted() {
-    await this.initMap();
+    if (this.mapContainer) {
+      await this.initMap();
+    }
+
     this.loadDrawing();
     if (this.map) {
       const bounds = new google.maps.LatLngBounds();
@@ -53,16 +61,16 @@ class CdSpatialCoverageMap extends Vue {
     }
   }
 
-  created() {}
-
   async initMap() {
     const google = await this.loader.load();
 
-    this.map = new google.maps.Map(this.mapContainer, {
-      center: { lat: 39.8097343, lng: -98.5556199 },
-      zoom: DEFAULT_ZOOM,
-      gestureHandling: "greedy",
-    });
+    if (this.mapContainer) {
+      this.map = new google.maps.Map(this.mapContainer, {
+        center: { lat: 39.8097343, lng: -98.5556199 },
+        zoom: DEFAULT_ZOOM,
+        gestureHandling: "cooperative",
+      });
+    }
 
     // Icon base from: http://kml4earth.appspot.com/icons.html
     const iconBase = "http://earth.google.com/images/kml-icons/";
@@ -170,6 +178,7 @@ class CdSpatialCoverageMap extends Vue {
     }
   }
 }
+
 export default toNative(CdSpatialCoverageMap);
 </script>
 
