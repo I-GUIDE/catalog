@@ -15,6 +15,7 @@
     "types": [
       "vitest",
       "vite/client",
+      "vite-plugin-pwa/client"
     ],
     "allowJs": true,
     "strict": true,

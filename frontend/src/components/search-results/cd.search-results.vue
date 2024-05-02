@@ -256,7 +256,8 @@
                 v-for="index in 4"
                 :key="index"
                 class="mb-6"
-                variant="outlined"
+                variant="elevated"
+                elevation="1"
               >
                 <v-card-text>
                   <div class="d-flex">
@@ -298,7 +299,8 @@
                 v-for="(result, index) of results"
                 class="mb-6 text-body-2"
                 :key="result.identifier"
-                variant="outlined"
+                variant="elevated"
+                elevation="1"
               >
                 <v-card-text
                   class="d-flex gap-1 justify-space-between flex-wrap flex-lg-nowrap mt-2"
