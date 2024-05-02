@@ -1,69 +1,68 @@
 {
   "name": "cznet-discovery",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --mode development",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "build-prod": "vue-cli-service build --mode=production",
-    "serve-prod": "vue-cli-service serve --mode=production",
-    "deploy": "node scripts/gh-pages-deploy.js"
+    "serve": "vite --open",
+    "build": "vite build",
+    "lint": "eslint .",
+    "build-prod": "vite build --mode=production",
+    "serve-prod": "vite --mode production",
+    "deploy": "node scripts/gh-pages-deploy.js",
+    "up": "taze major -I"
   },
   "dependencies": {
-    "@cznethub/cznet-vue-core": "^0.1.53",
-    "@fortawesome/fontawesome-free": "^5.15.4",
-    "@vue/composition-api": "^1.7.1",
+    "@cznethub/cznet-vue-core": "^0.2.3",
+    "@unhead/vue": "^1.8.14",
+    "@vueuse/core": "^10.9.0",
+    "@vueuse/head": "^2.0.0",
     "@vuex-orm/core": "^0.36.4",
     "deepmerge": "^4.3.0",
     "google-maps": "^4.3.3",
     "lodash.isequal": "^4.5.0",
+    "nprogress": "^0.2.0",
     "rxjs": "^7.8.0",
-    "vue": "^2.7.14",
+    "vue": "^3.4.21",
     "vue-browser-detect-plugin": "^0.1.18",
     "vue-cookies": "^1.8.2",
-    "vue-i18n": "^8.28.2",
-    "vue-router": "^3.5.2",
-    "vuetify": "^2.6.14",
-    "vuex": "^3.6.2",
+    "vue-demi": "^0.14.7",
+    "vue-facing-decorator": "^3.0.4",
+    "vue-i18n": "^9.10.1",
+    "vue-router": "^4.3.0",
+    "vuetify": "^3.5.17",
+    "vuex": "^4.1.0",
     "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.12",
-    "@vue/cli-plugin-babel": "^4.5.17",
-    "@vue/cli-plugin-typescript": "^4.5.17",
-    "@vue/cli-service": "^4.5.19",
-    "babel-loader": "^8.3.0",
-    "html-webpack-plugin": "^5.5.0",
-    "node-sass": "~5.0.0",
-    "sass": "^1.58.0",
-    "sass-loader": "^10.4.1",
-    "tslint": "^6.1.3",
-    "typescript": "^4.9.5",
-    "vue-class-component": "^7.2.6",
-    "vue-cli-plugin-vuetify": "^2.4.8",
-    "vue-property-decorator": "^9.1.2",
-    "vue-template-compiler": "^2.7.14",
-    "vuetify-loader": "^1.7.0",
-    "webpack": "^4.46.0"
+    "@antfu/eslint-config": "^2.8.1",
+    "@fortawesome/fontawesome-free": "^6.5.1",
+    "@iconify-json/carbon": "^1.1.31",
+    "@mdi/font": "^7.4.47",
+    "@types/nprogress": "^0.2.3",
+    "@types/sprintf-js": "^1.1.4",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/test-utils": "^2.4.4",
+    "cross-env": "^7.0.3",
+    "cypress": "^13.6.6",
+    "cypress-vite": "^1.5.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-cypress": "^2.15.1",
+    "eslint-plugin-format": "^0.1.0",
+    "lint-staged": "^15.2.2",
+    "pnpm": "^8.15.4",
+    "sass": "^1.71.1",
+    "shiki": "^1.1.7",
+    "taze": "^0.13.3",
+    "typescript": "^5.4.2",
+    "unplugin-auto-import": "^0.17.5",
+    "unplugin-vue-components": "^0.26.0",
+    "unplugin-vue-macros": "^2.7.10",
+    "vite": "^5.2.8",
+    "vite-plugin-webfont-dl": "^3.9.1",
+    "vitest": "^1.3.1",
+    "vue-tsc": "^2.0.6"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  "lint-staged": {
+    "*": "eslint --fix"
+  }
 }

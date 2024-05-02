@@ -1,7 +1,7 @@
 <template>
   <v-container
     class="cd-search-results text-body-1"
-    :class="{ 'is-small': $vuetify.breakpoint.smAndDown }"
+    :class="{ 'is-small': $vuetify.display.smAndDown }"
   >
     <div class="d-sm-block d-md-flex">
       <v-container class="sidebar flex-shrink-0">
@@ -12,39 +12,54 @@
             v-model="filter.publicationYear.isActive"
             @change="onSearch"
             label="Publication year"
-            dense
+            density="compact"
             hide-details
+            color="primary"
           />
           <v-range-slider
             v-model="publicationYear"
-            @change="onSliderControlChange('publicationYear')"
+            @end="onSliderControlChange(filter.publicationYear)"
             :class="{ 'grayed-out': !filter.publicationYear.isActive }"
             :min="filter.publicationYear.min"
             :max="filter.publicationYear.max"
+            color="primary"
             class="mb-1"
+            step="1"
+            track-size="1"
+            thumb-size="15"
             hide-details
           />
-          <div
-            class="d-flex gap-1"
-            :class="{ 'grayed-out': !filter.publicationYear.isActive }"
-          >
-            <v-text-field
-              @change="onSliderChange('publicationYear', 0, $event)"
-              :value="publicationYear[0]"
-              type="number"
-              small
-              dense
-              outlined
-              hide-details
+          <div :class="{ 'grayed-out': !filter.publicationYear.isActive }">
+            <v-number-input
+              v-model="publicationYear[0]"
+              @blur="
+                filter.publicationYear.isActive = true;
+                onSearch();
+              "
+              @keyup.enter="
+                filter.publicationYear.isActive = true;
+                onSearch();
+              "
+              inset
+              label="Start"
+              variant="outlined"
+              density="compact"
             />
-            <v-text-field
-              @change="onSliderChange('publicationYear', 1, $event)"
-              :value="publicationYear[1]"
-              type="number"
-              small
-              dense
-              outlined
-              hide-details
+
+            <v-number-input
+              v-model="publicationYear[1]"
+              @blur="
+                filter.publicationYear.isActive = true;
+                onSearch();
+              "
+              @keyup.enter="
+                filter.publicationYear.isActive = true;
+                onSearch();
+              "
+              inset
+              label="End"
+              variant="outlined"
+              density="compact"
             />
           </div>
         </div>
@@ -54,40 +69,56 @@
           <v-checkbox
             v-model="filter.dataCoverage.isActive"
             @change="onSearch"
-            dense
+            density="compact"
             label="Data temporal coverage"
             hide-details
+            color="primary"
           />
           <v-range-slider
             v-model="dataCoverage"
-            @change="onSliderControlChange('dataCoverage')"
+            @change="onSliderControlChange(filter.dataCoverage)"
             :class="{ 'grayed-out': !filter.dataCoverage.isActive }"
             :min="filter.dataCoverage.min"
             :max="filter.dataCoverage.max"
-            class="mb-1"
             hide-details
+            color="primary"
+            class="mb-1"
+            step="1"
+            track-size="1"
+            thumb-size="15"
           />
-          <div
-            class="d-flex gap-1"
-            :class="{ 'grayed-out': !filter.dataCoverage.isActive }"
-          >
-            <v-text-field
-              @change="onSliderChange('dataCoverage', 0, $event)"
+          <div :class="{ 'grayed-out': !filter.dataCoverage.isActive }">
+            <v-number-input
+              v-model="dataCoverage[0]"
+              @blur="
+                filter.dataCoverage.isActive = true;
+                onSearch();
+              "
+              @keyup.enter="
+                filter.dataCoverage.isActive = true;
+                onSearch();
+              "
               :value="dataCoverage[0]"
-              type="number"
-              small
-              dense
-              outlined
-              hide-details
+              inset
+              label="Start"
+              variant="outlined"
+              density="compact"
             />
-            <v-text-field
-              @change="onSliderChange('dataCoverage', 1, $event)"
-              :value="dataCoverage[1]"
-              type="number"
-              small
-              dense
-              outlined
-              hide-details
+
+            <v-number-input
+              v-model="dataCoverage[1]"
+              @blur="
+                filter.dataCoverage.isActive = true;
+                onSearch();
+              "
+              @keyup.enter="
+                filter.dataCoverage.isActive = true;
+                onSearch();
+              "
+              inset
+              label="End"
+              variant="outlined"
+              density="compact"
             />
           </div>
         </div>
@@ -103,8 +134,8 @@
           class="mb-6"
           hide-details
           clearable
-          outlined
-          dense
+          variant="outlined"
+          density="compact"
         />
 
         <!-- <v-select
@@ -119,7 +150,7 @@
           outlined
           :label="$t('searchResults.filters.projectLabel')"
           hide-details
-          dense
+          density="compact"
         /> -->
 
         <v-select
@@ -128,10 +159,10 @@
           @change="onSearch"
           class="mb-6"
           clearable
-          outlined
+          variant="outlined"
+          density="compact"
           label="Repository"
           hide-details
-          dense
         />
 
         <!-- <div>
@@ -144,7 +175,7 @@
             :label="option"
             :value="option"
             hide-details
-            dense
+            density="compact"
           />
         </div> -->
 
@@ -159,28 +190,29 @@
         <v-container class="results-content">
           <cd-search
             v-model="searchQuery"
-            @input="onSearch"
+            @update:model-value="onSearch"
             @clear="
               searchQuery = '';
               onSearch(true);
             "
+            :inputAttrs="{ variant: 'outlined' }"
           />
           <div
             class="my-6 d-lg-flex flex-row justify-space-between gap-1 d-table"
           >
-            <!-- <div class="d-table-row d-lg-flex align-center flex-row">
-              <small class="d-table-cell text-right text-lg-left pr-2 py-2" style="white-space: nowrap">View mode:</small>
-              <v-btn-toggle class="d-table-cell" v-model="view" dense mandatory>
-                <v-btn small><v-icon small>mdi-view-list-outline</v-icon></v-btn>
-                <v-btn small><v-icon small>mdi-map</v-icon></v-btn>
-              </v-btn-toggle>
-            </div> -->
             <div
               class="d-table-row d-lg-flex align-center flex-md-row flex-column gap-1"
             >
-              <small>Sort results by:</small>
-              <v-btn-toggle v-model="sort" dense :mandatory="!!searchQuery">
-                <v-btn small value="relevance">Relevance</v-btn>
+              <small class="mr-2">Sort results by:</small>
+              <v-btn-toggle
+                v-model="sort"
+                density="compact"
+                size="small"
+                divided
+                variant="outlined"
+                :mandatory="!!searchQuery"
+              >
+                <v-btn density="compact" value="relevance">Relevance</v-btn>
                 <v-btn small value="name">Title</v-btn>
                 <v-btn small value="dateCreated">Date Created</v-btn>
                 <!-- <v-btn small value="registrationDate">Date Registered</v-btn> -->
@@ -215,7 +247,7 @@
             <template v-else>
               <div
                 v-if="!results.length"
-                class="text-body-2 text--secondary text-center mt-8"
+                class="text-body-2 text-medium-emphasis text-center mt-8"
               >
                 <div class="mb-8">No results found.</div>
                 <v-icon x-large>mdi-book-remove-multiple</v-icon>
@@ -228,7 +260,7 @@
               >
                 <a
                   @click="goToDataset(result.id)"
-                  class="result-title text-body-1 text-decoration-none"
+                  class="result-title text-body-1 cursor-pointer"
                   v-html="highlight(result, 'name')"
                 ></a>
 
@@ -239,21 +271,21 @@
                     'snip-3': !result.showMore,
                   }"
                   v-html="
-                    `<span class='text--secondary text-body-2'>${formatDate(
-                      result.dateCreated
+                    `<span class='text-medium-emphasis text-body-2'>${formatDate(
+                      result.dateCreated,
                     )}</span>${result.dateCreated ? ' - ' : ''}${highlight(
                       result,
-                      'description'
+                      'description',
                     )}`
                   "
                 ></p>
 
                 <v-btn
                   v-if="hasShowMoreButton(index)"
-                  x-small
-                  text
+                  size="x-small"
+                  variant="text"
                   color="primary"
-                  @click="$set(result, 'showMore', !result.showMore)"
+                  @click="result.showMore = !result.showMore"
                   >Show {{ result.showMore ? "less" : "more" }}...</v-btn
                 >
 
@@ -306,13 +338,13 @@
           ></div>
           <div
             v-if="isFetchingMore"
-            class="text-subtitle-2 text--secondary text-center"
+            class="text-subtitle-2 text-medium-emphasis text-center"
           >
             Loading more results...
           </div>
           <div
             v-if="results.length && !hasMore"
-            class="text-subtitle-2 text--secondary text-center"
+            class="text-subtitle-2 text-medium-emphasis text-center"
           >
             End of results.
           </div>
@@ -323,7 +355,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue, Watch, toNative } from "vue-facing-decorator";
 import { sameRouteNavigationErrorHandler } from "@/constants";
 import { Loader, LoaderOptions } from "google-maps";
 import { formatDate } from "@/util";
@@ -334,18 +366,22 @@ import SearchHistory from "@/models/search-history.model";
 import Search from "@/models/search.model";
 import { Notifications } from "@cznethub/cznet-vue-core";
 import { MIN_YEAR, MAX_YEAR } from "@/constants";
+import { ISearchFilter, ISearchParams } from "@/types";
+import { IResult } from "@/types";
+import { clamp } from "@vueuse/core";
+import { VNumberInput } from "vuetify/labs/VNumberInput";
 
 const options: LoaderOptions = { libraries: ["drawing"] };
 const loader: Loader = new Loader(
-  process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
-  options
+  import.meta.env.VITE_APP_GOOGLE_MAPS_API_KEY,
+  options,
 );
 
 @Component({
   name: "cd-search-results",
-  components: { CdSearch, CdSpatialCoverageMap },
+  components: { CdSearch, CdSpatialCoverageMap, VNumberInput },
 })
-export default class CdSearchResults extends Vue {
+class CdSearchResults extends Vue {
   public loader = loader;
   public options = options;
   public isIntersecting = false;
@@ -360,7 +396,7 @@ export default class CdSearchResults extends Vue {
   public preferredSort: "name" | "dateCreated" | "relevance" = "relevance";
   // public view: 'list' | 'map' = 'list'
   public formatDate = formatDate;
-  protected descriptionRefs: any[] = [];
+  descriptionRefs: any[] = [];
   public filter: ISearchFilter = {
     publicationYear: {
       min: MIN_YEAR,
@@ -382,19 +418,29 @@ export default class CdSearchResults extends Vue {
     // },
     repository: {
       options: ["HydroShare"],
-      value: "",
+      value: null,
     },
     creatorName: "",
   };
 
-  public get publicationYear() {
+  public get publicationYear(): [number, number] {
     return SearchResults.$state.publicationYear;
   }
 
   public set publicationYear(range: [number, number]) {
-    // TODO: validate input
     SearchResults.commit((state) => {
-      state.publicationYear = range;
+      state.publicationYear = [
+        clamp(
+          range[0],
+          this.filter.publicationYear.min,
+          this.filter.publicationYear.max,
+        ),
+        clamp(
+          range[1],
+          this.filter.publicationYear.min,
+          this.filter.publicationYear.max,
+        ),
+      ];
     });
   }
 
@@ -403,9 +449,19 @@ export default class CdSearchResults extends Vue {
   }
 
   public set dataCoverage(range: [number, number]) {
-    // TODO: validate input
     SearchResults.commit((state) => {
-      state.dataCoverage = range;
+      state.dataCoverage = [
+        clamp(
+          range[0],
+          this.filter.dataCoverage.min,
+          this.filter.dataCoverage.max,
+        ),
+        clamp(
+          range[1],
+          this.filter.dataCoverage.min,
+          this.filter.dataCoverage.max,
+        ),
+      ];
     });
   }
 
@@ -427,14 +483,30 @@ export default class CdSearchResults extends Vue {
 
     // PUBLICATION YEAR
     if (this.filter.publicationYear.isActive) {
-      this.$set(queryParams, "publishedStart", this.publicationYear[0]);
-      this.$set(queryParams, "publishedEnd", this.publicationYear[1]);
+      queryParams.publishedStart = clamp(
+        this.publicationYear[0],
+        this.filter.publicationYear.min,
+        this.filter.publicationYear.max,
+      );
+      queryParams.publishedEnd = clamp(
+        this.publicationYear[1],
+        this.filter.publicationYear.min,
+        this.filter.publicationYear.max,
+      );
     }
 
     // DATA COVERAGE
     if (this.filter.dataCoverage.isActive) {
-      this.$set(queryParams, "dataCoverageStart", this.dataCoverage[0]);
-      this.$set(queryParams, "dataCoverageEnd", this.dataCoverage[1]);
+      queryParams.dataCoverageStart = clamp(
+        this.dataCoverage[0],
+        this.filter.dataCoverage.min,
+        this.filter.dataCoverage.max,
+      );
+      queryParams.dataCoverageEnd = clamp(
+        this.dataCoverage[1],
+        this.filter.dataCoverage.min,
+        this.filter.dataCoverage.max,
+      );
     }
 
     // CREATOR NAME
@@ -478,7 +550,7 @@ export default class CdSearchResults extends Vue {
     );
   }
 
-  protected displayRefs() {
+  displayRefs() {
     this.descriptionRefs = (this.$refs["description"] as any[]) || [];
   }
 
@@ -489,7 +561,13 @@ export default class CdSearchResults extends Vue {
       cn: this.filter.creatorName || undefined,
       r: this.filter.repository.value || undefined,
       py: this.filter.publicationYear.isActive
-        ? this.publicationYear.map((n) => n.toString()) || undefined
+        ? this.publicationYear.map((n) =>
+            clamp(
+              n,
+              this.filter.publicationYear.min,
+              this.filter.publicationYear.max,
+            ).toString(),
+          ) || undefined
         : undefined,
       dc: this.filter.dataCoverage.isActive
         ? this.dataCoverage.map((n) => n.toString()) || undefined
@@ -500,12 +578,12 @@ export default class CdSearchResults extends Vue {
     };
   }
 
-  protected hasShowMoreButton(index) {
+  hasShowMoreButton(index: number) {
     const lines = this._countLines(this.descriptionRefs[index]);
     return lines >= 3;
   }
 
-  private _countLines(el) {
+  _countLines(el: HTMLElement) {
     if (el && document.defaultView) {
       const divHeight = el.offsetHeight;
       const lineHeight = +document.defaultView
@@ -519,38 +597,24 @@ export default class CdSearchResults extends Vue {
 
   created() {
     this._loadRouteParams();
-
-    this.sort = this.$route.query["q"]
-      ? this.preferredSort
-      : "registrationDate";
-
     this.onSearch();
   }
 
-  /** @param path: the filter object to act on.
-   *  @param index: 0 or 1 (min or max).
-   *  @param value: the value to set.
-   */
-  public onSliderChange(path: string, index: 0 | 1, value: number) {
-    // Conditional to prevent change event triggers on focus change where the value has not changed.
-    if (this[path][index] !== value) {
-      this.$set(this.filter[path], "isActive", true);
-      this.$set(this[path], index, value);
-      this.onSearch();
-    }
-  }
-
-  public onSliderControlChange(path: any) {
-    this.$set(this.filter[path], "isActive", true);
+  public onSliderControlChange(filter: {
+    min: number;
+    max: number;
+    isActive: boolean;
+  }) {
+    filter.isActive = true;
     this.onSearch();
   }
 
-  protected goToDataset(id: string) {
+  goToDataset(id: string) {
     this.$router.push({ path: `dataset/${id}` });
   }
 
-  public onIntersect(entries, observer) {
-    this.isIntersecting = entries[0].intersectionRatio >= 0.5;
+  public onIntersect(_isIntersecting: boolean, entries: any[], _observer: any) {
+    this.isIntersecting = entries[0]?.intersectionRatio >= 0.5;
     if (
       this.isIntersecting &&
       this.results.length &&
@@ -569,7 +633,7 @@ export default class CdSearchResults extends Vue {
     this.filter.dataCoverage.isActive = false;
     // this.filter.contentType.value = [];
     // this.filter.project.value = [];
-    this.filter.repository.value = "";
+    this.filter.repository.value = null;
     this.filter.creatorName = "";
 
     if (wasSomeActive) {
@@ -578,43 +642,21 @@ export default class CdSearchResults extends Vue {
   }
 
   @Watch("sort")
-  public onSortChange(newSort, _oldSort) {
+  public onSortChange(
+    newSort: "name" | "dateCreated" | "relevance" | "registrationDate",
+    _oldSort: string,
+  ) {
     if (newSort !== "registrationDate") {
       this.preferredSort = newSort;
     }
     this.onSearch();
   }
 
-  // protected async onSearchAll() {
-  //   this.hasMore = true;
-  //   this.isSearching = true;
-  //   this.pageNumber = 1;
-
-  //   try {
-  //     this.hasMore = await Search.search({
-  //       ...this.queryParams,
-  //     });
-  //   } catch (e) {
-  //     console.log(e);
-  //     Search.commit((state) => {
-  //       state.results = [];
-  //     });
-  //     Notifications.toast({
-  //       message: `Failed to perform search`,
-  //       type: "error",
-  //     });
-  //   }
-  //   this.isSearching = false;
-  //   this.$nextTick(() => {
-  //     this.displayRefs();
-  //   });
-  // }
-
   public async onSearch(useAllResultsSort?: boolean) {
     if (!this.searchQuery && useAllResultsSort) {
       this.sort = "registrationDate";
     } else if (this.searchQuery && this.sort === "registrationDate") {
-      this.sort = this.preferredSort; // TODO: use previous sort
+      this.sort = this.preferredSort;
     }
 
     this.hasMore = true;
@@ -675,7 +717,7 @@ export default class CdSearchResults extends Vue {
       let hits = result.highlights
         .filter((highlight) => highlight.path === "creator.name")
         .map((hit) =>
-          hit.texts.filter((t) => t.type === "hit").map((t) => t.value)
+          hit.texts.filter((t) => t.type === "hit").map((t) => t.value),
         )
         .flat();
 
@@ -689,18 +731,18 @@ export default class CdSearchResults extends Vue {
   }
 
   /** Applies highlights to a string or string[] field and returns the new content as HTML */
-  public highlight(result: IResult, path: string) {
+  public highlight(result: IResult, path: keyof IResult) {
     const div = document.createElement("DIV");
-    div.innerHTML = Array.isArray(result[path])
-      ? result[path].join(", ")
-      : result[path];
+    const field = result[path];
+
+    div.innerHTML = Array.isArray(field) ? field.join(", ") : field;
     let content = div.textContent || div.innerText || "";
 
     if (result.highlights) {
       let hits = result.highlights
         .filter((highlight) => highlight.path === path)
         .map((hit) =>
-          hit.texts.filter((t) => t.type === "hit").map((t) => t.value)
+          hit.texts.filter((t) => t.type === "hit").map((t) => t.value),
         )
         .flat();
 
@@ -714,48 +756,48 @@ export default class CdSearchResults extends Vue {
   }
 
   /** Load route query parameters into component values. */
-  private _loadRouteParams() {
+  _loadRouteParams() {
     // SEARCH QUERY
-    this.searchQuery = this.$route.query["q"] as string;
+    this.searchQuery = this.$route?.query["q"] as string;
 
     // CREATOR NAME
-    this.filter.creatorName = (this.$route.query["cn"] as string) || "";
+    this.filter.creatorName = (this.$route?.query["cn"] as string) || "";
 
     // REPOSITORY
-    this.filter.repository.value = (this.$route.query["r"] as string) || "";
+    this.filter.repository.value = (this.$route?.query["r"] as string) || null;
 
     // CONTENT TYPE
-    // this.filter.contentType.value = (this.$route.query["ct"] as string[]) || [];
+    // this.filter.contentType.value = (this.$route?.query["ct"] as string[]) || [];
 
     // PROJECT
-    // this.filter.project.value = this.$route.query["p"]
-    //   ? ([this.$route.query["p"]].flat() as string[])
+    // this.filter.project.value = this.$route?.query["p"]
+    //   ? ([this.$route?.query["p"]].flat() as string[])
     //   : [];
 
     // PUBLICATION YEAR
-    if (this.$route.query["py"]) {
+    if (this.$route?.query["py"]) {
       this.filter.publicationYear.isActive = true;
       this.publicationYear =
-        ((this.$route.query["py"] as [string, string])?.map((n) => +n) as [
+        ((this.$route?.query["py"] as [string, string])?.map((n) => +n) as [
           number,
-          number
+          number,
         ]) || this.publicationYear;
     }
 
     // DATA COVERAGE
-    if (this.$route.query["dc"]) {
+    if (this.$route?.query["dc"]) {
       this.filter.dataCoverage.isActive = true;
       this.dataCoverage =
-        ((this.$route.query["dc"] as [string, string])?.map((n) => +n) as [
+        ((this.$route?.query["dc"] as [string, string])?.map((n) => +n) as [
           number,
-          number
+          number,
         ]) || this.dataCoverage;
     }
 
     // SORT
-    if (this.$route.query["s"]) {
+    if (this.$route?.query["s"]) {
       this.sort =
-        (this.$route.query["s"] as
+        (this.$route?.query["s"] as
           | "name"
           | "dateCreated"
           | "relevance"
@@ -767,6 +809,7 @@ export default class CdSearchResults extends Vue {
     return result.spatialCoverage?.["@type"];
   }
 }
+export default toNative(CdSearchResults);
 </script>
 
 <style lang="scss" scoped>
@@ -807,7 +850,7 @@ export default class CdSearchResults extends Vue {
   opacity: 0.55;
 }
 
-::v-deep .v-select--chips .v-select__selections .v-chip--select:first-child {
+:deep(.v-select--chips .v-select__selections .v-chip--select:first-child) {
   margin-top: 1rem;
 }
 </style>

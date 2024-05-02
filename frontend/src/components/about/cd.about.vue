@@ -6,7 +6,7 @@
       :style="{
         'background-image':
           'linear-gradient(rgb(0 52 82 / 31%), rgba(0, 0, 0, 0)), url(' +
-          require('@/assets/img/bg3.jpg') +
+          '@/img/bg3.jpg' +
           ')',
       }"
     ></div>
@@ -48,13 +48,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, toNative } from "vue-facing-decorator";
 
 @Component({
   name: "cd-about",
   components: {},
 })
-export default class CdAbout extends Vue {}
+class CdAbout extends Vue {}
+export default toNative(CdAbout);
 </script>
 
 <style lang="scss" scoped>

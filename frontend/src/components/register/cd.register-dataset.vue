@@ -3,17 +3,22 @@
     <div class="text-h4">Register Dataset</div>
     <v-divider class="mb-4" />
 
-    <v-alert border="left" colored-border type="info" elevation="1">
-      <div class="d-flex justify-space-between flex-sm-row flex-column">
+    <v-alert
+      border="start"
+      type="info"
+      variant="text"
+      prominent
+      density="compact"
+      elevation="1"
+    >
+      <div
+        class="d-flex justify-space-between align-center flex-sm-row flex-column text-body-1"
+      >
         <div>
           Use this form to register existing datasets from
           <a href="https://www.hydroshare.org/">HydroShare</a>.
         </div>
-        <v-img
-          max-width="200"
-          contain
-          :src="require('@/assets/img/hydroshare.png')"
-        ></v-img>
+        <v-img max-width="200" contain :src="'/img/hydroshare.png'"></v-img>
       </div>
     </v-alert>
 
@@ -38,13 +43,13 @@
         type="url"
         hide-details="auto"
         persistent-hint
-        outlined
+        variant="outlined"
         @keypress.enter="onReadDataset"
       >
       </v-text-field>
 
       <div
-        class="text-subtitle-1 text--secondary pl-3 mb-4 mt-1"
+        class="text-subtitle-1 text-medium-emphasis pl-3 mb-4 mt-1"
         style="word-break: break-word"
       >
         {{ `e.g. '${exampleUrl}' or '${exampleIdentifier}'` }}
@@ -64,7 +69,7 @@
       <div class="table-item">
         <table
           class="text-body-1"
-          :class="{ 'is-xs-small': $vuetify.breakpoint.xs }"
+          :class="{ 'is-xs-small': $vuetify.display.xs }"
         >
           <tr>
             <td colspan="2" class="text-h6 title">
@@ -79,7 +84,7 @@
       >
         <table
           class="text-body-1"
-          :class="{ 'is-xs-small': $vuetify.breakpoint.xs }"
+          :class="{ 'is-xs-small': $vuetify.display.xs }"
         >
           <tr>
             <th class="pr-4 body-2 text-right">
@@ -118,7 +123,7 @@
         >
           mdi-check-circle
         </v-icon>
-        <div class="text-h6 text--secondary">
+        <div class="text-h6 text-medium-emphasis">
           Your dataset has been registered:
         </div>
       </div>
@@ -130,7 +135,7 @@
         >
           <table
             class="text-body-1"
-            :class="{ 'is-xs-small': $vuetify.breakpoint.xs }"
+            :class="{ 'is-xs-small': $vuetify.display.xs }"
           >
             <tr v-if="submission.authors && submission.authors.length">
               <th class="pr-4 body-2">Authors:</th>
@@ -161,11 +166,13 @@
     <template v-else-if="!submission && wasNotFound">
       <v-alert
         class="text-subtitle-1 ma-2 mt-8"
-        border="left"
-        colored-border
+        border="start"
         type="warning"
-        elevation="2"
         icon="mdi-magnify-remove-outline"
+        variant="text"
+        elevation="2"
+        density="compact"
+        prominent
       >
         We could not find a resource matching the criteria above. Please make
         sure that the URL or identifier is correct and try again.
@@ -174,11 +181,13 @@
     <template v-else-if="!submission && isDuplicate">
       <v-alert
         class="text-subtitle-1 ma-2 mt-8"
-        border="left"
-        colored-border
+        border="start"
         type="warning"
         elevation="2"
         icon="mdi-content-duplicate"
+        density="compact"
+        variant="text"
+        prominent
       >
         The resource provided has already been registered.
       </v-alert>
@@ -187,13 +196,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, toNative } from "vue-facing-decorator";
 import Submission from "@/models/submission.model";
 const exampleUrl =
   "https://www.hydroshare.org/resource/9d3d437466764bb5b6668d2742cf9db2/";
 const exampleIdentifier = "9d3d437466764bb5b6668d2742cf9db2";
 const identifierUrlPattern = new RegExp(
-  `(?:http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?(?:hydroshare.org\/resource\/)([0-9a-fA-F]{32})\/?$`
+  `(?:http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?(?:hydroshare.org\/resource\/)([0-9a-fA-F]{32})\/?$`,
 );
 const identifierPattern = new RegExp(`^[0-9a-fA-F]{32}$`);
 
@@ -201,23 +210,23 @@ const identifierPattern = new RegExp(`^[0-9a-fA-F]{32}$`);
   name: "cd-register-dataset",
   components: {},
 })
-export default class CzRegisterDataset extends Vue {
-  protected url = "";
-  protected isFetching = false;
-  protected isValid = false;
-  protected submission: Partial<Submission> | null = null;
-  protected wasUnauthorized = false;
-  protected wasNotFound = false;
-  protected isDuplicate = false;
-  protected isRegistering = false;
-  protected exampleIdentifier = exampleIdentifier;
-  protected exampleUrl = exampleUrl;
+class CdRegisterDataset extends Vue {
+  url = "";
+  isFetching = false;
+  isValid = false;
+  submission: Partial<Submission> | null = null;
+  wasUnauthorized = false;
+  wasNotFound = false;
+  isDuplicate = false;
+  isRegistering = false;
+  exampleIdentifier = exampleIdentifier;
+  exampleUrl = exampleUrl;
 
-  protected get canReadDataset(): boolean {
+  get canReadDataset(): boolean {
     return !this.isFetching && this.isValid && !!this.url;
   }
 
-  protected get identifierFromUrl(): string {
+  get identifierFromUrl(): string {
     if (identifierPattern?.test(this.url)) {
       return this.url;
     } else if (identifierUrlPattern?.test(this.url)) {
@@ -236,13 +245,13 @@ export default class CzRegisterDataset extends Vue {
     this.$refs.txtIdentifier?.focus();
   }
 
-  protected onReadDataset() {
+  onReadDataset() {
     if (this.canReadDataset) {
       this._readDataset();
     }
   }
 
-  protected goToViewDataset() {
+  goToViewDataset() {
     if (this.submission?.id) {
       this.$router.push({
         name: "dataset",
@@ -253,13 +262,13 @@ export default class CzRegisterDataset extends Vue {
     }
   }
 
-  protected getDateInLocalTime(date: number): string {
+  getDateInLocalTime(date: number): string {
     const offset = new Date(date).getTimezoneOffset() * 60 * 1000;
     const localDateTime = date + offset;
     return new Date(localDateTime).toLocaleString();
   }
 
-  protected isValidUrlOrIdentifier(): true | string {
+  isValidUrlOrIdentifier(): true | string {
     if (!this.url) {
       return "required";
     }
@@ -270,7 +279,7 @@ export default class CzRegisterDataset extends Vue {
       : "invalid URL or Identifier";
   }
 
-  private async _readDataset() {
+  async _readDataset() {
     this.submission = null;
     this.isFetching = true;
     this.wasUnauthorized = false;
@@ -279,7 +288,7 @@ export default class CzRegisterDataset extends Vue {
 
     try {
       const response = await Submission.registerSubmission(
-        this.identifierFromUrl
+        this.identifierFromUrl,
       );
 
       if (response && typeof response !== "number") {
@@ -299,6 +308,7 @@ export default class CzRegisterDataset extends Vue {
     }
   }
 }
+export default toNative(CdRegisterDataset);
 </script>
 
 <style lang="scss" scoped>

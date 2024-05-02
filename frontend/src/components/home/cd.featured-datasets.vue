@@ -1,12 +1,12 @@
 <template>
   <v-container class="cd-featured-datasets text-center py-12">
     <div class="display-1 my-4">{{ $t("home.featuredData.title") }}</div>
-    <v-subheader
-      class="text-body-1 my-4 d-inline-block"
+    <div
+      class="text-body-1 my-4 d-inline-block font-weight-light"
       style="max-width: 35rem"
     >
       {{ $t("home.featuredData.subtitle") }}
-    </v-subheader>
+    </div>
     <v-slide-group
       v-model="selected"
       v-if="fetchedDatasets.length || isLoading"
@@ -14,7 +14,7 @@
       class="pa-4"
       show-arrows
     >
-      <v-slide-item
+      <v-slide-group-item
         v-for="(result, index) in datasets"
         :key="index"
         v-slot="{ toggle }"
@@ -30,20 +30,20 @@
         >
           <template v-if="!isLoading && result">
             <div class="d-flex full-height card-wrapper">
-              <div class="card-icon info lighten-3">
+              <div class="card-icon bg-blue-grey-lighten-3">
                 <div class="page-icons">
                   <div class="page-icon elevation-1">
-                    <v-icon>mdi-text-long</v-icon>
+                    <v-icon size="x-small">mdi-text-long</v-icon>
                   </div>
                   <div class="page-icon elevation-1">
-                    <v-icon>mdi-text-long</v-icon>
-                    <v-icon>mdi-chart-multiple</v-icon>
-                    <v-icon>mdi-chart-bar</v-icon>
-                    <v-icon>mdi-text-long</v-icon>
+                    <v-icon size="x-small">mdi-text-long</v-icon>
+                    <v-icon size="x-small">mdi-chart-multiple</v-icon>
+                    <v-icon size="x-small">mdi-chart-bar</v-icon>
+                    <v-icon size="x-small">mdi-text-long</v-icon>
                   </div>
                 </div>
               </div>
-              <div class="card-content info lighten-4">
+              <div class="card-content bg-blue-grey-lighten-4">
                 <v-card-text class="pb-0 d-flex justify-space-between">
                   <div>
                     <template v-if="result.dateCreated">{{
@@ -51,17 +51,21 @@
                     }}</template>
                   </div>
                   <v-btn
-                    class="primary lighten-1"
+                    color="primary-lighten-1"
                     :href="result.url"
                     target="_blank"
-                    small
+                    size="small"
                     depressed
+                    variant="flat"
                   >
                     <v-icon small left>mdi-open-in-new</v-icon>
                     View
                   </v-btn>
                 </v-card-text>
-                <v-card-title :title="result.name" class="text-body-1 d-block">
+                <v-card-title
+                  :title="result.name"
+                  class="text-body-1 d-block font-weight-regular"
+                >
                   <div class="snip-2">{{ result.name }}</div>
                 </v-card-title>
                 <v-card-text>
@@ -69,8 +73,7 @@
                     <v-chip
                       v-for="(keyowrd, index) of result.keywords.slice(0, 3)"
                       :key="index"
-                      class="ma-1"
-                      color="secondary lighten-2"
+                      class="ma-1 bg-secondary-lighten-1"
                       style="pointer-events: none"
                       small
                       >{{ keyowrd }}</v-chip
@@ -85,7 +88,7 @@
           </template>
           <v-skeleton-loader v-else type="image"></v-skeleton-loader>
         </v-card>
-      </v-slide-item>
+      </v-slide-group-item>
     </v-slide-group>
     <div v-else class="text-body-2">
       No data to feature right now. Check again soon...
@@ -94,10 +97,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, toNative } from "vue-facing-decorator";
 import CdHomeSearch from "@/components/home/cd.home-search.vue";
 import Search from "@/models/search.model";
 import { formatDate } from "@/util";
+import { IResult } from "@/types";
 
 const numFeatured = 10;
 const featuredSearch = "Water";
@@ -106,13 +110,13 @@ const featuredSearch = "Water";
   name: "cd-featured-datasets",
   components: { CdHomeSearch },
 })
-export default class CdFeaturedDatasets extends Vue {
-  protected selected: number | null = null;
-  protected formatDate = formatDate;
-  protected isLoading = false;
-  // protected datasets = FEATURED_DATASETS;  // JSON file setup. Unused for now.
+class CdFeaturedDatasets extends Vue {
+  selected: number | null = null;
+  formatDate = formatDate;
+  isLoading = false;
+  // datasets = FEATURED_DATASETS;  // JSON file setup. Unused for now.
 
-  protected getResultAuthors(result) {
+  getResultAuthors(result) {
     return result.creator.join(", ");
   }
 
@@ -122,7 +126,7 @@ export default class CdFeaturedDatasets extends Vue {
       : new Array(numFeatured).fill(null);
   }
 
-  protected get fetchedDatasets() {
+  get fetchedDatasets() {
     return Search.$state.results;
   }
 
@@ -145,6 +149,7 @@ export default class CdFeaturedDatasets extends Vue {
     }
   }
 }
+export default toNative(CdFeaturedDatasets);
 </script>
 
 <style lang="scss" scoped>
@@ -155,7 +160,7 @@ export default class CdFeaturedDatasets extends Vue {
   overflow: visible;
 }
 
-::v-deep .v-card--link:before {
+:deep(.v-card--link:before) {
   background: transparent !important;
 }
 
@@ -212,7 +217,7 @@ export default class CdFeaturedDatasets extends Vue {
   }
 }
 
-::v-deep .v-card:hover {
+:deep(.v-card:hover) {
   transform: scale(1.05);
   z-index: 1;
 
@@ -231,13 +236,11 @@ export default class CdFeaturedDatasets extends Vue {
   width: 0;
   box-shadow: -4px 0px 15px -4px rgb(0 0 0 / 25%);
   z-index: 1;
-  border-left: 4px solid;
-  border-left-color: #afb9c0 !important;
   border-top-right-radius: 1rem;
   border-bottom-right-radius: 1rem;
 }
 
-::v-deep .v-slide-group.v-item-group {
+:deep(.v-slide-group.v-item-group) {
   z-index: 2;
 
   & > .v-slide-group__next {

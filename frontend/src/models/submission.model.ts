@@ -1,17 +1,13 @@
 import { ISubmission } from "@/components/submissions/types";
 import { Model } from "@vuex-orm/core";
 import User from "./user.model";
-import {
-  EnumSubmissionSorts,
-  EnumSortDirections,
-} from "@/components/submissions/types";
+import { EnumSubmissionSorts } from "@/components/submissions/types";
 import { itemsPerPageArray } from "@/components/submissions/constants";
 import { ENDPOINTS } from "@/constants";
 import { Notifications } from "@cznethub/cznet-vue-core";
 
 export interface ISubmisionState {
-  sortBy: { key: string; label: string };
-  sortDirection: { key: string; label: string };
+  sortBy: { key: string; label: string; order: "asc" | "desc" };
   itemsPerPage: number;
   isFetching: boolean;
 }
@@ -35,8 +31,7 @@ export default class Submission extends Model implements ISubmission {
 
   static state() {
     return {
-      sortBy: { key: "date", label: EnumSubmissionSorts.date },
-      sortDirection: { key: "desc", label: EnumSortDirections.desc },
+      sortBy: { key: "date", label: EnumSubmissionSorts.date, order: "desc" },
       itemsPerPage: itemsPerPageArray[0],
       isFetching: false,
     };
@@ -58,7 +53,7 @@ export default class Submission extends Model implements ISubmission {
     };
   }
 
-  static getInsertDataFromDb(dbSubmission) {
+  static getInsertDataFromDb(dbSubmission: any) {
     return {
       title: dbSubmission.title,
       authors: dbSubmission.authors,
@@ -71,7 +66,7 @@ export default class Submission extends Model implements ISubmission {
   }
 
   /** Used to transform submission data that comes from the repository API and was transformed to our schema */
-  static getInsertData(apiSubmission): ISubmission | Partial<Submission> {
+  static getInsertData(apiSubmission: any): ISubmission | Partial<Submission> {
     return {
       title: apiSubmission.name,
       authors: apiSubmission.creator.map((c) => c.name),
@@ -85,7 +80,7 @@ export default class Submission extends Model implements ISubmission {
   }
 
   static async fetchSubmissions() {
-    console.log("Fetching submissions...");
+    console.log("[Submission]: Fetching submissions...");
     try {
       this.commit((state) => {
         return (state.isFetching = true);
@@ -122,7 +117,7 @@ export default class Submission extends Model implements ISubmission {
 
   // TODO: modify endpoint so that it can perform the delete with the db id itself
   static async deleteSubmission(identifier: string, id: string) {
-    console.log("Deleting submission...");
+    console.log("[Submission]: Deleting submission...");
     try {
       const response: Response = await fetch(
         `${ENDPOINTS.deleteSubmission}/${identifier}/`,
@@ -132,7 +127,7 @@ export default class Submission extends Model implements ISubmission {
             "Content-Type": "application/json",
             Authorization: `Bearer ${User.$state.accessToken}`,
           },
-        }
+        },
       );
 
       if (response.ok) {
@@ -166,7 +161,7 @@ export default class Submission extends Model implements ISubmission {
           "Content-Type": "application/json",
           Authorization: `Bearer ${User.$state.accessToken}`,
         },
-      }
+      },
     );
 
     if (response.ok) {
@@ -207,7 +202,7 @@ export default class Submission extends Model implements ISubmission {
           "Content-Type": "application/json",
           Authorization: `Bearer ${User.$state.accessToken}`,
         },
-      }
+      },
     );
 
     if (response.ok) {

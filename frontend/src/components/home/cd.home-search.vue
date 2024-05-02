@@ -3,11 +3,11 @@
     dark
     class="cd-home-search"
     alt="Landscape with a river and trees during fall"
-    :src="require('@/assets/img/bg2.jpg')"
-    :height="$vuetify.breakpoint.smAndDown ? 600 : 500"
+    :src="'/img/bg2.jpg'"
+    :height="$vuetify.display.smAndDown ? 600 : 500"
   >
     <v-container
-      class="d-flex flex-column justify-center align-center full-height pa-12"
+      class="d-flex flex-column justify-center align-center full-height pa-12 text-white"
       :style="{
         'background-image':
           'linear-gradient(rgb(48 41 21 / 45%), rgba(40, 74, 64, 0.07))',
@@ -21,7 +21,7 @@
         {{ $t("home.search.subtitle") }}
       </div>
       <div class="search-container full-width px-4 text-center mb-4">
-        <div class="has-text-shadow font-weight-normal text-h6 mb-2">
+        <div class="has-text-shadow font-weight-regular text-h6 mb-2">
           {{ $t("home.search.inputLabel") }}
         </div>
         <cd-search />
@@ -37,14 +37,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, toNative } from "vue-facing-decorator";
 import CdSearch from "@/components/search/cd.search.vue";
 
 @Component({
   name: "cd-home-search",
   components: { CdSearch },
 })
-export default class CdHomeSearch extends Vue {}
+class CdHomeSearch extends Vue {}
+export default toNative(CdHomeSearch);
 </script>
 
 <style lang="scss" scoped>
@@ -56,7 +57,7 @@ export default class CdHomeSearch extends Vue {}
   max-width: 45rem;
 }
 
-::v-deep .v-parallax__content {
+:deep(.v-parallax__content) {
   padding: 0;
 }
 </style>

@@ -1,12 +1,11 @@
-import { router } from "@/router/router";
 import { Model } from "@vuex-orm/core";
 import { Subject } from "rxjs";
-import { RawLocation } from "vue-router";
+import { RouteLocationRaw, useRouter } from "vue-router";
 import { getQueryString } from "@/util";
 import { APP_URL, ENDPOINTS, LOGIN_URL, CLIENT_ID } from "@/constants";
 import { Notifications } from "@cznethub/cznet-vue-core";
 
-export interface ICzCurrentUserState {
+export interface ICurrentUserState {
   accessToken: string;
 }
 
@@ -23,8 +22,9 @@ export interface IUserState {
 export default class User extends Model {
   static entity = "users";
   static isLoginListenerSet = false;
-  static logInDialog$ = new Subject<RawLocation | undefined>();
+  static logInDialog$ = new Subject<RouteLocationRaw | undefined>();
   static loggedIn$ = new Subject<void>();
+  static controller = new AbortController();
 
   static fields() {
     return {};
@@ -54,11 +54,11 @@ export default class User extends Model {
     };
   }
 
-  static openLogInDialog(redirectTo?: RawLocation) {
+  static openLogInDialog(redirectTo?: RouteLocationRaw) {
     this.logInDialog$.next(redirectTo);
   }
 
-  static async logIn(callback?: () => any) {
+  static async _____logIn(callback?: () => any) {
     const params = {
       response_type: "token",
       client_id: `${CLIENT_ID}`,
@@ -70,7 +70,7 @@ export default class User extends Model {
     window.open(
       `${LOGIN_URL}?${getQueryString(params)}`,
       "_blank",
-      "location=1, status=1, scrollbars=1, width=800, height=800"
+      "location=1, status=1, scrollbars=1, width=800, height=800",
     );
 
     if (!this.isLoginListenerSet) {
@@ -106,13 +106,64 @@ export default class User extends Model {
     }
   }
 
+  static async logIn(callback?: () => any) {
+    const handleMessage = async (event: MessageEvent) => {
+      if (
+        event.origin !== APP_URL ||
+        !Object.prototype.hasOwnProperty.call(event.data, "accessToken")
+      ) {
+        return;
+      }
+
+      if (event.data.accessToken) {
+        Notifications.toast({
+          message: "You have logged in!",
+          type: "success",
+        });
+        await User.commit((state) => {
+          state.isLoggedIn = true;
+          state.accessToken = event.data.accessToken;
+        });
+        this.controller.abort();
+        this.loggedIn$.next();
+        callback?.();
+      } else {
+        Notifications.toast({
+          message: "Failed to Log In",
+          type: "error",
+        });
+      }
+    };
+
+    const params = {
+      response_type: "token",
+      client_id: `${CLIENT_ID}`,
+      redirect_uri: `${APP_URL}/auth-redirect`,
+      window_close: "True",
+      scope: "openid",
+    };
+
+    window.open(
+      `${LOGIN_URL}?${getQueryString(params)}`,
+      "_blank",
+      "location=1, status=1, scrollbars=1, width=800, height=800",
+    );
+
+    this.controller.abort();
+    this.controller = new AbortController();
+    window.addEventListener("message", handleMessage, {
+      signal: this.controller.signal, // Used to remove the listener
+    });
+    console.info(`User: listening to login window...`);
+  }
+
   static async checkAuthorization() {
     try {
       // TODO: find endpoint to verify authentication
       const response: Response = await fetch(
         `${ENDPOINTS.search}?${getQueryString({
           access_token: User.$state.accessToken,
-        })}`
+        })}`,
       );
 
       if (response.status !== 200) {
@@ -149,8 +200,8 @@ export default class User extends Model {
       type: "info",
     });
 
-    if (router.currentRoute.meta?.hasLoggedInGuard) {
-      router.push({ path: "/" });
+    if (useRouter().currentRoute.meta?.hasLoggedInGuard) {
+      useRouter().push({ path: "/" });
     }
   }
 
@@ -167,9 +218,9 @@ export default class User extends Model {
       }
     });
 
-    let schema = null;
-    let uiSchema = null;
-    let schemaDefaults = null;
+    let schema: any = null;
+    let uiSchema: any = null;
+    let schemaDefaults: any = null;
 
     if (results[0]?.ok) {
       try {
