@@ -49,7 +49,7 @@
             <v-btn
               tabindex="-1"
               icon
-              flat
+              variant="elevated"
               size="x-small"
               @click.stop="deleteHint(item.raw)"
             >

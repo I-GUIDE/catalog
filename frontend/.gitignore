@@ -3,7 +3,6 @@
 node_modules
 /dist
 tsconfig.tsbuildinfo
-/.vite-ssg-temp
 
 # local env files
 .env.local
