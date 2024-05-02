@@ -1,7 +1,7 @@
 <template>
   <v-app app>
     <v-app-bar
-      v-if="!$route.meta.hideNavigation"
+      v-if="!route.meta.hideNavigation"
       color="navbar"
       ref="appBar"
       id="app-bar"
@@ -73,9 +73,9 @@
         <v-sheet
           min-height="70vh"
           rounded
-          :elevation="$route.meta.hideNavigation || $route.meta.flat ? 0 : 2"
+          :elevation="route.meta.hideNavigation || route.meta.flat ? 0 : 2"
         >
-          <router-view name="content" :key="$route.fullPath" />
+          <router-view name="content" :key="route.fullPath" />
         </v-sheet>
       </v-container>
     </v-main>
@@ -85,7 +85,7 @@
     </v-footer>
 
     <v-navigation-drawer
-      v-if="!$route.meta.hideNavigation || $route.meta.flat"
+      v-if="!route.meta.hideNavigation || route.meta.flat"
       class="mobile-nav-items"
       v-model="showMobileNavigation"
       temporary
@@ -107,6 +107,7 @@
               class="mr-2"
               >{{ path.icon }}</v-icon
             >
+
             <span>{{ path.label }}</span>
           </v-list-item>
         </v-list-item>
@@ -168,7 +169,7 @@ import { CzNotifications, Notifications } from "@cznethub/cznet-vue-core";
 import { Subscription } from "rxjs";
 import User from "@/models/user.model";
 import CdLogin from "@/components/account/cd.login.vue";
-import { RouteLocationRaw } from "vue-router";
+import { RouteLocationRaw, useRoute, useRouter } from "vue-router";
 
 @Component({
   name: "app",
@@ -197,14 +198,17 @@ class App extends Vue {
       attrs: { to: "/submissions" },
       label: "My Submissions",
       icon: "mdi-book-multiple",
-      isActive: () =>
-        this.$route?.name === "dataset" || this.$route?.name === "dataset-edit",
+      isActive: () => {
+        return (
+          useRoute().name === "dataset" || useRoute().name === "dataset-edit"
+        );
+      },
     },
     {
       attrs: { to: "/contribute" },
       label: "Contribute",
       icon: "mdi-book-plus",
-      isActive: () => this.$route?.name === "contribute",
+      isActive: () => useRoute().name === "contribute",
     },
     {
       attrs: { to: "/register" },
@@ -217,6 +221,7 @@ class App extends Vue {
     //   icon: "mdi-book-plus",
     // },
   ];
+  route = useRoute();
 
   get isLoggedIn(): boolean {
     return User.$state.isLoggedIn;
@@ -247,7 +252,10 @@ class App extends Vue {
         this.logInDialog.isActive = true;
 
         this.logInDialog.onLoggedIn = () => {
-          if (redirectTo) this.$router.push(redirectTo).catch(() => {});
+          if (redirectTo)
+            useRouter()
+              .push(redirectTo)
+              .catch(() => {});
 
           this.logInDialog.isActive = false;
         };

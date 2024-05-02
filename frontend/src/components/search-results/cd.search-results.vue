@@ -418,6 +418,7 @@ import SearchHistory from "@/models/search-history.model";
 import Search from "@/models/search.model";
 import { clamp } from "@vueuse/core";
 import { VNumberInput } from "vuetify/labs/VNumberInput";
+import { useRoute, useRouter } from "vue-router";
 
 const options: LoaderOptions = { libraries: ["drawing"] };
 const loader: Loader = new Loader(
@@ -649,7 +650,7 @@ class CdSearchResults extends Vue {
   }
 
   goToDataset(id: string) {
-    this.$router.push({ path: `dataset/${id}` });
+    useRouter().push({ path: `dataset/${id}` });
   }
 
   public onIntersect(_isIntersecting: boolean, entries: any[], _observer: any) {
@@ -688,7 +689,7 @@ class CdSearchResults extends Vue {
       }
 
       // Note: this will reload the component
-      this.$router
+      useRouter()
         .push({
           name: "search",
           query: this.routeParams,
@@ -785,54 +786,54 @@ class CdSearchResults extends Vue {
   /** Load route query parameters into component values. */
   private _loadRouteParams() {
     // SEARCH QUERY
-    this.searchQuery = this.$route.query["q"] as string;
+    this.searchQuery = useRoute().query["q"] as string;
 
     // CREATOR NAME
-    this.filter.creatorName = (this.$route.query["cn"] as string) || "";
+    this.filter.creatorName = (useRoute().query["cn"] as string) || "";
 
     // REPOSITORY
-    this.filter.repository.value = (this.$route.query["r"] as string) || "";
+    this.filter.repository.value = (useRoute().query["r"] as string) || "";
 
     // CONTENT TYPE
-    // this.filter.contentType.value = (this.$route.query["ct"] as string[]) || [];
+    // this.filter.contentType.value = (useRoute().query["ct"] as string[]) || [];
 
     // PROJECT
-    // this.filter.project.value = this.$route.query["p"]
-    //   ? ([this.$route.query["p"]].flat() as string[])
+    // this.filter.project.value = useRoute().query["p"]
+    //   ? ([useRoute().query["p"]].flat() as string[])
     //   : [];
 
     // PUBLICATION YEAR
-    if (this.$route.query["py"]) {
+    if (useRoute().query["py"]) {
       this.filter.publicationYear.isActive = true;
       this.publicationYear =
-        ((this.$route?.query["py"] as [string, string])?.map((n) => +n) as [
+        ((useRoute().query["py"] as [string, string])?.map((n) => +n) as [
           number,
           number,
         ]) || this.publicationYear;
     }
 
     // DATA COVERAGE
-    if (this.$route.query["dc"]) {
+    if (useRoute().query["dc"]) {
       this.filter.dataCoverage.isActive = true;
       this.dataCoverage =
-        ((this.$route.query["dc"] as [string, string])?.map((n) => +n) as [
+        ((useRoute().query["dc"] as [string, string])?.map((n) => +n) as [
           number,
           number,
         ]) || this.dataCoverage;
     }
 
     // SORT
-    if (this.$route.query["s"]) {
+    if (useRoute().query["s"]) {
       if (this.searchQuery) {
         this.sort =
-          (this.$route?.query["s"] as
+          (useRoute().query["s"] as
             | "name"
             | "dateCreated"
             | "relevance"
             | "registrationDate") || this.sort;
       } else {
         this.sortEmpty =
-          (this.$route?.query["s"] as
+          (useRoute().query["s"] as
             | "name"
             | "dateCreated"
             | "relevance"

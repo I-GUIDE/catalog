@@ -1,6 +1,6 @@
 import { Model } from "@vuex-orm/core";
 import { Subject } from "rxjs";
-import { RouteLocationRaw, useRouter } from "vue-router";
+import { RouteLocationRaw, useRoute, useRouter } from "vue-router";
 import { getQueryString } from "@/util";
 import { APP_URL, ENDPOINTS, LOGIN_URL, CLIENT_ID } from "@/constants";
 import { Notifications } from "@cznethub/cznet-vue-core";
@@ -200,7 +200,7 @@ export default class User extends Model {
       type: "info",
     });
 
-    if (useRouter().currentRoute.meta?.hasLoggedInGuard) {
+    if (useRoute().meta?.hasLoggedInGuard) {
       useRouter().push({ path: "/" });
     }
   }

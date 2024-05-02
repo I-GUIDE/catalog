@@ -50,6 +50,7 @@ import { Component, Vue, toNative } from "vue-facing-decorator";
 import { CzForm } from "@cznethub/cznet-vue-core";
 
 import User from "@/models/user.model";
+import { useRoute } from "vue-router";
 
 @Component({
   name: "cd-contribute",
@@ -87,7 +88,7 @@ class CdDataset extends Vue {
   }
 
   async loadDataset() {
-    this.submissionId = this.$route?.params.id as string;
+    this.submissionId = useRoute().params.id as string;
     this.isLoading = true;
     try {
       const data = await User.fetchDataset(this.submissionId);

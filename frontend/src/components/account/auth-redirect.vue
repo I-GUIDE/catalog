@@ -11,6 +11,7 @@
 <script lang="ts">
 import { APP_URL } from "@/constants";
 import { Component, Vue, toNative } from "vue-facing-decorator";
+import { useRoute } from "vue-router";
 
 @Component({
   name: "auth-redirect",
@@ -20,11 +21,13 @@ class AuthRedirect extends Vue {
   mounted() {
     // Get a dictionary of parameters in the redirect response URL
     const dict: any = {};
-    this.$route?.hash.split("&").reduce((acc, curr) => {
-      const [key, val] = curr.split("=");
-      acc[key] = val;
-      return acc;
-    }, dict);
+    useRoute()
+      .hash.split("&")
+      .reduce((acc, curr) => {
+        const [key, val] = curr.split("=");
+        acc[key] = val;
+        return acc;
+      }, dict);
 
     // window.opener references our original window from where the login popup was opened
     window.opener.postMessage(

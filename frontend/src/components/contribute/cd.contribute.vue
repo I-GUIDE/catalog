@@ -126,7 +126,12 @@ import { Notifications, CzForm } from "@cznethub/cznet-vue-core";
 
 import User from "@/models/user.model";
 import { hasUnsavedChangesGuard } from "@/guards";
-import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import {
+  NavigationGuardNext,
+  RouteLocationNormalized,
+  useRoute,
+  useRouter,
+} from "vue-router";
 
 const initialData = {};
 
@@ -188,9 +193,9 @@ class CdContribute extends Vue {
 
   created() {
     this.hasUnsavedChanges = false;
-    if (this.$route?.name === "dataset-edit") {
+    if (useRoute().name === "dataset-edit") {
       this.isEditMode = true;
-      this.submissionId = this.$route?.params.id as string;
+      this.submissionId = useRoute().params.id as string;
       this.loadDataset();
     }
   }
@@ -219,7 +224,7 @@ class CdContribute extends Vue {
           type: "success",
         });
         this.hasUnsavedChanges = false;
-        this.$router.push({
+        useRouter().push({
           name: "dataset",
           params: { id: this.submissionId },
         });
@@ -244,7 +249,7 @@ class CdContribute extends Vue {
           message: `Your submission has been saved!`,
           type: "success",
         });
-        this.$router.push({
+        useRouter().push({
           name: "dataset",
           params: { id: savedDatasetId },
         });
@@ -276,12 +281,12 @@ class CdContribute extends Vue {
 
   onCancel() {
     if (this.isEditMode) {
-      this.$router.push({
+      useRouter().push({
         name: "dataset",
         params: { id: this.submissionId },
       });
     } else {
-      this.$router.push({ name: "submissions" });
+      useRouter().push({ name: "submissions" });
     }
   }
 

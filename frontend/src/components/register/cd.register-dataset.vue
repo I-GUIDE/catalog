@@ -198,6 +198,7 @@
 <script lang="ts">
 import { Component, Vue, toNative } from "vue-facing-decorator";
 import Submission from "@/models/submission.model";
+import { useRouter } from "vue-router";
 const exampleUrl =
   "https://www.hydroshare.org/resource/9d3d437466764bb5b6668d2742cf9db2/";
 const exampleIdentifier = "9d3d437466764bb5b6668d2742cf9db2";
@@ -253,7 +254,7 @@ class CdRegisterDataset extends Vue {
 
   goToViewDataset() {
     if (this.submission?.id) {
-      this.$router.push({
+      useRouter().push({
         name: "dataset",
         params: {
           id: this.submission.id,

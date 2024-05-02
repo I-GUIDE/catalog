@@ -63,7 +63,7 @@
             <cd-spatial-coverage-map
               :loader="loader"
               :feature="data.spatialCoverage.geo"
-              :key="$route.fullPath"
+              :key="route.fullPath"
               :flat="true"
             />
             <v-divider></v-divider>
@@ -566,7 +566,7 @@
                   :loader="loader"
                   :loader-options="options"
                   :feature="data.spatialCoverage.geo"
-                  :key="$route.fullPath"
+                  :key="route.fullPath"
                   :flat="true"
                 />
                 <v-divider></v-divider>
@@ -728,6 +728,7 @@ const md = markdownit();
 
 import { Component, Vue, toNative } from "vue-facing-decorator";
 import { useGoTo } from "vuetify/lib/framework.mjs";
+import { useRoute } from "vue-router";
 
 @Component({
   name: "cd-dataset",
@@ -832,6 +833,8 @@ class CdDataset extends Vue {
   infoValueAttr = {
     class: "text-body-1 mb-2",
   };
+
+  route = useRoute();
 
   created() {
     this.loadDataset();
@@ -942,7 +945,7 @@ class CdDataset extends Vue {
   }
 
   async loadDataset() {
-    this.submissionId = this.$route.params.id as string;
+    this.submissionId = useRoute().params.id as string;
     this.isLoading = true;
     try {
       const data = await User.fetchDataset(this.submissionId);

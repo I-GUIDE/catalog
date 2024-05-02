@@ -51,6 +51,7 @@ export const routes: RouteRecordRaw[] = [
     },
     meta: {
       title: "Register Dataset",
+      hasLoggedInGuard: true,
     },
     beforeEnter: [hasLoggedInGuard],
   },
@@ -63,6 +64,7 @@ export const routes: RouteRecordRaw[] = [
     },
     meta: {
       title: "My Submissions",
+      hasLoggedInGuard: true,
     },
     beforeEnter: [hasLoggedInGuard],
   },
@@ -81,6 +83,7 @@ export const routes: RouteRecordRaw[] = [
     meta: {
       title: "Edit Dataset",
       flat: true,
+      hasLoggedInGuard: true,
     },
     beforeEnter: [hasLoggedInGuard],
   },

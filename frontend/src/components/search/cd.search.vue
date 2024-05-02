@@ -198,8 +198,8 @@ class CdSearch extends Vue {
   public onSearch() {
     this._onChange();
     this.previousValueInternal = this.valueInternal;
-    if (this.valueInternal && this.$route?.name !== "search") {
-      this.$router
+    if (this.valueInternal && useRoute().name !== "search") {
+      useRouter()
         .push({ name: "search", query: { q: this.valueInternal } })
         .catch(sameRouteNavigationErrorHandler);
     }
