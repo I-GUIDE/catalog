@@ -16,6 +16,8 @@ export const sameRouteNavigationErrorHandler = (e) => {
   }
 };
 
+export const APP_GOOGLE_MAPS_API_KEY =
+  import.meta.env.VITE_APP_GOOGLE_MAPS_API_KEY || "";
 export const MAX_YEAR = new Date().getFullYear();
 export const MIN_YEAR = 1900;
 export const API_BASE = import.meta.env.VITE_APP_API_URL || "";

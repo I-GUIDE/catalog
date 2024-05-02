@@ -38,7 +38,7 @@
               class="pa-0"
             >
               <div class="d-flex align-center justify-space-between gap-1">
-                <div>
+                <div class="citation-text">
                   {{ citation }}
                 </div>
 
@@ -109,14 +109,14 @@
                     v-if="data.spatialCoverage.geo['@type'] == 'GeoCoordinates'"
                   >
                     <v-row class="align-start">
-                      <v-col cols="12" sm="6" class="dataset-info">
+                      <v-col cols="12" class="dataset-info">
                         <div v-bind="infoLabelAttr">Latitude:</div>
                         <div v-bind="infoValueAttr">
                           {{ data.spatialCoverage.geo.latitude }}°
                         </div>
                       </v-col>
 
-                      <v-col cols="12" sm="6" class="dataset-info">
+                      <v-col cols="12" class="dataset-info">
                         <div v-bind="infoLabelAttr">Longitude:</div>
                         <div v-bind="infoValueAttr">
                           {{ data.spatialCoverage.geo.longitude }}°
@@ -207,8 +207,8 @@
             </v-chip>
             <template v-if="data.dateModified">
               <span class="d-block d-sm-inline" v-bind="infoLabelAttr"
-                >Last Updated:</span
-              >
+                >Last Updated:
+              </span>
               <span v-bind="infoValueAttr">
                 {{ parseDate(data.dateModified) }}
                 <span class="font-weight-light">
@@ -314,10 +314,9 @@
                         v-if="creator.affiliation.url"
                         class="d-inline-flex align-baseline"
                       >
-                        <a :href="creator.affiliation.url" target="_blank">{{
+                        <a :href="creator.affiliation.url">{{
                           creator.affiliation.name
                         }}</a>
-                        <v-icon class="ml-2" small>mdi-open-in-new</v-icon>
                       </span>
                       <span v-else>{{ creator.affiliation.name }}</span>
                     </div>
@@ -333,10 +332,7 @@
             <div v-bind="infoLabelAttr">Provider:</div>
             <div v-bind="infoValueAttr">
               <span v-if="data.provider.url" class="d-flex align-baseline">
-                <a :href="data.provider.url" target="_blank">{{
-                  data.provider.name
-                }}</a>
-                <v-icon class="ml-2" small>mdi-open-in-new</v-icon>
+                <a :href="data.provider.url">{{ data.provider.name }}</a>
               </span>
 
               <template v-else>{{ data.provider.name }}</template>
@@ -351,10 +347,7 @@
             <div v-bind="infoLabelAttr">License:</div>
             <div v-bind="infoValueAttr">
               <div v-if="data.license.url" class="d-flex align-baseline">
-                <a :href="data.license.url" target="_blank">{{
-                  data.license.name
-                }}</a>
-                <v-icon class="ml-2" small>mdi-open-in-new</v-icon>
+                <a :href="data.license.url">{{ data.license.name }}</a>
               </div>
 
               <template v-else>{{ data.license.name }}</template>
@@ -398,7 +391,7 @@
             </template>
 
             <!-- TODO -->
-            <div v-bind="infoLabelAttr">Host Repository:</div>
+            <!-- <div v-bind="infoLabelAttr">Host Repository:</div>
             <div v-bind="infoValueAttr">
               HydroShare
               <v-img
@@ -408,7 +401,7 @@
                 alt="HydroShare logo"
                 :src="'/img/hydroshare.png'"
               ></v-img>
-            </div>
+            </div> -->
           </v-col>
         </v-row>
 
@@ -416,10 +409,7 @@
           <div class="text-overline primary--text darken-4">URL</div>
           <v-divider class="primary my-1"></v-divider>
           <p class="text-body-1">
-            <a :href="data.url" target="_blank" class="break-word">{{
-              data.url
-            }}</a>
-            <v-icon class="ml-2" small>mdi-open-in-new</v-icon>
+            <a :href="data.url" class="break-word">{{ data.url }}</a>
           </p>
         </div>
 
@@ -437,8 +427,7 @@
           <v-chip
             v-for="keyword of data.keywords"
             :key="keyword"
-            small
-            outlined
+            density="compact"
             class="mr-1"
             >{{ keyword }}</v-chip
           >
@@ -525,10 +514,7 @@
                       {{ funding.funder.name }}
                     </div>
                     <div>{{ funding.funder.address }}</div>
-                    <a
-                      class="font-weight-light"
-                      :href="funding.funder.url"
-                      target="_blank"
+                    <a class="font-weight-light" :href="funding.funder.url"
                       >{{ funding.funder.url }}
                     </a>
                   </div>
@@ -553,14 +539,14 @@
                 <tr v-for="(part, index) in data.hasPart" :key="`hp-${index}`">
                   <td class="">Has part</td>
                   <td>
-                    <a :href="part.url" target="_blank">{{ part.name }}</a>
+                    <a :href="part.url">{{ part.name }}</a>
                   </td>
                 </tr>
 
                 <tr v-for="(part, index) in data.isPartOf" :key="`hp-${index}`">
                   <td class="">Is part of</td>
                   <td>
-                    <a :href="part.url" target="_blank">{{ part.name }}</a>
+                    <a :href="part.url">{{ part.name }}</a>
                   </td>
                 </tr>
 
@@ -570,7 +556,7 @@
                 >
                   <td class="">Subject of</td>
                   <td>
-                    <a :href="part.url" target="_blank">{{ part.name }}</a>
+                    <a :href="part.url">{{ part.name }}</a>
                   </td>
                 </tr>
               </tbody>
@@ -979,10 +965,6 @@ class CdDataset extends Vue {
         const response = await fetch(readmeFile.contentUrl);
         const rawMd = await response.text();
         this.readmeMd = md.render(rawMd);
-
-        // this.marked.setOptions({
-        //   // ...
-        // });
       } catch (e) {
         console.log(e);
       }
@@ -1056,6 +1038,7 @@ export default toNative(CdDataset);
   flex-basis: 25rem;
   flex-shrink: 0;
   position: relative;
+  min-width: 0;
 
   .sidebar--content {
     position: sticky;
@@ -1082,6 +1065,11 @@ export default toNative(CdDataset);
       gap: 0;
     }
   }
+}
+
+.citation-text {
+  min-width: 0;
+  word-break: break-all;
 }
 
 #graph-container {

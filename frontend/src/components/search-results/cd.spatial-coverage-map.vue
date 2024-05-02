@@ -12,6 +12,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, toNative } from "vue-facing-decorator";
 import { Loader } from "google-maps";
+import { APP_GOOGLE_MAPS_API_KEY } from "@/constants";
 
 const DEFAULT_ZOOM = 5;
 
@@ -21,8 +22,8 @@ const DEFAULT_ZOOM = 5;
 })
 class CdSpatialCoverageMap extends Vue {
   @Prop() feature!: any;
-  @Prop() loader!: Loader;
   @Prop() flat?: boolean;
+  static loader = new Loader(APP_GOOGLE_MAPS_API_KEY, {});
 
   @Ref("map") mapContainer!: InstanceType<typeof HTMLDivElement>;
   map: google.maps.Map | null = null;
@@ -62,13 +63,14 @@ class CdSpatialCoverageMap extends Vue {
   }
 
   async initMap() {
-    const google = await this.loader.load();
+    const google = await CdSpatialCoverageMap.loader.load();
 
     if (this.mapContainer) {
       this.map = new google.maps.Map(this.mapContainer, {
         center: { lat: 39.8097343, lng: -98.5556199 },
         zoom: DEFAULT_ZOOM,
         gestureHandling: "cooperative",
+        mapTypeId: "roadmap",
       });
     }
 
