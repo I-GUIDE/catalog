@@ -551,7 +551,24 @@
             <template v-slot:default>
               <tbody>
                 <tr v-for="(part, index) in data.hasPart" :key="`hp-${index}`">
-                  <td class="">Has Part</td>
+                  <td class="">Has part</td>
+                  <td>
+                    <a :href="part.url" target="_blank">{{ part.name }}</a>
+                  </td>
+                </tr>
+
+                <tr v-for="(part, index) in data.isPartOf" :key="`hp-${index}`">
+                  <td class="">Is part of</td>
+                  <td>
+                    <a :href="part.url" target="_blank">{{ part.name }}</a>
+                  </td>
+                </tr>
+
+                <tr
+                  v-for="(part, index) in data.subjectOf"
+                  :key="`hp-${index}`"
+                >
+                  <td class="">Subject of</td>
                   <td>
                     <a :href="part.url" target="_blank">{{ part.name }}</a>
                   </td>
@@ -979,7 +996,6 @@ class CdDataset extends Vue {
       const data = await User.fetchDataset(this.submissionId);
       if (data) {
         this.data = data;
-        console.log(data);
 
         this.loadFileExporer();
         this.loadReadmeFile();
