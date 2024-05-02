@@ -82,6 +82,7 @@ import type {
   VTextField,
 } from "vuetify/lib/components/index.mjs";
 import { IHint } from "@/types";
+import { useRoute } from "vue-router";
 
 const typeaheadDebounceTime = 500;
 
@@ -199,7 +200,7 @@ class CdSearch extends Vue {
     this._onChange();
     this.previousValueInternal = this.valueInternal;
     if (this.valueInternal && useRoute().name !== "search") {
-      useRouter()
+      this.$router
         .push({ name: "search", query: { q: this.valueInternal } })
         .catch(sameRouteNavigationErrorHandler);
     }

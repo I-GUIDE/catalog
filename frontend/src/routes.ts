@@ -74,6 +74,7 @@ export const routes: RouteRecordRaw[] = [
     components: { content: CdDatasetHtml, footer: CdFooter },
     meta: {
       title: "Dataset",
+      flat: true,
     },
   },
   {

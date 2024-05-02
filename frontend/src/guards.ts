@@ -30,7 +30,6 @@ export const hasUnsavedChangesGuard: NavigationGuard = (to, from, next) => {
         await User.commit((state) => {
           state.hasUnsavedChanges = false;
         });
-        // await useRouter().push(to.path)
         next({ path: to.path });
       },
     });

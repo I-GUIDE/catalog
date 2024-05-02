@@ -6,27 +6,30 @@
         class="sidebar pr-8 break-word"
       >
         <div class="sidebar--content">
-          <div class="text-h6">Table of contents</div>
-          <ol class="text-body-2">
-            <template v-for="(item, index) of tableOfContents">
-              <li
-                v-if="!(item.isShown === false)"
-                :key="index"
-                class="my-2 text-body-1"
-              >
-                <!-- <router-link :to="{ hash: item.link }">{{
-                  item.title
-                }}</router-link> -->
-
-                <a @click="goTo(item.link, scrollOptions)">{{ item.title }}</a>
-              </li>
-            </template>
-          </ol>
+          <v-card>
+            <v-card-title>Table of contents</v-card-title>
+            <v-divider></v-divider>
+            <v-card-text>
+              <v-list density="compact">
+                <template v-for="(item, index) of tableOfContents">
+                  <v-list-item
+                    v-if="!(item.isShown === false)"
+                    :key="index"
+                    :value="index"
+                    class="my-2 text-body-1"
+                    @click="goTo(item.link, scrollOptions)"
+                  >
+                    {{ item.title }}
+                  </v-list-item>
+                </template>
+              </v-list>
+            </v-card-text>
+          </v-card>
 
           <v-card
             v-if="data.citation && data.citation.length"
             class="mt-8"
-            flat
+            variant="flat"
           >
             <v-card-title class="pa-0 pb-2">How to cite</v-card-title>
             <v-card-text
@@ -55,7 +58,7 @@
             v-if="hasSpatialFeatures"
             class="mt-8"
             variant="elevated"
-            elevation="2"
+            elevation="1"
           >
             <v-card-title class="text-overline primary--text darken-4">
               Spatial Coverage
@@ -151,7 +154,7 @@
             v-if="data.temporalCoverage"
             class="mt-8"
             variant="elevated"
-            elevation="2"
+            elevation="1"
           >
             <v-card-title class="text-overline primary--text darken-4">
               Temporal Coverage
@@ -159,8 +162,8 @@
             <v-divider></v-divider>
 
             <v-card-text>
-              <v-timeline align-top dense>
-                <v-timeline-item small>
+              <v-timeline align-top density="compact" line-color="info">
+                <v-timeline-item dot-color="primary">
                   <div>
                     <div class="font-weight-normal">
                       <strong>Start Date</strong>
@@ -169,7 +172,7 @@
                   </div>
                 </v-timeline-item>
 
-                <v-timeline-item small color="orange">
+                <v-timeline-item dot-color="orange">
                   <div>
                     <div class="font-weight-normal">
                       <strong>End Date</strong>
@@ -246,7 +249,10 @@
                 :key="index"
               >
                 <template v-slot:activator="{ props }">
-                  <span class="mr-2" v-bind="{ ...props, ...infoValueAttr }">
+                  <span
+                    class="mr-2 cursor-pointer"
+                    v-bind="{ ...props, ...infoValueAttr }"
+                  >
                     <div class="d-inline-block">
                       {{ creator.name }} <v-icon small>mdi-menu-down</v-icon>
                     </div>
@@ -391,6 +397,7 @@
               </div>
             </template>
 
+            <!-- TODO -->
             <div v-bind="infoLabelAttr">Host Repository:</div>
             <div v-bind="infoValueAttr">
               HydroShare
@@ -452,7 +459,12 @@
             @showMetadata="onShowMetadata($event)"
           />
 
-          <v-card v-if="readmeMd" class="readme-container" flat outlined>
+          <v-card
+            v-if="readmeMd"
+            class="readme-container"
+            variant="elevated"
+            elevation="1"
+          >
             <v-card-title>README</v-card-title>
             <v-divider></v-divider>
             <v-card-text>
@@ -644,8 +656,8 @@
           </div>
           <v-divider class="primary mb-2"></v-divider>
 
-          <v-timeline align-top dense>
-            <v-timeline-item small>
+          <v-timeline align-top density="compact" line-color="info">
+            <v-timeline-item dot-color="primary">
               <div>
                 <div class="font-weight-normal">
                   <strong>Start Date</strong>
@@ -654,7 +666,7 @@
               </div>
             </v-timeline-item>
 
-            <v-timeline-item small color="orange">
+            <v-timeline-item dot-color="orange">
               <div>
                 <div class="font-weight-normal">
                   <strong>End Date</strong>
@@ -666,6 +678,7 @@
         </div>
       </div>
     </div>
+
     <div v-else-if="isLoading" class="text-h6 text--secondary my-12">
       <v-progress-circular indeterminate color="primary" />
     </div>
@@ -674,7 +687,7 @@
       border="start"
       colored-border
       type="error"
-      elevation="2"
+      elevation="1"
       >Failed to load dataset</v-alert
     >
     <!-- <v-card>
@@ -1030,6 +1043,7 @@ export default toNative(CdDataset);
 .page-content {
   flex-grow: 1;
   max-width: 100%;
+  min-width: 0;
 
   &.is-sm {
     .dataset-info {

@@ -130,7 +130,6 @@ import {
   NavigationGuardNext,
   RouteLocationNormalized,
   useRoute,
-  useRouter,
 } from "vue-router";
 
 const initialData = {};
@@ -224,7 +223,7 @@ class CdContribute extends Vue {
           type: "success",
         });
         this.hasUnsavedChanges = false;
-        useRouter().push({
+        this.$router.push({
           name: "dataset",
           params: { id: this.submissionId },
         });
@@ -249,7 +248,7 @@ class CdContribute extends Vue {
           message: `Your submission has been saved!`,
           type: "success",
         });
-        useRouter().push({
+        this.$router.push({
           name: "dataset",
           params: { id: savedDatasetId },
         });
@@ -281,12 +280,12 @@ class CdContribute extends Vue {
 
   onCancel() {
     if (this.isEditMode) {
-      useRouter().push({
+      this.$router.push({
         name: "dataset",
         params: { id: this.submissionId },
       });
     } else {
-      useRouter().push({ name: "submissions" });
+      this.$router.push({ name: "submissions" });
     }
   }
 
