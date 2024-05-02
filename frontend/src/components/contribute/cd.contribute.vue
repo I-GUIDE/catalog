@@ -1,7 +1,9 @@
 <template>
   <v-container class="cd-contribute">
     <div class="display-1 d-sm-flex d-block justify-space-between align-center">
-      <div>{{ isEditMode ? "Edit Submission" : "Contribute" }}</div>
+      <div class="text-h4">
+        {{ isEditMode ? "Edit Submission" : "Contribute" }}
+      </div>
 
       <div
         v-if="!(isEditMode && (isLoading || !wasLoaded))"
@@ -51,6 +53,8 @@
         </v-menu>
       </div>
     </div>
+
+    <v-divider class="my-4" />
 
     <template v-if="!isEditMode || (!isLoading && wasLoaded)">
       <cz-form

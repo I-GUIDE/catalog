@@ -169,7 +169,8 @@ import { CzNotifications, Notifications } from "@cznethub/cznet-vue-core";
 import { Subscription } from "rxjs";
 import User from "@/models/user.model";
 import CdLogin from "@/components/account/cd.login.vue";
-import { RouteLocationRaw, useRoute } from "vue-router";
+import { RouteLocationRaw, useRoute, useRouter } from "vue-router";
+import { addRouteTags } from "./guards";
 
 @Component({
   name: "app",
@@ -241,6 +242,9 @@ class App extends Vue {
 
   async created() {
     document.title = APP_NAME;
+
+    const router = useRouter();
+    router.afterEach(addRouteTags);
 
     User.fetchSchemas();
     // Guards are setup after checking authorization and loading access tokens

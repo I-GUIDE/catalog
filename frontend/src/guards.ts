@@ -1,6 +1,11 @@
 import { Notifications } from "@cznethub/cznet-vue-core";
-import type { NavigationGuard, RouteLocationRaw } from "vue-router";
+import type {
+  NavigationGuard,
+  NavigationHookAfter,
+  RouteLocationRaw,
+} from "vue-router";
 import User from "./models/user.model";
+import { APP_NAME } from "./constants";
 
 export const hasNextRouteGuard: NavigationGuard = () => {
   const nextRoute = User.$state.next;
@@ -39,7 +44,7 @@ export const hasUnsavedChangesGuard: NavigationGuard = (to, from, next) => {
   }
 };
 
-export const addRouteTags: NavigationGuard = (to, from, _next) => {
+export const addRouteTags: NavigationHookAfter = (to, from, _next) => {
   // This goes through the matched routes from last to first, finding the closest route with a title.
   // e.g., if we have `/some/deep/nested/route` and `/some`, `/deep`, and `/nested` have titles,
   // `/nested`'s will be chosen.
@@ -59,14 +64,14 @@ export const addRouteTags: NavigationGuard = (to, from, _next) => {
     .reverse()
     .find((r) => r.meta && r.meta.metaTags);
 
-  const { t } = useI18n();
+  // const { t } = useI18n();
 
   // If a route with a title was found, set the document (page) title to that value.
   if (nearestWithTitle)
-    document.title = `${t(`hubName`)} | ${nearestWithTitle.meta.title}`;
+    document.title = `${APP_NAME} | ${nearestWithTitle.meta.title}`;
   else if (previousNearestWithMeta)
     document.title = previousNearestWithMeta.meta.title as string;
-  else document.title = `${t(`hubName`)}`;
+  else document.title = `${APP_NAME}`;
 
   // Remove any stale meta tags from the document using the key attribute we set below.
   Array.from(document.querySelectorAll("[data-vue-router-controlled]")).map(
