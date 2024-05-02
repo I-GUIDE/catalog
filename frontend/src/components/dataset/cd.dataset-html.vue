@@ -705,10 +705,25 @@
           </div>
         </v-card-title>
 
+        <v-divider></v-divider>
+
         <v-card-text>
-          <div>Metadata here...</div>
-          <div>{{ selectedMetadata.metadata?.contentUrl }}</div>
-          <div>{{ selectedMetadata.metadata?.encodingFormat }}</div>
+          <v-table density="compact">
+            <tbody>
+              <tr v-if="selectedMetadata.metadata?.contentUrl">
+                <th>Content URL</th>
+                <td>
+                  <a :href="selectedMetadata.metadata?.contentUrl">{{
+                    selectedMetadata.metadata?.contentUrl
+                  }}</a>
+                </td>
+              </tr>
+              <tr v-if="selectedMetadata.metadata?.encodingFormat">
+                <th>Encoding Format</th>
+                <td>{{ selectedMetadata.metadata?.encodingFormat }}</td>
+              </tr>
+            </tbody>
+          </v-table>
         </v-card-text>
 
         <v-divider></v-divider>
