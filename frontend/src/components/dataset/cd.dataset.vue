@@ -457,8 +457,7 @@
             <v-card-title>README</v-card-title>
             <v-divider></v-divider>
             <v-card-text>
-              <pre v-html="readmeMd"></pre>
-              <!-- <vue-marked :marked="marked">{{ readmeMd }}</vue-marked> -->
+              <div v-html="readmeMd"></div>
             </v-card-text>
           </v-card>
         </div>
