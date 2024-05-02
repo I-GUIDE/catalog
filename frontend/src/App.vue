@@ -42,7 +42,7 @@
           <template v-else>
             <v-menu bottom left offset-y>
               <template #activator="{ props }">
-                <v-btn v-bind="props" variant="elevated" elevation="2" rounded>
+                <v-btn v-bind="props" color="white" variant="elevated" rounded>
                   <v-icon>mdi-account-circle</v-icon>
                   <v-icon>mdi-menu-down</v-icon>
                 </v-btn>

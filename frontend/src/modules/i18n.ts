@@ -1,5 +1,4 @@
 import { createI18n } from "vue-i18n";
-import type { UserModule } from "@/types";
 import { messages } from "@/i18n/messages";
 
 // Import i18n resources
@@ -9,7 +8,3 @@ export const i18n = createI18n({
   locale: "en",
   messages,
 });
-
-export const install: UserModule = ({ app }) => {
-  app.use(i18n);
-};

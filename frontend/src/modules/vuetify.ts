@@ -8,7 +8,6 @@ import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 import { fa, aliases as fa_aliases } from "vuetify/iconsets/fa";
 import { aliases as md_aliases, mdi } from "vuetify/iconsets/mdi";
-import type { UserModule } from "@/types";
 import colors from "vuetify/util/colors";
 
 const lightTheme: ThemeDefinition = {
@@ -36,33 +35,30 @@ const darkTheme: ThemeDefinition = {
   },
 };
 
-export const install: UserModule = ({ app }) => {
-  const vuetify = createVuetify({
-    components,
-    directives,
-    theme: {
-      defaultTheme: "lightTheme",
-      themes: {
-        lightTheme,
-        darkTheme,
-      },
-      variations: {
-        colors: ["primary", "secondary", "info", "navbar"],
-        lighten: 4,
-        darken: 4,
-      },
+export const vuetify = createVuetify({
+  components,
+  directives,
+  theme: {
+    defaultTheme: "lightTheme",
+    themes: {
+      lightTheme,
+      darkTheme,
     },
-    icons: {
-      defaultSet: "mdi",
-      aliases: {
-        ...fa_aliases,
-        ...md_aliases,
-      },
-      sets: {
-        mdi,
-        fa,
-      },
+    variations: {
+      colors: ["primary", "secondary", "info", "navbar"],
+      lighten: 4,
+      darken: 4,
     },
-  });
-  app.use(vuetify);
-};
+  },
+  icons: {
+    defaultSet: "mdi",
+    aliases: {
+      ...fa_aliases,
+      ...md_aliases,
+    },
+    sets: {
+      mdi,
+      fa,
+    },
+  },
+});

@@ -1,13 +1,13 @@
-// import { createMemoryHistory, createRouter } from "vue-router";
-// import User from "../models/user.model";
+import { createMemoryHistory, createRouter } from "vue-router";
+import { routes } from "@/routes";
 
-// const router = createRouter({
-//   history: createMemoryHistory(),
-//   routes,
-//   scrollBehavior(_to, _from, _savedPosition) {
-//     document.getElementsByTagName('html')[0]?.scrollTo({ left: 0, top: 0 })
-//   },
-// })
+export const router = createRouter({
+  history: createMemoryHistory(),
+  routes,
+  scrollBehavior(_to, _from, _savedPosition) {
+    document.getElementsByTagName("html")[0]?.scrollTo({ left: 0, top: 0 });
+  },
+});
 
 // export const install: UserModule = ({ app }) => {
 //   // Install the store instance as a plugin
