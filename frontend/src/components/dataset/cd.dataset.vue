@@ -749,7 +749,7 @@ import User from "@/models/user.model";
 
 const options: LoaderOptions = { libraries: ["drawing"] };
 const loader: Loader = new Loader(
-  import.meta.env.VUE_APP_GOOGLE_MAPS_API_KEY,
+  import.meta.env.VITE_APP_GOOGLE_MAPS_API_KEY,
   options,
 );
 
