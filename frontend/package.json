@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vite --open",
-    "build": "vite-ssg build",
+    "build": "vite build",
     "lint": "eslint .",
-    "build-prod": "vite-ssg build --mode=production",
+    "build-prod": "vite build --mode=production",
     "serve-prod": "vite --mode production",
     "deploy": "node scripts/gh-pages-deploy.js",
     "up": "taze major -I"

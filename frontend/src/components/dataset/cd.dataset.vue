@@ -993,7 +993,7 @@ class CdDataset extends Vue {
   }
 
   async loadDataset() {
-    this.submissionId = useRoute().params.id as string;
+    this.submissionId = this.route.params.id as string;
     this.isLoading = true;
     try {
       const data = await User.fetchDataset(this.submissionId);

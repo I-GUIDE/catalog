@@ -27,7 +27,7 @@
       <div>What repository is the resource in?</div>
     </div>
 
-    <v-radio-group v-model="repository" class="mb-12">
+    <v-radio-group v-model="repository" class="mb-12" color="info">
       <v-radio label="HydroShare" value="HydroShare"></v-radio>
       <v-radio label="Amazon S3" value="AmazonS3"></v-radio>
     </v-radio-group>

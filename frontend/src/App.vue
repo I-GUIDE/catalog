@@ -184,44 +184,7 @@ class App extends Vue {
     onLoggedIn: () => {},
     onCancel: () => {},
   };
-  public paths: any[] = [
-    {
-      attrs: { to: "/" },
-      label: "Home",
-      icon: "mdi-home",
-    },
-    {
-      attrs: { to: "/search" },
-      label: "Search",
-      icon: "mdi-magnify",
-    },
-    {
-      attrs: { to: "/submissions" },
-      label: "My Submissions",
-      icon: "mdi-book-multiple",
-      isActive: () => {
-        return (
-          useRoute().name === "dataset" || useRoute().name === "dataset-edit"
-        );
-      },
-    },
-    {
-      attrs: { to: "/contribute" },
-      label: "Contribute",
-      icon: "mdi-book-plus",
-      isActive: () => useRoute().name === "contribute",
-    },
-    {
-      attrs: { to: "/register" },
-      label: "Register",
-      icon: "mdi-link-plus",
-    },
-    // {
-    //   attrs: { href: "https://dsp.criticalzone.org/" },
-    //   label: "Contribute Data",
-    //   icon: "mdi-book-plus",
-    // },
-  ];
+  public paths: any[] = [];
   route = useRoute();
 
   get isLoggedIn(): boolean {
@@ -242,6 +205,45 @@ class App extends Vue {
 
   async created() {
     document.title = APP_NAME;
+
+    this.paths = [
+      {
+        attrs: { to: "/" },
+        label: "Home",
+        icon: "mdi-home",
+      },
+      {
+        attrs: { to: "/search" },
+        label: "Search",
+        icon: "mdi-magnify",
+      },
+      {
+        attrs: { to: "/submissions" },
+        label: "My Submissions",
+        icon: "mdi-book-multiple",
+        isActive: () => {
+          return (
+            this.route.name === "dataset" || this.route.name === "dataset-edit"
+          );
+        },
+      },
+      {
+        attrs: { to: "/contribute" },
+        label: "Contribute",
+        icon: "mdi-book-plus",
+        isActive: () => this.route.name === "contribute",
+      },
+      {
+        attrs: { to: "/register" },
+        label: "Register",
+        icon: "mdi-link-plus",
+      },
+      // {
+      //   attrs: { href: "https://dsp.criticalzone.org/" },
+      //   label: "Contribute Data",
+      //   icon: "mdi-book-plus",
+      // },
+    ];
 
     User.fetchSchemas();
     // Guards are setup after checking authorization and loading access tokens
