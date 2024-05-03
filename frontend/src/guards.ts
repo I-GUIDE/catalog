@@ -14,9 +14,10 @@ export const hasNextRouteGuard: NavigationGuard = () => {
 };
 
 export const hasLoggedInGuard: NavigationGuard = (to, _from, next) => {
-  if (!User.$state.isLoggedIn) User.openLogInDialog({ path: to.path });
-  // next(from.path)
-  else next();
+  if (!User.$state.isLoggedIn) {
+    User.openLogInDialog({ path: to.path });
+    next({ name: "home" });
+  } else next();
 };
 
 export const hasUnsavedChangesGuard: NavigationGuard = (to, _from, next) => {
