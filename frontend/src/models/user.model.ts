@@ -257,6 +257,30 @@ export default class User extends Model {
     return response.ok ? result._id : false;
   }
 
+  static async submitS3(
+    data: any,
+    s3Path: { path: string; bucket: string; endpointUrl: string },
+  ) {
+    const formData = {
+      s3_path: {
+        path: s3Path.path,
+        bucket: s3Path.bucket,
+        endpoint_url: s3Path.endpointUrl,
+      },
+      document: data,
+    };
+    const response: Response = await fetch(`${ENDPOINTS.submitS3}/`, {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.accessToken}`,
+      },
+    });
+    const result = await response.json();
+    return response.ok ? result._id : false;
+  }
+
   /**
    * Updates a submission
    * @param {string} identifier - the identifier of the resource in our database

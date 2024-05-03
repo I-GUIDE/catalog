@@ -25,6 +25,7 @@ export const ENDPOINTS: { [key: string]: string } = {
   search: `${API_BASE}/discovery/search`,
   typeahead: `${API_BASE}/discovery/typeahead`,
   submit: `${API_BASE}/catalog/dataset`,
+  submitS3: `${API_BASE}/catalog/dataset/s3`,
   register: `${API_BASE}/catalog/repository/hydroshare`,
   refresh: `${API_BASE}/catalog/repository/hydroshare`,
   deleteSubmission: `${API_BASE}/catalog/dataset`,

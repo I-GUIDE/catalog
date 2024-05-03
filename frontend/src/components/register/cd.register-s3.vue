@@ -19,6 +19,13 @@
     >
     </v-text-field>
 
+    <div
+      class="text-subtitle-1 text-medium-emphasis pl-3 mb-4 mt-1"
+      style="word-break: break-word"
+    >
+      {{ `e.g. 'data/.hs/dataset_metadata.json'` }}
+    </div>
+
     <v-text-field
       v-model.trim="state.bucket"
       :error-messages="form.bucket.$errors.map((e) => e.$message)"
@@ -33,6 +40,13 @@
       variant="outlined"
     >
     </v-text-field>
+
+    <div
+      class="text-subtitle-1 text-medium-emphasis pl-3 mb-4 mt-1"
+      style="word-break: break-word"
+    >
+      {{ `e.g. 'iguide-catalog'` }}
+    </div>
 
     <v-text-field
       v-model.trim="state.endpointUrl"
@@ -57,29 +71,24 @@
     </div>
   </v-form>
 
-  <div class="text-right">
-    <v-btn color="primary" :disabled="form.$invalid"> Continue </v-btn>
+  <div class="d-flex align-center mt-12">
+    <v-badge color="primary" content="3" inline class="mr-2"></v-badge>
+    <div>Describe your resource</div>
   </div>
+  <CdRegisterS3Form :isSaving="isSaving || form.$invalid" @save="onSave" />
 </template>
 
 <script lang="ts">
 import { Component, Vue, toNative } from "vue-facing-decorator";
-
 import { useVuelidate } from "@vuelidate/core";
 import { url, required, helpers } from "@vuelidate/validators";
-
-const rules = {
-  path: { required: helpers.withMessage("required", required) },
-  bucket: { required: helpers.withMessage("required", required) },
-  endpointUrl: {
-    required: helpers.withMessage("required", required),
-    url: helpers.withMessage("not a valid URL address", url),
-  },
-};
+import CdRegisterS3Form from "@/components/register/cd.register-s3-form.vue";
+import User from "@/models/user.model";
+import { Notifications } from "@cznethub/cznet-vue-core";
 
 @Component({
   name: "cd-register-s3",
-  components: {},
+  components: { CdRegisterS3Form },
 })
 class CdRegisterS3 extends Vue {
   state = {
@@ -89,17 +98,48 @@ class CdRegisterS3 extends Vue {
   };
 
   form: any = null;
-
-  isRequired(value: string): true | string {
-    if (!value.trim().length) {
-      return "required";
-    }
-
-    return true;
-  }
+  isSaving = false;
 
   created() {
-    this.form = useVuelidate(rules, this.state);
+    this.form = useVuelidate(
+      {
+        path: { required: helpers.withMessage("required", required) },
+        bucket: { required: helpers.withMessage("required", required) },
+        endpointUrl: {
+          required: helpers.withMessage("required", required),
+          url: helpers.withMessage("not a valid URL address", url),
+        },
+      },
+      this.state,
+    );
+    this.form.$validate();
+  }
+
+  async onSave(data: any) {
+    try {
+      this.isSaving = true;
+      const savedDatasetId = await User.submitS3(data, this.state);
+      this.isSaving = false;
+
+      if (savedDatasetId) {
+        Notifications.toast({
+          message: `Your submission has been saved!`,
+          type: "success",
+        });
+        this.$router.push({
+          name: "dataset",
+          params: { id: savedDatasetId },
+        });
+      } else {
+        // Failed to save
+        Notifications.toast({
+          message: `Failed to save submission`,
+          type: "error",
+        });
+      }
+    } finally {
+      this.isSaving = false;
+    }
   }
 }
 export default toNative(CdRegisterS3);
