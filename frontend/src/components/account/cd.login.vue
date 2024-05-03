@@ -13,7 +13,7 @@
         <a href="https://orcid.org" target="_blank">https://orcid.org</a> to
         register and get your unique ORCID iD.
       </p>
-      <img :src="'/img/orcid.png'" alt="ORCID" />
+      <img height="50" :src="'/img/orcid.png'" alt="ORCID" />
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>

@@ -37,6 +37,7 @@
             v-if="!isLoggedIn"
             @click="openLogInDialog()"
             rounded
+            variant="elevated"
             >Log In</v-btn
           >
           <template v-else>
@@ -51,7 +52,7 @@
               <v-list class="pa-0">
                 <v-list-item
                   id="navbar-logout"
-                  @click="logOut()"
+                  @click="onLogout"
                   prepend-icon="mdi-logout"
                 >
                   <v-list-item-title>Log Out</v-list-item-title>
@@ -133,7 +134,7 @@
               <span>Account & Settings</span>
             </v-list-item> -->
 
-            <v-list-item id="drawer-nav-logout" @click="logOut()">
+            <v-list-item id="drawer-nav-logout" @click="onLogout">
               <v-icon class="mr-2">mdi-logout</v-icon>
               <span>Log Out</span>
             </v-list-item>
@@ -227,14 +228,14 @@ class App extends Vue {
     return User.$state.isLoggedIn;
   }
 
-  logOut() {
+  onLogout() {
     Notifications.openDialog({
       title: "Log out?",
       content: "Are you sure you want to log out?",
       confirmText: "Log Out",
       cancelText: "Cancel",
       onConfirm: () => {
-        User.logOut();
+        User.logOut(this.$router);
       },
     });
   }

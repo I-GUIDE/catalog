@@ -1,6 +1,6 @@
 import { Model } from "@vuex-orm/core";
 import { Subject } from "rxjs";
-import { RouteLocationRaw, useRoute, useRouter } from "vue-router";
+import { RouteLocationRaw, Router } from "vue-router";
 import { getQueryString } from "@/util";
 import { APP_URL, ENDPOINTS, LOGIN_URL, CLIENT_ID } from "@/constants";
 import { Notifications } from "@cznethub/cznet-vue-core";
@@ -75,7 +75,6 @@ export default class User extends Model {
 
     if (!this.isLoginListenerSet) {
       this.isLoginListenerSet = true; // Prevents registering the listener more than once
-      console.info(`User: listening to login window...`);
       window.addEventListener("message", async (event: MessageEvent) => {
         if (
           event.origin !== APP_URL ||
@@ -179,17 +178,7 @@ export default class User extends Model {
     }
   }
 
-  static async logOut() {
-    // try {
-    // await fetch(`${ENDPOINTS.logout}`);
-    this._logOut();
-    // } catch (e) {
-    // We don't care about the response status. We at least log the user out in the frontend.
-    // this._logOut();
-    // }
-  }
-
-  private static async _logOut() {
+  static async logOut(router?: Router) {
     await User.commit((state) => {
       (state.isLoggedIn = false), (state.accessToken = "");
     });
@@ -200,8 +189,8 @@ export default class User extends Model {
       type: "info",
     });
 
-    if (useRoute().meta?.hasLoggedInGuard) {
-      useRouter().push({ path: "/" });
+    if (router?.currentRoute?.value.meta?.hasLoggedInGuard) {
+      router.push({ path: "/" });
     }
   }
 
