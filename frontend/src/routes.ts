@@ -99,6 +99,10 @@ export const routes: RouteRecordRaw[] = [
     },
   },
   /** @see https://router.vuejs.org/guide/migration/#removed-star-or-catch-all-routes */
-  { path: "/:pathMatch(.*)*", name: "not-found", component: CdHome },
-  { path: "/:pathMatch(.*)", name: "bad-not-found", component: CdHome },
+  { path: "/:pathMatch(.*)*", name: "not-found", redirect: { name: "home" } },
+  {
+    path: "/:pathMatch(.*)",
+    name: "bad-not-found",
+    redirect: { name: "home" },
+  },
 ];

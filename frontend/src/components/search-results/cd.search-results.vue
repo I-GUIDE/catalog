@@ -476,6 +476,7 @@ class CdSearchResults extends Vue {
     },
     creatorName: "",
   };
+  route = useRoute();
 
   get sortOptions(): { label: string; value: string }[] {
     return this.searchQuery
@@ -786,54 +787,54 @@ class CdSearchResults extends Vue {
   /** Load route query parameters into component values. */
   private _loadRouteParams() {
     // SEARCH QUERY
-    this.searchQuery = useRoute().query["q"] as string;
+    this.searchQuery = this.route.query["q"] as string;
 
     // CREATOR NAME
-    this.filter.creatorName = (useRoute().query["cn"] as string) || "";
+    this.filter.creatorName = (this.route.query["cn"] as string) || "";
 
     // REPOSITORY
-    this.filter.repository.value = (useRoute().query["r"] as string) || null;
+    this.filter.repository.value = (this.route.query["r"] as string) || null;
 
     // CONTENT TYPE
-    // this.filter.contentType.value = (useRoute().query["ct"] as string[]) || [];
+    // this.filter.contentType.value = (this.route.query["ct"] as string[]) || [];
 
     // PROJECT
-    // this.filter.project.value = useRoute().query["p"]
-    //   ? ([useRoute().query["p"]].flat() as string[])
+    // this.filter.project.value = this.route.query["p"]
+    //   ? ([this.route.query["p"]].flat() as string[])
     //   : [];
 
     // PUBLICATION YEAR
-    if (useRoute().query["py"]) {
+    if (this.route.query["py"]) {
       this.filter.publicationYear.isActive = true;
       this.publicationYear =
-        ((useRoute().query["py"] as [string, string])?.map((n) => +n) as [
+        ((this.route.query["py"] as [string, string])?.map((n) => +n) as [
           number,
           number,
         ]) || this.publicationYear;
     }
 
     // DATA COVERAGE
-    if (useRoute().query["dc"]) {
+    if (this.route.query["dc"]) {
       this.filter.dataCoverage.isActive = true;
       this.dataCoverage =
-        ((useRoute().query["dc"] as [string, string])?.map((n) => +n) as [
+        ((this.route.query["dc"] as [string, string])?.map((n) => +n) as [
           number,
           number,
         ]) || this.dataCoverage;
     }
 
     // SORT
-    if (useRoute().query["s"]) {
+    if (this.route.query["s"]) {
       if (this.searchQuery) {
         this.sort =
-          (useRoute().query["s"] as
+          (this.route.query["s"] as
             | "name"
             | "dateCreated"
             | "relevance"
             | "registrationDate") || this.sort;
       } else {
         this.sortEmpty =
-          (useRoute().query["s"] as
+          (this.route.query["s"] as
             | "name"
             | "dateCreated"
             | "relevance"

@@ -21,6 +21,7 @@ export default class Submission extends Model implements ISubmission {
   public date!: number;
   public identifier!: string;
   public repoIdentifier?: string;
+  public repository!: string;
   public url!: string;
   public id!: string;
   // public metadata!: any;
@@ -47,6 +48,7 @@ export default class Submission extends Model implements ISubmission {
       date: this.number(0),
       identifier: this.attr(""),
       repoIdentifier: this.attr(""),
+      repository: this.attr(""),
       url: this.attr(""),
       id: this.attr(""),
       // metadata: this.attr({}),
@@ -59,6 +61,7 @@ export default class Submission extends Model implements ISubmission {
       authors: dbSubmission.authors,
       date: new Date(dbSubmission.submitted).getTime(),
       identifier: dbSubmission.identifier, // TODO: we should call this something else. It is not the same as the schema's identifier
+      repository: dbSubmission.repository,
       repoIdentifier: dbSubmission.repository_identifier,
       url: dbSubmission.url,
       id: dbSubmission._id,

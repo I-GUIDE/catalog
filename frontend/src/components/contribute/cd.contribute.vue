@@ -172,6 +172,8 @@ class CdContribute extends Vue {
     },
   };
 
+  route = useRoute();
+
   get schema() {
     return User.$state.schema;
   }
@@ -196,9 +198,9 @@ class CdContribute extends Vue {
 
   created() {
     this.hasUnsavedChanges = false;
-    if (useRoute().name === "dataset-edit") {
+    if (this.route.name === "dataset-edit") {
       this.isEditMode = true;
-      this.submissionId = useRoute().params.id as string;
+      this.submissionId = this.route.params.id as string;
       this.loadDataset();
     }
   }

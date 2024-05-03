@@ -106,6 +106,7 @@ class CdSearch extends Vue {
   public showList = true;
   public detectCrossover = false;
   public rawDbHints: any[] = [];
+  route = useRoute();
 
   public get typeaheadHints(): IHint[] {
     if (!this.rawDbHints || !this.valueInternal) {
@@ -199,7 +200,7 @@ class CdSearch extends Vue {
   public onSearch() {
     this._onChange();
     this.previousValueInternal = this.valueInternal;
-    if (this.valueInternal && useRoute().name !== "search") {
+    if (this.valueInternal && this.route.name !== "search") {
       this.$router
         .push({ name: "search", query: { q: this.valueInternal } })
         .catch(sameRouteNavigationErrorHandler);
