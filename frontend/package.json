@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vite --open",
-    "build": "vite-ssg build",
+    "build": "vite build",
     "lint": "eslint .",
-    "build-prod": "vite-ssg build --mode=production",
+    "build-prod": "vite build --mode=production",
     "serve-prod": "vite --mode production",
     "deploy": "node scripts/gh-pages-deploy.js",
     "up": "taze major -I"
@@ -14,6 +14,8 @@
   "dependencies": {
     "@cznethub/cznet-vue-core": "^0.2.3",
     "@unhead/vue": "^1.8.14",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
     "@vueuse/core": "^10.9.0",
     "@vueuse/head": "^2.0.0",
     "@vuex-orm/core": "^0.36.4",

@@ -1,6 +1,6 @@
 import { Model } from "@vuex-orm/core";
 import { Subject } from "rxjs";
-import { RouteLocationRaw, useRoute, useRouter } from "vue-router";
+import { RouteLocationRaw, Router } from "vue-router";
 import { getQueryString } from "@/util";
 import { APP_URL, ENDPOINTS, LOGIN_URL, CLIENT_ID } from "@/constants";
 import { Notifications } from "@cznethub/cznet-vue-core";
@@ -75,7 +75,6 @@ export default class User extends Model {
 
     if (!this.isLoginListenerSet) {
       this.isLoginListenerSet = true; // Prevents registering the listener more than once
-      console.info(`User: listening to login window...`);
       window.addEventListener("message", async (event: MessageEvent) => {
         if (
           event.origin !== APP_URL ||
@@ -179,17 +178,7 @@ export default class User extends Model {
     }
   }
 
-  static async logOut() {
-    // try {
-    // await fetch(`${ENDPOINTS.logout}`);
-    this._logOut();
-    // } catch (e) {
-    // We don't care about the response status. We at least log the user out in the frontend.
-    // this._logOut();
-    // }
-  }
-
-  private static async _logOut() {
+  static async logOut(router?: Router) {
     await User.commit((state) => {
       (state.isLoggedIn = false), (state.accessToken = "");
     });
@@ -200,8 +189,8 @@ export default class User extends Model {
       type: "info",
     });
 
-    if (useRoute().meta?.hasLoggedInGuard) {
-      useRouter().push({ path: "/" });
+    if (router?.currentRoute?.value.meta?.hasLoggedInGuard) {
+      router.push({ path: "/" });
     }
   }
 
@@ -248,6 +237,30 @@ export default class User extends Model {
     const response: Response = await fetch(`${ENDPOINTS.submit}/`, {
       method: "POST",
       body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.accessToken}`,
+      },
+    });
+    const result = await response.json();
+    return response.ok ? result._id : false;
+  }
+
+  static async submitS3(
+    data: any,
+    s3Path: { path: string; bucket: string; endpointUrl: string },
+  ) {
+    const formData = {
+      s3_path: {
+        path: s3Path.path,
+        bucket: s3Path.bucket,
+        endpoint_url: s3Path.endpointUrl,
+      },
+      document: data,
+    };
+    const response: Response = await fetch(`${ENDPOINTS.submitS3}/`, {
+      method: "POST",
+      body: JSON.stringify(formData),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${this.accessToken}`,

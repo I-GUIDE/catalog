@@ -186,7 +186,10 @@
 
                       <!-- UPDATE -->
                       <v-btn
-                        v-if="item.raw.repoIdentifier"
+                        v-if="
+                          item.raw.repoIdentifier &&
+                          item.raw.repository !== 'S3'
+                        "
                         :id="`sub-${index}-update`"
                         @click="onUpdate(item.raw)"
                         :disabled="
@@ -384,6 +387,7 @@ import { Subscription } from "rxjs";
 import { itemsPerPageArray } from "@/components/submissions/constants";
 import Submission from "@/models/submission.model";
 import User from "@/models/user.model";
+import { Collection } from "@vuex-orm/core";
 
 @Component({
   name: "cd-submissions",
@@ -454,11 +458,11 @@ class CdSubmissions extends Vue {
     return !!this.searchStr.length;
   }
 
-  get filteredSubmissions(): ISubmission[] {
+  get filteredSubmissions(): Collection<Submission> {
     return Submission.all();
   }
 
-  get submissions(): ISubmission[] {
+  get submissions(): Collection<Submission> {
     return Submission.all();
   }
 

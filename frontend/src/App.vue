@@ -37,6 +37,7 @@
             v-if="!isLoggedIn"
             @click="openLogInDialog()"
             rounded
+            variant="elevated"
             >Log In</v-btn
           >
           <template v-else>
@@ -51,7 +52,7 @@
               <v-list class="pa-0">
                 <v-list-item
                   id="navbar-logout"
-                  @click="logOut()"
+                  @click="onLogout"
                   prepend-icon="mdi-logout"
                 >
                   <v-list-item-title>Log Out</v-list-item-title>
@@ -133,7 +134,7 @@
               <span>Account & Settings</span>
             </v-list-item> -->
 
-            <v-list-item id="drawer-nav-logout" @click="logOut()">
+            <v-list-item id="drawer-nav-logout" @click="onLogout">
               <v-icon class="mr-2">mdi-logout</v-icon>
               <span>Log Out</span>
             </v-list-item>
@@ -169,8 +170,7 @@ import { CzNotifications, Notifications } from "@cznethub/cznet-vue-core";
 import { Subscription } from "rxjs";
 import User from "@/models/user.model";
 import CdLogin from "@/components/account/cd.login.vue";
-import { RouteLocationRaw, useRoute, useRouter } from "vue-router";
-import { addRouteTags } from "./guards";
+import { RouteLocationRaw, useRoute } from "vue-router";
 
 @Component({
   name: "app",
@@ -184,58 +184,21 @@ class App extends Vue {
     onLoggedIn: () => {},
     onCancel: () => {},
   };
-  public paths: any[] = [
-    {
-      attrs: { to: "/" },
-      label: "Home",
-      icon: "mdi-home",
-    },
-    {
-      attrs: { to: "/search" },
-      label: "Search",
-      icon: "mdi-magnify",
-    },
-    {
-      attrs: { to: "/submissions" },
-      label: "My Submissions",
-      icon: "mdi-book-multiple",
-      isActive: () => {
-        return (
-          useRoute().name === "dataset" || useRoute().name === "dataset-edit"
-        );
-      },
-    },
-    {
-      attrs: { to: "/contribute" },
-      label: "Contribute",
-      icon: "mdi-book-plus",
-      isActive: () => useRoute().name === "contribute",
-    },
-    {
-      attrs: { to: "/register" },
-      label: "Register",
-      icon: "mdi-link-plus",
-    },
-    // {
-    //   attrs: { href: "https://dsp.criticalzone.org/" },
-    //   label: "Contribute Data",
-    //   icon: "mdi-book-plus",
-    // },
-  ];
+  public paths: any[] = [];
   route = useRoute();
 
   get isLoggedIn(): boolean {
     return User.$state.isLoggedIn;
   }
 
-  logOut() {
+  onLogout() {
     Notifications.openDialog({
       title: "Log out?",
       content: "Are you sure you want to log out?",
       confirmText: "Log Out",
       cancelText: "Cancel",
       onConfirm: () => {
-        User.logOut();
+        User.logOut(this.$router);
       },
     });
   }
@@ -243,8 +206,44 @@ class App extends Vue {
   async created() {
     document.title = APP_NAME;
 
-    const router = useRouter();
-    router.afterEach(addRouteTags);
+    this.paths = [
+      {
+        attrs: { to: "/" },
+        label: "Home",
+        icon: "mdi-home",
+      },
+      {
+        attrs: { to: "/search" },
+        label: "Search",
+        icon: "mdi-magnify",
+      },
+      {
+        attrs: { to: "/submissions" },
+        label: "My Submissions",
+        icon: "mdi-book-multiple",
+        isActive: () => {
+          return (
+            this.route.name === "dataset" || this.route.name === "dataset-edit"
+          );
+        },
+      },
+      {
+        attrs: { to: "/contribute" },
+        label: "Contribute",
+        icon: "mdi-book-plus",
+        isActive: () => this.route.name === "contribute",
+      },
+      {
+        attrs: { to: "/register" },
+        label: "Register",
+        icon: "mdi-link-plus",
+      },
+      // {
+      //   attrs: { href: "https://dsp.criticalzone.org/" },
+      //   label: "Contribute Data",
+      //   icon: "mdi-book-plus",
+      // },
+    ];
 
     User.fetchSchemas();
     // Guards are setup after checking authorization and loading access tokens

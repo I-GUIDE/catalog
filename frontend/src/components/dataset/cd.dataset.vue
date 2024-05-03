@@ -13,7 +13,7 @@
               <v-list density="compact">
                 <template v-for="(item, index) of tableOfContents">
                   <v-list-item
-                    v-if="!(item.isShown === false)"
+                    v-if="!(item.isShown?.() === false)"
                     :key="index"
                     :value="index"
                     class="my-2 text-body-1"
@@ -23,34 +23,6 @@
                   </v-list-item>
                 </template>
               </v-list>
-            </v-card-text>
-          </v-card>
-
-          <v-card
-            v-if="data.citation && data.citation.length"
-            class="mt-8"
-            variant="flat"
-          >
-            <v-card-title class="pa-0 pb-2">How to cite</v-card-title>
-            <v-card-text
-              v-for="(citation, index) of data.citation"
-              :key="index"
-              class="pa-0"
-            >
-              <div class="d-flex align-center justify-space-between gap-1">
-                <div class="citation-text">
-                  {{ citation }}
-                </div>
-
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ props }">
-                    <v-btn icon v-bind="props" @click="onCopy(citation)">
-                      <v-icon dark> mdi-content-copy </v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Copy</span>
-                </v-tooltip>
-              </div>
             </v-card-text>
           </v-card>
 
@@ -183,6 +155,34 @@
               </v-timeline>
             </v-card-text>
           </v-card>
+
+          <v-card
+            v-if="data.citation && data.citation.length"
+            class="mt-8"
+            variant="flat"
+          >
+            <v-card-title class="pa-0 pb-2">How to cite</v-card-title>
+            <v-card-text
+              v-for="(citation, index) of data.citation"
+              :key="index"
+              class="pa-0"
+            >
+              <div class="d-flex align-center justify-space-between gap-1">
+                <div class="citation-text">
+                  {{ citation }}
+                </div>
+
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ props }">
+                    <v-btn icon v-bind="props" @click="onCopy(citation)">
+                      <v-icon dark> mdi-content-copy </v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Copy</span>
+                </v-tooltip>
+              </div>
+            </v-card-text>
+          </v-card>
         </div>
       </v-container>
 
@@ -195,7 +195,7 @@
         <div
           class="d-flex justify-space-between mb-2 flex-column flex-sm-row align-normal align-sm-end"
         >
-          <div class="order-2 order-sm-1">
+          <!-- <div class="order-2 order-sm-1">
             <v-chip
               small
               class="mr-2"
@@ -212,24 +212,38 @@
               <span v-bind="infoValueAttr">
                 {{ parseDate(data.dateModified) }}
                 <span class="font-weight-light">
-                  <!-- (<timeago :datetime="data.dateModified"> </timeago>) -->
+                  (<timeago :datetime="data.dateModified"> </timeago>)
                 </span>
               </span>
             </template>
+          </div> -->
+
+          <div class="order-1 order-sm-2">
+            <v-btn
+              v-if="!data.repository_identifier"
+              class="order-1 order-sm-2 mb-sm-0 mb-4 mt-sm-0 mt-2"
+              @click="
+                $router.push({
+                  name: 'dataset-edit',
+                  params: { id: data._id },
+                })
+              "
+              rounded
+            >
+              <v-icon>mdi-text-box-edit</v-icon><span class="ml-1">Edit</span>
+            </v-btn>
+
+            <!-- <v-btn
+              v-if="data.repository_identifier"
+              :href="data.repository_identifier"
+              target="_blank"
+              color="blue-grey lighten-4"
+              size="small"
+              rounded
+            >
+              <v-icon class="mr-1">mdi-open-in-new</v-icon> View in repository
+            </v-btn> -->
           </div>
-          <v-btn
-            v-if="!data.repository_identifier"
-            class="order-1 order-sm-2 mb-sm-0 mb-4 mt-sm-0 mt-2"
-            @click="
-              $router.push({
-                name: 'dataset-edit',
-                params: { id: data._id },
-              })
-            "
-            rounded
-          >
-            <v-icon>mdi-text-box-edit</v-icon><span class="ml-1">Edit</span>
-          </v-btn>
         </div>
         <v-divider class="my-4"></v-divider>
 
@@ -341,8 +355,8 @@
             <div v-bind="infoLabelAttr">Resource Type:</div>
             <div v-bind="infoValueAttr">{{ data["@type"] }}</div>
 
-            <div v-bind="infoLabelAttr">Resource Size:</div>
-            <div v-bind="infoValueAttr">~2 MB</div>
+            <!-- <div v-bind="infoLabelAttr">Resource Size:</div>
+            <div v-bind="infoValueAttr">~2 MB</div> -->
 
             <div v-bind="infoLabelAttr">License:</div>
             <div v-bind="infoValueAttr">
@@ -489,13 +503,13 @@
 
                 <template
                   v-slot:actions
-                  v-if="!(funding.description || funding.funder)"
+                  v-if="!(funding.description || !!funding.funder)"
                   ><span></span
                 ></template>
               </v-expansion-panel-title>
 
               <v-expansion-panel-text
-                v-if="funding.description || funding.funder"
+                v-if="funding.description || !!funding.funder"
               >
                 <div
                   class="pt-2 text-body-2 font-weight-light"
@@ -503,19 +517,17 @@
                 >
                   {{ funding.description }}
                 </div>
-                <template v-if="funding.funder">
+                <template v-if="!!funding.funder">
                   <div class="d-flex align-center text-body-1 mt-4 mb-2">
                     <v-icon class="mr-2"> mdi-domain </v-icon>
                     <div>Funding Organization:</div>
                   </div>
-                  <div class="text-body-2 font-weight-light">
+                  <div class="text-body-2">
                     <div class="text-body-1">
                       {{ funding.funder.name }}
                     </div>
                     <div>{{ funding.funder.address }}</div>
-                    <a class="font-weight-light" :href="funding.funder.url"
-                      >{{ funding.funder.url }}
-                    </a>
+                    <a :href="funding.funder.url">{{ funding.funder.url }} </a>
                   </div>
                 </template>
               </v-expansion-panel-text>
@@ -524,7 +536,11 @@
         </div>
 
         <div
-          v-if="data.hasPart && data.hasPart.length"
+          v-if="
+            data.hasPart?.length ||
+            data.isPartOf?.length ||
+            data.subjectOf?.length
+          "
           class="mb-8 field"
           id="related"
         >
@@ -813,48 +829,7 @@ class CdDataset extends Vue {
     easing: "easeInOutCubic",
   };
 
-  tableOfContents = [
-    { title: "Overview", link: 0 },
-    {
-      title: "Url",
-      link: "#url",
-    },
-    {
-      title: "Description",
-      link: "#description",
-      isShown: this.data.description,
-    },
-    {
-      title: "Subject Keywords",
-      link: "#subject",
-      isShown: this.data.keywords?.length,
-    },
-    {
-      title: "Content",
-      link: "#content",
-      isShown: this.data.associatedMedia?.length,
-    },
-    {
-      title: "Funding",
-      link: "#funding",
-      isShown: this.data.funding?.length,
-    },
-    {
-      title: "Related Resources",
-      link: "#related",
-      isShown: this.data.hasPart?.length,
-    },
-    {
-      title: "Spatial Coverage",
-      link: "#spatial-coverage",
-      isShown: this.hasSpatialFeatures && this.$vuetify.display.mdAndDown,
-    },
-    {
-      title: "Temporal Coverage",
-      link: "#temporal-coverage",
-      isShown: !!this.data.temporalCoverage && this.$vuetify.display.mdAndDown,
-    },
-  ];
+  tableOfContents: any[] = [];
 
   infoLabelAttr = {
     class: "text-subtitle-1 font-weight-light",
@@ -866,8 +841,55 @@ class CdDataset extends Vue {
 
   route = useRoute();
 
-  created() {
-    this.loadDataset();
+  async created() {
+    await this.loadDataset();
+
+    this.tableOfContents = [
+      { title: "Overview", link: 0 },
+      {
+        title: "Url",
+        link: "#url",
+      },
+      {
+        title: "Description",
+        link: "#description",
+        isShown: () => !!this.data.description || false,
+      },
+      {
+        title: "Subject Keywords",
+        link: "#subject",
+        isShown: () => this.data.keywords?.length || false,
+      },
+      {
+        title: "Content",
+        link: "#content",
+        isShown: () => this.data.associatedMedia?.length || false,
+      },
+      {
+        title: "Funding",
+        link: "#funding",
+        isShown: () => this.data.funding?.length || false,
+      },
+      {
+        title: "Related Resources",
+        link: "#related",
+        isShown: () => this.data.hasPart?.length || false,
+      },
+      {
+        title: "Spatial Coverage",
+        link: "#spatial-coverage",
+        isShown: () =>
+          (!!this.hasSpatialFeatures && this.$vuetify.display.mdAndDown) ||
+          false,
+      },
+      {
+        title: "Temporal Coverage!!",
+        link: "#temporal-coverage",
+        isShown: () =>
+          (this.data.temporalCoverage && this.$vuetify.display.mdAndDown) ||
+          false,
+      },
+    ];
   }
 
   onShowMetadata(item: any) {
@@ -955,7 +977,7 @@ class CdDataset extends Vue {
   }
 
   async loadReadmeFile() {
-    const readmeFile = this.data.associatedMedia.find(
+    const readmeFile = this.data.associatedMedia?.find(
       (f: any) => f.name.toLowerCase() === "readme.md",
     );
 
@@ -971,7 +993,7 @@ class CdDataset extends Vue {
   }
 
   async loadDataset() {
-    this.submissionId = useRoute().params.id as string;
+    this.submissionId = this.route.params.id as string;
     this.isLoading = true;
     try {
       const data = await User.fetchDataset(this.submissionId);
