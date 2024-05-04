@@ -134,6 +134,7 @@ import {
   NavigationGuardNext,
   RouteLocationNormalized,
   useRoute,
+  useRouter,
 } from "vue-router";
 
 const initialData = {};
@@ -173,6 +174,7 @@ class CdContribute extends Vue {
   };
 
   route = useRoute();
+  router = useRouter();
 
   get schema() {
     return User.$state.schema;
@@ -229,7 +231,7 @@ class CdContribute extends Vue {
           type: "success",
         });
         this.hasUnsavedChanges = false;
-        this.$router.push({
+        this.router.push({
           name: "dataset",
           params: { id: this.submissionId },
         });
@@ -254,7 +256,7 @@ class CdContribute extends Vue {
           message: `Your submission has been saved!`,
           type: "success",
         });
-        this.$router.push({
+        this.router.push({
           name: "dataset",
           params: { id: savedDatasetId },
         });
@@ -286,19 +288,18 @@ class CdContribute extends Vue {
 
   onCancel() {
     if (this.isEditMode) {
-      this.$router.push({
+      this.router.push({
         name: "dataset",
         params: { id: this.submissionId },
       });
     } else {
-      this.$router.push({ name: "submissions" });
+      this.router.push({ name: "submissions" });
     }
   }
 
   onDataChange(_data: any) {
-    // cz-form emits 'change' event multiple times during instantioation.
-    const changesDuringInstantiation = this.isEditMode ? 2 : 3;
-
+    // cz-form emits 'update:model-value' event multiple times during instantioation.
+    const changesDuringInstantiation = 3;
     if (this.timesChanged <= changesDuringInstantiation) {
       this.timesChanged = this.timesChanged + 1;
     }

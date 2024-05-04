@@ -166,6 +166,7 @@
 <script lang="ts">
 import { Component, Vue, toNative } from "vue-facing-decorator";
 import Submission from "@/models/submission.model";
+import { useRouter } from "vue-router";
 
 const exampleUrl =
   "https://www.hydroshare.org/resource/9d3d437466764bb5b6668d2742cf9db2/";
@@ -191,6 +192,7 @@ class CdRegisterHydroShare extends Vue {
   isRegistering = false;
   exampleIdentifier = exampleIdentifier;
   exampleUrl = exampleUrl;
+  router = useRouter();
 
   get canReadDataset(): boolean {
     return !this.isFetching && this.isValid && !!this.url;
@@ -223,7 +225,7 @@ class CdRegisterHydroShare extends Vue {
 
   goToViewDataset() {
     if (this.submission?.id) {
-      this.$router.push({
+      this.router.push({
         name: "dataset",
         params: {
           id: this.submission.id,

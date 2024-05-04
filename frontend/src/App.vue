@@ -170,7 +170,7 @@ import { CzNotifications, Notifications } from "@cznethub/cznet-vue-core";
 import { Subscription } from "rxjs";
 import User from "@/models/user.model";
 import CdLogin from "@/components/account/cd.login.vue";
-import { RouteLocationRaw, useRoute } from "vue-router";
+import { RouteLocationRaw, useRoute, useRouter } from "vue-router";
 
 @Component({
   name: "app",
@@ -186,6 +186,7 @@ class App extends Vue {
   };
   public paths: any[] = [];
   route = useRoute();
+  router = useRouter();
 
   get isLoggedIn(): boolean {
     return User.$state.isLoggedIn;
@@ -198,7 +199,7 @@ class App extends Vue {
       confirmText: "Log Out",
       cancelText: "Cancel",
       onConfirm: () => {
-        User.logOut(this.$router);
+        User.logOut(this.router);
       },
     });
   }
@@ -255,7 +256,7 @@ class App extends Vue {
         this.logInDialog.isActive = true;
 
         this.logInDialog.onLoggedIn = () => {
-          if (redirectTo) this.$router.push(redirectTo).catch(() => {});
+          if (redirectTo) this.router.push(redirectTo).catch(() => {});
 
           this.logInDialog.isActive = false;
         };

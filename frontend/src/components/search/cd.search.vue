@@ -82,7 +82,7 @@ import type {
   VTextField,
 } from "vuetify/lib/components/index.mjs";
 import { IHint } from "@/types";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const typeaheadDebounceTime = 500;
 
@@ -98,15 +98,16 @@ class CdSearch extends Vue {
 
   appName = APP_NAME;
 
-  public valueInternal = "";
-  public previousValueInternal = "";
-  public hints: IHint[] = []; // used to reactively bind to template
-  public menu = false;
-  public isFetchingHints = false;
-  public showList = true;
-  public detectCrossover = false;
-  public rawDbHints: any[] = [];
+  valueInternal = "";
+  previousValueInternal = "";
+  hints: IHint[] = []; // used to reactively bind to template
+  menu = false;
+  isFetchingHints = false;
+  showList = true;
+  detectCrossover = false;
+  rawDbHints: any[] = [];
   route = useRoute();
+  router = useRouter();
 
   public get typeaheadHints(): IHint[] {
     if (!this.rawDbHints || !this.valueInternal) {
@@ -201,7 +202,7 @@ class CdSearch extends Vue {
     this._onChange();
     this.previousValueInternal = this.valueInternal;
     if (this.valueInternal && this.route.name !== "search") {
-      this.$router
+      this.router
         .push({ name: "search", query: { q: this.valueInternal } })
         .catch(sameRouteNavigationErrorHandler);
     }

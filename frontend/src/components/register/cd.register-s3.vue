@@ -85,6 +85,7 @@ import { url, required, helpers } from "@vuelidate/validators";
 import CdRegisterS3Form from "@/components/register/cd.register-s3-form.vue";
 import User from "@/models/user.model";
 import { Notifications } from "@cznethub/cznet-vue-core";
+import { useRouter } from "vue-router";
 
 @Component({
   name: "cd-register-s3",
@@ -99,6 +100,7 @@ class CdRegisterS3 extends Vue {
 
   form: any = null;
   isSaving = false;
+  router = useRouter();
 
   created() {
     this.form = useVuelidate(
@@ -126,7 +128,7 @@ class CdRegisterS3 extends Vue {
           message: `Your submission has been saved!`,
           type: "success",
         });
-        this.$router.push({
+        this.router.push({
           name: "dataset",
           params: { id: savedDatasetId },
         });

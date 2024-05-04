@@ -22,7 +22,7 @@
           color="primary"
           class="mr-2"
           rounded
-          @click="$router.push({ name: 'register' })"
+          @click="router.push({ name: 'register' })"
         >
           <v-icon class="mr-2">mdi-link-plus</v-icon>
           Register Dataset
@@ -31,7 +31,7 @@
         <v-btn
           color="primary"
           rounded
-          @click="$router.push({ name: 'contribute' })"
+          @click="router.push({ name: 'contribute' })"
         >
           <v-icon class="mr-2">mdi-text-box-plus</v-icon>
           New Submission
@@ -162,7 +162,7 @@
                         color="blue-grey lighten-4"
                         rounded
                         @click="
-                          $router.push({
+                          router.push({
                             name: 'dataset',
                             params: { id: item.raw.identifier },
                           })
@@ -215,7 +215,7 @@
                         v-else
                         :id="`sub-${index}-edit`"
                         @click="
-                          $router.push({
+                          router.push({
                             name: 'dataset-edit',
                             params: { id: item.raw.identifier },
                           })
@@ -388,6 +388,7 @@ import { itemsPerPageArray } from "@/components/submissions/constants";
 import Submission from "@/models/submission.model";
 import User from "@/models/user.model";
 import { Collection } from "@vuex-orm/core";
+import { useRouter } from "vue-router";
 
 @Component({
   name: "cd-submissions",
@@ -408,6 +409,7 @@ class CdSubmissions extends Vue {
   enumSubmissionSorts = EnumSubmissionSorts;
   currentItems = [];
   loggedInSubject = new Subscription();
+  router = useRouter();
 
   get sortBy() {
     return Submission.$state.sortBy;

@@ -60,7 +60,11 @@
 import { Component, Vue, toNative, Hook, Prop } from "vue-facing-decorator";
 import { CzForm } from "@cznethub/cznet-vue-core";
 import { hasUnsavedChangesGuard } from "@/guards";
-import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
+import {
+  NavigationGuardNext,
+  RouteLocationNormalized,
+  useRouter,
+} from "vue-router";
 import User from "@/models/user.model";
 
 const initialData = {};
@@ -97,6 +101,7 @@ class CdRegisterS3Form extends Vue {
       },
     },
   };
+  router = useRouter();
 
   get schema() {
     return User.$state.schema;
@@ -135,7 +140,7 @@ class CdRegisterS3Form extends Vue {
   }
 
   onCancel() {
-    this.$router.push({ name: "submissions" });
+    this.router.push({ name: "submissions" });
   }
 
   onDataChange(_data: any) {

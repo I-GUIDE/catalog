@@ -17,7 +17,7 @@ export default defineConfig({
 
   // https://vitejs.dev/config/dep-optimization-options#optimizedeps-include
   optimizeDeps: {
-    include: ["@cznethub/cznet-vue-core", "@fortawesome/fontawesome-free"],
+    include: ["@fortawesome/fontawesome-free"],
   },
 
   plugins: [

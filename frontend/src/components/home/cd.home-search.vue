@@ -22,7 +22,7 @@
       <div class="has-text-shadow text-h5 mt-12 mb-2">
         Not sure what you are looking for?
       </div>
-      <v-btn @click="$router.push({ name: 'search' })" color="white"
+      <v-btn @click="router.push({ name: 'search' })" color="white"
         >Browse IGUIDE catalog</v-btn
       >
     </div>
@@ -32,12 +32,15 @@
 <script lang="ts">
 import { Component, Vue, toNative } from "vue-facing-decorator";
 import CdSearch from "@/components/search/cd.search.vue";
+import { useRouter } from "vue-router";
 
 @Component({
   name: "cd-home-search",
   components: { CdSearch },
 })
-class CdHomeSearch extends Vue {}
+class CdHomeSearch extends Vue {
+  router = useRouter();
+}
 export default toNative(CdHomeSearch);
 </script>
 

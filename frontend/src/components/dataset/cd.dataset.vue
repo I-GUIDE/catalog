@@ -223,7 +223,7 @@
               v-if="!data.repository_identifier"
               class="order-1 order-sm-2 mb-sm-0 mb-4 mt-sm-0 mt-2"
               @click="
-                $router.push({
+                router.push({
                   name: 'dataset-edit',
                   params: { id: data._id },
                 })
@@ -774,7 +774,7 @@ const md = markdownit();
 
 import { Component, Vue, toNative } from "vue-facing-decorator";
 import { useGoTo } from "vuetify/lib/framework.mjs";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 @Component({
   name: "cd-dataset",
@@ -840,6 +840,7 @@ class CdDataset extends Vue {
   };
 
   route = useRoute();
+  router = useRouter();
 
   async created() {
     await this.loadDataset();

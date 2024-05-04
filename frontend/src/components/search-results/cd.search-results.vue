@@ -330,7 +330,7 @@
 
                     <v-btn
                       v-if="hasShowMoreButton(index)"
-                      x-small
+                      size="x-small"
                       variant="text"
                       color="primary"
                       @click="result.showMore = !result.showMore"
@@ -418,7 +418,7 @@ import SearchHistory from "@/models/search-history.model";
 import Search from "@/models/search.model";
 import { clamp } from "@vueuse/core";
 import { VNumberInput } from "vuetify/labs/VNumberInput";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const options: LoaderOptions = { libraries: ["drawing"] };
 const loader: Loader = new Loader(
@@ -477,6 +477,7 @@ class CdSearchResults extends Vue {
     creatorName: "",
   };
   route = useRoute();
+  router = useRouter();
 
   get sortOptions(): { label: string; value: string }[] {
     return this.searchQuery
@@ -651,7 +652,7 @@ class CdSearchResults extends Vue {
   }
 
   goToDataset(id: string) {
-    this.$router.push({ path: `dataset/${id}` });
+    this.router.push({ path: `dataset/${id}` });
   }
 
   public onIntersect(_isIntersecting: boolean, entries: any[], _observer: any) {
@@ -690,7 +691,7 @@ class CdSearchResults extends Vue {
       }
 
       // Note: this will reload the component
-      this.$router
+      this.router
         .push({
           name: "search",
           query: this.routeParams,
