@@ -5,140 +5,141 @@
   >
     <div class="d-sm-block d-md-flex">
       <v-container class="sidebar flex-shrink-0">
-        <div class="text-subtitle-2 mb-6">Filter by:</div>
-        <!-- PUBLICATION YEAR -->
-        <div class="mb-4">
-          <v-checkbox
-            v-model="filter.publicationYear.isActive"
-            @update:model-value="pushSearchRoute"
-            label="Publication year"
-            density="compact"
-            hide-details
-            color="primary"
-          />
-          <v-range-slider
-            v-model="publicationYear"
-            @end="onSliderControlChange(filter.publicationYear)"
-            :class="{ 'grayed-out': !filter.publicationYear.isActive }"
-            :min="filter.publicationYear.min"
-            :max="filter.publicationYear.max"
-            color="primary"
-            class="mb-1"
-            step="1"
-            track-size="1"
-            thumb-size="15"
-            hide-details
-          />
-          <div :class="{ 'grayed-out': !filter.publicationYear.isActive }">
-            <v-number-input
-              v-model="publicationYear[0]"
-              @blur="
-                filter.publicationYear.isActive = true;
-                pushSearchRoute();
-              "
-              @keyup.enter="
-                filter.publicationYear.isActive = true;
-                pushSearchRoute();
-              "
-              inset
-              label="Start"
-              variant="outlined"
+        <div class="sidebar--content">
+          <div class="text-subtitle-2 mb-6">Filter by:</div>
+          <!-- PUBLICATION YEAR -->
+          <div class="mb-4">
+            <v-checkbox
+              v-model="filter.publicationYear.isActive"
+              @update:model-value="pushSearchRoute"
+              label="Publication year"
               density="compact"
+              hide-details
+              color="primary"
             />
+            <v-range-slider
+              v-model="publicationYear"
+              @end="onSliderControlChange(filter.publicationYear)"
+              :class="{ 'grayed-out': !filter.publicationYear.isActive }"
+              :min="filter.publicationYear.min"
+              :max="filter.publicationYear.max"
+              color="primary"
+              class="mb-1"
+              step="1"
+              track-size="1"
+              thumb-size="15"
+              hide-details
+            />
+            <div :class="{ 'grayed-out': !filter.publicationYear.isActive }">
+              <v-number-input
+                v-model="publicationYear[0]"
+                @blur="
+                  filter.publicationYear.isActive = true;
+                  pushSearchRoute();
+                "
+                @keyup.enter="
+                  filter.publicationYear.isActive = true;
+                  pushSearchRoute();
+                "
+                inset
+                label="Start"
+                variant="outlined"
+                density="compact"
+              />
 
-            <v-number-input
-              v-model="publicationYear[1]"
-              @blur="
-                filter.publicationYear.isActive = true;
-                pushSearchRoute();
-              "
-              @keyup.enter="
-                filter.publicationYear.isActive = true;
-                pushSearchRoute();
-              "
-              inset
-              label="End"
-              variant="outlined"
-              density="compact"
-            />
+              <v-number-input
+                v-model="publicationYear[1]"
+                @blur="
+                  filter.publicationYear.isActive = true;
+                  pushSearchRoute();
+                "
+                @keyup.enter="
+                  filter.publicationYear.isActive = true;
+                  pushSearchRoute();
+                "
+                inset
+                label="End"
+                variant="outlined"
+                density="compact"
+              />
+            </div>
           </div>
-        </div>
 
-        <!-- DATA COVERAGE -->
-        <div class="mb-6">
-          <v-checkbox
-            v-model="filter.dataCoverage.isActive"
-            @update:model-value="pushSearchRoute"
-            density="compact"
-            label="Data temporal coverage"
-            hide-details
-            color="primary"
-          />
-          <v-range-slider
-            v-model="dataCoverage"
-            @update:model-value="onSliderControlChange(filter.dataCoverage)"
-            :class="{ 'grayed-out': !filter.dataCoverage.isActive }"
-            :min="filter.dataCoverage.min"
-            :max="filter.dataCoverage.max"
-            hide-details
-            color="primary"
-            class="mb-1"
-            step="1"
-            track-size="1"
-            thumb-size="15"
-          />
-          <div :class="{ 'grayed-out': !filter.dataCoverage.isActive }">
-            <v-number-input
-              v-model="dataCoverage[0]"
-              @blur="
-                filter.dataCoverage.isActive = true;
-                pushSearchRoute();
-              "
-              @keyup.enter="
-                filter.dataCoverage.isActive = true;
-                pushSearchRoute();
-              "
-              :value="dataCoverage[0]"
-              inset
-              label="Start"
-              variant="outlined"
+          <!-- DATA COVERAGE -->
+          <div class="mb-6">
+            <v-checkbox
+              v-model="filter.dataCoverage.isActive"
+              @update:model-value="pushSearchRoute"
               density="compact"
+              label="Data temporal coverage"
+              hide-details
+              color="primary"
             />
+            <v-range-slider
+              v-model="dataCoverage"
+              @update:model-value="onSliderControlChange(filter.dataCoverage)"
+              :class="{ 'grayed-out': !filter.dataCoverage.isActive }"
+              :min="filter.dataCoverage.min"
+              :max="filter.dataCoverage.max"
+              hide-details
+              color="primary"
+              class="mb-1"
+              step="1"
+              track-size="1"
+              thumb-size="15"
+            />
+            <div :class="{ 'grayed-out': !filter.dataCoverage.isActive }">
+              <v-number-input
+                v-model="dataCoverage[0]"
+                @blur="
+                  filter.dataCoverage.isActive = true;
+                  pushSearchRoute();
+                "
+                @keyup.enter="
+                  filter.dataCoverage.isActive = true;
+                  pushSearchRoute();
+                "
+                :value="dataCoverage[0]"
+                inset
+                label="Start"
+                variant="outlined"
+                density="compact"
+              />
 
-            <v-number-input
-              v-model="dataCoverage[1]"
-              @blur="
-                filter.dataCoverage.isActive = true;
-                pushSearchRoute();
-              "
-              @keyup.enter="
-                filter.dataCoverage.isActive = true;
-                pushSearchRoute();
-              "
-              inset
-              label="End"
-              variant="outlined"
-              density="compact"
-            />
+              <v-number-input
+                v-model="dataCoverage[1]"
+                @blur="
+                  filter.dataCoverage.isActive = true;
+                  pushSearchRoute();
+                "
+                @keyup.enter="
+                  filter.dataCoverage.isActive = true;
+                  pushSearchRoute();
+                "
+                inset
+                label="End"
+                variant="outlined"
+                density="compact"
+              />
+            </div>
           </div>
-        </div>
 
-        <!-- CREATOR NAME -->
-        <v-text-field
-          @update:model-value="
-            filter.creatorName = $event;
-            pushSearchRoute();
-          "
-          :value="filter.creatorName"
-          label="Author / Creator name"
-          class="mb-6"
-          hide-details
-          clearable
-          variant="outlined"
-          density="compact"
-        />
+          <!-- CREATOR NAME -->
+          <v-text-field
+            @update:model-value="
+              filter.creatorName = $event;
+              pushSearchRoute();
+            "
+            :value="filter.creatorName"
+            label="Author / Creator name"
+            class="mb-6"
+            hide-details
+            clearable
+            variant="outlined"
+            density="compact"
+          />
 
-        <!-- <v-select
+          <!-- <v-select
           :items="clusters"
           v-model="filter.project.value"
           @update:model-value="onSearch"
@@ -153,19 +154,19 @@
           density="compact"
         /> -->
 
-        <v-select
-          :items="filter.repository.options"
-          v-model="filter.repository.value"
-          @update:model-value="pushSearchRoute"
-          class="mb-6"
-          clearable
-          variant="outlined"
-          density="compact"
-          label="Repository"
-          hide-details
-        />
+          <v-select
+            :items="filter.repository.options"
+            v-model="filter.repository.value"
+            @update:model-value="pushSearchRoute"
+            class="mb-6"
+            clearable
+            variant="outlined"
+            density="compact"
+            label="Repository"
+            hide-details
+          />
 
-        <!-- <div>
+          <!-- <div>
           <div class="text-body-2">Content type</div>
           <v-checkbox
             v-for="(option, index) of filter.contentType.options"
@@ -179,10 +180,11 @@
           />
         </div> -->
 
-        <div class="text-center mt-8">
-          <v-btn @click="clearFilters" :disabled="!isSomeFilterActive"
-            >Clear Filters</v-btn
-          >
+          <div class="text-center mt-8">
+            <v-btn @click="clearFilters" :disabled="!isSomeFilterActive"
+              >Clear Filters</v-btn
+            >
+          </div>
         </div>
       </v-container>
 
@@ -367,6 +369,7 @@
                   <div
                     v-if="hasSpatialFeatures(result)"
                     :id="`map-${result.id}`"
+                    :class="{ 'full-width': $vuetify.display.mdAndDown }"
                   >
                     <cd-spatial-coverage-map
                       :loader="loader"
@@ -853,7 +856,15 @@ export default toNative(CdSearchResults);
 
 <style lang="scss" scoped>
 .sidebar {
-  width: 20rem;
+  flex-basis: 20rem;
+  flex-shrink: 0;
+  position: relative;
+  min-width: 0;
+
+  .sidebar--content {
+    position: sticky;
+    top: 6rem;
+  }
 }
 
 .cd-search-results.is-small {
