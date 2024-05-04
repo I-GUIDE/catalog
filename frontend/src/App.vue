@@ -24,8 +24,8 @@
             :key="path.attrs.to || path.attrs.href"
             v-bind="path.attrs"
             :id="`navbar-nav-${path.label.replaceAll(/[\/\s]/g, ``)}`"
-            :class="path.isActive?.() ? 'bg-primary' : ''"
-            selected-class="bg-primary"
+            :class="path.isActive?.() ? 'bg-primary text-white' : ''"
+            selected-class="bg-primary text-white"
           >
             {{ path.label }}
           </v-btn>
@@ -99,8 +99,8 @@
             @click="showMobileNavigation = false"
             :id="`drawer-nav-${path.label.replaceAll(/[\/\s]/g, ``)}`"
             :key="path.attrs.to || path.attrs.href"
-            active-class="primary darken-3 white--text"
-            :class="path.isActive?.() ? 'primary darken-4 white--text' : ''"
+            :class="path.isActive?.() ? 'bg-primary' : ''"
+            selected-class="bg-primary"
             v-bind="path.attrs"
           >
             <v-icon

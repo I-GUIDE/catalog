@@ -20,7 +20,7 @@
 
         <v-btn
           color="primary"
-          class="mr-2"
+          class="mr-2 my-4"
           rounded
           @click="router.push({ name: 'register' })"
         >
@@ -30,6 +30,7 @@
 
         <v-btn
           color="primary"
+          class="my-2"
           rounded
           @click="router.push({ name: 'contribute' })"
         >
@@ -177,7 +178,7 @@
                         :id="`sub-${index}-view-repo`"
                         :href="item.raw.url"
                         target="_blank"
-                        color="blue-grey lighten-4"
+                        color="info"
                         rounded
                       >
                         <v-icon class="mr-1">mdi-open-in-new</v-icon> View in

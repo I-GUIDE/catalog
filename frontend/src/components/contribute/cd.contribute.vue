@@ -5,58 +5,19 @@
         {{ isEditMode ? "Edit Submission" : "Contribute" }}
       </div>
 
-      <div
-        v-if="!(isEditMode && (isLoading || !wasLoaded))"
-        class="d-flex form-controls flex-column flex-sm-row flex-grow-1 flex-sm-grow-0 gap-1"
-      >
-        <v-spacer></v-spacer>
-        <v-btn @click="onCancel">Cancel</v-btn>
-
-        <v-menu :disabled="isValid" open-on-hover bottom left offset-y>
-          <template #activator="{ props }">
-            <div
-              v-bind="props"
-              class="d-flex form-controls flex-column flex-sm-row"
-            >
-              <v-badge
-                :model-value="!isValid"
-                bordered
-                color="error"
-                icon="mdi-exclamation-thick"
-                overlap
-              >
-                <v-btn
-                  color="primary"
-                  block
-                  depressed
-                  @click="submit"
-                  :disabled="isSaving || !isValid || !hasUnsavedChanges"
-                  >{{ isEditMode ? "Save Changes" : "Save" }}</v-btn
-                >
-              </v-badge>
-            </div>
-          </template>
-
-          <v-card class="bg-white">
-            <v-card-text>
-              <ul
-                v-for="(error, index) of errors"
-                :key="index"
-                class="text-subtitle-1 ml-4"
-              >
-                <li>
-                  <b>{{ error.title }}</b> {{ error.message }}.
-                </li>
-              </ul>
-            </v-card-text>
-          </v-card>
-        </v-menu>
-      </div>
+      <cd-form-actions
+        v-if="!isLoading && wasLoaded"
+        :canConfirm="!isSaving && isValid && hasUnsavedChanges"
+        :confirmText="isEditMode ? 'Save Changes' : 'Save'"
+        :errors="errors"
+        @confirm="submit"
+        @cancel="onCancel"
+      />
     </div>
 
     <v-divider class="my-4" />
 
-    <template v-if="!isEditMode || (!isLoading && wasLoaded)">
+    <template v-if="!isLoading && wasLoaded">
       <cz-form
         :schema="schema"
         :uischema="uiSchema"
@@ -74,59 +35,21 @@
       <v-progress-circular indeterminate color="primary" />
     </div>
 
-    <div
-      v-if="!(isEditMode && (isLoading || !wasLoaded))"
-      class="d-flex form-controls flex-column flex-sm-row flex-grow-1 flex-sm-grow-0 gap-1"
-    >
-      <v-spacer></v-spacer>
-      <v-btn @click="onCancel">Cancel</v-btn>
-
-      <v-menu :disabled="isValid" open-on-hover bottom left offset-y>
-        <template #activator="{ props }">
-          <div
-            v-bind="props"
-            class="d-flex form-controls flex-column flex-sm-row"
-          >
-            <v-badge
-              :model-value="!isValid"
-              bordered
-              color="error"
-              icon="mdi-exclamation-thick"
-              overlap
-            >
-              <v-btn
-                color="primary"
-                block
-                depressed
-                @click="submit"
-                :disabled="isSaving || !isValid || !hasUnsavedChanges"
-                >{{ isEditMode ? "Save Changes" : "Save" }}</v-btn
-              >
-            </v-badge>
-          </div>
-        </template>
-
-        <v-card class="bg-white">
-          <v-card-text>
-            <ul
-              v-for="(error, index) of errors"
-              :key="index"
-              class="text-subtitle-1 ml-4"
-            >
-              <li>
-                <b>{{ error.title }}</b> {{ error.message }}.
-              </li>
-            </ul>
-          </v-card-text>
-        </v-card>
-      </v-menu>
-    </div>
+    <cd-form-actions
+      v-if="!isLoading && wasLoaded"
+      :canConfirm="!isSaving && isValid && hasUnsavedChanges"
+      :confirmText="isEditMode ? 'Save Changes' : 'Save'"
+      :errors="errors"
+      @confirm="submit"
+      @cancel="onCancel"
+    />
   </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue, toNative, Hook } from "vue-facing-decorator";
 import { Notifications, CzForm } from "@cznethub/cznet-vue-core";
+import CdFormActions from "./cd.form-actions.vue";
 
 import User from "@/models/user.model";
 import { hasUnsavedChangesGuard } from "@/guards";
@@ -141,7 +64,7 @@ const initialData = {};
 
 @Component({
   name: "cd-contribute",
-  components: { CzForm },
+  components: { CzForm, CdFormActions },
 })
 class CdContribute extends Vue {
   isValid = false;
@@ -204,6 +127,9 @@ class CdContribute extends Vue {
       this.isEditMode = true;
       this.submissionId = this.route.params.id as string;
       this.loadDataset();
+    } else {
+      this.isLoading = false;
+      this.wasLoaded = true;
     }
   }
 

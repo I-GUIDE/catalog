@@ -14,6 +14,7 @@ declare module 'vue' {
     'Cd.dataset': typeof import('./components/dataset/cd.dataset.vue')['default']
     'Cd.featuredDatasets': typeof import('./components/home/cd.featured-datasets.vue')['default']
     'Cd.footer': typeof import('./components/base/cd.footer.vue')['default']
+    'Cd.formActions': typeof import('./components/contribute/cd.form-actions.vue')['default']
     'Cd.home': typeof import('./components/home/cd.home.vue')['default']
     'Cd.homeSearch': typeof import('./components/home/cd.home-search.vue')['default']
     'Cd.login': typeof import('./components/account/cd.login.vue')['default']
