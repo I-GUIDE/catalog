@@ -308,7 +308,7 @@
                 <v-card-text>
                   <a
                     @click="goToDataset(result.id)"
-                    class="result-title text-body-1 text-decoration-none cursor-pointer"
+                    class="result-title text-body-1 text-decoration-none cursor-pointer text-primary"
                     v-html="highlight(result, 'name')"
                   ></a>
                   <div
