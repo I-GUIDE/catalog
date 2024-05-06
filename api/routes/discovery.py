@@ -125,7 +125,7 @@ class SearchQuery(BaseModel):
 
     @property
     def stages(self):
-        highlightPaths = ['name', 'description', 'keywords', 'keywords.name', 'creator.name']
+        highlightPaths = ['name', 'description', 'keywords', 'keywords.name']
         stages = []
         compound = {'filter': self._filters, 'must': self._must}
         if self.term:
@@ -142,12 +142,11 @@ class SearchQuery(BaseModel):
 
         stages.append(search_stage)
 
-        # sorting needs to happen before pagination
-        if self.sortBy:
-            if self.sortBy == "name":
-                self.sortBy = "name_for_sorting"
-                self.reverseSort = not self.reverseSort
-            stages.append({'$sort': {self.sortBy: -1 if self.reverseSort else 1}})
+            # Sort needs to happen before pagination, ignore all other values of sortBy
+        if self.sortBy == "name":
+            stages.append({'$sort': {"name": 1}})
+        if self.sortBy == "dateCreated":
+            stages.append({'$sort': {"dateCreated": -1}})
         stages.append({'$skip': (self.pageNumber - 1) * self.pageSize})
         stages.append({'$limit': self.pageSize})
         #stages.append({'$unset': ['_id', '_class_id']})
