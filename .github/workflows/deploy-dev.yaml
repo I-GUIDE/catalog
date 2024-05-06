@@ -19,7 +19,6 @@ env:
   VITE_APP_URL: https://iguide-dev.cuahsi.io/
   VITE_APP_API_URL: https://iguide-dev.cuahsi.io/api
   VITE_APP_LOGIN_URL: https://orcid.org/oauth/authorize
-  VITE_APP_GOOGLE_MAPS_API_KEY: ""
   VITE_APP_SUPPORT_EMAIL: help@example.com
   VITE_APP_CLIENT_ID: APP-4ZA8C8BYAH3QHNE9
 
@@ -56,6 +55,9 @@ jobs:
         done
 
     - name: Compile the frontend env file
+      env: 
+        VITE_APP_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_APP_GOOGLE_MAPS_API_KEY }}
+        
       run: |
         variables=("VITE_APP_NAME" "VITE_APP_API_URL" "VITE_APP_SUPPORT_EMAIL" "VITE_APP_URL" "VITE_APP_LOGIN_URL" "VITE_APP_CLIENT_ID" "VITE_APP_GOOGLE_MAPS_API_KEY")
 
