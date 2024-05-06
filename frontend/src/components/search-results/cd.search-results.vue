@@ -305,78 +305,82 @@
                 variant="elevated"
                 elevation="1"
               >
-                <v-card-text
-                  class="d-flex gap-1 justify-space-between flex-wrap flex-lg-nowrap mt-2"
-                >
-                  <div>
-                    <a
-                      @click="goToDataset(result.id)"
-                      class="result-title text-body-1 text-decoration-none cursor-pointer"
-                      v-html="highlight(result, 'name')"
-                    ></a>
-
-                    <p
-                      ref="description"
-                      class="mt-4 mb-1"
-                      :class="{
-                        'snip-3': !result.showMore,
-                      }"
-                      v-html="
-                        `<span class='text-body-2 font-weight-bold'>${formatDate(
-                          result.dateCreated,
-                        )}</span>${result.dateCreated ? ' - ' : ''}${highlight(
-                          result,
-                          'description',
-                        )}`
-                      "
-                    ></p>
-
-                    <v-btn
-                      v-if="hasShowMoreButton(index)"
-                      size="x-small"
-                      variant="text"
-                      color="primary"
-                      @click="result.showMore = !result.showMore"
-                      >Show {{ result.showMore ? "less" : "more" }}...</v-btn
-                    >
-
-                    <div class="my-1" v-if="result.datePublished">
-                      Publication Date: {{ formatDate(result.datePublished) }}
-                    </div>
-                    <div class="my-2" v-html="highlightCreators(result)"></div>
-
-                    <div>
-                      <span class="d-flex align-center mb-2"
-                        ><a :href="result.url" target="_blank">{{
-                          result.url
-                        }}</a
-                        ><v-icon class="ml-2" small
-                          >mdi-open-in-new</v-icon
-                        ></span
-                      >
-                      <div class="mb-2">
-                        <strong>Keywords: </strong
-                        ><span v-html="highlight(result, 'keywords')"></span>
-                      </div>
-                      <div class="mb-2" v-if="result.funding.length">
-                        <strong>Funded by: </strong
-                        >{{ result.funding.join(", ") }}
-                      </div>
-                      <div class="mb-2" v-if="result.license">
-                        <strong>License: </strong>{{ result.license }}
-                      </div>
-                    </div>
-                  </div>
+                <v-card-text>
+                  <a
+                    @click="goToDataset(result.id)"
+                    class="result-title text-body-1 text-decoration-none cursor-pointer"
+                    v-html="highlight(result, 'name')"
+                  ></a>
                   <div
-                    v-if="hasSpatialFeatures(result)"
-                    :id="`map-${result.id}`"
-                    :class="{ 'full-width': $vuetify.display.mdAndDown }"
+                    class="d-flex gap-1 justify-space-between flex-wrap flex-lg-nowrap mt-2"
                   >
-                    <cd-spatial-coverage-map
-                      :loader="loader"
-                      :feature="result.spatialCoverage"
-                      :key="`map-${result.id}`"
-                    />
+                    <div>
+                      <p
+                        ref="description"
+                        class="mt-4 mb-1"
+                        :class="{
+                          'snip-3': !result.showMore,
+                        }"
+                        v-html="
+                          `<span class='text-body-2 font-weight-bold'>${formatDate(
+                            result.dateCreated,
+                          )}</span>${result.dateCreated ? ' - ' : ''}${highlight(
+                            result,
+                            'description',
+                          )}`
+                        "
+                      ></p>
+
+                      <v-btn
+                        v-if="hasShowMoreButton(index)"
+                        size="x-small"
+                        variant="text"
+                        color="primary"
+                        @click="result.showMore = !result.showMore"
+                        >Show {{ result.showMore ? "less" : "more" }}...</v-btn
+                      >
+
+                      <div class="my-1" v-if="result.datePublished">
+                        Publication Date: {{ formatDate(result.datePublished) }}
+                      </div>
+                      <div
+                        class="my-2"
+                        v-html="highlightCreators(result)"
+                      ></div>
+
+                      <div>
+                        <span class="d-flex align-center mb-2"
+                          ><a :href="result.url" target="_blank">{{
+                            result.url
+                          }}</a
+                          ><v-icon class="ml-2" small
+                            >mdi-open-in-new</v-icon
+                          ></span
+                        >
+                        <div class="mb-2">
+                          <strong>Keywords: </strong
+                          ><span v-html="highlight(result, 'keywords')"></span>
+                        </div>
+                        <div class="mb-2" v-if="result.funding.length">
+                          <strong>Funded by: </strong
+                          >{{ result.funding.join(", ") }}
+                        </div>
+                        <div class="mb-2" v-if="result.license">
+                          <strong>License: </strong>{{ result.license }}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      v-if="hasSpatialFeatures(result)"
+                      :id="`map-${result.id}`"
+                      :class="{ 'full-width': $vuetify.display.mdAndDown }"
+                    >
+                      <cd-spatial-coverage-map
+                        :loader="loader"
+                        :feature="result.spatialCoverage"
+                        :key="`map-${result.id}`"
+                      />
+                    </div>
                   </div>
                 </v-card-text>
               </v-card>
