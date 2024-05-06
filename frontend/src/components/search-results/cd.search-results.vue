@@ -154,6 +154,7 @@
           density="compact"
         /> -->
 
+          <!-- REPOSITORY -->
           <v-select
             :items="filter.repository.options"
             v-model="filter.repository.value"
@@ -858,13 +859,14 @@ export default toNative(CdSearchResults);
 .sidebar {
   flex-basis: 20rem;
   flex-shrink: 0;
-  position: relative;
+  // position: relative;
   min-width: 0;
 
-  .sidebar--content {
-    position: sticky;
-    top: 6rem;
-  }
+  // TODO: pending compatibility with infinite-scrolling content
+  // .sidebar--content {
+  //   position: sticky;
+  //   top: 6rem;
+  // }
 }
 
 .cd-search-results.is-small {

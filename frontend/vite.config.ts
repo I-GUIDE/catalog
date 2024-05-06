@@ -99,6 +99,7 @@ export default defineConfig({
     onFinished() {
       generateSitemap();
     },
+    format: "esm", // default
   },
 
   ssr: {
