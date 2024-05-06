@@ -8,7 +8,7 @@ from api.adapters.utils import RepositoryType, register_adapter
 from api.exceptions import RepositoryException
 from api.models import schema
 from api.models.catalog import DatasetMetadataDOC
-from api.models.user import Submission
+from api.models.user import Submission, SubmissionType
 
 
 class Creator(BaseModel):
@@ -163,7 +163,6 @@ class Rights(BaseModel):
 
 
 class _HydroshareRequestHandler(AbstractRepositoryRequestHandler):
-
     def get_metadata(self, record_id: str):
         hs_meta_url = self.settings.hydroshare_meta_read_url % record_id
         hs_file_url = self.settings.hydroshare_file_read_url % record_id
@@ -211,6 +210,7 @@ class HydroshareMetadataAdapter(AbstractRepositoryMetadataAdapter):
 
         submission.repository_identifier = repo_record_id
         submission.repository = RepositoryType.HYDROSHARE
+        submission.type = SubmissionType.HYDROSHARE
         return submission
 
 

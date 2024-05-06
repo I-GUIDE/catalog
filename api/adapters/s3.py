@@ -6,11 +6,10 @@ from botocore import UNSIGNED
 from api.adapters.base import AbstractRepositoryMetadataAdapter, AbstractRepositoryRequestHandler
 from api.adapters.utils import RepositoryType, register_adapter
 from api.models.catalog import DatasetMetadataDOC
-from api.models.user import Submission
+from api.models.user import Submission, SubmissionType
 
 
 class _S3RequestHandler(AbstractRepositoryRequestHandler):
-    
     def get_metadata(self, record_id: str):
         endpoint_url = record_id.split("+")[0]
         bucket_name = record_id.split("+")[1]
@@ -45,6 +44,7 @@ class S3MetadataAdapter(AbstractRepositoryMetadataAdapter):
 
         submission.repository_identifier = repo_record_id
         submission.repository = RepositoryType.S3
+        submission.type = SubmissionType.S3
         return submission
 
 
