@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from api.adapters.utils import get_adapter_by_type, RepositoryType
 from api.authentication.user import get_current_user
 from api.models.catalog import DatasetMetadataDOC
-from api.models.user import Submission, User
+from api.models.user import Submission, SubmissionType, User
 from pydantic import BaseModel, HttpUrl
 
 router = APIRouter()
@@ -15,6 +15,11 @@ router = APIRouter()
 def inject_repository_identifier(submission: Submission, document: DatasetMetadataDOC):
     if submission.repository_identifier:
         document.repository_identifier = submission.repository_identifier
+    return document
+
+
+def inject_submission_type(submission: Submission, document: DatasetMetadataDOC):
+    document.submission_type = submission.type
     return document
 
 
@@ -28,8 +33,10 @@ class S3Path(BaseModel):
 async def create_dataset(document: DatasetMetadataDOC, user: Annotated[User, Depends(get_current_user)]):
     await document.insert()
     submission = document.as_submission()
+    submission.type = SubmissionType.IGUIDE_FORM
     user.submissions.append(submission)
     await user.save(link_rule=WriteRules.WRITE)
+    document = inject_submission_type(submission, document)
     return document
 
 
@@ -44,13 +51,22 @@ async def get_dataset(submission_id: PydanticObjectId):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
 
     document = inject_repository_identifier(submission, document)
+    document = inject_submission_type(submission, document)
     return document
 
 
 @router.get("/dataset/", response_model=List[DatasetMetadataDOC], response_model_exclude_none=True)
 async def get_datasets(user: Annotated[User, Depends(get_current_user)]):
-    documents = [inject_repository_identifier(submission, await DatasetMetadataDOC.get(submission.identifier)) for
-                 submission in user.submissions]
+    documents = [
+        inject_repository_identifier(
+            submission, await DatasetMetadataDOC.get(submission.identifier)
+        )
+        for submission in user.submissions
+    ]
+    documents = [
+        inject_submission_type(submission, document)
+        for submission, document in zip(user.submissions, documents)
+    ]
     return documents
 
 
@@ -76,8 +92,10 @@ async def update_dataset(
     updated_submission.repository_identifier = submission.repository_identifier
     updated_submission.repository = submission.repository
     updated_submission.submitted = submission.submitted
+    updated_submission.type = submission.type
     await updated_submission.replace()
     dataset = inject_repository_identifier(updated_submission, dataset)
+    dataset = inject_submission_type(updated_submission, dataset)
     return dataset
 
 
@@ -169,9 +187,11 @@ async def create_dataset(
     submission = document.as_submission()
     submission.repository_identifier = identifier
     submission.repository = RepositoryType.S3
+    submission.type = SubmissionType.S3
     user.submissions.append(submission)
     await user.save(link_rule=WriteRules.WRITE)
     document = inject_repository_identifier(submission, document)
+    document = inject_submission_type(submission, document)
     return document
 
 
@@ -202,6 +222,7 @@ async def _save_to_db(repository_type: RepositoryType, identifier: str, user: Us
         submission = updated_submission
 
     dataset = inject_repository_identifier(submission, dataset)
+    dataset = inject_submission_type(submission, dataset)
     return dataset
 
 
