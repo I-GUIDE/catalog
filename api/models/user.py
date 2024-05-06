@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import Enum
 from typing import List, Optional, TYPE_CHECKING
 
 from beanie import Document, Link, PydanticObjectId
@@ -9,6 +10,12 @@ if TYPE_CHECKING:
     from api.adapters.utils import RepositoryType
 
 
+class SubmissionType(str, Enum):
+    HYDROSHARE = 'HYDROSHARE'
+    S3 = 'S3'
+    IGUIDE_FORM = 'IGUIDE_FORM'
+
+
 class Submission(Document):
     title: str = None
     authors: List[str] = []
@@ -16,6 +23,7 @@ class Submission(Document):
     submitted: datetime = datetime.utcnow()
     url: HttpUrl = None
     repository: Optional[str]
+    type: SubmissionType = SubmissionType.IGUIDE_FORM
     repository_identifier: Optional[str]
 
 
