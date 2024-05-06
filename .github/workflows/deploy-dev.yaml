@@ -15,14 +15,13 @@ env:
   DB_PROTOCOL: mongodb+srv
   HYDROSHARE_META_READ_URL: https://www.hydroshare.org/hsapi2/resource/%s/json/
   HYDROSHARE_FILE_READ_URL: https://www.hydroshare.org/hsapi/resource/%s/files/
-  VITE_APP_NAME: CZNet Discovery
+  VITE_APP_NAME: I-GUIDE
+  VITE_APP_URL: https://iguide-dev.cuahsi.io/
+  VITE_APP_API_URL: https://iguide-dev.cuahsi.io//api
   VITE_APP_LOGIN_URL: https://orcid.org/oauth/authorize
-  VITE_APP_API_URL: api
-  VITE_APP_HEAP_ANALYTICS_APP_ID: ""
   VITE_APP_GOOGLE_MAPS_API_KEY: ""
-  VITE_APP_SUPPORT_EMAIL: help@cuahsi.io
-  VITE_APP_REALM_APP_ID: data-axdrs
-  VITE_APP_SEARCH_RESOLVER: filtering_cznet
+  VITE_APP_SUPPORT_EMAIL: help@example.com
+  VITE_APP_CLIENT_ID: APP-4ZA8C8BYAH3QHNE9
 
 
 jobs:
