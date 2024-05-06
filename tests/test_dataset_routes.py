@@ -1,7 +1,7 @@
 import pytest
 
 from api.models.catalog import Submission
-from api.models.user import User
+from api.models.user import SubmissionType, User
 
 pytestmark = pytest.mark.asyncio
 
@@ -28,6 +28,8 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
     response_data['temporalCoverage']['endDate'] = response_data['temporalCoverage']['endDate'][:end_date_length]
     # assert that the response contains the expected data
     response_data.pop("repository_identifier")
+    response_data["submission_type"] = SubmissionType.IGUIDE_FORM
+    response_data.pop("submission_type")
     # remove additional property fields from response_data for which the test data does not have values
     for a_property in response_data["additionalProperty"]:
         assert a_property.pop("description") is None
@@ -48,6 +50,7 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
     assert user.submission(submission_id) is not None
     assert user.submission(submission_id).repository is None
     assert user.submission(submission_id).repository_identifier is None
+    assert user.submission(submission_id).type == SubmissionType.IGUIDE_FORM
     # retrieve the record from the db
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
     assert response.status_code == 200
@@ -86,7 +89,7 @@ async def test_create_dataset_s3(client_test, dataset_data, test_user_access_tok
     else:
         expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['path']}"
     assert ds_metadata["repository_identifier"] == expected_repository_identifier
-
+    assert ds_metadata["submission_type"] == SubmissionType.S3
     # retrieve the record from the db
     record_id = ds_metadata.pop('_id')
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
@@ -103,6 +106,7 @@ async def test_create_refresh_dataset_from_hydroshare(client_test, test_user_acc
     assert response.status_code == 200
     hs_dataset = response.json()
     assert hs_dataset['repository_identifier'] == hs_published_res_id
+    assert hs_dataset['submission_type'] == SubmissionType.HYDROSHARE
     await _check_hs_submission(hs_dataset, test_user_access_token, hs_published_res_id)
 
     # retrieve the record from the db
@@ -115,6 +119,7 @@ async def test_create_refresh_dataset_from_hydroshare(client_test, test_user_acc
     assert response.status_code == 200
     hs_dataset = response.json()
     assert hs_dataset["repository_identifier"] == hs_published_res_id
+    assert hs_dataset["submission_type"] == SubmissionType.HYDROSHARE
     await _check_hs_submission(hs_dataset, test_user_access_token, hs_published_res_id)
 
 
@@ -142,6 +147,8 @@ async def test_update_dataset(client_test, dataset_data):
     response_data.pop('_id')
     # assert that the response contains the expected data
     response_data.pop("repository_identifier")
+    response_data["submission_type"] = SubmissionType.IGUIDE_FORM
+    response_data.pop("submission_type")
     # remove additional property fields from response_data for which the test data does not have values
     for a_property in response_data["additionalProperty"]:
         assert a_property.pop("description") is None
@@ -196,6 +203,9 @@ async def test_get_datasets(client_test, dataset_data, multiple):
     else:
         assert len(dataset_response_data) == 1
 
+    for ds in dataset_response_data:
+        assert ds["submission_type"] == SubmissionType.IGUIDE_FORM
+
 
 @pytest.mark.asyncio
 async def test_get_datasets_exclude_none(client_test, dataset_data):
@@ -247,11 +257,14 @@ async def test_get_submissions(client_test, dataset_data, multiple):
         assert submission_response_data[1]['identifier'] == dataset_response_data[1]['_id']
         assert submission_response_data[0]['url'] == dataset_response_data[0]['url']
         assert submission_response_data[1]['url'] == dataset_response_data[1]['url']
+        assert submission_response_data[0]['type'] == SubmissionType.IGUIDE_FORM
+        assert submission_response_data[1]['type'] == SubmissionType.IGUIDE_FORM
     else:
         assert len(submission_response_data) == 1
         assert submission_response_data[0]['title'] == dataset_response_data['name']
         assert submission_response_data[0]['identifier'] == dataset_response_data['_id']
         assert submission_response_data[0]['url'] == dataset_response_data['url']
+        assert submission_response_data[0]['type'] == SubmissionType.IGUIDE_FORM
 
 
 async def _check_hs_submission(hs_dataset, user_access_token, hs_published_res_id):
@@ -268,3 +281,4 @@ async def _check_hs_submission(hs_dataset, user_access_token, hs_published_res_i
     assert user.submission(submission_id) is not None
     assert user.submission(submission_id).repository == "HYDROSHARE"
     assert user.submission(submission_id).repository_identifier == hs_published_res_id
+    assert user.submission(submission_id).type == SubmissionType.HYDROSHARE
