@@ -187,7 +187,7 @@
 
                       <!-- UPDATE -->
                       <v-btn
-                        v-if="item.raw.type === 'HYDROSHARE'"
+                        v-if="item.raw.repository === 'HYDROSHARE'"
                         :id="`sub-${index}-update`"
                         @click="onUpdate(item.raw)"
                         :disabled="

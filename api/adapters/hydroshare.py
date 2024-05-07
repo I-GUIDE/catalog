@@ -210,7 +210,6 @@ class HydroshareMetadataAdapter(AbstractRepositoryMetadataAdapter):
 
         submission.repository_identifier = repo_record_id
         submission.repository = RepositoryType.HYDROSHARE
-        submission.type = SubmissionType.HYDROSHARE
         return submission
 
 
