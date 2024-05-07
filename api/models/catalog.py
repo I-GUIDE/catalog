@@ -7,6 +7,10 @@ from .schema import CoreMetadata, DatasetMetadata
 
 
 class CoreMetadataDOC(Document, CoreMetadata):
+    # this field is not stored in the database, but is populated from the corresponding submission record
+    # using the type field in the submission record
+    submission_type: str = None
+
     class Settings:
         # name is the collection name in database (iguide) where the Metadata Record documents will be stored
         # for all metadata record types (e.g. dataset, geopackage, software etc.)
