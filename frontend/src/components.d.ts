@@ -18,6 +18,7 @@ declare module 'vue' {
     'Cd.home': typeof import('./components/home/cd.home.vue')['default']
     'Cd.homeSearch': typeof import('./components/home/cd.home-search.vue')['default']
     'Cd.login': typeof import('./components/account/cd.login.vue')['default']
+    'Cd.rangeInput': typeof import('./components/search-results/cd.range-input.vue')['default']
     'Cd.registerDataset': typeof import('./components/register/cd.register-dataset.vue')['default']
     'Cd.registerHydroshare': typeof import('./components/register/cd.register-hydroshare.vue')['default']
     'Cd.registerS3': typeof import('./components/register/cd.register-s3.vue')['default']

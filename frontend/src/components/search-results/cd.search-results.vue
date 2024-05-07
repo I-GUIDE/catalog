@@ -8,129 +8,33 @@
         <div class="sidebar--content">
           <div class="text-subtitle-2 mb-6">Filter by:</div>
           <!-- PUBLICATION YEAR -->
-          <div class="mb-4">
-            <v-checkbox
-              v-model="filter.publicationYear.isActive"
-              @update:model-value="pushSearchRoute"
-              label="Publication year"
-              density="compact"
-              hide-details
-              color="primary"
-            />
-            <v-range-slider
-              v-model="publicationYear"
-              @end="onSliderControlChange(filter.publicationYear)"
-              :class="{ 'grayed-out': !filter.publicationYear.isActive }"
-              :min="filter.publicationYear.min"
-              :max="filter.publicationYear.max"
-              color="primary"
-              class="mb-1"
-              step="1"
-              track-size="1"
-              thumb-size="15"
-              hide-details
-            />
-            <div :class="{ 'grayed-out': !filter.publicationYear.isActive }">
-              <v-number-input
-                v-model="publicationYear[0]"
-                @blur="
-                  filter.publicationYear.isActive = true;
-                  pushSearchRoute();
-                "
-                @keyup.enter="
-                  filter.publicationYear.isActive = true;
-                  pushSearchRoute();
-                "
-                inset
-                label="Start"
-                variant="outlined"
-                density="compact"
-              />
-
-              <v-number-input
-                v-model="publicationYear[1]"
-                @blur="
-                  filter.publicationYear.isActive = true;
-                  pushSearchRoute();
-                "
-                @keyup.enter="
-                  filter.publicationYear.isActive = true;
-                  pushSearchRoute();
-                "
-                inset
-                label="End"
-                variant="outlined"
-                density="compact"
-              />
-            </div>
-          </div>
+          <cd-range-input
+            v-model="publicationYear"
+            v-model:isActive="filter.publicationYear.isActive"
+            @update:is-active="pushSearchRoute"
+            @end="onSliderControlChange(filter.publicationYear)"
+            :min="filter.publicationYear.min"
+            :max="filter.publicationYear.max"
+            label="Publication Year"
+          />
 
           <!-- DATA COVERAGE -->
-          <div class="mb-6">
-            <v-checkbox
-              v-model="filter.dataCoverage.isActive"
-              @update:model-value="pushSearchRoute"
-              density="compact"
-              label="Data temporal coverage"
-              hide-details
-              color="primary"
-            />
-            <v-range-slider
-              v-model="dataCoverage"
-              @update:model-value="onSliderControlChange(filter.dataCoverage)"
-              :class="{ 'grayed-out': !filter.dataCoverage.isActive }"
-              :min="filter.dataCoverage.min"
-              :max="filter.dataCoverage.max"
-              hide-details
-              color="primary"
-              class="mb-1"
-              step="1"
-              track-size="1"
-              thumb-size="15"
-            />
-            <div :class="{ 'grayed-out': !filter.dataCoverage.isActive }">
-              <v-number-input
-                v-model="dataCoverage[0]"
-                @blur="
-                  filter.dataCoverage.isActive = true;
-                  pushSearchRoute();
-                "
-                @keyup.enter="
-                  filter.dataCoverage.isActive = true;
-                  pushSearchRoute();
-                "
-                :value="dataCoverage[0]"
-                inset
-                label="Start"
-                variant="outlined"
-                density="compact"
-              />
-
-              <v-number-input
-                v-model="dataCoverage[1]"
-                @blur="
-                  filter.dataCoverage.isActive = true;
-                  pushSearchRoute();
-                "
-                @keyup.enter="
-                  filter.dataCoverage.isActive = true;
-                  pushSearchRoute();
-                "
-                inset
-                label="End"
-                variant="outlined"
-                density="compact"
-              />
-            </div>
-          </div>
+          <cd-range-input
+            v-model="dataCoverage"
+            v-model:isActive="filter.dataCoverage.isActive"
+            @update:is-active="pushSearchRoute"
+            @end="onSliderControlChange(filter.dataCoverage)"
+            :min="filter.dataCoverage.min"
+            :max="filter.dataCoverage.max"
+            label="Publication Year"
+          />
 
           <!-- CREATOR NAME -->
           <v-text-field
-            @update:model-value="
-              filter.creatorName = $event;
-              pushSearchRoute();
-            "
-            :value="filter.creatorName"
+            @blur="pushSearchRoute"
+            @keyup.enter="pushSearchRoute"
+            @click:clear="pushSearchRoute"
+            v-model="filter.creatorName"
             label="Author / Creator name"
             class="mb-6"
             hide-details
@@ -425,8 +329,8 @@ import SearchResults from "@/models/search-results.model";
 import SearchHistory from "@/models/search-history.model";
 import Search from "@/models/search.model";
 import { clamp } from "@vueuse/core";
-import { VNumberInput } from "vuetify/labs/VNumberInput";
 import { useRoute, useRouter } from "vue-router";
+import CdRangeInput from "./cd.range-input.vue";
 
 const options: LoaderOptions = { libraries: ["drawing"] };
 const loader: Loader = new Loader(
@@ -443,7 +347,7 @@ const sortOptions: { label: string; value: string }[] = [
 
 @Component({
   name: "cd-search-results",
-  components: { CdSearch, CdSpatialCoverageMap, VNumberInput },
+  components: { CdSearch, CdSpatialCoverageMap, CdRangeInput },
 })
 class CdSearchResults extends Vue {
   loader = loader;
@@ -656,7 +560,7 @@ class CdSearchResults extends Vue {
     isActive: boolean;
   }) {
     filter.isActive = true;
-    this._onSearch();
+    this.pushSearchRoute();
   }
 
   goToDataset(id: string) {
