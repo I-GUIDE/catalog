@@ -52,7 +52,12 @@
                   </div>
                   <v-btn
                     color="primary-lighten-1"
-                    :href="result.url"
+                    @click="
+                      router.push({
+                        name: 'dataset',
+                        params: { id: result.id },
+                      })
+                    "
                     target="_blank"
                     size="small"
                     depressed
@@ -102,6 +107,7 @@ import CdHomeSearch from "@/components/home/cd.home-search.vue";
 import Search from "@/models/search.model";
 import { formatDate } from "@/util";
 import { IResult } from "@/types";
+import { useRouter } from "vue-router";
 
 const numFeatured = 10;
 const featuredSearch = "Water";
@@ -114,13 +120,14 @@ class CdFeaturedDatasets extends Vue {
   selected: number | null = null;
   formatDate = formatDate;
   isLoading = false;
+  router = useRouter();
   // datasets = FEATURED_DATASETS;  // JSON file setup. Unused for now.
 
-  getResultAuthors(result) {
+  getResultAuthors(result: IResult) {
     return result.creator.join(", ");
   }
 
-  public get datasets(): IResult[] {
+  get datasets(): IResult[] {
     return this.fetchedDatasets.length
       ? this.fetchedDatasets
       : new Array(numFeatured).fill(null);

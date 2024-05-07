@@ -1,7 +1,7 @@
 import { Model } from "@vuex-orm/core";
 import { ENDPOINTS } from "@/constants";
 import { getQueryString } from "@/util";
-import { ISearchParams } from "@/types";
+import { IResult, ISearchParams, ITypeaheadParams } from "@/types";
 
 export interface ISearchState {
   results: IResult[];
@@ -80,11 +80,12 @@ export default class Search extends Model {
   /** Transform raw result data from API into `IResult` shaped objects */
   private static _parseResult(rawResult: any): IResult {
     return {
-      creator: rawResult.creator.map((c) => c.name) || [],
+      creator: rawResult.creator.map((c: any) => c.name) || [],
       dateCreated: rawResult.dateCreated || "",
       datePublished: rawResult.datePublished || "",
       description: rawResult.description || "",
-      funding: rawResult.funding?.map((f) => f.name || f.funder.name) || [],
+      funding:
+        rawResult.funding?.map((f: any) => f.name || f.funder.name) || [],
       highlights: rawResult.highlights || [],
       id: rawResult["_id"],
       keywords: Search._getKeywords(rawResult.keywords),
