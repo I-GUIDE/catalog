@@ -21,6 +21,7 @@ export default class Submission extends Model implements ISubmission {
   public date!: number;
   public identifier!: string;
   public repoIdentifier?: string;
+  public type?: string;
   public repository!: string;
   public url!: string;
   public id!: string;
@@ -48,6 +49,7 @@ export default class Submission extends Model implements ISubmission {
       date: this.number(0),
       identifier: this.attr(""),
       repoIdentifier: this.attr(""),
+      type: this.attr(""),
       repository: this.attr(""),
       url: this.attr(""),
       id: this.attr(""),
@@ -63,6 +65,7 @@ export default class Submission extends Model implements ISubmission {
       identifier: dbSubmission.identifier, // TODO: we should call this something else. It is not the same as the schema's identifier
       repository: dbSubmission.repository,
       repoIdentifier: dbSubmission.repository_identifier,
+      type: dbSubmission.type,
       url: dbSubmission.url,
       id: dbSubmission._id,
     };
@@ -72,11 +75,13 @@ export default class Submission extends Model implements ISubmission {
   static getInsertData(apiSubmission: any): ISubmission | Partial<Submission> {
     return {
       title: apiSubmission.name,
-      authors: apiSubmission.creator.map((c) => c.name),
+      authors: apiSubmission.creator.map((c: any) => c.name),
       date: new Date(apiSubmission.dateCreated).getTime(),
       identifier: Array.isArray(apiSubmission.identifier)
         ? apiSubmission.identifier[0]
         : apiSubmission.identifier,
+      repoIdentifier: apiSubmission.url,
+      type: "HYDROSHARE",
       url: apiSubmission.url,
       id: apiSubmission._id,
     };

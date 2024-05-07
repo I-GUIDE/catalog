@@ -220,7 +220,7 @@
 
           <div class="order-1 order-sm-2">
             <v-btn
-              v-if="!data.repository_identifier"
+              v-if="data.submission_type !== 'HYDROSHARE'"
               class="order-1 order-sm-2 mb-sm-0 mb-4 mt-sm-0 mt-2"
               @click="
                 router.push({
