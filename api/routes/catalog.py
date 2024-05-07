@@ -19,7 +19,10 @@ def inject_repository_identifier(submission: Submission, document: DatasetMetada
 
 
 def inject_submission_type(submission: Submission, document: DatasetMetadataDOC):
-    document.submission_type = submission.type
+    if submission.repository is None:
+        document.submission_type = SubmissionType.IGUIDE_FORM
+    else:
+        document.submission_type = submission.repository
     return document
 
 
