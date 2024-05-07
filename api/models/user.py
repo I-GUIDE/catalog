@@ -23,7 +23,6 @@ class Submission(Document):
     submitted: datetime = datetime.utcnow()
     url: HttpUrl = None
     repository: Optional[str]
-    type: SubmissionType = SubmissionType.IGUIDE_FORM
     repository_identifier: Optional[str]
 
 

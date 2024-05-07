@@ -19,7 +19,10 @@ def inject_repository_identifier(submission: Submission, document: DatasetMetada
 
 
 def inject_submission_type(submission: Submission, document: DatasetMetadataDOC):
-    document.submission_type = submission.type
+    if submission.repository is None:
+        document.submission_type = SubmissionType.IGUIDE_FORM
+    else:
+        document.submission_type = submission.repository
     return document
 
 
@@ -33,7 +36,6 @@ class S3Path(BaseModel):
 async def create_dataset(document: DatasetMetadataDOC, user: Annotated[User, Depends(get_current_user)]):
     await document.insert()
     submission = document.as_submission()
-    submission.type = SubmissionType.IGUIDE_FORM
     user.submissions.append(submission)
     await user.save(link_rule=WriteRules.WRITE)
     document = inject_submission_type(submission, document)
@@ -92,7 +94,6 @@ async def update_dataset(
     updated_submission.repository_identifier = submission.repository_identifier
     updated_submission.repository = submission.repository
     updated_submission.submitted = submission.submitted
-    updated_submission.type = submission.type
     await updated_submission.replace()
     dataset = inject_repository_identifier(updated_submission, dataset)
     dataset = inject_submission_type(updated_submission, dataset)
@@ -187,7 +188,6 @@ async def create_dataset(
     submission = document.as_submission()
     submission.repository_identifier = identifier
     submission.repository = RepositoryType.S3
-    submission.type = SubmissionType.S3
     user.submissions.append(submission)
     await user.save(link_rule=WriteRules.WRITE)
     document = inject_repository_identifier(submission, document)
