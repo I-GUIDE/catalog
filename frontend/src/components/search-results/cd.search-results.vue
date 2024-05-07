@@ -341,7 +341,6 @@ const loader: Loader = new Loader(
 const sortOptions: { label: string; value: string }[] = [
   { label: "Relevance", value: "relevance" },
   { label: "Title", value: "name" },
-  { label: "Date Registered", value: "registrationDate" },
   { label: "Date Created", value: "dateCreated" },
 ];
 
@@ -359,8 +358,8 @@ class CdSearchResults extends Vue {
   hasMore = true;
   isSearching = false;
   isFetchingMore = false;
-  sort: "name" | "dateCreated" | "relevance" | "registrationDate" = "relevance";
-  sortEmpty = "registrationDate";
+  sort: "name" | "dateCreated" | "relevance" = "relevance";
+  sortEmpty = "dateCreated";
   formatDate = formatDate;
   descriptionRefs: any[] = [];
   filter: ISearchFilter = {
@@ -740,18 +739,12 @@ class CdSearchResults extends Vue {
     if (this.route.query["s"]) {
       if (this.searchQuery) {
         this.sort =
-          (this.route.query["s"] as
-            | "name"
-            | "dateCreated"
-            | "relevance"
-            | "registrationDate") || this.sort;
+          (this.route.query["s"] as "name" | "dateCreated" | "relevance") ||
+          this.sort;
       } else {
         this.sortEmpty =
-          (this.route.query["s"] as
-            | "name"
-            | "dateCreated"
-            | "relevance"
-            | "registrationDate") || this.sort;
+          (this.route.query["s"] as "name" | "dateCreated" | "relevance") ||
+          this.sort;
       }
     }
   }
