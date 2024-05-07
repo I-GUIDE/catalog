@@ -7,9 +7,9 @@
       <div class="mb-4">
         <div class="mb-4 text-h6 mb-1 text-medium-emphasis">Contact Us</div>
         <!-- <p><router-link to="/contact">Contact</router-link></p> -->
-        <p>
+        <!-- <p>
           <a :href="'mailto:' + $t('footer.supportEmail')">Email Support</a>
-        </p>
+        </p> -->
         <p>
           Learn more about
           <a href="https://i-guide.io/" target="_blank">I-GUIDE</a>
