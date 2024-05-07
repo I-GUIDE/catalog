@@ -115,7 +115,9 @@
                     <div v-bind="infoValueAttr">Decimal degrees</div>
 
                     <div v-bind="infoLabelAttr">Place/Area Name:</div>
-                    <div v-bind="infoValueAttr">Woodlawn, MD</div>
+                    <div v-bind="infoValueAttr">
+                      {{ data.spatialCoverage.name }}
+                    </div>
                   </v-card-text>
                 </v-expansion-panel-text>
               </v-expansion-panel>
@@ -661,7 +663,7 @@
               <div v-bind="infoValueAttr">Decimal degrees</div>
 
               <div v-bind="infoLabelAttr">Place/Area Name:</div>
-              <div v-bind="infoValueAttr">Woodlawn, MD</div>
+              <div v-bind="infoValueAttr">{{ data.spatialCoverage.name }}</div>
             </v-col>
           </v-row>
         </div>
