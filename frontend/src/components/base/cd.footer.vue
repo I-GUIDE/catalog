@@ -12,11 +12,11 @@
         </p>
         <p>
           Learn more about
-          <a href="https://www.i-guide.org/" target="_blank">I-GUIDE</a>
+          <a href="https://i-guide.io/" target="_blank">I-GUIDE</a>
         </p>
         <p>
           Visit
-          <a href="https://www.i-guide.org/" target="_blank">i-guide.org</a>
+          <a href="https://i-guide.io/" target="_blank">i-guide.org</a>
         </p>
       </div>
 
