@@ -460,6 +460,7 @@
             :isReadOnly="true"
             :hasFileMetadata="() => true"
             @showMetadata="onShowMetadata($event)"
+            id="fileExplorer"
           />
 
           <v-card
@@ -1111,5 +1112,9 @@ export default toNative(CdDataset);
   &.one-col {
     grid-template-columns: 1fr;
   }
+}
+
+:deep(#fileExplorer .v-sheet) {
+  background-color: #f6f6f6 !important;
 }
 </style>
