@@ -44,7 +44,6 @@ class S3MetadataAdapter(AbstractRepositoryMetadataAdapter):
 
         submission.repository_identifier = repo_record_id
         submission.repository = RepositoryType.S3
-        submission.type = SubmissionType.S3
         return submission
 
 

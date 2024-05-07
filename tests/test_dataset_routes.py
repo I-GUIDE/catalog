@@ -1,5 +1,6 @@
 import pytest
 
+from api.adapters.utils import RepositoryType
 from api.models.catalog import Submission
 from api.models.user import SubmissionType, User
 
@@ -50,7 +51,6 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
     assert user.submission(submission_id) is not None
     assert user.submission(submission_id).repository is None
     assert user.submission(submission_id).repository_identifier is None
-    assert user.submission(submission_id).type == SubmissionType.IGUIDE_FORM
     # retrieve the record from the db
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
     assert response.status_code == 200
@@ -297,14 +297,14 @@ async def test_get_submissions_1(client_test, dataset_data, multiple):
         assert submission_response_data[1]['identifier'] == dataset_response_data[1]['_id']
         assert submission_response_data[0]['url'] == dataset_response_data[0]['url']
         assert submission_response_data[1]['url'] == dataset_response_data[1]['url']
-        assert submission_response_data[0]['type'] == SubmissionType.IGUIDE_FORM
-        assert submission_response_data[1]['type'] == SubmissionType.IGUIDE_FORM
+        assert submission_response_data[0]['repository'] is None
+        assert submission_response_data[1]['repository'] is None
     else:
         assert len(submission_response_data) == 1
         assert submission_response_data[0]['title'] == dataset_response_data['name']
         assert submission_response_data[0]['identifier'] == dataset_response_data['_id']
         assert submission_response_data[0]['url'] == dataset_response_data['url']
-        assert submission_response_data[0]['type'] == SubmissionType.IGUIDE_FORM
+        assert submission_response_data[0]['repository'] is None
 
 
 @pytest.mark.asyncio
@@ -347,9 +347,9 @@ async def test_get_submissions_2(client_test, dataset_data):
     assert submission_response_data[1]['identifier'] == dataset_response_data[1]['_id']
     assert submission_response_data[0]['url'] == dataset_response_data[0]['url']
     assert submission_response_data[1]['url'] == dataset_response_data[1]['url']
-    assert submission_response_data[0]['type'] == SubmissionType.IGUIDE_FORM
-    assert submission_response_data[1]['type'] == SubmissionType.S3
-    assert submission_response_data[2]['type'] == SubmissionType.HYDROSHARE
+    assert submission_response_data[0]['repository'] is None
+    assert submission_response_data[1]['repository'] == RepositoryType.S3
+    assert submission_response_data[2]['repository'] == RepositoryType.HYDROSHARE
 
 
 async def _check_hs_submission(hs_dataset, user_access_token, hs_published_res_id):
@@ -366,4 +366,3 @@ async def _check_hs_submission(hs_dataset, user_access_token, hs_published_res_i
     assert user.submission(submission_id) is not None
     assert user.submission(submission_id).repository == "HYDROSHARE"
     assert user.submission(submission_id).repository_identifier == hs_published_res_id
-    assert user.submission(submission_id).type == SubmissionType.HYDROSHARE
