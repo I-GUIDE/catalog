@@ -81,7 +81,8 @@ async def test_create_dataset_s3(client_test, dataset_data, test_user_access_tok
         "document": dataset_data
     }
 
-    response = await client_test.post("api/catalog/dataset/s3", json=payload)
+    # this is the endpoint for creating the s3 metadata record that we are testing
+    response = await client_test.post("api/catalog/dataset-s3/", json=payload)
     assert response.status_code == 201
     ds_metadata = response.json()
     if object_store_type == "minio":
@@ -90,6 +91,69 @@ async def test_create_dataset_s3(client_test, dataset_data, test_user_access_tok
         expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['path']}"
     assert ds_metadata["repository_identifier"] == expected_repository_identifier
     assert ds_metadata["submission_type"] == SubmissionType.S3
+    # retrieve the record from the db
+    record_id = ds_metadata.pop('_id')
+    response = await client_test.get(f"api/catalog/dataset/{record_id}")
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize('object_store_type', ['s3', 'minio'])
+@pytest.mark.asyncio
+async def test_update_dataset_s3(client_test, dataset_data, test_user_access_token, object_store_type):
+    """Testing the s3 dataset route (api/catalog/dataset-s3/) for put for updating s3 metadata record"""
+
+    if object_store_type == "minio":
+        # set the path to the generic metadata file on minIO s3
+        s3_path = {
+            "path": "data/.hs/dataset_metadata.json",
+            "bucket": "catalog-api-test",
+            "endpoint_url": "https://api.minio.cuahsi.io/",
+        }
+    else:
+        # set the path to the generic metadata file on AWS s3
+        s3_path = {
+            "path": "data/.hs/dataset_metadata.json",
+            "bucket": "iguide-catalog",
+            "endpoint_url": "https://iguide-catalog.s3.us-west-2.amazonaws.com/",
+        }
+
+    payload = {
+        "s3_path": s3_path,
+        "document": dataset_data
+    }
+
+    response = await client_test.post("api/catalog/dataset-s3/", json=payload)
+    assert response.status_code == 201
+    ds_metadata = response.json()
+    if object_store_type == "minio":
+        expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
+    else:
+        expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['path']}"
+    assert ds_metadata["repository_identifier"] == expected_repository_identifier
+    assert ds_metadata["submission_type"] == SubmissionType.S3
+    # retrieve the record from the db
+    record_id = ds_metadata.pop('_id')
+    response = await client_test.get(f"api/catalog/dataset/{record_id}")
+    assert response.status_code == 200
+
+    # update the dataset record
+    dataset_data['name'] = 'Updated title for S3 metadata record'
+    payload = {
+        "s3_path": s3_path,
+        "document": dataset_data
+    }
+
+    # this is the endpoint for updating the s3 metadata record that we are testing
+    response = await client_test.put("api/catalog/dataset-s3/", json=payload)
+    assert response.status_code == 200
+    ds_metadata = response.json()
+    if object_store_type == "minio":
+        expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
+    else:
+        expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['path']}"
+    assert ds_metadata["repository_identifier"] == expected_repository_identifier
+    assert ds_metadata["submission_type"] == SubmissionType.S3
+    assert ds_metadata["name"] == dataset_data['name']
     # retrieve the record from the db
     record_id = ds_metadata.pop('_id')
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
@@ -227,8 +291,9 @@ async def test_get_datasets_different_submission_types(client_test, dataset_data
         "document": dataset_data
     }
 
-    dataset_response = await client_test.post("api/catalog/dataset/s3", json=payload)
+    dataset_response = await client_test.post("api/catalog/dataset-s3/", json=payload)
     assert dataset_response.status_code == 201
+
     # add a dataset record to the db simulation HydroShare submission
     hs_published_res_id = "b5f58460941c49578e311adb9823657a"
     response = await client_test.get(f"api/catalog/repository/hydroshare/{hs_published_res_id}")
@@ -326,7 +391,7 @@ async def test_get_submissions_2(client_test, dataset_data):
         "document": dataset_data
     }
 
-    dataset_response = await client_test.post("api/catalog/dataset/s3", json=payload)
+    dataset_response = await client_test.post("api/catalog/dataset-s3/", json=payload)
     assert dataset_response.status_code == 201
     dataset_response_data = [dataset_response_data, dataset_response.json()]
 

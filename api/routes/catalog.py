@@ -86,17 +86,7 @@ async def update_dataset(
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset metadata record was not found")
 
-    updated_document.id = dataset.id
-    await updated_document.replace()
-    dataset: DatasetMetadataDOC = await DatasetMetadataDOC.get(submission_id)
-    updated_submission: Submission = dataset.as_submission()
-    updated_submission.id = submission.id
-    updated_submission.repository_identifier = submission.repository_identifier
-    updated_submission.repository = submission.repository
-    updated_submission.submitted = submission.submitted
-    await updated_submission.replace()
-    dataset = inject_repository_identifier(updated_submission, dataset)
-    dataset = inject_submission_type(updated_submission, dataset)
+    dataset = await _update_dataset(updated_document=updated_document, original_document=dataset, submission=submission)
     return dataset
 
 
@@ -157,12 +147,13 @@ async def register_s3_dataset(request_model: S3Path, user: Annotated[User, Depen
     endpoint_url = request_model.endpoint_url
     identifier = f"{endpoint_url}+{bucket}+{path}"
     submission: Submission = user.submission_by_repository(repo_type=RepositoryType.S3, identifier=identifier)
-    dataset = await _save_to_db(repository_type=RepositoryType.S3, identifier=identifier, user=user, submission=submission)
+    dataset = await _save_to_db(repository_type=RepositoryType.S3, identifier=identifier, user=user,
+                                submission=submission)
     return dataset
 
 
-@router.post("/dataset/s3", response_model=DatasetMetadataDOC, status_code=status.HTTP_201_CREATED)
-async def create_dataset(
+@router.post("/dataset-s3/", response_model=DatasetMetadataDOC, status_code=status.HTTP_201_CREATED)
+async def create_dataset_s3(
         s3_path: S3Path,
         document: DatasetMetadataDOC,
         user: Annotated[User, Depends(get_current_user)]
@@ -182,7 +173,7 @@ async def create_dataset(
     if submission is not None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="This resource has already been submitted by this user",
+            detail="Dataset metadata record was not found",
         )
     await document.insert()
     submission = document.as_submission()
@@ -193,6 +184,39 @@ async def create_dataset(
     document = inject_repository_identifier(submission, document)
     document = inject_submission_type(submission, document)
     return document
+
+
+@router.put("/dataset-s3/", response_model=DatasetMetadataDOC, status_code=status.HTTP_200_OK)
+async def update_dataset_s3(
+        s3_path: S3Path,
+        document: DatasetMetadataDOC,
+        user: Annotated[User, Depends(get_current_user)]
+):
+    """User provides the updated metadata for the dataset and the path to the S3 object. The metadata is saved
+    to the catalog. The S3 object is not fetched. Also, the metadata is currently not saved to the S3 object.
+    """
+    path = s3_path.path
+    bucket = s3_path.bucket
+    endpoint_url = s3_path.endpoint_url
+    endpoint_url = endpoint_url.rstrip("/")
+    if endpoint_url.endswith("amazonaws.com"):
+        identifier = f"{endpoint_url}/{path}"
+    else:
+        identifier = f"{endpoint_url}/{bucket}/{path}"
+    submission: Submission = user.submission_by_repository(repo_type=RepositoryType.S3, identifier=identifier)
+    if submission is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Dataset metadata record was not found for the provided S3 object path",
+        )
+
+    dataset: DatasetMetadataDOC = await DatasetMetadataDOC.get(submission.identifier)
+    if dataset is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail="Dataset metadata record was not found for the provided S3 object path")
+
+    dataset = await _update_dataset(updated_document=document, original_document=dataset, submission=submission)
+    return dataset
 
 
 async def _save_to_db(repository_type: RepositoryType, identifier: str, user: User, submission: Submission = None):
@@ -230,3 +254,19 @@ async def _get_repo_meta_as_catalog_record(adapter, identifier: str):
     metadata = await adapter.get_metadata(identifier)
     catalog_dataset: DatasetMetadataDOC = adapter.to_catalog_record(metadata)
     return catalog_dataset
+
+
+async def _update_dataset(updated_document: DatasetMetadataDOC, original_document: DatasetMetadataDOC,
+                          submission: Submission):
+    updated_document.id = original_document.id
+    await updated_document.replace()
+    dataset: DatasetMetadataDOC = await DatasetMetadataDOC.get(original_document.id)
+    updated_submission: Submission = dataset.as_submission()
+    updated_submission.id = submission.id
+    updated_submission.repository_identifier = submission.repository_identifier
+    updated_submission.repository = submission.repository
+    updated_submission.submitted = submission.submitted
+    await updated_submission.replace()
+    dataset = inject_repository_identifier(updated_submission, dataset)
+    dataset = inject_submission_type(updated_submission, dataset)
+    return dataset
