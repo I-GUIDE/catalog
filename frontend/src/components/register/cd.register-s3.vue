@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-center">
+  <div class="d-flex align-center mb-4">
     <v-badge color="primary" content="2" inline class="mr-2"></v-badge>
     <div>Where is the resource stored?</div>
   </div>

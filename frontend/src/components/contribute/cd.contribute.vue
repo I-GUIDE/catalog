@@ -18,6 +18,8 @@
     <v-divider class="my-4" />
 
     <template v-if="!isLoading && wasLoaded">
+      <CdRegisterS3Bucket v-if="isS3" v-model="s3State" />
+
       <cz-form
         :schema="schema"
         :uischema="uiSchema"
@@ -59,12 +61,12 @@ import {
   useRoute,
   useRouter,
 } from "vue-router";
-
+import CdRegisterS3Bucket from "@/components/register/cd.register-s3-bucket.vue";
 const initialData = {};
 
 @Component({
   name: "cd-contribute",
-  components: { CzForm, CdFormActions },
+  components: { CzForm, CdFormActions, CdRegisterS3Bucket },
 })
 class CdContribute extends Vue {
   isValid = false;
@@ -73,7 +75,7 @@ class CdContribute extends Vue {
   wasLoaded = false;
   submissionId = "";
   errors: { title: string; message: string }[] = [];
-  data = initialData;
+  data: any = initialData;
   timesChanged = 0;
   isSaving = false;
   config = {
@@ -95,6 +97,11 @@ class CdContribute extends Vue {
       },
     },
   };
+  s3State = {
+    path: "",
+    bucket: "",
+    endpointUrl: "",
+  };
 
   route = useRoute();
   router = useRouter();
@@ -113,6 +120,10 @@ class CdContribute extends Vue {
 
   get hasUnsavedChanges(): boolean {
     return User.$state.hasUnsavedChanges;
+  }
+
+  get isS3() {
+    return this.data.submission_type === "S3";
   }
 
   set hasUnsavedChanges(value: boolean) {
@@ -140,6 +151,8 @@ class CdContribute extends Vue {
       this.wasLoaded = !!data;
       if (data) {
         this.data = data;
+
+        // TODO: populate s3 metadata fields
       }
     } catch (e) {
       this.wasLoaded = false;

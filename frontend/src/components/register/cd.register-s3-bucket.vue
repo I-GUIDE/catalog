@@ -1,70 +1,82 @@
 <template>
-  <v-form>
-    <v-text-field
-      v-model.trim="modelValue.path"
-      :error-messages="form.path.$errors.map((e) => e.$message)"
-      @blur="form.path.$touch"
-      @input="form.path.$touch"
-      clearable
-      class="my-4"
-      label="Path*"
-      hide-details="auto"
-      persistent-hint
-      variant="outlined"
-    >
-    </v-text-field>
+  <v-card variant="elevated" class="mx-4">
+    <v-card-title class="text-overline"> S3 Bucket Information </v-card-title>
+    <v-divider></v-divider>
+    <v-card-text>
+      <v-form>
+        <v-row>
+          <v-col class="py-0" lg="6" cols="12">
+            <v-text-field
+              v-model.trim="modelValue.path"
+              :error-messages="form.path.$errors.map((e) => e.$message)"
+              @blur="form.path.$touch"
+              @input="form.path.$touch"
+              clearable
+              class="my-4"
+              label="Path*"
+              hide-details="auto"
+              variant="outlined"
+              density="compact"
+            >
+            </v-text-field>
 
-    <div
-      class="text-subtitle-1 text-medium-emphasis pl-3 mb-4 mt-1"
-      style="word-break: break-word"
-    >
-      {{ `e.g. 'data/.hs/dataset_metadata.json'` }}
-    </div>
+            <div
+              class="text-subtitle-1 text-medium-emphasis pl-3 mb-4 hint"
+              style="word-break: break-word"
+            >
+              {{ `e.g. 'data/.hs/dataset_metadata.json'` }}
+            </div>
+          </v-col>
+          <v-col class="py-0" lg="6" cols="12">
+            <v-text-field
+              v-model.trim="modelValue.bucket"
+              :error-messages="form.bucket.$errors.map((e) => e.$message)"
+              @blur="form.bucket.$touch"
+              @input="form.bucket.$touch"
+              clearable
+              class="my-4"
+              label="Bucket*"
+              type="url"
+              hide-details="auto"
+              variant="outlined"
+              density="compact"
+            >
+            </v-text-field>
 
-    <v-text-field
-      v-model.trim="modelValue.bucket"
-      :error-messages="form.bucket.$errors.map((e) => e.$message)"
-      @blur="form.bucket.$touch"
-      @input="form.bucket.$touch"
-      clearable
-      class="my-4"
-      label="Bucket*"
-      type="url"
-      hide-details="auto"
-      persistent-hint
-      variant="outlined"
-    >
-    </v-text-field>
+            <div
+              class="text-subtitle-1 text-medium-emphasis pl-3 mb-4 hint"
+              style="word-break: break-word"
+            >
+              {{ `e.g. 'iguide-catalog'` }}
+            </div>
+          </v-col>
+          <v-col class="py-0" cols="12">
+            <v-text-field
+              v-model.trim="modelValue.endpointUrl"
+              :error-messages="form.endpointUrl.$errors.map((e) => e.$message)"
+              @blur="form.endpointUrl.$touch"
+              @input="form.endpointUrl.$touch"
+              clearable
+              class="my-4"
+              label="Endpoint URL*"
+              type="url"
+              hide-details="auto"
+              variant="outlined"
+              density="compact"
+            >
+            </v-text-field>
 
-    <div
-      class="text-subtitle-1 text-medium-emphasis pl-3 mb-4 mt-1"
-      style="word-break: break-word"
-    >
-      {{ `e.g. 'iguide-catalog'` }}
-    </div>
-
-    <v-text-field
-      v-model.trim="modelValue.endpointUrl"
-      :error-messages="form.endpointUrl.$errors.map((e) => e.$message)"
-      @blur="form.endpointUrl.$touch"
-      @input="form.endpointUrl.$touch"
-      clearable
-      class="my-4"
-      label="Endpoint URL*"
-      type="url"
-      hide-details="auto"
-      persistent-hint
-      variant="outlined"
-    >
-    </v-text-field>
-
-    <div
-      class="text-subtitle-1 text-medium-emphasis pl-3 mb-4 mt-1"
-      style="word-break: break-word"
-    >
-      {{ `e.g. 'https://iguide-catalog.s3.us-west-2.amazonaws.com/'` }}
-    </div>
-  </v-form>
+            <div
+              class="text-subtitle-1 text-medium-emphasis pl-3 mb-4 hint"
+              style="word-break: break-word"
+            >
+              {{ `e.g. 'https://iguide-catalog.s3.us-west-2.amazonaws.com/'` }}
+            </div>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -102,4 +114,8 @@ class CdRegisterS3Bucket extends Vue {
 export default toNative(CdRegisterS3Bucket);
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.hint {
+  margin-top: -1rem;
+}
+</style>
