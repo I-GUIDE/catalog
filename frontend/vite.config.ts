@@ -7,6 +7,7 @@ import AutoImport from "unplugin-auto-import/vite";
 import VueMacros from "unplugin-vue-macros/vite";
 import { VitePWA } from "vite-plugin-pwa";
 import WebfontDownload from "vite-plugin-webfont-dl";
+import vuetify from "vite-plugin-vuetify";
 
 export default defineConfig({
   resolve: {
@@ -32,6 +33,7 @@ export default defineConfig({
         }),
       },
     }),
+
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({
       imports: [
@@ -88,6 +90,10 @@ export default defineConfig({
 
     // https://github.com/feat-agency/vite-plugin-webfont-dl
     WebfontDownload(),
+
+    vuetify({
+      styles: { configFile: "src/assets/css/settings.scss" },
+    }),
   ],
 
   // https://github.com/vitest-dev/vitest

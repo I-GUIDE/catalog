@@ -6,17 +6,18 @@
         class="sidebar pr-8 break-word"
       >
         <div class="sidebar--content">
-          <v-card>
-            <v-card-title>Table of contents</v-card-title>
-            <v-divider></v-divider>
-            <v-card-text>
+          <v-card variant="outlined" border="grey thin">
+            <v-card-title class="text-primary text-body-1"
+              >Table of contents</v-card-title
+            >
+            <v-card-text class="text-body-2">
               <v-list density="compact">
                 <template v-for="(item, index) of tableOfContents">
                   <v-list-item
                     v-if="!(item.isShown?.() === false)"
                     :key="index"
                     :value="index"
-                    class="my-2 text-body-1"
+                    class="text-body-1"
                     @click="goTo(item.link, scrollOptions)"
                   >
                     {{ item.title }}
@@ -29,10 +30,10 @@
           <v-card
             v-if="hasSpatialFeatures"
             class="mt-8"
-            variant="elevated"
-            elevation="1"
+            variant="outlined"
+            border="grey thin"
           >
-            <v-card-title class="text-overline primary--text darken-4">
+            <v-card-title class="text-overline text-primary darken-4">
               Spatial Coverage
             </v-card-title>
             <cd-spatial-coverage-map
@@ -127,8 +128,8 @@
           <v-card
             v-if="data.temporalCoverage"
             class="mt-8"
-            variant="elevated"
-            elevation="1"
+            variant="outlined"
+            border="grey thin"
           >
             <v-card-title class="text-overline primary--text darken-4">
               Temporal Coverage
@@ -193,7 +194,7 @@
         class="page-content"
         :class="{ 'is-sm': $vuetify.display.mdAndDown }"
       >
-        <h4 class="text-h4 mb-4">{{ data.name }}</h4>
+        <h4 class="text-h5 mb-4">{{ data.name }}</h4>
         <div
           class="d-flex justify-space-between mb-2 flex-column flex-sm-row align-normal align-sm-end"
         >
@@ -468,8 +469,8 @@
           <v-card
             v-if="readmeMd"
             class="readme-container"
-            variant="elevated"
-            elevation="1"
+            variant="outlined"
+            border="grey thin"
           >
             <v-card-title>README</v-card-title>
             <v-divider></v-divider>
@@ -594,7 +595,7 @@
           <v-divider class="primary mb-2"></v-divider>
           <v-row>
             <v-col cols="12" sm="8">
-              <v-card flat outlined>
+              <v-card variant="outlined" border="grey thin">
                 <cd-spatial-coverage-map
                   :loader="loader"
                   :loader-options="options"
@@ -706,8 +707,10 @@
     <v-alert
       v-else-if="!wasLoaded && !isLoading"
       border="start"
-      colored-border
       type="error"
+      variant="text"
+      prominent
+      density="compact"
       elevation="1"
       >Failed to load dataset</v-alert
     >
