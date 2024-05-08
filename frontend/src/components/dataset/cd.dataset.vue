@@ -1095,6 +1095,10 @@ export default toNative(CdDataset);
   }
 }
 
+:deep(.map-container) {
+  min-height: 15rem;
+}
+
 .citation-text {
   min-width: 0;
   word-break: break-all;
