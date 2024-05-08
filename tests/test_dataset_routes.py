@@ -138,13 +138,9 @@ async def test_update_dataset_s3(client_test, dataset_data, test_user_access_tok
 
     # update the dataset record
     dataset_data['name'] = 'Updated title for S3 metadata record'
-    payload = {
-        "s3_path": s3_path,
-        "document": dataset_data
-    }
 
     # this is the endpoint for updating the s3 metadata record that we are testing
-    response = await client_test.put("api/catalog/dataset-s3/", json=payload)
+    response = await client_test.put(f"api/catalog/dataset-s3/{record_id}", json=dataset_data)
     assert response.status_code == 200
     ds_metadata = response.json()
     if object_store_type == "minio":

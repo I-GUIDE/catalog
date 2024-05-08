@@ -186,34 +186,27 @@ async def create_dataset_s3(
     return document
 
 
-@router.put("/dataset-s3/", response_model=DatasetMetadataDOC, status_code=status.HTTP_200_OK)
+@router.put("/dataset-s3/{submission_id}", response_model=DatasetMetadataDOC, status_code=status.HTTP_200_OK)
 async def update_dataset_s3(
-        s3_path: S3Path,
+        submission_id: PydanticObjectId,
         document: DatasetMetadataDOC,
         user: Annotated[User, Depends(get_current_user)]
 ):
     """User provides the updated metadata for the dataset and the path to the S3 object. The metadata is saved
     to the catalog. The S3 object is not fetched. Also, the metadata is currently not saved to the S3 object.
     """
-    path = s3_path.path
-    bucket = s3_path.bucket
-    endpoint_url = s3_path.endpoint_url
-    endpoint_url = endpoint_url.rstrip("/")
-    if endpoint_url.endswith("amazonaws.com"):
-        identifier = f"{endpoint_url}/{path}"
-    else:
-        identifier = f"{endpoint_url}/{bucket}/{path}"
-    submission: Submission = user.submission_by_repository(repo_type=RepositoryType.S3, identifier=identifier)
-    if submission is None:
+
+    submission: Submission = user.submission(submission_id)
+    if submission is None or submission.repository != RepositoryType.S3:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Dataset metadata record was not found for the provided S3 object path",
+            detail="Dataset metadata record was not found",
         )
 
     dataset: DatasetMetadataDOC = await DatasetMetadataDOC.get(submission.identifier)
     if dataset is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail="Dataset metadata record was not found for the provided S3 object path")
+                            detail="Dataset metadata record was not found")
 
     dataset = await _update_dataset(updated_document=document, original_document=dataset, submission=submission)
     return dataset
