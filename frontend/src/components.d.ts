@@ -22,6 +22,7 @@ declare module 'vue' {
     'Cd.registerDataset': typeof import('./components/register/cd.register-dataset.vue')['default']
     'Cd.registerHydroshare': typeof import('./components/register/cd.register-hydroshare.vue')['default']
     'Cd.registerS3': typeof import('./components/register/cd.register-s3.vue')['default']
+    'Cd.registerS3Bucket': typeof import('./components/register/cd.register-s3-bucket.vue')['default']
     'Cd.registerS3Form': typeof import('./components/register/cd.register-s3-form.vue')['default']
     'Cd.search': typeof import('./components/search/cd.search.vue')['default']
     'Cd.searchResults': typeof import('./components/search-results/cd.search-results.vue')['default']
