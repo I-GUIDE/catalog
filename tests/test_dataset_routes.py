@@ -31,6 +31,7 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
     response_data.pop("repository_identifier")
     response_data["submission_type"] = SubmissionType.IGUIDE_FORM
     response_data.pop("submission_type")
+    response_data.pop("s3_path")
     # remove additional property fields from response_data for which the test data does not have values
     for a_property in response_data["additionalProperty"]:
         assert a_property.pop("description") is None
@@ -91,6 +92,8 @@ async def test_create_dataset_s3(client_test, dataset_data, test_user_access_tok
         expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['path']}"
     assert ds_metadata["repository_identifier"] == expected_repository_identifier
     assert ds_metadata["submission_type"] == SubmissionType.S3
+    assert ds_metadata["s3_path"] == s3_path
+
     # retrieve the record from the db
     record_id = ds_metadata.pop('_id')
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
@@ -174,6 +177,7 @@ async def test_update_dataset_s3(client_test, dataset_data, test_user_access_tok
         expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['path']}"
     assert ds_metadata["repository_identifier"] == expected_repository_identifier
     assert ds_metadata["submission_type"] == SubmissionType.S3
+    assert ds_metadata["s3_path"] == s3_path
     assert ds_metadata["name"] == dataset_data['name']
     # retrieve the record from the db
     record_id = ds_metadata.pop('_id')
@@ -241,6 +245,7 @@ async def test_update_dataset(client_test, dataset_data):
     response_data.pop("repository_identifier")
     response_data["submission_type"] = SubmissionType.IGUIDE_FORM
     response_data.pop("submission_type")
+    response_data.pop("s3_path")
     # remove additional property fields from response_data for which the test data does not have values
     for a_property in response_data["additionalProperty"]:
         assert a_property.pop("description") is None
