@@ -25,6 +25,12 @@ def inject_submission_type(submission: Submission, document: DatasetMetadataDOC)
     return document
 
 
+def inject_submission_s3_path(submission: Submission, document: DatasetMetadataDOC):
+    if submission.s3_path:
+        document.s3_path = submission.s3_path
+    return document
+
+
 @router.post("/dataset/", response_model=DatasetMetadataDOC, status_code=status.HTTP_201_CREATED)
 async def create_dataset(document: DatasetMetadataDOC, user: Annotated[User, Depends(get_current_user)]):
     await document.insert()
@@ -171,6 +177,7 @@ async def create_dataset_s3(
     await user.save(link_rule=WriteRules.WRITE)
     document = inject_repository_identifier(submission, document)
     document = inject_submission_type(submission, document)
+    document = inject_submission_s3_path(submission, document)
     return document
 
 
@@ -256,4 +263,5 @@ async def _update_dataset(updated_document: DatasetMetadataDOC, original_documen
     await updated_submission.replace()
     dataset = inject_repository_identifier(updated_submission, dataset)
     dataset = inject_submission_type(updated_submission, dataset)
+    dataset = inject_submission_s3_path(updated_submission, dataset)
     return dataset
