@@ -5,7 +5,7 @@
     <v-card-text>
       <v-form>
         <v-row>
-          <v-col class="py-0" lg="6" cols="12">
+          <v-col class="py-0" :lg="isResponsive ? 6 : 12" cols="12">
             <v-text-field
               v-model.trim="modelValue.path"
               :error-messages="form.path.$errors.map((e) => e.$message)"
@@ -27,7 +27,7 @@
               {{ `e.g. 'data/.hs/dataset_metadata.json'` }}
             </div>
           </v-col>
-          <v-col class="py-0" lg="6" cols="12">
+          <v-col class="py-0" :lg="isResponsive ? 6 : 12" cols="12">
             <v-text-field
               v-model.trim="modelValue.bucket"
               :error-messages="form.bucket.$errors.map((e) => e.$message)"
@@ -91,6 +91,7 @@ import { useRouter } from "vue-router";
 })
 class CdRegisterS3Bucket extends Vue {
   @Prop() modelValue!: { path: string; bucket: string; endpointUrl: string };
+  @Prop({ default: true }) isResponsive!: boolean;
 
   form: any = null;
   isSaving = false;

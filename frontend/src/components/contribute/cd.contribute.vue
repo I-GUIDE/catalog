@@ -17,21 +17,27 @@
 
     <v-divider class="my-4" />
 
-    <template v-if="!isLoading && wasLoaded">
-      <CdRegisterS3Bucket v-if="isS3" v-model="s3State" />
-
-      <cz-form
-        :schema="schema"
-        :uischema="uiSchema"
-        v-model:isValid="isValid"
-        :errors.sync="errors"
-        @update:errors="onUpdateErrors"
-        @update:model-value="onDataChange"
-        :config="config"
-        v-model="data"
-        ref="form"
-      />
-    </template>
+    <v-row v-if="!isLoading && wasLoaded">
+      <v-col cols="12" order="2" order-lg="1" lg="8"
+        ><cz-form
+          :schema="schema"
+          :uischema="uiSchema"
+          v-model:isValid="isValid"
+          :errors.sync="errors"
+          @update:errors="onUpdateErrors"
+          @update:model-value="onDataChange"
+          :config="config"
+          v-model="data"
+          ref="form"
+      /></v-col>
+      <v-col cols="12" order="1" lg="4">
+        <CdRegisterS3Bucket
+          v-if="isS3"
+          v-model="s3State"
+          :is-responsive="false"
+        />
+      </v-col>
+    </v-row>
 
     <div v-else-if="isLoading" class="text-h6 text-medium-emphasis my-12">
       <v-progress-circular indeterminate color="primary" />
