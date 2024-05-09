@@ -308,6 +308,37 @@ async def test_get_datasets(client_test, dataset_data, multiple):
 
 
 @pytest.mark.asyncio
+async def test_get_datasets_2(client_test, dataset_data):
+    """Testing the get all datasets for a given user with different submission types"""
+
+    # add a dataset record to the db
+    dataset_response = await client_test.post("api/catalog/dataset", json=dataset_data)
+    assert dataset_response.status_code == 201
+    # set the path to the generic metadata file on minIO s3
+    s3_path = {
+        "path": "data/.hs/dataset_metadata.json",
+        "bucket": "catalog-api-test",
+        "endpoint_url": "https://api.minio.cuahsi.io/",
+    }
+    payload = {
+        "s3_path": s3_path,
+        "document": dataset_data
+    }
+
+    response = await client_test.post("api/catalog/dataset-s3/", json=payload)
+    assert response.status_code == 201
+
+    # this is the endpoint we are testing
+    dataset_response = await client_test.get("api/catalog/dataset")
+    assert dataset_response.status_code == 200
+    dataset_response_data = dataset_response.json()
+    assert len(dataset_response_data) == 2
+    assert dataset_response_data[0]["submission_type"] == SubmissionType.IGUIDE_FORM
+    assert dataset_response_data[1]["submission_type"] == SubmissionType.S3
+    assert dataset_response_data[1]["s3_path"] == s3_path
+
+
+@pytest.mark.asyncio
 async def test_get_datasets_different_submission_types(client_test, dataset_data):
     """Testing the get all datasets for a given user"""
 
