@@ -6,8 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from api.adapters.utils import get_adapter_by_type, RepositoryType
 from api.authentication.user import get_current_user
 from api.models.catalog import DatasetMetadataDOC
-from api.models.user import Submission, SubmissionType, User
-from pydantic import BaseModel, HttpUrl
+from api.models.user import Submission, SubmissionType, User, S3Path
 
 router = APIRouter()
 
@@ -24,12 +23,6 @@ def inject_submission_type(submission: Submission, document: DatasetMetadataDOC)
     else:
         document.submission_type = submission.repository
     return document
-
-
-class S3Path(BaseModel):
-    path: str
-    bucket: str
-    endpoint_url: HttpUrl = 'https://api.minio.cuahsi.io'
 
 
 @router.post("/dataset/", response_model=DatasetMetadataDOC, status_code=status.HTTP_201_CREATED)
@@ -161,14 +154,8 @@ async def create_dataset_s3(
     """User provides the metadata for the dataset and the path to the S3 object. The metadata is saved
     to the catalog. The S3 object is not fetched. Also, the metadata is currently not saved to the S3 object.
     """
-    path = s3_path.path
-    bucket = s3_path.bucket
-    endpoint_url = s3_path.endpoint_url
-    endpoint_url = endpoint_url.rstrip("/")
-    if endpoint_url.endswith("amazonaws.com"):
-        identifier = f"{endpoint_url}/{path}"
-    else:
-        identifier = f"{endpoint_url}/{bucket}/{path}"
+
+    identifier = s3_path.identifier
     submission: Submission = user.submission_by_repository(repo_type=RepositoryType.S3, identifier=identifier)
     if submission is not None:
         raise HTTPException(
@@ -179,6 +166,7 @@ async def create_dataset_s3(
     submission = document.as_submission()
     submission.repository_identifier = identifier
     submission.repository = RepositoryType.S3
+    submission.s3_path = s3_path
     user.submissions.append(submission)
     await user.save(link_rule=WriteRules.WRITE)
     document = inject_repository_identifier(submission, document)
@@ -188,14 +176,17 @@ async def create_dataset_s3(
 
 @router.put("/dataset-s3/{submission_id}", response_model=DatasetMetadataDOC, status_code=status.HTTP_200_OK)
 async def update_dataset_s3(
+        s3_path: S3Path,
         submission_id: PydanticObjectId,
         document: DatasetMetadataDOC,
         user: Annotated[User, Depends(get_current_user)]
 ):
     """User provides the updated metadata for the dataset and the path to the S3 object. The metadata is saved
     to the catalog. The S3 object is not fetched. Also, the metadata is currently not saved to the S3 object.
+    We are also allowing the user to update the S3 path as part of the metadata update. Is that a good idea?
     """
 
+    identifier = s3_path.identifier
     submission: Submission = user.submission(submission_id)
     if submission is None or submission.repository != RepositoryType.S3:
         raise HTTPException(
@@ -208,6 +199,8 @@ async def update_dataset_s3(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail="Dataset metadata record was not found")
 
+    submission.repository_identifier = identifier
+    submission.s3_path = s3_path
     dataset = await _update_dataset(updated_document=document, original_document=dataset, submission=submission)
     return dataset
 
@@ -259,6 +252,7 @@ async def _update_dataset(updated_document: DatasetMetadataDOC, original_documen
     updated_submission.repository_identifier = submission.repository_identifier
     updated_submission.repository = submission.repository
     updated_submission.submitted = submission.submitted
+    updated_submission.s3_path = submission.s3_path
     await updated_submission.replace()
     dataset = inject_repository_identifier(updated_submission, dataset)
     dataset = inject_submission_type(updated_submission, dataset)

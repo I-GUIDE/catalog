@@ -95,6 +95,13 @@ async def test_create_dataset_s3(client_test, dataset_data, test_user_access_tok
     record_id = ds_metadata.pop('_id')
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
     assert response.status_code == 200
+    # retrieve all submissions for the current user from the db
+    submission_response = await client_test.get("api/catalog/submission")
+    assert submission_response.status_code == 200
+    submission_response_data = submission_response.json()
+    assert len(submission_response_data) == 1
+    assert submission_response_data[0]['repository'] == RepositoryType.S3
+    assert submission_response_data[0]['s3_path'] == s3_path
 
 
 @pytest.mark.parametrize('object_store_type', ['s3', 'minio'])
@@ -138,9 +145,27 @@ async def test_update_dataset_s3(client_test, dataset_data, test_user_access_tok
 
     # update the dataset record
     dataset_data['name'] = 'Updated title for S3 metadata record'
+    if object_store_type == "minio":
+        # set the path to the generic metadata file on minIO s3 - changing the path
+        s3_path = {
+            "path": "data/.hs/dataset_metadata-updated.json",
+            "bucket": "catalog-api-test-updated",
+            "endpoint_url": "https://api.minio.cuahsi.io/",
+        }
+    else:
+        # set the path to the generic metadata file on AWS s3 - changing the path and bucket
+        s3_path = {
+            "path": "data/.hs/dataset_metadata-updated.json",
+            "bucket": "iguide-catalog-updated",
+            "endpoint_url": "https://iguide-catalog-updated.s3.us-west-2.amazonaws.com/",
+        }
 
+    payload = {
+        "s3_path": s3_path,
+        "document": dataset_data
+    }
     # this is the endpoint for updating the s3 metadata record that we are testing
-    response = await client_test.put(f"api/catalog/dataset-s3/{record_id}", json=dataset_data)
+    response = await client_test.put(f"api/catalog/dataset-s3/{record_id}", json=payload)
     assert response.status_code == 200
     ds_metadata = response.json()
     if object_store_type == "minio":
@@ -154,6 +179,13 @@ async def test_update_dataset_s3(client_test, dataset_data, test_user_access_tok
     record_id = ds_metadata.pop('_id')
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
     assert response.status_code == 200
+    # retrieve all submissions for the current user from the db
+    submission_response = await client_test.get("api/catalog/submission")
+    assert submission_response.status_code == 200
+    submission_response_data = submission_response.json()
+    assert len(submission_response_data) == 1
+    assert submission_response_data[0]['repository'] == RepositoryType.S3
+    assert submission_response_data[0]['s3_path'] == s3_path
 
 
 @pytest.mark.asyncio
@@ -410,7 +442,9 @@ async def test_get_submissions_2(client_test, dataset_data):
     assert submission_response_data[1]['url'] == dataset_response_data[1]['url']
     assert submission_response_data[0]['repository'] is None
     assert submission_response_data[1]['repository'] == RepositoryType.S3
+    assert submission_response_data[1]['s3_path'] == payload['s3_path']
     assert submission_response_data[2]['repository'] == RepositoryType.HYDROSHARE
+    assert submission_response_data[2]['s3_path'] is None
 
 
 async def _check_hs_submission(hs_dataset, user_access_token, hs_published_res_id):
