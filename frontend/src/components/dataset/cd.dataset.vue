@@ -7,7 +7,7 @@
       >
         <div class="sidebar--content">
           <v-card variant="outlined" border="grey thin">
-            <v-card-title class="text-primary text-body-1"
+            <v-card-title class="pt-4 text-body-1"
               >Table of contents</v-card-title
             >
             <v-card-text class="text-body-2">
@@ -412,7 +412,7 @@
             <template v-if="data.submission_type === 'HYDROSHARE'">
               <div v-bind="infoLabelAttr">Host Repository:</div>
               <div v-bind="infoValueAttr">
-                <v-card variant="elevated">
+                <v-card variant="outlined" border="grey thin">
                   <v-card-title class="text-overline">HydroShare</v-card-title>
                   <v-divider></v-divider>
                   <v-card-text>
@@ -431,7 +431,7 @@
             <template v-if="data.submission_type === 'S3'">
               <div v-bind="infoLabelAttr">Host Repository:</div>
               <div>
-                <v-card variant="elevated">
+                <v-card variant="outlined" border="grey thin">
                   <v-card-title class="text-overline">Amazon S3</v-card-title>
                   <v-divider></v-divider>
                   <v-card-text>
