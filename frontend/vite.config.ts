@@ -22,7 +22,7 @@ export default defineConfig({
 
   // https://vitejs.dev/config/dep-optimization-options#optimizedeps-include
   optimizeDeps: {
-    include: ["@fortawesome/fontawesome-free"],
+    include: ["@fortawesome/fontawesome-free", "vuetify"],
   },
 
   plugins: [
