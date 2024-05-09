@@ -7,7 +7,9 @@
 
       <cd-form-actions
         v-if="!isLoading && wasLoaded"
-        :canConfirm="!isSaving && isValid && hasUnsavedChanges"
+        :canConfirm="
+          !isSaving && isValid && hasUnsavedChanges && !(isS3 && !isS3Valid)
+        "
         :confirmText="isEditMode ? 'Save Changes' : 'Save'"
         :errors="errors"
         @confirm="submit"
@@ -18,7 +20,7 @@
     <v-divider class="my-4" />
 
     <v-row v-if="!isLoading && wasLoaded">
-      <v-col cols="12" order="2" order-lg="1" lg="8"
+      <v-col cols="12" order="2" order-lg="1" :lg="isS3 ? 8 : 12"
         ><cz-form
           :schema="schema"
           :uischema="uiSchema"
@@ -30,11 +32,13 @@
           v-model="data"
           ref="form"
       /></v-col>
-      <v-col cols="12" order="1" lg="4">
-        <CdRegisterS3Bucket
-          v-if="isS3"
+      <v-col v-if="isS3" cols="12" order="1" lg="4">
+        <cd-register-s3-bucket
           v-model="s3State"
+          @update:model-value=""
           :is-responsive="false"
+          ref="s3Form"
+          class="mt-4"
         />
       </v-col>
     </v-row>
@@ -45,7 +49,9 @@
 
     <cd-form-actions
       v-if="!isLoading && wasLoaded"
-      :canConfirm="!isSaving && isValid && hasUnsavedChanges"
+      :canConfirm="
+        !isSaving && isValid && hasUnsavedChanges && !(isS3 && !isS3Valid)
+      "
       :confirmText="isEditMode ? 'Save Changes' : 'Save'"
       :errors="errors"
       @confirm="submit"
@@ -55,10 +61,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, toNative, Hook } from "vue-facing-decorator";
+import {
+  Component,
+  Vue,
+  toNative,
+  Hook,
+  Ref,
+  Watch,
+} from "vue-facing-decorator";
 import { Notifications, CzForm } from "@cznethub/cznet-vue-core";
 import CdFormActions from "./cd.form-actions.vue";
-
 import User from "@/models/user.model";
 import { hasUnsavedChangesGuard } from "@/guards";
 import {
@@ -75,7 +87,9 @@ const initialData = {};
   components: { CzForm, CdFormActions, CdRegisterS3Bucket },
 })
 class CdContribute extends Vue {
+  @Ref("s3Form") s3Form!: InstanceType<typeof CdRegisterS3Bucket>;
   isValid = false;
+  isS3Valid = false;
   isEditMode = false;
   isLoading = true;
   wasLoaded = false;
@@ -138,6 +152,14 @@ class CdContribute extends Vue {
     });
   }
 
+  @Watch("s3State", { deep: true })
+  onS3FormChange() {
+    if (this.s3Form?.form) {
+      this.hasUnsavedChanges = true;
+      this.isS3Valid = !this.s3Form.form.$invalid;
+    }
+  }
+
   created() {
     this.hasUnsavedChanges = false;
     if (this.route.name === "dataset-edit") {
@@ -157,8 +179,9 @@ class CdContribute extends Vue {
       this.wasLoaded = !!data;
       if (data) {
         this.data = data;
-
-        // TODO: populate s3 metadata fields
+        this.s3State.bucket = data.s3_path.bucket;
+        this.s3State.path = data.s3_path.path;
+        this.s3State.endpointUrl = data.s3_path.endpoint_url;
       }
     } catch (e) {
       this.wasLoaded = false;
@@ -169,7 +192,9 @@ class CdContribute extends Vue {
 
   async onSaveChanges() {
     try {
-      const wasSaved = await User.updateDataset(this.submissionId, this.data);
+      const wasSaved = this.isS3
+        ? await User.updateS3Dataset(this.submissionId, this.data, this.s3State)
+        : await User.updateDataset(this.submissionId, this.data);
       if (wasSaved) {
         Notifications.toast({
           message: `Your changes habe been saved!`,

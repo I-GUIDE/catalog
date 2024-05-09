@@ -4,19 +4,17 @@
     <div>Where is the resource stored?</div>
   </div>
 
-  <cd-register-s3-bucket v-model="s3State" />
+  <cd-register-s3-bucket v-model="s3State" ref="s3Form" />
 
-  <div class="d-flex align-center mt-12">
+  <div class="d-flex align-center mt-16">
     <v-badge color="primary" content="3" inline class="mr-2"></v-badge>
     <div>Describe your resource</div>
   </div>
-  <CdRegisterS3Form :isSaving="isSaving || form.$invalid" @save="onSave" />
+  <CdRegisterS3Form :isSaving="isSaving || !isS3Valid" @save="onSave" />
 </template>
 
 <script lang="ts">
-import { Component, Vue, toNative } from "vue-facing-decorator";
-import { useVuelidate } from "@vuelidate/core";
-import { url, required, helpers } from "@vuelidate/validators";
+import { Component, Ref, Vue, Watch, toNative } from "vue-facing-decorator";
 import CdRegisterS3Form from "@/components/register/cd.register-s3-form.vue";
 import User from "@/models/user.model";
 import { Notifications } from "@cznethub/cznet-vue-core";
@@ -28,29 +26,21 @@ import CdRegisterS3Bucket from "./cd.register-s3-bucket.vue";
   components: { CdRegisterS3Form, CdRegisterS3Bucket },
 })
 class CdRegisterS3 extends Vue {
+  @Ref("s3Form") s3Form!: InstanceType<typeof CdRegisterS3Bucket>;
   s3State = {
     path: "",
     bucket: "",
     endpointUrl: "",
   };
-
-  form: any = null;
+  isS3Valid = false;
   isSaving = false;
   router = useRouter();
 
-  created() {
-    this.form = useVuelidate(
-      {
-        path: { required: helpers.withMessage("required", required) },
-        bucket: { required: helpers.withMessage("required", required) },
-        endpointUrl: {
-          required: helpers.withMessage("required", required),
-          url: helpers.withMessage("not a valid URL address", url),
-        },
-      },
-      this.s3State,
-    );
-    this.form.$validate();
+  @Watch("s3State", { deep: true })
+  onS3FormChange() {
+    if (this.s3Form?.form) {
+      this.isS3Valid = !this.s3Form.form.$invalid;
+    }
   }
 
   async onSave(data: any) {
