@@ -248,13 +248,13 @@ export default class User extends Model {
 
   static async submitS3(
     data: any,
-    s3Path: { path: string; bucket: string; endpointUrl: string },
+    s3Data: { path: string; bucket: string; endpointUrl: string },
   ) {
     const formData = {
       s3_path: {
-        path: s3Path.path,
-        bucket: s3Path.bucket,
-        endpoint_url: s3Path.endpointUrl,
+        path: s3Data.path,
+        bucket: s3Data.bucket,
+        endpoint_url: s3Data.endpointUrl,
       },
       document: data,
     };
@@ -268,6 +268,51 @@ export default class User extends Model {
     });
     const result = await response.json();
     return response.ok ? result._id : false;
+  }
+
+  /**
+   * Updates an Amazon S3 submission
+   * @param {string} identifier - the identifier of the resource in our database
+   * @param {any} data - the form data to be saved
+   * @param {any} s3 - the S3 bucket information to be saved
+   */
+  static async updateS3Dataset(
+    identifier: string,
+    data: any,
+    s3Data: {
+      path: string;
+      bucket: string;
+      endpointUrl: string;
+    },
+  ) {
+    const formData = {
+      s3_path: {
+        path: s3Data.path,
+        bucket: s3Data.bucket,
+        endpoint_url: s3Data.endpointUrl,
+      },
+      document: data,
+    };
+    const response: Response = await fetch(
+      `${ENDPOINTS.submitS3}/${identifier}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.accessToken}`,
+        },
+      },
+    );
+
+    if (response.ok) {
+      return true;
+    } else {
+      Notifications.toast({
+        message: "Failed to save changes",
+        type: "error",
+      });
+    }
   }
 
   /**

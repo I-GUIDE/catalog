@@ -374,8 +374,10 @@
               </div>
             </div>
 
-            <div v-bind="infoLabelAttr">Language:</div>
-            <div v-bind="infoValueAttr">{{ data.inLanguage }}</div>
+            <template v-if="data.inLanguage">
+              <div v-bind="infoLabelAttr">Language:</div>
+              <div v-bind="infoValueAttr">{{ data.inLanguage }}</div>
+            </template>
 
             <template v-if="data.version">
               <div v-bind="infoLabelAttr">Version:</div>
@@ -407,18 +409,76 @@
               </div>
             </template>
 
-            <!-- TODO -->
-            <!-- <div v-bind="infoLabelAttr">Host Repository:</div>
-            <div v-bind="infoValueAttr">
-              HydroShare
-              <v-img
-                max-width="200"
-                contain
-                class="mt-2"
-                alt="HydroShare logo"
-                :src="'/img/hydroshare.png'"
-              ></v-img>
-            </div> -->
+            <template v-if="data.submission_type === 'HYDROSHARE'">
+              <div v-bind="infoLabelAttr">Host Repository:</div>
+              <div v-bind="infoValueAttr">
+                <v-card variant="elevated">
+                  <v-card-title class="text-overline">HydroShare</v-card-title>
+                  <v-divider></v-divider>
+                  <v-card-text>
+                    <v-img
+                      max-width="200"
+                      contain
+                      class="mt-2"
+                      alt="HydroShare logo"
+                      src="/img/hydroshare.png"
+                    ></v-img>
+                  </v-card-text>
+                </v-card>
+              </div>
+            </template>
+
+            <template v-if="data.submission_type === 'S3'">
+              <div v-bind="infoLabelAttr">Host Repository:</div>
+              <div>
+                <v-card variant="elevated">
+                  <v-card-title class="text-overline">Amazon S3</v-card-title>
+                  <v-divider></v-divider>
+                  <v-card-text>
+                    <v-img
+                      max-width="200"
+                      max-height="30"
+                      contain
+                      class="mt-2"
+                      alt="Amazon S3 logo"
+                      src="/img/amazon-s3.svg"
+                    ></v-img>
+                  </v-card-text>
+                  <v-divider></v-divider>
+
+                  <v-expansion-panels accordion flat>
+                    <v-expansion-panel>
+                      <v-expansion-panel-title color="text-overline">
+                        Bucket Information
+                      </v-expansion-panel-title>
+
+                      <v-expansion-panel-text>
+                        <v-table variant="elevated" density="compact">
+                          <tbody>
+                            <tr>
+                              <th>Path:</th>
+                              <td>{{ data.s3_path.path }}</td>
+                            </tr>
+                            <tr>
+                              <th>Bucket:</th>
+                              <td>{{ data.s3_path.bucket }}</td>
+                            </tr>
+                            <tr>
+                              <th>Endpoint URL:</th>
+                              <td>
+                                <a :href="data.s3_path.endpoint_url">{{
+                                  data.s3_path.endpoint_url
+                                }}</a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </v-table>
+                      </v-expansion-panel-text>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
+                </v-card>
+              </div>
+            </template>
           </v-col>
         </v-row>
 

@@ -1,8 +1,9 @@
 import datetime
+from typing import Optional
 
 from beanie import Document
 
-from api.models.user import Submission
+from api.models.user import Submission, S3Path
 from .schema import CoreMetadata, DatasetMetadata
 
 
@@ -37,3 +38,4 @@ class CoreMetadataDOC(Document, CoreMetadata):
 
 class DatasetMetadataDOC(CoreMetadataDOC, DatasetMetadata):
     repository_identifier: str = None
+    s3_path: Optional[S3Path] = None

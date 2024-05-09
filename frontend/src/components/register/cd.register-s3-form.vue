@@ -72,6 +72,7 @@ const initialData = {};
 @Component({
   name: "cd-register-s3-form",
   components: { CzForm },
+  emits: ["save"],
 })
 class CdRegisterS3Form extends Vue {
   @Prop() isSaving!: boolean;
