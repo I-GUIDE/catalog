@@ -183,6 +183,9 @@ async def test_update_dataset_s3(client_test, dataset_data, test_user_access_tok
     record_id = ds_metadata.pop('_id')
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
     assert response.status_code == 200
+    ds_metadata = response.json()
+    assert ds_metadata["s3_path"] == s3_path
+
     # retrieve all submissions for the current user from the db
     submission_response = await client_test.get("api/catalog/submission")
     assert submission_response.status_code == 200
@@ -343,6 +346,7 @@ async def test_get_datasets_different_submission_types(client_test, dataset_data
     assert dataset_response_data[0]["submission_type"] == SubmissionType.IGUIDE_FORM
     assert dataset_response_data[1]["submission_type"] == SubmissionType.S3
     assert dataset_response_data[2]["submission_type"] == SubmissionType.HYDROSHARE
+    assert dataset_response_data[1]["s3_path"] == s3_path
 
 
 @pytest.mark.asyncio

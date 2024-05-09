@@ -53,6 +53,7 @@ async def get_dataset(submission_id: PydanticObjectId):
 
     document = inject_repository_identifier(submission, document)
     document = inject_submission_type(submission, document)
+    document = inject_submission_s3_path(submission, document)
     return document
 
 
@@ -66,6 +67,10 @@ async def get_datasets(user: Annotated[User, Depends(get_current_user)]):
     ]
     documents = [
         inject_submission_type(submission, document)
+        for submission, document in zip(user.submissions, documents)
+    ]
+    documents = [
+        inject_submission_s3_path(submission, document)
         for submission, document in zip(user.submissions, documents)
     ]
     return documents
