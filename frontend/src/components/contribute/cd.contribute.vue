@@ -181,6 +181,10 @@ class CdContribute extends Vue {
           this.s3State.bucket = data.s3_path.bucket;
           this.s3State.path = data.s3_path.path;
           this.s3State.endpointUrl = data.s3_path.endpoint_url;
+
+          setTimeout(() => {
+            this.isS3Valid = !this.s3Form.form.$invalid;
+          });
         }
       }
     } catch (e) {
