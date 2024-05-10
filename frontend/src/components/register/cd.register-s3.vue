@@ -4,7 +4,7 @@
     <div>Where is the resource stored?</div>
   </div>
 
-  <cd-register-s3-bucket v-model="s3State" ref="s3Form" />
+  <cd-register-s3-bucket v-model="s3State" ref="s3Form" class="mx-7" />
 
   <div class="d-flex align-center mt-16">
     <v-badge color="primary" content="3" inline class="mr-2"></v-badge>

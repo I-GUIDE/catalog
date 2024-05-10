@@ -1,5 +1,5 @@
 <template>
-  <v-card variant="elevated" class="mx-4">
+  <v-card variant="outlined" border="thin">
     <v-card-title class="text-overline"> S3 Bucket Information </v-card-title>
     <v-divider></v-divider>
     <v-card-text>

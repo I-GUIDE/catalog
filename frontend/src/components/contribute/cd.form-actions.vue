@@ -19,7 +19,7 @@
             overlap
           >
             <v-btn
-              color="primary"
+              :color="canConfirm ? 'primary' : 'default'"
               block
               depressed
               @click="$emit('confirm')"

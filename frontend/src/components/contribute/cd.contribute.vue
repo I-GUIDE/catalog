@@ -20,27 +20,25 @@
     <v-divider class="my-4" />
 
     <v-row v-if="!isLoading && wasLoaded">
-      <v-col cols="12" order="2" order-lg="1" :lg="isS3 ? 8 : 12"
-        ><cz-form
-          :schema="schema"
-          :uischema="uiSchema"
-          v-model:isValid="isValid"
-          :errors.sync="errors"
-          @update:errors="onUpdateErrors"
-          @update:model-value="onDataChange"
-          :config="config"
-          v-model="data"
-          ref="form"
-      /></v-col>
-      <v-col v-if="isS3" cols="12" order="1" lg="4">
-        <cd-register-s3-bucket
-          v-model="s3State"
-          @update:model-value=""
-          :is-responsive="false"
-          ref="s3Form"
-          class="mt-4"
-        />
-      </v-col>
+      <cd-register-s3-bucket
+        v-model="s3State"
+        @update:model-value=""
+        :is-responsive="false"
+        ref="s3Form"
+        class="mt-4 mb-8 mx-4 full-width"
+      />
+
+      <cz-form
+        :schema="schema"
+        :uischema="uiSchema"
+        v-model:isValid="isValid"
+        :errors.sync="errors"
+        @update:errors="onUpdateErrors"
+        @update:model-value="onDataChange"
+        :config="config"
+        v-model="data"
+        ref="form"
+      />
     </v-row>
 
     <div v-else-if="isLoading" class="text-h6 text-medium-emphasis my-12">
