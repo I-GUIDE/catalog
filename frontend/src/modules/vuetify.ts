@@ -1,12 +1,10 @@
 import "@mdi/font/css/materialdesignicons.css";
-import "@fortawesome/fontawesome-free/css/all.css";
 import "vuetify/styles";
 import type { ThemeDefinition } from "vuetify";
 import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
-import { fa, aliases as fa_aliases } from "vuetify/iconsets/fa";
-import { aliases as md_aliases, mdi } from "vuetify/iconsets/mdi";
+import { aliases, mdi } from "vuetify/iconsets/mdi";
 import type { UserModule } from "@/types";
 import colors from "vuetify/util/colors";
 
@@ -22,6 +20,7 @@ const lightTheme: ThemeDefinition = {
     navbar: colors.blueGrey.darken2,
   },
 };
+
 const darkTheme: ThemeDefinition = {
   dark: true,
   colors: {
@@ -52,13 +51,9 @@ export const install: UserModule = ({ app }) => {
     },
     icons: {
       defaultSet: "mdi",
-      aliases: {
-        ...fa_aliases,
-        ...md_aliases,
-      },
+      aliases,
       sets: {
         mdi,
-        fa,
       },
     },
   });

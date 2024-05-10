@@ -5,7 +5,7 @@
       color="navbar"
       ref="appBar"
       id="app-bar"
-      elevate-on-scroll
+      scroll-behavior="elevate"
       fixed
       app
     >
@@ -13,7 +13,9 @@
         <router-link :to="{ path: `/` }" class="logo">
           <img :src="'/img/logo-w.png'" alt="home" />
         </router-link>
+
         <v-spacer></v-spacer>
+
         <v-card
           class="nav-items mr-2 d-flex mr-4"
           :elevation="2"
@@ -50,12 +52,11 @@
               </template>
 
               <v-list class="pa-0">
-                <v-list-item
-                  id="navbar-logout"
-                  @click="onLogout"
-                  prepend-icon="mdi-logout"
-                >
-                  <v-list-item-title>Log Out</v-list-item-title>
+                <v-list-item id="navbar-logout" @click="onLogout">
+                  <v-list-item-title
+                    ><v-icon class="mr-2 text-info">mdi-logout</v-icon>Log
+                    Out</v-list-item-title
+                  >
                 </v-list-item>
               </v-list>
             </v-menu>

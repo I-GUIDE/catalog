@@ -33,7 +33,7 @@
             variant="outlined"
             border="grey thin"
           >
-            <v-card-title class="text-overline text-primary darken-4">
+            <v-card-title class="text-overline">
               Spatial Coverage
             </v-card-title>
             <cd-spatial-coverage-map
@@ -138,20 +138,24 @@
 
             <v-card-text>
               <v-timeline align-top density="compact" line-color="info">
-                <v-timeline-item dot-color="primary">
+                <v-timeline-item
+                  dot-color="primary"
+                  icon="mdi-calendar"
+                  fill-dot
+                >
                   <div>
-                    <div class="font-weight-normal">
-                      <strong>Start Date</strong>
-                    </div>
+                    <strong>Start Date</strong>
                     <div>{{ parseDate(data.temporalCoverage.startDate) }}</div>
                   </div>
                 </v-timeline-item>
 
-                <v-timeline-item dot-color="orange">
+                <v-timeline-item
+                  dot-color="orange-darken-2"
+                  icon="mdi-calendar"
+                  fill-dot
+                >
                   <div>
-                    <div class="font-weight-normal">
-                      <strong>End Date</strong>
-                    </div>
+                    <strong>End Date</strong>
                     <div>{{ parseDate(data.temporalCoverage.endDate) }}</div>
                   </div>
                 </v-timeline-item>
@@ -294,18 +298,16 @@
                         small
                         color="secondary"
                         title="Email address"
-                        >mdi-email-outline</v-icon
-                      >
+                        icon="mdi-email-outline"
+                      />
                       {{ creator.email }}
                     </div>
-                    <div v-if="creator.identifier">
-                      <v-icon
-                        class="mr-1"
-                        small
-                        color="secondary"
-                        title="ORCID identifier"
-                        >fab fa-orcid</v-icon
-                      >
+                    <div v-if="creator.identifier" class="d-flex align-center">
+                      <i
+                        class="fab fa-orcid mr-2 text-secondary text-h6"
+                        aria-hidden="true"
+                        title="ORCID"
+                      ></i>
                       {{ creator.identifier }}
                     </div>
                   </v-card-text>
@@ -532,7 +534,7 @@
             variant="outlined"
             border="grey thin"
           >
-            <v-card-title>README</v-card-title>
+            <v-card-title class="text-overline">README</v-card-title>
             <v-divider></v-divider>
             <v-card-text>
               <div v-html="readmeMd"></div>
@@ -611,36 +613,44 @@
           <div class="text-overline primary--text darken-4">
             Related Resources
           </div>
-          <v-divider class="primary my-1"></v-divider>
-          <v-table>
-            <template v-slot:default>
-              <tbody>
-                <tr v-for="(part, index) in data.hasPart" :key="`hp-${index}`">
-                  <td class="">Has part</td>
-                  <td>
-                    <a :href="part.url">{{ part.name }}</a>
-                  </td>
-                </tr>
+          <v-divider class="primary mt-1 mb-4"></v-divider>
+          <v-card variant="outlined" border="grey thin">
+            <v-table>
+              <template v-slot:default>
+                <tbody>
+                  <tr
+                    v-for="(part, index) in data.hasPart"
+                    :key="`hp-${index}`"
+                  >
+                    <td class="">Has part</td>
+                    <td>
+                      <a :href="part.url">{{ part.name }}</a>
+                    </td>
+                  </tr>
 
-                <tr v-for="(part, index) in data.isPartOf" :key="`hp-${index}`">
-                  <td class="">Is part of</td>
-                  <td>
-                    <a :href="part.url">{{ part.name }}</a>
-                  </td>
-                </tr>
+                  <tr
+                    v-for="(part, index) in data.isPartOf"
+                    :key="`hp-${index}`"
+                  >
+                    <td class="">Is part of</td>
+                    <td>
+                      <a :href="part.url">{{ part.name }}</a>
+                    </td>
+                  </tr>
 
-                <tr
-                  v-for="(part, index) in data.subjectOf"
-                  :key="`hp-${index}`"
-                >
-                  <td class="">Subject of</td>
-                  <td>
-                    <a :href="part.url">{{ part.name }}</a>
-                  </td>
-                </tr>
-              </tbody>
-            </template>
-          </v-table>
+                  <tr
+                    v-for="(part, index) in data.subjectOf"
+                    :key="`hp-${index}`"
+                  >
+                    <td class="">Subject of</td>
+                    <td>
+                      <a :href="part.url">{{ part.name }}</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-table>
+          </v-card>
         </div>
 
         <div

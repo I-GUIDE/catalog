@@ -24,7 +24,11 @@
         @click="openLogInDialog()"
         color="primary"
       >
-        <v-icon class="mr-2">fab fa-orcid</v-icon>
+        <i
+          class="fab fa-orcid mr-2 text-secondary text-h6"
+          aria-hidden="true"
+          title="ORCID"
+        ></i>
         <span>Log In Using ORCID</span>
       </v-btn>
     </v-card-actions>
@@ -38,6 +42,7 @@ import User from "@/models/user.model";
 @Component({
   name: "cd-login",
   components: {},
+  emits: ["logged-in", "cancel"],
 })
 class CdLogin extends Vue {
   async openLogInDialog() {

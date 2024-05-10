@@ -189,7 +189,8 @@ export default class User extends Model {
       type: "info",
     });
 
-    if (router?.currentRoute?.value.meta?.hasLoggedInGuard) {
+    // @ts-ignore
+    if (router?.currentRoute?.meta?.hasLoggedInGuard) {
       router.push({ path: "/" });
     }
   }
