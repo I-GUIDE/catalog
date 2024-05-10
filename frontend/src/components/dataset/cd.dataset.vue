@@ -199,10 +199,11 @@
         :class="{ 'is-sm': $vuetify.display.mdAndDown }"
       >
         <h4 class="text-h5 mb-4">{{ data.name }}</h4>
-        <div
+        <!-- TODO: disabled until dataset endpoint returns current user permissions -->
+        <!-- <div
           class="d-flex justify-space-between mb-2 flex-column flex-sm-row align-normal align-sm-end"
         >
-          <!-- <div class="order-2 order-sm-1">
+          <div class="order-2 order-sm-1">
             <v-chip
               small
               class="mr-2"
@@ -223,7 +224,7 @@
                 </span>
               </span>
             </template>
-          </div> -->
+          </div>
 
           <div class="order-1 order-sm-2">
             <v-btn
@@ -240,7 +241,7 @@
               <v-icon>mdi-text-box-edit</v-icon><span class="ml-1">Edit</span>
             </v-btn>
 
-            <!-- <v-btn
+            <v-btn
               v-if="data.repository_identifier"
               :href="data.repository_identifier"
               target="_blank"
@@ -249,9 +250,9 @@
               rounded
             >
               <v-icon class="mr-1">mdi-open-in-new</v-icon> View in repository
-            </v-btn> -->
+            </v-btn>
           </div>
-        </div>
+        </div> -->
         <v-divider class="my-4"></v-divider>
 
         <v-row
