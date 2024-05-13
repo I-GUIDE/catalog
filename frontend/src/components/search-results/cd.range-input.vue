@@ -22,39 +22,46 @@
       thumb-size="15"
       hide-details
     />
-    <div :class="{ 'grayed-out': !isActive }">
-      <v-number-input
-        :model-value="modelValue[0]"
-        @update:model-value="modelValue[0] = $event"
-        @blur="
-          $emit('update:model-value', [modelValue[0], modelValue[1]]);
-          $emit('end');
-        "
-        @keyup.enter="
-          $emit('update:model-value', [modelValue[0], modelValue[1]]);
-          $emit('end');
-        "
-        label="Start"
-        variant="outlined"
-        density="compact"
-      />
+    <v-row :class="{ 'grayed-out': !isActive }">
+      <v-col>
+        <v-text-field
+          :model-value="modelValue[0]"
+          @update:model-value="modelValue[0] = $event"
+          type="number"
+          @blur="
+            $emit('update:model-value', [modelValue[0], modelValue[1]]);
+            $emit('end');
+          "
+          @keyup.enter="
+            $emit('update:model-value', [modelValue[0], modelValue[1]]);
+            $emit('end');
+          "
+          label="Start"
+          variant="outlined"
+          density="compact"
+          focusable
+        />
+      </v-col>
 
-      <v-number-input
-        :model-value="modelValue[1]"
-        @update:model-value="modelValue[1] = $event"
-        @blur="
-          $emit('update:model-value', [modelValue[0], modelValue[1]]);
-          $emit('end');
-        "
-        @keyup.enter="
-          $emit('update:model-value', [modelValue[0], modelValue[1]]);
-          $emit('end');
-        "
-        label="End"
-        variant="outlined"
-        density="compact"
-      />
-    </div>
+      <v-col>
+        <v-text-field
+          :model-value="modelValue[1]"
+          @update:model-value="modelValue[1] = $event"
+          type="number"
+          @blur="
+            $emit('update:model-value', [modelValue[0], modelValue[1]]);
+            $emit('end');
+          "
+          @keyup.enter="
+            $emit('update:model-value', [modelValue[0], modelValue[1]]);
+            $emit('end');
+          "
+          label="End"
+          variant="outlined"
+          density="compact"
+        />
+      </v-col>
+    </v-row>
   </div>
 </template>
 
