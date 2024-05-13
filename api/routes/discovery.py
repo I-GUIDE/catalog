@@ -153,6 +153,9 @@ class SearchQuery(BaseModel):
         stages.append(
             {'$set': {'score': {'$meta': 'searchScore'}, 'highlights': {'$meta': 'searchHighlights'}}},
         )
+        if self.term:
+            # get only results with relevance score > 1.5 (which seems to be a good threshold)
+            stages.append({'$match': {'score': {'$gt': 1.5}}})
         return stages
 
 
