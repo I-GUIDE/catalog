@@ -30,4 +30,4 @@ spec:
     spec:
       containers:
       - name: api
-        image: us-central1-docker.pkg.dev/GOOGLE_PROJECT/iguide/api:latest
+        image: us-central1-docker.pkg.dev/GOOGLE_PROJECT/iguide/api:IGUIDE_TAG

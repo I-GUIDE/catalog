@@ -2,7 +2,7 @@ from datetime import datetime
 import pytest
 from pydantic import ValidationError
 
-from api.adapters.hydroshare import HydroshareMetadataAdapter
+from api.adapters.utils import RepositoryType, get_adapter_by_type
 from api.models.catalog import DatasetMetadataDOC
 
 
@@ -11,7 +11,7 @@ from api.models.catalog import DatasetMetadataDOC
 async def test_hydroshare_resource_meta_adapter(hydroshare_resource_metadata, coverage_type, dataset_model):
     """Test the HydroshareMetaAdapter for Composite Resource"""
 
-    adapter = HydroshareMetadataAdapter()
+    adapter = get_adapter_by_type(RepositoryType.HYDROSHARE)
     if coverage_type == "point":
         hydroshare_resource_metadata["spatial_coverage"] = {"type": "point", "name": "Logan River",
                                                             "north": 41.74, "east": -111.83,
@@ -86,22 +86,25 @@ async def test_hydroshare_resource_meta_adapter(hydroshare_resource_metadata, co
             assert media.contentUrl == f"{media_base_url}/model-program/V.dat"
             assert media.encodingFormat == "None"
             assert media.contentSize == "124.144 KB"
+            assert media.sha256 == "a0b00d911d09e69bdbee0033e40414f9"
         elif media.name == "Qsi.nc":
             assert media.contentUrl == f"{media_base_url}/model-program/Qsi.nc"
             assert media.encodingFormat == "application/x-netcdf"
             assert media.contentSize == "20.144 KB"
+            assert media.sha256 == "93b546c41fca467496900d0f2415c1de"
         else:
             assert media.name == "README.md"
             assert media.contentUrl == f"{media_base_url}/README.md"
             assert media.encodingFormat == "text/markdown"
             assert media.contentSize == "4.422 KB"
+            assert media.sha256 == "7d460cb12903a965d144cddcb2b62eac"
 
 
 @pytest.mark.asyncio
 async def test_hydroshare_collection_meta_adapter(hydroshare_collection_metadata, dataset_model):
     """Test the HydroshareMetaAdapter for Collection Resource"""
 
-    adapter = HydroshareMetadataAdapter()
+    adapter = get_adapter_by_type(RepositoryType.HYDROSHARE)
     dataset = adapter.to_catalog_record(hydroshare_collection_metadata)
     try:
         dataset_model(**dataset.dict())
@@ -118,3 +121,11 @@ async def test_hydroshare_collection_meta_adapter(hydroshare_collection_metadata
     assert dataset.hasPart[2].description == "Gan, T. (2016). Composite Resource Type Design, HydroShare"
     assert dataset.hasPart[2].url == "http://www.hydroshare.org/resource/e8cd813e376347c5b617deb321227a36"
     assert len(dataset.associatedMedia) == 0
+
+
+@pytest.mark.asyncio
+async def test_get_adapter_by_type():
+    """Test the get_adapter_by_type function"""
+    for repo_type in RepositoryType.__members__.values():
+        adapter = get_adapter_by_type(repo_type)
+        assert adapter is not None

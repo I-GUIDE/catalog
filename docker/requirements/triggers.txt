@@ -1,5 +1,8 @@
+requests
 typer
 beanie==1.19.0
 motor
 pydantic[dotenv]<2.*
 pydantic[email]<2.*
+rocketry==2.5.1
+boto3
