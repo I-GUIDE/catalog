@@ -22,6 +22,7 @@
     <v-row v-if="!isLoading && wasLoaded">
       <cd-register-s3-bucket
         v-model="s3State"
+        v-if="isS3"
         @update:model-value=""
         :is-responsive="false"
         ref="s3Form"

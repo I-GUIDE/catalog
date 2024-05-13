@@ -902,7 +902,7 @@ class CdDataset extends Vue {
   };
 
   scrollOptions = {
-    offset: 20,
+    offset: -80,
     easing: "easeInOutCubic",
   };
 

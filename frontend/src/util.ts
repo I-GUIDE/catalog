@@ -39,8 +39,10 @@ export function getQueryString(
   return `${new URLSearchParams(primitiveParams)}${arrayParams}`;
 }
 
+// @see https://stackoverflow.com/questions/4310953/invalid-date-in-safari
 export function formatDate(date: string): string {
-  return new Date(date).toLocaleDateString("en-us", {
+  // Safari cannot handle date strings with dashes. Uses slashes instead.
+  return new Date(date.replace(/-/g, "/")).toLocaleDateString("en-us", {
     year: "numeric",
     month: "long",
     day: "numeric",
