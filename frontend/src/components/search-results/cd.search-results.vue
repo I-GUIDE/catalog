@@ -26,7 +26,7 @@
             @end="onSliderControlChange(filter.dataCoverage)"
             :min="filter.dataCoverage.min"
             :max="filter.dataCoverage.max"
-            label="Publication Year"
+            label="Data Coverage"
           />
 
           <!-- CREATOR NAME -->
@@ -558,6 +558,7 @@ class CdSearchResults extends Vue {
     max: number;
     isActive: boolean;
   }) {
+    console.log("onSliderControlChange");
     filter.isActive = true;
     this.pushSearchRoute();
   }
@@ -797,10 +798,6 @@ export default toNative(CdSearchResults);
       text-decoration: underline !important;
     }
   }
-}
-
-.grayed-out {
-  opacity: 0.55;
 }
 
 :deep(.v-select--chips .v-select__selections .v-chip--select:first-child) {
