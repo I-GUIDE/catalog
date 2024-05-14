@@ -24,13 +24,12 @@
         <div class="mb-4 text-h6 text-medium-emphasis">Open Source</div>
         <p>
           The I-GUIDE Catalog and Discover system are Open Source. Find us on
-          <a href="https://github.com/I-GUIDE/catalogapi" target="_blank"
-            >GitHub</a
+          <a href="https://github.com/I-GUIDE/catalog" target="_blank">GitHub</a
           >.
         </p>
         <p>
           Report a bug
-          <a href="https://github.com/I-GUIDE/catalogapi/issues" target="_blank"
+          <a href="https://github.com/I-GUIDE/catalog/issues" target="_blank"
             >here</a
           >
         </p>
@@ -42,9 +41,8 @@
 
     <div class="text-center d-flex flex-column align-center mt-4">
       <p>
-        (c) {{ year }} CUAHSI. ﻿This material is based upon work supported by
-        the National Science Foundation (NSF) under awards 2012893, 2012593, and
-        2012748.<br />
+        © {{ year }} I-GUIDE Developers. This material is based upon work
+        supported by the National Science Foundation (NSF) under award 2118329.
         Any opinions, findings, conclusions, or recommendations expressed in
         this material are those of the authors and do not necessarily reflect
         the views of the NSF.
