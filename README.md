@@ -68,7 +68,7 @@ TESTING=True
 ```
 
 2. Login and submit a record to create all the collections
-3. Run `triggers/management/change_streams_pre_and_post.py`
+3. Run `api/models/management/change_streams_pre_and_post.py`
 4. Create the catalog and typeahead indexes from `atlas/` (TODO detailed instructions)
 
 ### Triggers
