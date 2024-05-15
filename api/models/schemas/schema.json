@@ -639,12 +639,24 @@
         "startDate": {
           "title": "Start date",
           "description": "A date/time object containing the instant corresponding to the commencement of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM).",
+          "formatMaximum": {
+            "$data": "1/endDate"
+          },
+          "errorMessage": {
+            "formatMaximum": "must be lesser than or equal to End date"
+          },
           "type": "string",
           "format": "date-time"
         },
         "endDate": {
           "title": "End date",
           "description": "A date/time object containing the instant corresponding to the termination of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, that means the temporal coverage is ongoing.",
+          "formatMinimum": {
+            "$data": "1/startDate"
+          },
+          "errorMessage": {
+            "formatMinimum": "must be greater than or equal to Start date"
+          },
           "type": "string",
           "format": "date-time"
         }
@@ -2021,12 +2033,24 @@
         "startDate": {
           "title": "Start date",
           "description": "A date/time object containing the instant corresponding to the commencement of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM).",
+          "formatMaximum": {
+            "$data": "1/endDate"
+          },
+          "errorMessage": {
+            "formatMaximum": "must be lesser than or equal to End date"
+          },
           "type": "string",
           "format": "date-time"
         },
         "endDate": {
           "title": "End date",
           "description": "A date/time object containing the instant corresponding to the termination of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, that means the temporal coverage is ongoing.",
+          "formatMinimum": {
+            "$data": "1/startDate"
+          },
+          "errorMessage": {
+            "formatMinimum": "must be greater than or equal to Start date"
+          },
           "type": "string",
           "format": "date-time"
         }
