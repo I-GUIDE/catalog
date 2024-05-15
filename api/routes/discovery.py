@@ -93,7 +93,7 @@ class SearchQuery(BaseModel):
 
     @property
     def _should(self):
-        search_paths = ['name', 'description', 'keywords', 'keywords.name']
+        search_paths = ['name', 'description', 'keywords', 'keywords.name', 'creator.name']
         should = [
             {'autocomplete': {'query': self.term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in search_paths
         ]
@@ -127,7 +127,7 @@ class SearchQuery(BaseModel):
 
     @property
     def stages(self):
-        highlightPaths = ['name', 'description', 'keywords', 'keywords.name']
+        highlightPaths = ['name', 'description', 'keywords', 'keywords.name', 'creator.name']
         stages = []
         compound = {'filter': self._filters, 'must': self._must}
         if self.term:
