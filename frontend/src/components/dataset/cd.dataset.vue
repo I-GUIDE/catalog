@@ -1175,7 +1175,7 @@ export default toNative(CdDataset);
 
 .citation-text {
   min-width: 0;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 #graph-container {
