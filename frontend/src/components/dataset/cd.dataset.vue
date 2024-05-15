@@ -800,17 +800,19 @@
           </div>
         </v-card-title>
 
-        <v-divider></v-divider>
+        <v-divider />
 
         <v-card-text>
-          <v-table density="compact">
+          <v-table>
             <tbody>
               <tr v-if="selectedMetadata.metadata?.contentUrl">
                 <th>Content URL</th>
                 <td>
-                  <a :href="selectedMetadata.metadata?.contentUrl">{{
-                    selectedMetadata.metadata?.contentUrl
-                  }}</a>
+                  <a
+                    :href="getFileURL(selectedMetadata)"
+                    :download="selectedMetadata.name"
+                    >{{ selectedMetadata.metadata?.contentUrl }}</a
+                  >
                 </td>
               </tr>
               <tr v-if="selectedMetadata.metadata?.encodingFormat">
@@ -821,7 +823,7 @@
           </v-table>
         </v-card-text>
 
-        <v-divider></v-divider>
+        <v-divider />
 
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -839,6 +841,10 @@ import { CzFileExplorer, Notifications } from "@cznethub/cznet-vue-core";
 import { Loader, LoaderOptions } from "google-maps";
 import CdSpatialCoverageMap from "@/components/search-results/cd.spatial-coverage-map.vue";
 import User from "@/models/user.model";
+import markdownit from "markdown-it";
+import { Component, Vue, toNative } from "vue-facing-decorator";
+import { useGoTo } from "vuetify/lib/framework.mjs";
+import { useRoute, useRouter } from "vue-router";
 
 const options: LoaderOptions = { libraries: ["drawing"] };
 const loader: Loader = new Loader(
@@ -846,12 +852,7 @@ const loader: Loader = new Loader(
   options,
 );
 
-import markdownit from "markdown-it";
 const md = markdownit();
-
-import { Component, Vue, toNative } from "vue-facing-decorator";
-import { useGoTo } from "vuetify/lib/framework.mjs";
-import { useRoute, useRouter } from "vue-router";
 
 @Component({
   name: "cd-dataset",
@@ -868,11 +869,9 @@ class CdDataset extends Vue {
   tab = 0;
   selectedMetadata: any = false;
   readmeMd = "";
-  // marked = marked;
   showCoordinateSystem = false;
   showExtent = false;
 
-  /** Example folder/file tree structure */
   rootDirectory = {
     name: "root",
     children: [] as any[],
@@ -918,6 +917,32 @@ class CdDataset extends Vue {
 
   route = useRoute();
   router = useRouter();
+
+  get hasSpatialFeatures(): boolean {
+    const feat = this.data.spatialCoverage?.["@type"];
+    return feat === "GeoShape" || feat === "GeoCoordinates" || feat === "Place";
+  }
+
+  get schema() {
+    return User.$state.schema;
+  }
+
+  get uiSchema() {
+    return User.$state.uiSchema;
+  }
+
+  get boxCoordinates() {
+    const extents = this.data.spatialCoverage.geo.box
+      .trim()
+      .split(" ")
+      .map((n: string) => +n);
+    return {
+      north: extents[0],
+      east: extents[1],
+      south: extents[2],
+      west: extents[3],
+    };
+  }
 
   async created() {
     await this.loadDataset();
@@ -1089,6 +1114,14 @@ class CdDataset extends Vue {
     }
   }
 
+  getFileURL(fileMetadata: any): string {
+    const url = fileMetadata.metadata?.contentUrl;
+    if (url) {
+      return url.startsWith("http:") ? url.replace("http:", "https:") : url;
+    }
+    return "";
+  }
+
   parseDate(date: string): string {
     const parsed = new Date(Date.parse(date));
     return parsed.toLocaleString("default", {
@@ -1096,36 +1129,6 @@ class CdDataset extends Vue {
       day: "numeric",
       year: "numeric",
     });
-  }
-
-  // getTransformedSpatialCoverage() {
-  //   return { ...data.spatialCoverage, }
-  // }
-
-  get hasSpatialFeatures(): boolean {
-    const feat = this.data.spatialCoverage?.["@type"];
-    return feat === "GeoShape" || feat === "GeoCoordinates" || feat === "Place";
-  }
-
-  get schema() {
-    return User.$state.schema;
-  }
-
-  get uiSchema() {
-    return User.$state.uiSchema;
-  }
-
-  get boxCoordinates() {
-    const extents = this.data.spatialCoverage.geo.box
-      .trim()
-      .split(" ")
-      .map((n: string) => +n);
-    return {
-      north: extents[0],
-      east: extents[1],
-      south: extents[2],
-      west: extents[3],
-    };
   }
 }
 
