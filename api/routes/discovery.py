@@ -3,6 +3,8 @@ from datetime import datetime
 from fastapi import APIRouter, Request, Depends
 from pydantic import BaseModel, validator
 
+from api.config import get_settings
+
 router = APIRouter()
 
 
@@ -153,6 +155,10 @@ class SearchQuery(BaseModel):
         stages.append(
             {'$set': {'score': {'$meta': 'searchScore'}, 'highlights': {'$meta': 'searchHighlights'}}},
         )
+        if self.term:
+            # get only results which meet minimum relevance score threshold
+            score_threshold = get_settings().search_relevance_score_threshold
+            stages.append({'$match': {'score': {'$gt': score_threshold}}})
         return stages
 
 
