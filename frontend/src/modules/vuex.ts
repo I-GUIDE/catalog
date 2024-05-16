@@ -5,8 +5,6 @@ import { orm } from "@/models/orm";
 import { persistedPaths } from "@/models/persistedPaths";
 import type { UserModule } from "@/types";
 
-// Setup Pinia
-// https://pinia.vuejs.org/
 export const install: UserModule = ({ app }) => {
   // Create Vuex Store and register database through Vuex ORM.
 

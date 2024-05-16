@@ -198,21 +198,24 @@
         class="page-content"
         :class="{ 'is-sm': $vuetify.display.mdAndDown }"
       >
-        <h4 class="text-h5 mb-4">{{ data.name }}</h4>
-        <!-- TODO: disabled until dataset endpoint returns current user permissions -->
-        <!-- <div
+        <h4 class="text-h5 my-4">{{ data.name }}</h4>
+        <div
           class="d-flex justify-space-between mb-2 flex-column flex-sm-row align-normal align-sm-end"
         >
-          <div class="order-2 order-sm-1">
+          <div
+            v-if="data.creativeWorkStatus || data.dateModified"
+            class="order-2 order-sm-1"
+          >
             <v-chip
+              v-if="data.creativeWorkStatus"
               small
               class="mr-2"
-              color="green"
-              text-color="white"
-              title="The resource is in draft state and should not be considered final. Content and metadata may change."
+              :color="getStautsColor(data.creativeWorkStatus.name)"
+              :title="data.creativeWorkStatus.description"
             >
-              Draft
+              {{ data.creativeWorkStatus.name }}
             </v-chip>
+
             <template v-if="data.dateModified">
               <span class="d-block d-sm-inline" v-bind="infoLabelAttr"
                 >Last Updated:
@@ -220,13 +223,14 @@
               <span v-bind="infoValueAttr">
                 {{ parseDate(data.dateModified) }}
                 <span class="font-weight-light">
-                  (<timeago :datetime="data.dateModified"> </timeago>)
+                  (<timeago :datetime="data.dateModified" />)
                 </span>
               </span>
             </template>
           </div>
 
-          <div class="order-1 order-sm-2">
+          <!-- TODO: disabled until dataset endpoint returns current user permissions -->
+          <!-- <div class="order-1 order-sm-2">
             <v-btn
               v-if="data.submission_type !== 'HYDROSHARE'"
               class="order-1 order-sm-2 mb-sm-0 mb-4 mt-sm-0 mt-2"
@@ -246,13 +250,12 @@
               :href="data.repository_identifier"
               target="_blank"
               color="blue-grey lighten-4"
-              size="small"
               rounded
             >
               <v-icon class="mr-1">mdi-open-in-new</v-icon> View in repository
             </v-btn>
-          </div>
-        </div> -->
+          </div> -->
+        </div>
         <v-divider class="my-4"></v-divider>
 
         <v-row
@@ -845,6 +848,7 @@ import markdownit from "markdown-it";
 import { Component, Vue, toNative } from "vue-facing-decorator";
 import { useGoTo } from "vuetify/lib/framework.mjs";
 import { useRoute, useRouter } from "vue-router";
+import { EnumCreativeWorkStatus } from "@/types";
 
 const options: LoaderOptions = { libraries: ["drawing"] };
 const loader: Loader = new Loader(
@@ -1003,6 +1007,21 @@ class CdDataset extends Vue {
   onCopy(text: string) {
     navigator.clipboard.writeText(text);
     Notifications.toast({ message: "Copied to clipboard", type: "info" });
+  }
+
+  getStautsColor(status: EnumCreativeWorkStatus) {
+    switch (status) {
+      case EnumCreativeWorkStatus.Draft:
+        return "primary";
+      case EnumCreativeWorkStatus.Incomplete:
+        return "red";
+      case EnumCreativeWorkStatus.Obsolete:
+        return "orange";
+      case EnumCreativeWorkStatus.Published:
+        return "green";
+      default:
+        "primary";
+    }
   }
 
   loadFileExporer() {
