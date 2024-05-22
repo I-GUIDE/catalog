@@ -533,7 +533,7 @@
           />
 
           <v-card
-            v-if="readmeMd"
+            v-if="readmeMd || isLoadingMD"
             class="readme-container"
             variant="outlined"
             border="grey thin"
@@ -541,7 +541,14 @@
             <v-card-title class="text-overline">README</v-card-title>
             <v-divider></v-divider>
             <v-card-text>
-              <div v-html="readmeMd"></div>
+              <div class="text-center py-4" v-if="isLoadingMD">
+                <v-progress-circular
+                  indeterminate
+                  class="text-center"
+                  color="primary"
+                />
+              </div>
+              <div v-html="readmeMd" class="px-4"></div>
             </v-card-text>
           </v-card>
         </div>
@@ -856,7 +863,11 @@ const loader: Loader = new Loader(
   options,
 );
 
-const md = markdownit();
+const md = markdownit({
+  linkify: true,
+  typographer: true,
+  breaks: true,
+});
 
 @Component({
   name: "cd-dataset",
@@ -875,6 +886,7 @@ class CdDataset extends Vue {
   readmeMd = "";
   showCoordinateSystem = false;
   showExtent = false;
+  isLoadingMD = false;
 
   rootDirectory = {
     name: "root",
@@ -1027,7 +1039,7 @@ class CdDataset extends Vue {
   loadFileExporer() {
     // Load file explorer
     if (this.data.associatedMedia?.length) {
-      this.data.associatedMedia.map((m: any, index: number) => {
+      this.data.associatedMedia.map((m: any, _index: number) => {
         let fileSizeBytes;
 
         if (typeof m.contentSize === "string") {
@@ -1104,12 +1116,16 @@ class CdDataset extends Vue {
     );
 
     if (readmeFile?.contentUrl) {
+      const url = readmeFile.contentUrl.replace("http:", "https:");
       try {
-        const response = await fetch(readmeFile.contentUrl);
+        this.isLoadingMD = true;
+        const response = await fetch(url);
         const rawMd = await response.text();
         this.readmeMd = md.render(rawMd);
       } catch (e) {
         console.log(e);
+      } finally {
+        this.isLoadingMD = false;
       }
     }
   }
