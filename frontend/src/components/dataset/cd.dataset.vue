@@ -1189,6 +1189,20 @@ export default toNative(CdDataset);
     overflow: auto;
     resize: vertical;
   }
+
+  .markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    padding: 45px;
+    font-family: inherit;
+  }
+
+  @media (max-width: 767px) {
+    .markdown-body {
+      padding: 15px;
+    }
+  }
 }
 
 .page-content {
@@ -1234,18 +1248,5 @@ export default toNative(CdDataset);
 
 :deep(#fileExplorer .v-sheet) {
   background-color: #f6f6f6 !important;
-}
-
-.markdown-body {
-  box-sizing: border-box;
-  min-width: 200px;
-  max-width: 980px;
-  padding: 45px;
-}
-
-@media (max-width: 767px) {
-  .markdown-body {
-    padding: 15px;
-  }
 }
 </style>
