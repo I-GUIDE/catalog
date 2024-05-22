@@ -21,6 +21,7 @@
     "@vuex-orm/core": "^0.36.4",
     "deepmerge": "^4.3.1",
     "dompurify": "^3.1.2",
+    "github-markdown-css": "^5.5.1",
     "google-maps": "^4.3.3",
     "lodash.isequal": "^4.5.0",
     "markdown-it": "^14.1.0",

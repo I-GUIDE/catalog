@@ -548,7 +548,7 @@
                   color="primary"
                 />
               </div>
-              <div v-html="readmeMd" class="px-4"></div>
+              <div v-html="readmeMd" class="markdown-body px-4"></div>
             </v-card-text>
           </v-card>
         </div>
@@ -1234,5 +1234,18 @@ export default toNative(CdDataset);
 
 :deep(#fileExplorer .v-sheet) {
   background-color: #f6f6f6 !important;
+}
+
+.markdown-body {
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  padding: 45px;
+}
+
+@media (max-width: 767px) {
+  .markdown-body {
+    padding: 15px;
+  }
 }
 </style>
