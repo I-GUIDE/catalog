@@ -198,21 +198,24 @@
         class="page-content"
         :class="{ 'is-sm': $vuetify.display.mdAndDown }"
       >
-        <h4 class="text-h5 mb-4">{{ data.name }}</h4>
-        <!-- TODO: disabled until dataset endpoint returns current user permissions -->
-        <!-- <div
+        <h4 class="text-h5 my-4">{{ data.name }}</h4>
+        <div
           class="d-flex justify-space-between mb-2 flex-column flex-sm-row align-normal align-sm-end"
         >
-          <div class="order-2 order-sm-1">
+          <div
+            v-if="data.creativeWorkStatus || data.dateModified"
+            class="order-2 order-sm-1"
+          >
             <v-chip
+              v-if="data.creativeWorkStatus"
               small
               class="mr-2"
-              color="green"
-              text-color="white"
-              title="The resource is in draft state and should not be considered final. Content and metadata may change."
+              :color="getStautsColor(data.creativeWorkStatus.name)"
+              :title="data.creativeWorkStatus.description"
             >
-              Draft
+              {{ data.creativeWorkStatus.name }}
             </v-chip>
+
             <template v-if="data.dateModified">
               <span class="d-block d-sm-inline" v-bind="infoLabelAttr"
                 >Last Updated:
@@ -220,13 +223,14 @@
               <span v-bind="infoValueAttr">
                 {{ parseDate(data.dateModified) }}
                 <span class="font-weight-light">
-                  (<timeago :datetime="data.dateModified"> </timeago>)
+                  (<timeago :datetime="data.dateModified" />)
                 </span>
               </span>
             </template>
           </div>
 
-          <div class="order-1 order-sm-2">
+          <!-- TODO: disabled until dataset endpoint returns current user permissions -->
+          <!-- <div class="order-1 order-sm-2">
             <v-btn
               v-if="data.submission_type !== 'HYDROSHARE'"
               class="order-1 order-sm-2 mb-sm-0 mb-4 mt-sm-0 mt-2"
@@ -246,13 +250,12 @@
               :href="data.repository_identifier"
               target="_blank"
               color="blue-grey lighten-4"
-              size="small"
               rounded
             >
               <v-icon class="mr-1">mdi-open-in-new</v-icon> View in repository
             </v-btn>
-          </div>
-        </div> -->
+          </div> -->
+        </div>
         <v-divider class="my-4"></v-divider>
 
         <v-row
@@ -530,7 +533,7 @@
           />
 
           <v-card
-            v-if="readmeMd"
+            v-if="readmeMd || isLoadingMD"
             class="readme-container"
             variant="outlined"
             border="grey thin"
@@ -538,7 +541,14 @@
             <v-card-title class="text-overline">README</v-card-title>
             <v-divider></v-divider>
             <v-card-text>
-              <div v-html="readmeMd"></div>
+              <div class="text-center py-4" v-if="isLoadingMD">
+                <v-progress-circular
+                  indeterminate
+                  class="text-center"
+                  color="primary"
+                />
+              </div>
+              <div v-html="readmeMd" class="markdown-body px-4"></div>
             </v-card-text>
           </v-card>
         </div>
@@ -800,17 +810,19 @@
           </div>
         </v-card-title>
 
-        <v-divider></v-divider>
+        <v-divider />
 
         <v-card-text>
-          <v-table density="compact">
+          <v-table>
             <tbody>
               <tr v-if="selectedMetadata.metadata?.contentUrl">
                 <th>Content URL</th>
                 <td>
-                  <a :href="selectedMetadata.metadata?.contentUrl">{{
-                    selectedMetadata.metadata?.contentUrl
-                  }}</a>
+                  <a
+                    :href="getFileURL(selectedMetadata)"
+                    :download="selectedMetadata.name"
+                    >{{ selectedMetadata.metadata?.contentUrl }}</a
+                  >
                 </td>
               </tr>
               <tr v-if="selectedMetadata.metadata?.encodingFormat">
@@ -821,7 +833,7 @@
           </v-table>
         </v-card-text>
 
-        <v-divider></v-divider>
+        <v-divider />
 
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -839,6 +851,11 @@ import { CzFileExplorer, Notifications } from "@cznethub/cznet-vue-core";
 import { Loader, LoaderOptions } from "google-maps";
 import CdSpatialCoverageMap from "@/components/search-results/cd.spatial-coverage-map.vue";
 import User from "@/models/user.model";
+import markdownit from "markdown-it";
+import { Component, Vue, toNative } from "vue-facing-decorator";
+import { useGoTo } from "vuetify/lib/framework.mjs";
+import { useRoute, useRouter } from "vue-router";
+import { EnumCreativeWorkStatus } from "@/types";
 
 const options: LoaderOptions = { libraries: ["drawing"] };
 const loader: Loader = new Loader(
@@ -846,12 +863,11 @@ const loader: Loader = new Loader(
   options,
 );
 
-import markdownit from "markdown-it";
-const md = markdownit();
-
-import { Component, Vue, toNative } from "vue-facing-decorator";
-import { useGoTo } from "vuetify/lib/framework.mjs";
-import { useRoute, useRouter } from "vue-router";
+const md = markdownit({
+  linkify: true,
+  typographer: true,
+  breaks: true,
+});
 
 @Component({
   name: "cd-dataset",
@@ -868,11 +884,10 @@ class CdDataset extends Vue {
   tab = 0;
   selectedMetadata: any = false;
   readmeMd = "";
-  // marked = marked;
   showCoordinateSystem = false;
   showExtent = false;
+  isLoadingMD = false;
 
-  /** Example folder/file tree structure */
   rootDirectory = {
     name: "root",
     children: [] as any[],
@@ -918,6 +933,32 @@ class CdDataset extends Vue {
 
   route = useRoute();
   router = useRouter();
+
+  get hasSpatialFeatures(): boolean {
+    const feat = this.data.spatialCoverage?.["@type"];
+    return feat === "GeoShape" || feat === "GeoCoordinates" || feat === "Place";
+  }
+
+  get schema() {
+    return User.$state.schema;
+  }
+
+  get uiSchema() {
+    return User.$state.uiSchema;
+  }
+
+  get boxCoordinates() {
+    const extents = this.data.spatialCoverage.geo.box
+      .trim()
+      .split(" ")
+      .map((n: string) => +n);
+    return {
+      north: extents[0],
+      east: extents[1],
+      south: extents[2],
+      west: extents[3],
+    };
+  }
 
   async created() {
     await this.loadDataset();
@@ -980,10 +1021,25 @@ class CdDataset extends Vue {
     Notifications.toast({ message: "Copied to clipboard", type: "info" });
   }
 
+  getStautsColor(status: EnumCreativeWorkStatus) {
+    switch (status) {
+      case EnumCreativeWorkStatus.Draft:
+        return "primary";
+      case EnumCreativeWorkStatus.Incomplete:
+        return "red";
+      case EnumCreativeWorkStatus.Obsolete:
+        return "orange";
+      case EnumCreativeWorkStatus.Published:
+        return "green";
+      default:
+        "primary";
+    }
+  }
+
   loadFileExporer() {
     // Load file explorer
     if (this.data.associatedMedia?.length) {
-      this.data.associatedMedia.map((m: any, index: number) => {
+      this.data.associatedMedia.map((m: any, _index: number) => {
         let fileSizeBytes;
 
         if (typeof m.contentSize === "string") {
@@ -1060,12 +1116,16 @@ class CdDataset extends Vue {
     );
 
     if (readmeFile?.contentUrl) {
+      const url = readmeFile.contentUrl.replace("http:", "https:");
       try {
-        const response = await fetch(readmeFile.contentUrl);
+        this.isLoadingMD = true;
+        const response = await fetch(url);
         const rawMd = await response.text();
         this.readmeMd = md.render(rawMd);
       } catch (e) {
         console.log(e);
+      } finally {
+        this.isLoadingMD = false;
       }
     }
   }
@@ -1089,6 +1149,14 @@ class CdDataset extends Vue {
     }
   }
 
+  getFileURL(fileMetadata: any): string {
+    const url = fileMetadata.metadata?.contentUrl;
+    if (url) {
+      return url.startsWith("http:") ? url.replace("http:", "https:") : url;
+    }
+    return "";
+  }
+
   parseDate(date: string): string {
     const parsed = new Date(Date.parse(date));
     return parsed.toLocaleString("default", {
@@ -1096,36 +1164,6 @@ class CdDataset extends Vue {
       day: "numeric",
       year: "numeric",
     });
-  }
-
-  // getTransformedSpatialCoverage() {
-  //   return { ...data.spatialCoverage, }
-  // }
-
-  get hasSpatialFeatures(): boolean {
-    const feat = this.data.spatialCoverage?.["@type"];
-    return feat === "GeoShape" || feat === "GeoCoordinates" || feat === "Place";
-  }
-
-  get schema() {
-    return User.$state.schema;
-  }
-
-  get uiSchema() {
-    return User.$state.uiSchema;
-  }
-
-  get boxCoordinates() {
-    const extents = this.data.spatialCoverage.geo.box
-      .trim()
-      .split(" ")
-      .map((n: string) => +n);
-    return {
-      north: extents[0],
-      east: extents[1],
-      south: extents[2],
-      west: extents[3],
-    };
   }
 }
 
@@ -1151,6 +1189,20 @@ export default toNative(CdDataset);
     overflow: auto;
     resize: vertical;
   }
+
+  .markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    padding: 45px;
+    font-family: inherit;
+  }
+
+  @media (max-width: 767px) {
+    .markdown-body {
+      padding: 15px;
+    }
+  }
 }
 
 .page-content {
@@ -1172,7 +1224,7 @@ export default toNative(CdDataset);
 
 .citation-text {
   min-width: 0;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 #graph-container {

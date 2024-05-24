@@ -4,9 +4,8 @@ import createPersistedState from "vuex-persistedstate";
 import { orm } from "@/models/orm";
 import { persistedPaths } from "@/models/persistedPaths";
 import type { UserModule } from "@/types";
+import { APP_NAME } from "@/constants";
 
-// Setup Pinia
-// https://pinia.vuejs.org/
 export const install: UserModule = ({ app }) => {
   // Create Vuex Store and register database through Vuex ORM.
 
@@ -15,7 +14,7 @@ export const install: UserModule = ({ app }) => {
       VuexORM.install(orm),
       createPersistedState({
         paths: persistedPaths,
-        key: `CZ Hub`,
+        key: APP_NAME || 'iguide-catalog',
       }),
     ],
     // state() {

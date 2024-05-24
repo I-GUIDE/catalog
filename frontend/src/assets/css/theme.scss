@@ -3,6 +3,7 @@
 // }
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 @import '@cznethub/cznet-vue-core/styles';
+@import 'github-markdown-css/github-markdown-light.css';
 
 
 html {
@@ -94,4 +95,8 @@ mark {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
+}
+
+.v-container {
+  max-width: 1920px;
 }

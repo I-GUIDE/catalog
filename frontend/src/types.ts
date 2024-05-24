@@ -73,3 +73,10 @@ export interface ISearchParams {
 export interface ITypeaheadParams {
   term: string;
 }
+
+export enum EnumCreativeWorkStatus {
+  Draft = "Draft",
+  Incomplete = "Incomplete",
+  Obsolete = "Obsolete",
+  Published = "Published",
+}

@@ -3,6 +3,8 @@ from datetime import datetime
 from fastapi import APIRouter, Request, Depends
 from pydantic import BaseModel, validator
 
+from api.config import get_settings
+
 router = APIRouter()
 
 
@@ -91,7 +93,7 @@ class SearchQuery(BaseModel):
 
     @property
     def _should(self):
-        search_paths = ['name', 'description', 'keywords', 'keywords.name']
+        search_paths = ['name', 'description', 'keywords', 'keywords.name', 'creator.name']
         should = [
             {'autocomplete': {'query': self.term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in search_paths
         ]
@@ -125,7 +127,7 @@ class SearchQuery(BaseModel):
 
     @property
     def stages(self):
-        highlightPaths = ['name', 'description', 'keywords', 'keywords.name']
+        highlightPaths = ['name', 'description', 'keywords', 'keywords.name', 'creator.name']
         stages = []
         compound = {'filter': self._filters, 'must': self._must}
         if self.term:
@@ -153,6 +155,10 @@ class SearchQuery(BaseModel):
         stages.append(
             {'$set': {'score': {'$meta': 'searchScore'}, 'highlights': {'$meta': 'searchHighlights'}}},
         )
+        if self.term:
+            # get only results which meet minimum relevance score threshold
+            score_threshold = get_settings().search_relevance_score_threshold
+            stages.append({'$match': {'score': {'$gt': score_threshold}}})
         return stages
 
 

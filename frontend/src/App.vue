@@ -240,11 +240,6 @@ class App extends Vue {
         label: "Register",
         icon: "mdi-link-plus",
       },
-      // {
-      //   attrs: { href: "https://dsp.criticalzone.org/" },
-      //   label: "Contribute Data",
-      //   icon: "mdi-book-plus",
-      // },
     ];
 
     User.fetchSchemas();
