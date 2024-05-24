@@ -867,6 +867,7 @@ const md = markdownit({
   linkify: true,
   typographer: true,
   breaks: true,
+  html: true,
 });
 
 @Component({
