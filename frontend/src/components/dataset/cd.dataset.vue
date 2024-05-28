@@ -352,14 +352,27 @@
               </v-menu>
             </div>
 
-            <div v-bind="infoLabelAttr">Provider:</div>
-            <div v-bind="infoValueAttr">
-              <span v-if="data.provider.url" class="d-flex align-baseline">
-                <a :href="data.provider.url">{{ data.provider.name }}</a>
-              </span>
+            <template v-if="data.provider">
+              <div v-bind="infoLabelAttr">Provider:</div>
+              <div v-bind="infoValueAttr">
+                <span v-if="data.provider.url" class="d-flex align-baseline">
+                  <a :href="data.provider.url">{{ data.provider.name }}</a>
+                </span>
 
-              <template v-else>{{ data.provider.name }}</template>
-            </div>
+                <template v-else>{{ data.provider.name }}</template>
+              </div>
+            </template>
+
+            <template v-if="data.publisher">
+              <div v-bind="infoLabelAttr">Publisher:</div>
+              <div v-bind="infoValueAttr">
+                <span v-if="data.publisher.url" class="d-flex align-baseline">
+                  <a :href="data.publisher.url">{{ data.publisher.name }}</a>
+                </span>
+
+                <template v-else>{{ data.publisher.name }}</template>
+              </div>
+            </template>
 
             <div v-bind="infoLabelAttr">Resource Type:</div>
             <div v-bind="infoValueAttr">{{ data["@type"] }}</div>
@@ -1138,6 +1151,7 @@ class CdDataset extends Vue {
       const data = await User.fetchDataset(this.submissionId);
       if (data) {
         this.data = data;
+        console.log(data);
 
         this.loadFileExporer();
         this.loadReadmeFile();
