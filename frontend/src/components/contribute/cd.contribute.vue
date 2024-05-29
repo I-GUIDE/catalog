@@ -1,98 +1,103 @@
 <template>
   <v-container class="cd-contribute">
-    <div class="display-1">
-      {{ isEditMode ? "Edit Submission" : "Contribute" }}
+    <div class="display-1 d-sm-flex d-block justify-space-between align-center">
+      <div class="text-h4">
+        {{ isEditMode ? "Edit Submission" : "Contribute" }}
+      </div>
+
+      <cd-form-actions
+        v-if="!isLoading && wasLoaded"
+        :canConfirm="
+          !isSaving && isValid && hasUnsavedChanges && !(isS3 && !isS3Valid)
+        "
+        :confirmText="isEditMode ? 'Save Changes' : 'Save'"
+        :errors="errors"
+        @confirm="submit"
+        @cancel="onCancel"
+      />
     </div>
 
-    <template v-if="!isEditMode || (!isLoading && wasLoaded)">
+    <v-divider class="my-4" />
+
+    <v-row v-if="!isLoading && wasLoaded">
+      <cd-register-s3-bucket
+        v-model="s3State"
+        v-if="isS3"
+        @update:model-value=""
+        :is-responsive="false"
+        ref="s3Form"
+        class="mt-4 mb-8 mx-4 full-width"
+      />
+
       <cz-form
         :schema="schema"
         :uischema="uiSchema"
-        :isValid.sync="isValid"
-        :data.sync="data"
+        v-model:isValid="isValid"
         :errors.sync="errors"
+        @update:errors="onUpdateErrors"
+        @update:model-value="onDataChange"
         :config="config"
-        @update:data="onDataChange"
+        v-model="data"
         ref="form"
       />
-    </template>
+    </v-row>
 
-    <div v-else-if="isLoading" class="text-h6 text--secondary my-12">
+    <div v-else-if="isLoading" class="text-h6 text-medium-emphasis my-12">
       <v-progress-circular indeterminate color="primary" />
     </div>
 
-    <div
-      v-if="!(isEditMode && (isLoading || !wasLoaded))"
-      class="d-flex form-controls flex-column flex-sm-row flex-grow-1 flex-sm-grow-0 gap-1"
-    >
-      <v-spacer></v-spacer>
-      <v-btn @click="onCancel">Cancel</v-btn>
-
-      <v-menu :disabled="isValid" open-on-hover bottom left offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <div
-            v-bind="attrs"
-            v-on="on"
-            class="d-flex form-controls flex-column flex-sm-row"
-          >
-            <v-badge
-              :value="!!errors.length"
-              bordered
-              color="error"
-              icon="mdi-exclamation-thick"
-              overlap
-            >
-              <v-btn
-                color="primary"
-                block
-                depressed
-                @click="submit"
-                :disabled="isSaving || !isValid || !hasUnsavedChanges"
-                >{{ isEditMode ? "Save Changes" : "Save" }}</v-btn
-              >
-            </v-badge>
-          </div>
-        </template>
-
-        <div class="white pa-4">
-          <ul
-            v-for="(error, index) of errors"
-            :key="index"
-            class="text-subtitle-1"
-          >
-            <li>
-              <b>{{ error.title }}</b> {{ error.message }}.
-            </li>
-          </ul>
-        </div>
-      </v-menu>
-    </div>
+    <cd-form-actions
+      v-if="!isLoading && wasLoaded"
+      :canConfirm="
+        !isSaving && isValid && hasUnsavedChanges && !(isS3 && !isS3Valid)
+      "
+      :confirmText="isEditMode ? 'Save Changes' : 'Save'"
+      :errors="errors"
+      @confirm="submit"
+      @cancel="onCancel"
+    />
   </v-container>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import {
+  Component,
+  Vue,
+  toNative,
+  Hook,
+  Ref,
+  Watch,
+} from "vue-facing-decorator";
 import { Notifications, CzForm } from "@cznethub/cznet-vue-core";
-
+import CdFormActions from "./cd.form-actions.vue";
 import User from "@/models/user.model";
-
+import { hasUnsavedChangesGuard } from "@/guards";
+import {
+  NavigationGuardNext,
+  RouteLocationNormalized,
+  useRoute,
+  useRouter,
+} from "vue-router";
+import CdRegisterS3Bucket from "@/components/register/cd.register-s3-bucket.vue";
 const initialData = {};
 
 @Component({
   name: "cd-contribute",
-  components: { CzForm },
+  components: { CzForm, CdFormActions, CdRegisterS3Bucket },
 })
-export default class CdContribute extends Vue {
-  protected isValid = false;
-  protected isEditMode = false;
-  protected isLoading = true;
-  protected wasLoaded = false;
-  protected submissionId = "";
-  protected errors = [];
-  protected data = initialData;
-  protected timesChanged = 0;
-  protected isSaving = false;
-  protected config = {
+class CdContribute extends Vue {
+  @Ref("s3Form") s3Form!: InstanceType<typeof CdRegisterS3Bucket>;
+  isValid = false;
+  isS3Valid = false;
+  isEditMode = false;
+  isLoading = true;
+  wasLoaded = false;
+  submissionId = "";
+  errors: { title: string; message: string }[] = [];
+  data: any = initialData;
+  timesChanged = 0;
+  isSaving = false;
+  config = {
     restrict: true,
     trim: false,
     showUnfocusedDescription: false,
@@ -104,52 +109,84 @@ export default class CdContribute extends Vue {
     hideArraySummaryValidation: false,
     vuetify: {
       commonAttrs: {
-        dense: true,
-        outlined: true,
+        density: "compact",
+        variant: "outlined",
         "persistent-hint": true,
         "hide-details": false,
       },
     },
   };
+  s3State = {
+    path: "",
+    bucket: "",
+    endpointUrl: "",
+  };
 
-  protected get schema() {
+  route = useRoute();
+  router = useRouter();
+
+  get schema() {
     return User.$state.schema;
   }
 
-  protected get uiSchema() {
+  get uiSchema() {
     return User.$state.uiSchema;
   }
 
-  // protected get schemaDefaults() {
+  // get schemaDefaults() {
   //   return User.$state.schemaDefaults;
   // }
 
-  protected get hasUnsavedChanges(): boolean {
+  get hasUnsavedChanges(): boolean {
     return User.$state.hasUnsavedChanges;
   }
 
-  protected set hasUnsavedChanges(value: boolean) {
+  get isS3() {
+    return this.data.submission_type === "S3";
+  }
+
+  set hasUnsavedChanges(value: boolean) {
     User.commit((state) => {
       state.hasUnsavedChanges = value;
     });
   }
 
-  created() {
-    this.hasUnsavedChanges = false;
-    if (this.$route.name === "dataset-edit") {
-      this.isEditMode = true;
-      this.submissionId = this.$route.params.id;
-      this.loadDataset();
+  @Watch("s3State", { deep: true })
+  onS3FormChange() {
+    if (this.s3Form?.form) {
+      this.hasUnsavedChanges = true;
+      this.isS3Valid = !this.s3Form.form.$invalid;
     }
   }
 
-  protected async loadDataset() {
+  created() {
+    this.hasUnsavedChanges = false;
+    if (this.route.name === "dataset-edit") {
+      this.isEditMode = true;
+      this.submissionId = this.route.params.id as string;
+      this.loadDataset();
+    } else {
+      this.isLoading = false;
+      this.wasLoaded = true;
+    }
+  }
+
+  async loadDataset() {
     this.isLoading = true;
     try {
       const data = await User.fetchDataset(this.submissionId);
       this.wasLoaded = !!data;
       if (data) {
         this.data = data;
+        if (this.isS3) {
+          this.s3State.bucket = data.s3_path.bucket;
+          this.s3State.path = data.s3_path.path;
+          this.s3State.endpointUrl = data.s3_path.endpoint_url;
+
+          setTimeout(() => {
+            this.isS3Valid = !this.s3Form.form.$invalid;
+          });
+        }
       }
     } catch (e) {
       this.wasLoaded = false;
@@ -158,16 +195,18 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected async onSaveChanges() {
+  async onSaveChanges() {
     try {
-      const wasSaved = await User.updateDataset(this.submissionId, this.data);
+      const wasSaved = this.isS3
+        ? await User.updateS3Dataset(this.submissionId, this.data, this.s3State)
+        : await User.updateDataset(this.submissionId, this.data);
       if (wasSaved) {
         Notifications.toast({
           message: `Your changes habe been saved!`,
           type: "success",
         });
         this.hasUnsavedChanges = false;
-        this.$router.push({
+        this.router.push({
           name: "dataset",
           params: { id: this.submissionId },
         });
@@ -182,7 +221,7 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected async onCreateSubmission() {
+  async onCreateSubmission() {
     try {
       const savedDatasetId = await User.submit(this.data);
       this.isSaving = false;
@@ -192,7 +231,7 @@ export default class CdContribute extends Vue {
           message: `Your submission has been saved!`,
           type: "success",
         });
-        this.$router.push({
+        this.router.push({
           name: "dataset",
           params: { id: savedDatasetId },
         });
@@ -208,7 +247,7 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected async submit() {
+  async submit() {
     this.isSaving = true;
 
     if (this.isEditMode) {
@@ -218,21 +257,24 @@ export default class CdContribute extends Vue {
     }
   }
 
-  protected onCancel() {
+  onUpdateErrors(errors: { title: string; message: string }[]) {
+    this.errors = errors;
+  }
+
+  onCancel() {
     if (this.isEditMode) {
-      this.$router.push({
+      this.router.push({
         name: "dataset",
         params: { id: this.submissionId },
       });
     } else {
-      this.$router.push({ name: "submissions" });
+      this.router.push({ name: "submissions" });
     }
   }
 
-  protected onDataChange(_data) {
-    // cz-form emits 'change' event multiple times during instantioation.
-    const changesDuringInstantiation = this.isEditMode ? 2 : 3;
-
+  onDataChange(_data: any) {
+    // cz-form emits 'update:model-value' event multiple times during instantioation.
+    const changesDuringInstantiation = 3;
     if (this.timesChanged <= changesDuringInstantiation) {
       this.timesChanged = this.timesChanged + 1;
     }
@@ -240,19 +282,16 @@ export default class CdContribute extends Vue {
     this.hasUnsavedChanges = this.timesChanged > changesDuringInstantiation;
   }
 
-  // mounted() {
-  //   Notifications.toast({
-  //     message: `Failed to perform search`,
-  //     type: "error",
-  //   });
-
-  //   Notifications.openDialog({
-  //     title: "some title",
-  //     content: "some content",
-  //     onConfirm: () => {},
-  //   });
-  // }
+  @Hook
+  beforeRouteLeave(
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized,
+    next: NavigationGuardNext,
+  ) {
+    hasUnsavedChangesGuard(to, from, next);
+  }
 }
+export default toNative(CdContribute);
 </script>
 
 <style lang="scss" scoped></style>

@@ -1,7 +1,10 @@
 // :root {
 
 // }
-@import '~@fortawesome/fontawesome-free/css/all.min.css';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import '@cznethub/cznet-vue-core/styles';
+@import 'github-markdown-css/github-markdown-light.css';
+
 
 html {
   font-size: 16px;
@@ -26,7 +29,6 @@ section {
 
 #main-container {
   height: 100%;
-
   & > .v-sheet {
     height: 100%;
     min-height: 50rem;
@@ -71,39 +73,14 @@ section {
   transform: scaleX(-1);
 }
 
-.has-bg-white {
-  background-color: #fff !important;
-}
-
 p {
   max-width: 70rem;
-}
-
-.is-borderless {
-  border: 0 !important;
-}
-
-.v-messages {
-  font-size: 1rem !important;
-  font-weight: 400;
-  line-height: 1.5rem;
-  letter-spacing: 0.03125em !important;
-  font-family: "Roboto", sans-serif !important;
-  margin-top: 0;
-
-  .v-messages__message {
-    line-height: 1.5rem;
-  }
 }
 
 mark {
   background-color: transparent;
   font-weight: bold;
   color: inherit;
-}
-
-p {
-  max-width: 70rem;
 }
 
 .snip-2 {
@@ -118,4 +95,8 @@ p {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
+}
+
+.v-container {
+  max-width: 1920px;
 }

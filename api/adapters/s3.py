@@ -14,7 +14,6 @@ from api.models.user import Submission
 
 
 class _S3RequestHandler(AbstractRepositoryRequestHandler):
-    
     def get_metadata(self, record_id: str):
         endpoint_url = record_id.split("+")[0]
         bucket_name = record_id.split("+")[1]

@@ -163,7 +163,6 @@ class Rights(BaseModel):
 
 
 class _HydroshareRequestHandler(AbstractRepositoryRequestHandler):
-
     def get_metadata(self, record_id: str):
         hs_meta_url = self.settings.hydroshare_meta_read_url % record_id
         hs_file_url = self.settings.hydroshare_file_read_url % record_id
