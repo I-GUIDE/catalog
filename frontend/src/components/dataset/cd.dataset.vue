@@ -377,8 +377,10 @@
             <div v-bind="infoLabelAttr">Resource Type:</div>
             <div v-bind="infoValueAttr">{{ data["@type"] }}</div>
 
-            <!-- <div v-bind="infoLabelAttr">Resource Size:</div>
-            <div v-bind="infoValueAttr">~2 MB</div> -->
+            <template v-if="contentSize">
+              <div v-bind="infoLabelAttr">Resource Size:</div>
+              <div v-bind="infoValueAttr">~{{ contentSize }}</div>
+            </template>
 
             <div v-bind="infoLabelAttr">License:</div>
             <div v-bind="infoValueAttr">
@@ -869,6 +871,8 @@ import { Component, Vue, toNative } from "vue-facing-decorator";
 import { useGoTo } from "vuetify/lib/framework.mjs";
 import { useRoute, useRouter } from "vue-router";
 import { EnumCreativeWorkStatus } from "@/types";
+import { sizeToBytes } from "@/util";
+import prettyBytes from "pretty-bytes";
 
 const options: LoaderOptions = { libraries: ["drawing"] };
 const loader: Loader = new Loader(
@@ -901,6 +905,7 @@ class CdDataset extends Vue {
   showCoordinateSystem = false;
   showExtent = false;
   isLoadingMD = false;
+  prettyBytes = prettyBytes;
 
   rootDirectory = {
     name: "root",
@@ -972,6 +977,29 @@ class CdDataset extends Vue {
       south: extents[2],
       west: extents[3],
     };
+  }
+
+  get contentSize() {
+    let total = 0;
+
+    if (this.data.associatedMedia?.length) {
+      total = this.data.associatedMedia.reduce(
+        (acc: number, m: any, _index: number) => {
+          let size = 0;
+
+          if (typeof m.contentSize === "string") {
+            size = sizeToBytes(m.contentSize);
+          } else if (typeof m.size === "number") {
+            size = m.size;
+          }
+
+          acc += size;
+          return acc;
+        },
+        0,
+      );
+    }
+    return prettyBytes(total);
   }
 
   async created() {
@@ -1057,58 +1085,7 @@ class CdDataset extends Vue {
         let fileSizeBytes;
 
         if (typeof m.contentSize === "string") {
-          const parts = m.contentSize.trim().split(" ");
-          if (parts.length != 2) {
-            fileSizeBytes = undefined;
-          } else {
-            const num = parts[0];
-            const notation = parts[1].toLowerCase();
-
-            // https://wiki.ubuntu.com/UnitsPolicy
-            const kib = 1024;
-            const mib = 1024 * kib;
-            const gib = 1024 * mib;
-            const tib = 1024 * gib;
-
-            const kb = 1000;
-            const mb = 1024 * kb;
-            const gb = 1024 * mb;
-            const tb = 1024 * gb;
-
-            let multiplier = 0;
-
-            switch (notation) {
-              case "b":
-                multiplier = 1;
-                break;
-              case "kb":
-                multiplier = kb;
-                break;
-              case "mb":
-                multiplier = mb;
-                break;
-              case "gb":
-                multiplier = gb;
-                break;
-              case "tb":
-                multiplier = tb;
-                break;
-
-              case "kib":
-                multiplier = kib;
-                break;
-              case "mib":
-                multiplier = mib;
-                break;
-              case "gib":
-                multiplier = gib;
-                break;
-              case "tib":
-                multiplier = tib;
-                break;
-            }
-            fileSizeBytes = num * multiplier;
-          }
+          fileSizeBytes = sizeToBytes(m.contentSize);
         } else if (typeof m.size === "number") {
           fileSizeBytes = m.size;
         }
@@ -1151,7 +1128,6 @@ class CdDataset extends Vue {
       const data = await User.fetchDataset(this.submissionId);
       if (data) {
         this.data = data;
-        console.log(data);
 
         this.loadFileExporer();
         this.loadReadmeFile();
