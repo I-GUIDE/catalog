@@ -210,11 +210,12 @@
                 elevation="1"
               >
                 <v-card-text>
-                  <a
-                    @click="goToDataset(result.id)"
-                    class="result-title text-body-1 text-decoration-none cursor-pointer text-primary"
+                  <v-btn
+                    :to="{ path: `dataset/${result.id}` }"
+                    class="text-body-1 text-primary px-0"
                     v-html="highlight(result, 'name')"
-                  ></a>
+                    variant="text"
+                  ></v-btn>
                   <div
                     class="d-flex gap-1 justify-space-between flex-wrap flex-lg-nowrap mt-2"
                   >
