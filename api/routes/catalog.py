@@ -149,8 +149,13 @@ async def register_s3_dataset(s3_path: S3Path, user: Annotated[User, Depends(get
 
     identifier = s3_path.identifier
     submission: Submission = user.submission_by_repository(repo_type=RepositoryType.S3, identifier=identifier)
-    identifier = f"{endpoint_url}+{bucket}+{path}"
-    dataset = await _save_to_db(repository_type=RepositoryType.S3, identifier=identifier, user=user,
+    if submission is not None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="This S3 dataset has already been submitted by this user",
+        )
+    fetch_identifier = s3_path.fetch_identifier
+    dataset = await _save_to_db(repository_type=RepositoryType.S3, identifier=fetch_identifier, user=user,
                                 submission=submission)
     return dataset
 
@@ -220,14 +225,17 @@ async def _save_to_db(repository_type: RepositoryType, identifier: str, user: Us
     adapter = get_adapter_by_type(repository_type=repository_type)
     # fetch metadata from repository as catalog dataset
     repo_dataset: DatasetMetadataDOC = await _get_repo_meta_as_catalog_record(adapter=adapter, identifier=identifier)
+    s3_path = None
     if repository_type == RepositoryType.S3:
         s3_endpoint_url, bucket, path = identifier.split("+")
-        identifier = f"{s3_endpoint_url}/{bucket}/{path}"
+        s3_path = S3Path(endpoint_url=s3_endpoint_url, bucket=bucket, path=path)
+        identifier = s3_path.identifier
     if submission is None:
         # new registration
         await repo_dataset.insert()
         submission = repo_dataset.as_submission()
         submission = adapter.update_submission(submission=submission, repo_record_id=identifier)
+        submission.s3_path = s3_path
         user.submissions.append(submission)
         await user.save(link_rule=WriteRules.WRITE)
         dataset = repo_dataset
@@ -241,6 +249,7 @@ async def _save_to_db(repository_type: RepositoryType, identifier: str, user: Us
         updated_submission = adapter.update_submission(submission=updated_submission, repo_record_id=identifier)
         updated_submission.id = submission.id
         updated_submission.submitted = submission.submitted
+        updated_submission.s3_path = s3_path
         await updated_submission.replace()
         dataset = updated_dataset
         submission = updated_submission
