@@ -3,12 +3,15 @@ from typing import Optional
 
 from beanie import Document
 
-from api.models.user import Submission
-
-from .schema import CoreMetadata
+from api.models.user import Submission, S3Path
+from .schema import CoreMetadata, DatasetMetadata
 
 
 class CoreMetadataDOC(Document, CoreMetadata):
+    # this field is not stored in the database, but is populated from the corresponding submission record
+    # using the type field in the submission record
+    submission_type: Optional[str] = None
+
     class Settings:
         # name is the collection name in database (iguide) where the Metadata Record documents will be stored
         # for all metadata record types (e.g. dataset, geopackage, software etc.)
@@ -20,7 +23,7 @@ class CoreMetadataDOC(Document, CoreMetadata):
             ),
             datetime.datetime: lambda dt: datetime.datetime(
                 year=dt.year, month=dt.month, day=dt.day, hour=dt.hour, minute=dt.minute, second=dt.second
-            ),
+            )
         }
 
     def as_submission(self) -> Submission:
@@ -33,5 +36,6 @@ class CoreMetadataDOC(Document, CoreMetadata):
         )
 
 
-class DatasetMetadataDOC(CoreMetadataDOC):
+class DatasetMetadataDOC(CoreMetadataDOC, DatasetMetadata):
     repository_identifier: Optional[str] = None
+    s3_path: Optional[S3Path] = None

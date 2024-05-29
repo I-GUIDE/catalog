@@ -3,11 +3,11 @@ import os
 
 import typer
 
-from api.models.schema import DatasetSchema
+from api.models.schema import DatasetMetadata
 
 
 def main(output_name: str = "api/models/schemas/schema.json"):
-    schema = DatasetSchema.model_json_schema()
+    schema = DatasetMetadata.model_json_schema()
     json_schema = json.dumps(schema)
     # Have to run it a few times for the definitions to get updated before inserted into another model
     while "#/$defs/" in json_schema:

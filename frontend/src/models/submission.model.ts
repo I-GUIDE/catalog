@@ -1,17 +1,13 @@
 import { ISubmission } from "@/components/submissions/types";
 import { Model } from "@vuex-orm/core";
 import User from "./user.model";
-import {
-  EnumSubmissionSorts,
-  EnumSortDirections,
-} from "@/components/submissions/types";
+import { EnumSubmissionSorts } from "@/components/submissions/types";
 import { itemsPerPageArray } from "@/components/submissions/constants";
 import { ENDPOINTS } from "@/constants";
 import { Notifications } from "@cznethub/cznet-vue-core";
 
 export interface ISubmisionState {
-  sortBy: { key: string; label: string };
-  sortDirection: { key: string; label: string };
+  sortBy: { key: string; label: string; order: "asc" | "desc" };
   itemsPerPage: number;
   isFetching: boolean;
 }
@@ -25,6 +21,7 @@ export default class Submission extends Model implements ISubmission {
   public date!: number;
   public identifier!: string;
   public repoIdentifier?: string;
+  public repository!: string;
   public url!: string;
   public id!: string;
   // public metadata!: any;
@@ -35,8 +32,7 @@ export default class Submission extends Model implements ISubmission {
 
   static state() {
     return {
-      sortBy: { key: "date", label: EnumSubmissionSorts.date },
-      sortDirection: { key: "desc", label: EnumSortDirections.desc },
+      sortBy: { key: "date", label: EnumSubmissionSorts.date, order: "desc" },
       itemsPerPage: itemsPerPageArray[0],
       isFetching: false,
     };
@@ -52,18 +48,20 @@ export default class Submission extends Model implements ISubmission {
       date: this.number(0),
       identifier: this.attr(""),
       repoIdentifier: this.attr(""),
+      repository: this.attr(""),
       url: this.attr(""),
       id: this.attr(""),
       // metadata: this.attr({}),
     };
   }
 
-  static getInsertDataFromDb(dbSubmission) {
+  static getInsertDataFromDb(dbSubmission: any) {
     return {
       title: dbSubmission.title,
       authors: dbSubmission.authors,
       date: new Date(dbSubmission.submitted).getTime(),
       identifier: dbSubmission.identifier, // TODO: we should call this something else. It is not the same as the schema's identifier
+      repository: dbSubmission.repository,
       repoIdentifier: dbSubmission.repository_identifier,
       url: dbSubmission.url,
       id: dbSubmission._id,
@@ -71,21 +69,23 @@ export default class Submission extends Model implements ISubmission {
   }
 
   /** Used to transform submission data that comes from the repository API and was transformed to our schema */
-  static getInsertData(apiSubmission): ISubmission | Partial<Submission> {
+  static getInsertData(apiSubmission: any): ISubmission | Partial<Submission> {
     return {
       title: apiSubmission.name,
-      authors: apiSubmission.creator.map((c) => c.name),
+      authors: apiSubmission.creator.map((c: any) => c.name),
       date: new Date(apiSubmission.dateCreated).getTime(),
       identifier: Array.isArray(apiSubmission.identifier)
         ? apiSubmission.identifier[0]
         : apiSubmission.identifier,
+      repoIdentifier: apiSubmission.url,
+      repository: "HYDROSHARE", // HydroShare is currently the only supported repository
       url: apiSubmission.url,
       id: apiSubmission._id,
     };
   }
 
   static async fetchSubmissions() {
-    console.log("Fetching submissions...");
+    console.log("[Submission]: Fetching submissions...");
     try {
       this.commit((state) => {
         return (state.isFetching = true);
@@ -122,7 +122,7 @@ export default class Submission extends Model implements ISubmission {
 
   // TODO: modify endpoint so that it can perform the delete with the db id itself
   static async deleteSubmission(identifier: string, id: string) {
-    console.log("Deleting submission...");
+    console.log("[Submission]: Deleting submission...");
     try {
       const response: Response = await fetch(
         `${ENDPOINTS.deleteSubmission}/${identifier}/`,
@@ -132,7 +132,7 @@ export default class Submission extends Model implements ISubmission {
             "Content-Type": "application/json",
             Authorization: `Bearer ${User.$state.accessToken}`,
           },
-        }
+        },
       );
 
       if (response.ok) {
@@ -166,7 +166,7 @@ export default class Submission extends Model implements ISubmission {
           "Content-Type": "application/json",
           Authorization: `Bearer ${User.$state.accessToken}`,
         },
-      }
+      },
     );
 
     if (response.ok) {
@@ -207,7 +207,7 @@ export default class Submission extends Model implements ISubmission {
           "Content-Type": "application/json",
           Authorization: `Bearer ${User.$state.accessToken}`,
         },
-      }
+      },
     );
 
     if (response.ok) {

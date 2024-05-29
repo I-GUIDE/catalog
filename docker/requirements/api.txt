@@ -6,3 +6,4 @@ beanie[httpx]==1.25.*
 python-jose==3.*
 pydantic==2.*
 pydantic-settings==2.*
+boto3

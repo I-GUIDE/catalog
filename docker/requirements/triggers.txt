@@ -6,3 +6,4 @@ pydantic[dotenv]==2.*
 pydantic[email]==2.*
 pydantic-settings==2.*
 apscheduler==3.*
+boto3

@@ -235,10 +235,9 @@ class PublisherOrganization(Organization):
     )
 
 
-class MediaObjectSourceOrganization(Organization):
-    model_config = ConfigDict(title="Media Object Source Organization")
+class SourceOrganization(Organization):
     name: str = Field(
-        description="Name of the organization that created the media object."
+        description="Name of the organization that created the data."
     )
 
 
@@ -302,6 +301,17 @@ class IsPartOf(CreativeWork):
         description="Information about a related resource that this resource is a "
         "part of - e.g., a related collection.",
         default=None,
+    )
+
+
+class MediaObjectPartOf(CreativeWork):
+    url: Optional[HttpUrlStr] = Field(
+        title="URL",
+        description="The URL address to the related metadata document.",
+        default=None,
+    )
+    description: Optional[str] = Field(
+        description="Information about a related metadata document."
     )
 
 
@@ -389,16 +399,20 @@ class TemporalCoverage(SchemaBaseModel):
         description="A date/time object containing the instant corresponding to the commencement of the time "
         "interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM).",
         # TODO: these are failing due to a problem with transpiled dependencies inside cznet-vue-core
-        # formatMaximum={"$data": "1/endDate"},
-        # errorMessage= { "formatMaximum": "must be lesser than or equal to End date" }
+        json_schema_extra={
+            "formatMaximum": {"$data": "1/endDate"},
+            "errorMessage": {"formatMaximum": "must be lesser than or equal to End date"}
+        },
     )
     endDate: Optional[datetime] = Field(
         title="End date",
         description="A date/time object containing the instant corresponding to the termination of the time "
         "interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, "
         "that means the temporal coverage is ongoing.",
-        # formatMinimum={"$data": "1/startDate"},
-        # errorMessage= { "formatMinimum": "must be greater than or equal to Start date" }
+        json_schema_extra={
+            "formatMaximum": {"$data": "1/startDate"},
+            "errorMessage": {"formatMaximum": "must be lesser than or equal to Start date"}
+        },
         default=None,
     )
 
@@ -507,6 +521,10 @@ class PropertyValueBase(SchemaBaseModel):
         description="The maximum allowed value for the property.",
         default=None,
     )
+    measurementTechnique: Optional[str] = Field(
+        title="Measurement technique", description="A technique or technology used in a measurement.",
+        default=None,
+    )
 
     @model_validator(mode="before")
     def validate_min_max_values(cls, values):
@@ -514,6 +532,12 @@ class PropertyValueBase(SchemaBaseModel):
             min_value = values.get("minValue", None)
             max_value = values.get("maxValue", None)
             if min_value is not None and max_value is not None:
+                if isinstance(min_value, str):
+                    min_value = min_value.strip()
+                    min_value = float(min_value)
+                if isinstance(max_value, str):
+                    max_value = max_value.strip()
+                    max_value = float(max_value)
                 if min_value > max_value:
                     raise ValueError(
                         "Minimum value must be less than or equal to maximum value"
@@ -570,9 +594,10 @@ class MediaObject(SchemaBaseModel):
         title="Content URL",
         description="The direct URL link to access or download the actual content of the media object.",
     )
-    encodingFormat: str = Field(
+    encodingFormat: Optional[str] = Field(
         title="Encoding format",
         description="Represents the specific file format in which the media is encoded.",
+        default=None,
     )  # TODO enum for encoding formats
     contentSize: str = Field(
         title="Content size",
@@ -580,30 +605,14 @@ class MediaObject(SchemaBaseModel):
         "unit of measurement.",
     )
     name: str = Field(description="The name of the media object (file).")
-    additionalProperty: Optional[List[PropertyValue]] = Field(
-        title="Additional properties",
+    sha256: Optional[str] = Field(
+        title="SHA-256", description="The SHA-256 hash of the media object.",
+        default=None,
+    )
+    isPartOf: Optional[List[MediaObjectPartOf]] = Field(
+        title="Is part of",
+        description="Link to or citation for a related metadata document that this media object is a part of",
         default=[],
-        description="Additional properties of the media object.",
-    )
-    variableMeasured: Optional[List[Union[str, PropertyValue]]] = Field(
-        title="Variables measured",
-        description="Measured variables.",
-        default=[],
-    )
-    spatialCoverage: Optional[Place] = Field(
-        title="Spatial coverage",
-        description="The spatial coverage of the media object.",
-        default=None,
-    )
-    temporalCoverage: Optional[TemporalCoverage] = Field(
-        title="Temporal coverage",
-        description="The temporal coverage of the media object.",
-        default=None,
-    )
-    sourceOrganization: Optional[MediaObjectSourceOrganization] = Field(
-        title="Source organization",
-        description="The organization that provided the media object.",
-        default=None,
     )
 
     @field_validator("contentSize")
@@ -632,6 +641,15 @@ class MediaObject(SchemaBaseModel):
             raise ValueError("invalid unit")
 
         return v
+
+    # TODO: not validating the SHA-256 hash for now as the hydroshare content file hash is in md5 format
+    # @validator('sha256')
+    # def validate_sha256_string_format(cls, v):
+    #     if v:
+    #         v = v.strip()
+    #         if v and not re.match(r"^[a-fA-F0-9]{64}$", v):
+    #             raise ValueError('invalid SHA-256 format')
+    #     return v
 
 
 class CoreMetadata(SchemaBaseModel):
@@ -777,6 +795,18 @@ class CoreMetadata(SchemaBaseModel):
         return json_schema
 
 
-class DatasetSchema(CoreMetadata):
-    # used only for generating the JSON-LD schema for a dataset.
-    pass
+class DatasetMetadata(CoreMetadata):
+    variableMeasured: Optional[List[Union[str, PropertyValue]]] = Field(
+        title="Variables measured", description="Measured variables.",
+        default=[],
+    )
+    additionalProperty: Optional[List[PropertyValue]] = Field(
+        title="Additional properties",
+        default=[],
+        description="Additional properties of the dataset."
+    )
+    sourceOrganization: Optional[SourceOrganization] = Field(
+        title="Source organization",
+        description="The organization that provided the data for this dataset.",
+        default=None,
+    )

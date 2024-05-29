@@ -18,10 +18,6 @@ down:
 build:
 	docker-compose build
 
-.PHONY: test
-test:
-	docker-compose exec api pytest tests
-
 .PHONY: format
 format:
 	docker-compose run api $(isort)
@@ -31,6 +27,10 @@ format:
 schema:
 	docker-compose run api python api/models/management/generate_schema.py
 
+.PHONY: test
+test:
+	docker-compose exec api pytest tests
+
 .PHONY: pre-post
 pre-post:
-	docker-compose run catalog-trigger python /app/triggers/management/change_streams_pre_and_post.py
+	docker-compose run catalog-trigger python /app/api/models/management/change_streams_pre_and_post.py

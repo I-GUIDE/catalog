@@ -11,7 +11,7 @@ from api.adapters.utils import RepositoryType, register_adapter
 from api.exceptions import RepositoryException
 from api.models import schema
 from api.models.catalog import DatasetMetadataDOC
-from api.models.user import Submission
+from api.models.user import Submission, SubmissionType
 from api.models.schema import HttpUrlStr
 
 
@@ -133,6 +133,7 @@ class ContentFile(BaseModel):
         media_object.encodingFormat = self.content_type
         media_object.contentSize = f"{self.size/1000.00} KB"
         media_object.name = self.file_name
+        media_object.sha256 = self.checksum
         return media_object
 
 

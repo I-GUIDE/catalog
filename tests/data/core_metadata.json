@@ -3,7 +3,7 @@
 	"@type": "Dataset",
 	"name": "Test Dataset",
 	"description": "This is a test dataset metadata json file to test catalog api",
-	"url": "https://hydroshare.org/resource/e2fdf99cbb0c4275b32afd3c16ae6863/",
+	"url": "https://hydroshare.org/resource/e2fdf99cbb0c4275b32afd3c16ae6863",
 	"identifier": ["https://www.hydroshare.org/resource/6625bdbde41c45c2b906f32be7ea70f0/"],
 	"creator": [
 		{
@@ -24,7 +24,7 @@
 	"license": {
 		"@type": "CreativeWork",
 		"name": "MIT License",
-		"url": "https://spdx.org/licenses/MIT/",
+		"url": "https://spdx.org/licenses/MIT",
 		"description": "A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty."
     },
 	"provider": {
@@ -80,14 +80,15 @@
 		"geo": {
 			"@type": "GeoShape",
 			"box": "40.1126 -88.2249 40.1126 -88.2249"
-		}
+		},
+		"additionalProperty": []
 	},
 	"hasPart": [
 		{
 			"@type": "CreativeWork",
 			"name": "Great Salt Lake Bathymetry",
 			"description": "Digital Elevation Model for the Great Salt Lake, lake bed bathymetry.",
-			"url": "https://orcid.org/0000-0000-0000-0001/"
+			"url": "https://orcid.org/0000-0000-0000-0001"
 		}
 	],
 	"isPartOf": [
@@ -95,16 +96,18 @@
 			"@type": "CreativeWork",
 			"name": "Collection of Great Salt Lake Data",
 			"description": "Data from the Great Salt Lake and its basin",
-			"url": "https://orcid.org/0000-0000-0000-0001/"
+			"url": "https://orcid.org/0000-0000-0000-0001"
 		}
 	],
 	"associatedMedia": [
 		{
 			"@type": "DataDownload",
-			"contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv/",
+			"contentUrl": "https://www.hydroshare.org/resource/51d1539bf6e94b15ac33f7631228118c/data/contents/USGS_Harvey_gages_TxLaMsAr.csv",
 			"encodingFormat": "text/csv",
 			"contentSize": "0.17 MB",
-			"name": "USGS gage locations within the Harvey-affected areas in Texas"
+			"name": "USGS gage locations within the Harvey-affected areas in Texas",
+            "sha256": "830f4b50e78e8a8fb0f7eee7369171dacbcaa43cc2c4deb59cef8e4fd2f641c5",
+			"isPartOf": null
 		}
 	],
 	"citation": ["Citation for the dataset"]
