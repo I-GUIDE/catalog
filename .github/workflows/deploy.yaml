@@ -4,27 +4,29 @@ on:
   workflow_dispatch:
   push:
     branches:
+    - 'develop'
     - 'productionalization'
 
 env:
-  DOMAIN: iguide.cuahsi.io
-  TAG: latest
+  DEPLOY_TO_PRODUCTION: ${{ github.ref == 'refs/heads/productionalization' && true || false }}
+  DOMAIN: ${{ env.DEPLOY_TO_PRODUCTION == false && 'iguide-dev.cuahsi.io' || 'iguide.cuahsi.io' }}
+  IP: ${{ env.DEPLOY_TO_PRODUCTION == false && 'iguide-dev' || 'iguide' }}
+  KUBE_CLUSTER_NAME: ${{ env.DEPLOY_TO_PRODUCTION == false && 'iguide-dev' || 'iguide' }}
+  TAG: ${{ env.DEPLOY_TO_PRODUCTION == false && github.sha || 'latest' }}
   TESTING: false
-  IP: iguide
   OIDC_ISSUER: https://orcid.org
-  DATABASE_NAME: iguide_beta
+  # why are we using iguide_beta for production deployment? Should it be iguide_demo?
+  DATABASE_NAME: ${{ env.DEPLOY_TO_PRODUCTION == false && 'iguide_dev' || 'iguide_beta' }}
   DB_PROTOCOL: mongodb+srv
   HYDROSHARE_META_READ_URL: https://www.hydroshare.org/hsapi2/resource/%s/json/
   HYDROSHARE_FILE_READ_URL: https://www.hydroshare.org/hsapi/resource/%s/files/
   VITE_APP_NAME: I-GUIDE
-  VITE_APP_URL: https://iguide.cuahsi.io
-  VITE_APP_API_URL: https://iguide.cuahsi.io/api
+  VITE_APP_URL: ${{ env.DEPLOY_TO_PRODUCTION == false && 'https://iguide-dev.cuahsi.io' || 'https://iguide.cuahsi.io' }}
+  VITE_APP_API_URL: ${{ env.DEPLOY_TO_PRODUCTION == false && 'https://iguide-dev.cuahsi.io/api' || 'https://iguide.cuahsi.io/api' }}
   VITE_APP_LOGIN_URL: https://orcid.org/oauth/authorize
-  VITE_APP_GOOGLE_MAPS_API_KEY: ""
   VITE_APP_SUPPORT_EMAIL: help@example.com
   VITE_APP_CLIENT_ID: APP-4ZA8C8BYAH3QHNE9
   SEARCH_RELEVANCE_SCORE_THRESHOLD: 1.4
-
 
 jobs:
   deploy:
@@ -43,9 +45,9 @@ jobs:
 
     - name: Compile the root env file
       env:
-        DB_HOST: ${{ secrets.DB_HOST }}
-        DB_USERNAME: ${{ secrets.DB_USERNAME }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_HOST: ${{ env.DEPLOY_TO_PRODUCTION == false && secrets.DB_HOST_BETA || secrets.DB_HOST }}
+        DB_USERNAME: ${{ env.DEPLOY_TO_PRODUCTION == false && secrets.DB_USERNAME_BETA || secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ env.DEPLOY_TO_PRODUCTION == false && secrets.DB_PASSWORD_BETA || secrets.DB_PASSWORD }}
       run: |
         variables=("OIDC_ISSUER" "DB_USERNAME" "DB_PASSWORD" "DB_HOST" "DATABASE_NAME" "DB_PROTOCOL" "TESTING" "VITE_APP_LOGIN_URL" "HYDROSHARE_META_READ_URL" "HYDROSHARE_FILE_READ_URL" "SEARCH_RELEVANCE_SCORE_THRESHOLD")
 
@@ -58,6 +60,9 @@ jobs:
         done
 
     - name: Compile the frontend env file
+      env:
+        VITE_APP_GOOGLE_MAPS_API_KEY: ${{env.DEPLOY_TO_PRODUCTION == false && secrets.VITE_APP_GOOGLE_MAPS_API_KEY || ''}}
+
       run: |
         variables=("VITE_APP_NAME" "VITE_APP_API_URL" "VITE_APP_SUPPORT_EMAIL" "VITE_APP_URL" "VITE_APP_LOGIN_URL" "VITE_APP_CLIENT_ID" "VITE_APP_GOOGLE_MAPS_API_KEY")
 
@@ -86,11 +91,13 @@ jobs:
         USE_GKE_GCLOUD_AUTH_PLUGIN: True
         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
       run: |
-        gcloud container clusters get-credentials iguide --region us-central1
-        find ./kubernetes -type f | xargs -i sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" {}
+        gcloud container clusters get-credentials $KUBE_CLUSTER_NAME --region us-central1
+        find ./kubernetes -type f | xargs -i sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" {}        
         find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_TAG/$TAG/g" {}
         find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_DOMAIN/$DOMAIN/g" {}
-        find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_IP/$IP/g" {}
+        if [[ "${{ env.DEPLOY_TO_PRODUCTION }}" == true ]]; then          
+          find ./kubernetes -type f | xargs -i sed -i "s/IGUIDE_IP/$IP/g" {}
+        fi
         kubectl apply -f kubernetes/
         # Refresh pods
         kubectl delete pods --all
