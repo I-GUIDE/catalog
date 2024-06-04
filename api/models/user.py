@@ -30,6 +30,11 @@ class S3Path(BaseModel):
             identifier = f"{endpoint_url}/{self.bucket}/{self.path}"
         return identifier
 
+    @property
+    def fetch_identifier(self):
+        # This is the identifier that is used to fetch the file from S3
+        return f"{self.endpoint_url}+{self.bucket}+{self.path}"
+
 
 class Submission(Document):
     title: str = None

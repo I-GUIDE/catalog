@@ -3,7 +3,9 @@ name: Run I-GUIDE Builds and Config Saturations
 on:
   workflow_dispatch:
   push:
-    branches: ['*']
+    branches-ignore:
+      - productionalization
+      - develop
 
 env:
   DOMAIN: iguide.cuahsi.io

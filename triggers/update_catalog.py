@@ -23,8 +23,8 @@ async def _main():
         while True:
             try:
                 await watch_catalog(db)
-            except:
-                logger.exception("Submission Watch Task failed, restarting the task")
+            except Exception as exp:
+                logger.exception(f"Submission Watch Task failed. Error:{str(exp)}, restarting the task")
     finally:
         db.close()
 
