@@ -3,7 +3,9 @@ from enum import Enum
 from typing import List, Optional, TYPE_CHECKING
 
 from beanie import Document, Link, PydanticObjectId
-from pydantic import HttpUrl, BaseModel
+from pydantic import BaseModel
+
+from api.models.schema import HttpUrlStr
 
 if TYPE_CHECKING:
     # this avoids circular imports
@@ -19,7 +21,7 @@ class SubmissionType(str, Enum):
 class S3Path(BaseModel):
     path: str
     bucket: str
-    endpoint_url: HttpUrl = 'https://api.minio.cuahsi.io'
+    endpoint_url: HttpUrlStr = 'https://api.minio.cuahsi.io'
 
     @property
     def identifier(self):
@@ -36,16 +38,16 @@ class Submission(Document):
     authors: List[str] = []
     identifier: PydanticObjectId
     submitted: datetime = datetime.utcnow()
-    url: HttpUrl = None
-    repository: Optional[str]
-    repository_identifier: Optional[str]
-    s3_path: Optional[S3Path]
+    url: HttpUrlStr = None
+    repository: Optional[str] = None
+    repository_identifier: Optional[str] = None
+    s3_path: Optional[S3Path] = None
 
 
 class User(Document):
     access_token: str
     orcid: str
-    preferred_username: Optional[str]
+    preferred_username: Optional[str] = None
     submissions: List[Link[Submission]] = []
 
     def submission(self, identifier: PydanticObjectId) -> Submission:

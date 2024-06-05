@@ -15,7 +15,7 @@ async def test_create_dataset(client_test, dataset_data, test_user_access_token)
     response = await client_test.post("api/catalog/dataset", json=dataset_data)
     assert response.status_code == 201
     response_data = response.json()
-    record_id = response_data.pop('_id')
+    record_id = response_data.pop("_id")
 
     # adjust the temporal coverage dates for comparison
     if dataset_data["temporalCoverage"]["startDate"].endswith("Z"):
@@ -196,7 +196,9 @@ async def test_update_dataset_s3(client_test, dataset_data, test_user_access_tok
 
 
 @pytest.mark.asyncio
-async def test_create_refresh_dataset_from_hydroshare(client_test, test_user_access_token):
+async def test_create_refresh_dataset_from_hydroshare(
+    client_test, test_user_access_token
+):
     """Testing catalog registration/refresh of hydroshare metadata record"""
 
     # create hydroshare resource metadata as a catalog dataset record
@@ -230,20 +232,25 @@ async def test_update_dataset(client_test, dataset_data):
     response = await client_test.post("api/catalog/dataset", json=dataset_data)
     assert response.status_code == 201
     response_data = response.json()
-    record_id = response_data.get('_id')
+    record_id = response_data.get("_id")
     # update the dataset name
-    dataset_data['name'] = 'Updated title'
+    dataset_data["name"] = "Updated title"
     # remove citation
-    dataset_data['citation'] = []
+    dataset_data["citation"] = []
     # remove publisher
-    dataset_data['publisher'] = None
+    dataset_data["publisher"] = None
 
     # update the dataset temporal coverage
-    dataset_data["temporalCoverage"] = {"startDate": "2020-01-01T10:00:20", "endDate": "2020-11-29T00:30:00"}
-    response = await client_test.put(f"api/catalog/dataset/{record_id}", json=dataset_data)
+    dataset_data["temporalCoverage"] = {
+        "startDate": "2020-01-01T10:00:20",
+        "endDate": "2020-11-29T00:30:00",
+    }
+    response = await client_test.put(
+        f"api/catalog/dataset/{record_id}", json=dataset_data
+    )
     assert response.status_code == 200
     response_data = response.json()
-    response_data.pop('_id')
+    response_data.pop("_id")
     # assert that the response contains the expected data
     response_data.pop("repository_identifier")
     response_data["submission_type"] = SubmissionType.IGUIDE_FORM
@@ -268,7 +275,7 @@ async def test_delete_dataset(client_test, dataset_data, test_user_access_token)
     response = await client_test.post("api/catalog/dataset", json=dataset_data)
     assert response.status_code == 201
     response_data = response.json()
-    record_id = response_data.get('_id')
+    record_id = response_data.get("_id")
     # delete the dataset record
     response = await client_test.delete(f"api/catalog/dataset/{record_id}")
     assert response.status_code == 200
@@ -385,6 +392,7 @@ async def test_get_datasets_exclude_none(client_test, dataset_data):
     """Testing exclude none is applied to dataset response model"""
 
     dataset_data["version"] = None
+    dataset_data["spatialCoverage"]["name"] = None
     # add a dataset record to the db
     dataset_response = await client_test.post("api/catalog/dataset", json=dataset_data)
     assert dataset_response.status_code == 201
@@ -393,6 +401,7 @@ async def test_get_datasets_exclude_none(client_test, dataset_data):
     assert dataset_response.status_code == 200
     dataset_response_data = dataset_response.json()
     assert "version" not in dataset_response_data[0]
+    assert "name" not in dataset_response_data[0]["spatialCoverage"]
     for a_property in dataset_response_data[0]["additionalProperty"]:
         assert "description" not in a_property
         assert "minValue" not in a_property
@@ -488,8 +497,8 @@ async def test_get_submissions_2(client_test, dataset_data):
 
 
 async def _check_hs_submission(hs_dataset, user_access_token, hs_published_res_id):
-    assert hs_dataset['provider']['name'] == 'HYDROSHARE'
-    assert hs_dataset['provider']['url'] == 'https://www.hydroshare.org/'
+    assert hs_dataset["provider"]["name"] == "HYDROSHARE"
+    assert hs_dataset["provider"]["url"] == "https://www.hydroshare.org/"
 
     # there should be one related submission record in the db
     submissions = await Submission.find().to_list()

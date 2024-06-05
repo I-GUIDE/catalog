@@ -1,5 +1,5 @@
 {
-	"@context": "https://schema.org",
+	"@context": "https://schema.org/",
 	"@type": "Dataset",
 	"name": "Test Dataset",
 	"description": "This is a test dataset metadata json file to test catalog api",
@@ -30,13 +30,13 @@
 	"provider": {
 		"@type": "Organization",
 		"name": "HydroShare",
-		"url": "https://hydroshare.org",
+		"url": "https://hydroshare.org/",
 		"address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476"
 	},
 	"publisher": {
 		"@type": "Organization",
 		"name": "HydroShare",
-		"url": "https://hydroshare.org",
+		"url": "https://hydroshare.org/",
 		"address": "1167 Massachusetts Ave Suites 418 & 419, Arlington, MA 02476"
 	},
 	"datePublished": "2023-05-10T00:00:00",
