@@ -74,7 +74,7 @@ async def test_create_dataset_s3(client_test, dataset_data, test_user_access_tok
         s3_path = {
             "path": "data/.hs/dataset_metadata.json",
             "bucket": "iguide-catalog",
-            "endpoint_url": "https://iguide-catalog.s3.us-west-2.amazonaws.com/",
+            "endpoint_url": "https://s3.us-west-2.amazonaws.com/",
         }
 
     payload = {
@@ -86,10 +86,7 @@ async def test_create_dataset_s3(client_test, dataset_data, test_user_access_tok
     response = await client_test.post("api/catalog/dataset-s3/", json=payload)
     assert response.status_code == 201
     ds_metadata = response.json()
-    if object_store_type == "minio":
-        expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
-    else:
-        expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['path']}"
+    expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
     assert ds_metadata["repository_identifier"] == expected_repository_identifier
     assert ds_metadata["submission_type"] == SubmissionType.S3
     assert ds_metadata["s3_path"] == s3_path
@@ -124,7 +121,7 @@ async def test_update_dataset_s3(client_test, dataset_data, test_user_access_tok
         s3_path = {
             "path": "data/.hs/dataset_metadata.json",
             "bucket": "iguide-catalog",
-            "endpoint_url": "https://iguide-catalog.s3.us-west-2.amazonaws.com/",
+            "endpoint_url": "https://s3.us-west-2.amazonaws.com/",
         }
 
     payload = {
@@ -135,12 +132,10 @@ async def test_update_dataset_s3(client_test, dataset_data, test_user_access_tok
     response = await client_test.post("api/catalog/dataset-s3/", json=payload)
     assert response.status_code == 201
     ds_metadata = response.json()
-    if object_store_type == "minio":
-        expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
-    else:
-        expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['path']}"
+    expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
     assert ds_metadata["repository_identifier"] == expected_repository_identifier
     assert ds_metadata["submission_type"] == SubmissionType.S3
+
     # retrieve the record from the db
     record_id = ds_metadata.pop('_id')
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
@@ -160,7 +155,7 @@ async def test_update_dataset_s3(client_test, dataset_data, test_user_access_tok
         s3_path = {
             "path": "data/.hs/dataset_metadata-updated.json",
             "bucket": "iguide-catalog-updated",
-            "endpoint_url": "https://iguide-catalog-updated.s3.us-west-2.amazonaws.com/",
+            "endpoint_url": "https://s3.us-west-2.amazonaws.com/",
         }
 
     payload = {
@@ -171,14 +166,12 @@ async def test_update_dataset_s3(client_test, dataset_data, test_user_access_tok
     response = await client_test.put(f"api/catalog/dataset-s3/{record_id}", json=payload)
     assert response.status_code == 200
     ds_metadata = response.json()
-    if object_store_type == "minio":
-        expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
-    else:
-        expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['path']}"
+    expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
     assert ds_metadata["repository_identifier"] == expected_repository_identifier
     assert ds_metadata["submission_type"] == SubmissionType.S3
     assert ds_metadata["s3_path"] == s3_path
     assert ds_metadata["name"] == dataset_data['name']
+
     # retrieve the record from the db
     record_id = ds_metadata.pop('_id')
     response = await client_test.get(f"api/catalog/dataset/{record_id}")
@@ -350,7 +343,7 @@ async def test_get_datasets_different_submission_types(client_test, dataset_data
     s3_path = {
             "path": "data/.hs/dataset_metadata.json",
             "bucket": "iguide-catalog",
-            "endpoint_url": "https://iguide-catalog.s3.us-west-2.amazonaws.com/",
+            "endpoint_url": "https://s3.us-west-2.amazonaws.com/",
         }
 
     payload = {
@@ -402,24 +395,36 @@ async def test_get_datasets_exclude_none(client_test, dataset_data):
         assert "measurementTechnique" not in a_property
 
 
+@pytest.mark.parametrize('object_store_type', ['minio', 's3'])
 @pytest.mark.asyncio
-async def test_register_minio_s3_dataset(client_test):
-    """Testing registering metadata for a generic dataset stored on minIO s3"""
+async def test_register_minio_s3_dataset(client_test, object_store_type):
+    """Testing registering metadata for a generic dataset stored on minIO and S3"""
 
-    # set the path to the generic metadata file on minIO s3
-    s3_path = {
-        "path": "data/.hs/dataset_metadata.json",
-        "bucket": "catalog-api-test",
-        "endpoint_url": "https://api.minio.cuahsi.io/",
-    }
+    if object_store_type == "minio":
+        # set the path to the generic metadata file on minIO s3
+        s3_path = {
+            "path": "data/.hs/dataset_metadata.json",
+            "bucket": "catalog-api-test",
+            "endpoint_url": "https://api.minio.cuahsi.io/",
+        }
+    else:
+        # set the path to the generic metadata file on AWS s3
+        s3_path = {
+            "path": "data/.hs/generic/dataset_metadata.json",
+            "bucket": "iguide-catalog",
+            "endpoint_url": "https://s3.us-west-2.amazonaws.com/",
+        }
 
     dataset_response = await client_test.put(
         "api/catalog/repository/s3", json=s3_path
     )
+
     assert dataset_response.status_code == 200
     ds_metadata = dataset_response.json()
     expected_repository_identifier = f"{s3_path['endpoint_url']}{s3_path['bucket']}/{s3_path['path']}"
     assert ds_metadata["repository_identifier"] == expected_repository_identifier
+    assert ds_metadata["submission_type"] == SubmissionType.S3
+    assert ds_metadata["s3_path"] == s3_path
 
     # retrieve the record from the db
     record_id = ds_metadata.get('_id')
@@ -476,7 +481,7 @@ async def test_get_submissions_2(client_test, dataset_data):
     s3_path = {
             "path": "data/.hs/dataset_metadata.json",
             "bucket": "iguide-catalog",
-            "endpoint_url": "https://iguide-catalog.s3.us-west-2.amazonaws.com/",
+            "endpoint_url": "https://s3.us-west-2.amazonaws.com/",
         }
 
     payload = {
