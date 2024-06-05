@@ -1,9 +1,10 @@
 import asyncio
-from api.config import get_settings
-from api.models.catalog import DatasetMetadataDOC
 
 from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
+
+from api.config import get_settings
+from api.models.catalog import DatasetMetadataDOC
 
 
 async def main():

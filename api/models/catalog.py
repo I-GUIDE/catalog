@@ -1,9 +1,9 @@
 import datetime
-from typing import TypeVar
+from typing import TypeVar, Optional
 
 from beanie import Document
 
-from api.models.user import Submission
+from api.models.user import Submission, S3Path
 from .schema import (
     CoreMetadata,
     GenericDatasetMetadata,
@@ -14,6 +14,11 @@ from .schema import (
 
 
 class CoreMetadataDOC(Document, CoreMetadata):
+    # these fields are not stored in the database, but are populated from the corresponding submission record
+    submission_type: str = None
+    repository_identifier: str = None
+    s3_path: Optional[S3Path] = None
+
     class Settings:
         # name is the collection name in database (iguide) where the Metadata Record documents will be stored
         # for all metadata record types (e.g. dataset, geopackage, software etc.)
@@ -39,7 +44,6 @@ class CoreMetadataDOC(Document, CoreMetadata):
 
 
 class HSResourceMetadataDOC(CoreMetadataDOC, HSResourceMetadata):
-    repository_identifier: str = None
 
     def as_submission(self) -> Submission:
         submission = super().as_submission()
@@ -49,17 +53,17 @@ class HSResourceMetadataDOC(CoreMetadataDOC, HSResourceMetadata):
 
 
 class GenericDatasetMetadataDOC(CoreMetadataDOC, GenericDatasetMetadata):
-    repository_identifier: str = None
+    pass
 
 
 class NetCDFMetadataDOC(CoreMetadataDOC, HSNetCDFMetadata):
-    repository_identifier: str = None
+    pass
 
 
 class RasterMetadataDOC(CoreMetadataDOC, HSRasterMetadata):
-    repository_identifier: str = None
-
+    pass
 
 # T is a type variable that can be used for type hinting for any schema model that inherits from CoreMetadataDOC
+
 
 T = TypeVar("T", bound=CoreMetadataDOC)

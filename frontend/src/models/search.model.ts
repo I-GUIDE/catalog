@@ -1,6 +1,7 @@
 import { Model } from "@vuex-orm/core";
 import { ENDPOINTS } from "@/constants";
 import { getQueryString } from "@/util";
+import { IResult, ISearchParams, ITypeaheadParams } from "@/types";
 
 export interface ISearchState {
   results: IResult[];
@@ -28,7 +29,7 @@ export default class Search extends Model {
    */
   public static async search(params: ISearchParams) {
     const response: Response = await fetch(
-      `${ENDPOINTS.search}?${getQueryString(params)}`
+      `${ENDPOINTS.search}?${getQueryString(params)}`,
     );
 
     if (!response.ok) {
@@ -47,7 +48,7 @@ export default class Search extends Model {
    */
   public static async fetchMore(params: ISearchParams): Promise<boolean> {
     const response: Response = await fetch(
-      `${ENDPOINTS.search}?${getQueryString(params)}`
+      `${ENDPOINTS.search}?${getQueryString(params)}`,
     );
 
     if (!response.ok) {
@@ -67,7 +68,7 @@ export default class Search extends Model {
   /** Performs a typeahead search and returns the results */
   public static async typeahead(params: ITypeaheadParams): Promise<any[]> {
     const response: Response = await fetch(
-      `${ENDPOINTS.typeahead}?${getQueryString(params)}/`
+      `${ENDPOINTS.typeahead}?${getQueryString(params)}/`,
     );
     if (!response.ok) {
       throw new Error("Network response was not OK");
@@ -79,11 +80,12 @@ export default class Search extends Model {
   /** Transform raw result data from API into `IResult` shaped objects */
   private static _parseResult(rawResult: any): IResult {
     return {
-      creator: rawResult.creator.map((c) => c.name) || [],
+      creator: rawResult.creator.map((c: any) => c.name) || [],
       dateCreated: rawResult.dateCreated || "",
       datePublished: rawResult.datePublished || "",
       description: rawResult.description || "",
-      funding: rawResult.funding?.map((f) => f.name || f.funder.name) || [],
+      funding:
+        rawResult.funding?.map((f: any) => f.name || f.funder.name) || [],
       highlights: rawResult.highlights || [],
       id: rawResult["_id"],
       keywords: Search._getKeywords(rawResult.keywords),

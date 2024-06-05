@@ -27,7 +27,7 @@ export const messages = {
       },
     },
     footer: {
-      supportEmail: "example@example.com",
+      supportEmail: "{'example@example.com'}",
     },
   },
 };

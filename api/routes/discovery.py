@@ -3,6 +3,8 @@ from datetime import datetime
 from fastapi import APIRouter, Request, Depends
 from pydantic import BaseModel, validator
 
+from api.config import get_settings
+
 router = APIRouter()
 
 
@@ -91,7 +93,7 @@ class SearchQuery(BaseModel):
 
     @property
     def _should(self):
-        search_paths = ['name', 'description', 'keywords', 'keywords.name']
+        search_paths = ['name', 'description', 'keywords', 'keywords.name', 'creator.name']
         should = [
             {'autocomplete': {'query': self.term, 'path': key, 'fuzzy': {'maxEdits': 1}}} for key in search_paths
         ]
@@ -142,18 +144,21 @@ class SearchQuery(BaseModel):
 
         stages.append(search_stage)
 
-        # sorting needs to happen before pagination
-        if self.sortBy:
-            if self.sortBy == "name":
-                self.sortBy = "name_for_sorting"
-                self.reverseSort = not self.reverseSort
-            stages.append({'$sort': {self.sortBy: -1 if self.reverseSort else 1}})
+            # Sort needs to happen before pagination, ignore all other values of sortBy
+        if self.sortBy == "name":
+            stages.append({'$sort': {"name": 1}})
+        if self.sortBy == "dateCreated":
+            stages.append({'$sort': {"dateCreated": -1}})
         stages.append({'$skip': (self.pageNumber - 1) * self.pageSize})
         stages.append({'$limit': self.pageSize})
         #stages.append({'$unset': ['_id', '_class_id']})
         stages.append(
             {'$set': {'score': {'$meta': 'searchScore'}, 'highlights': {'$meta': 'searchHighlights'}}},
         )
+        if self.term:
+            # get only results which meet minimum relevance score threshold
+            score_threshold = get_settings().search_relevance_score_threshold
+            stages.append({'$match': {'score': {'$gt': score_threshold}}})
         return stages
 
 
@@ -191,3 +196,30 @@ async def typeahead(request: Request, term: str, pageSize: int = 30):
     ]
     result = await request.app.mongodb["discovery"].aggregate(stages).to_list(pageSize)
     return result
+
+
+@router.get("/creators")
+async def creator_search(request: Request, name: str, pageSize: int = 30) -> list[str]:
+    stages = [
+        {
+            '$search': {
+                'index': 'fuzzy_search',
+                'autocomplete': {"query": name, "path": "creator.name", 'fuzzy': {'maxEdits': 1}},
+                'highlight': {'path': 'creator.name'},
+            }
+        },
+        {'$project': {"_id": 0, "creator.name": 1, "highlights": {'$meta': 'searchHighlights'}}},
+    ]
+
+    results = await request.app.mongodb["discovery"].aggregate(stages).to_list(pageSize)
+
+    names = []
+    for result in results:
+        for highlight in result['highlights']:
+            for text in highlight['texts']:
+                if text['type'] == 'hit':
+                    for creator in result['creator']:
+                        if text['value'] in creator['name']:
+                            names.append(creator['name'])
+
+    return set(names)

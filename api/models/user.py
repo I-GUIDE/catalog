@@ -1,12 +1,38 @@
 from datetime import datetime
+from enum import Enum
 from typing import List, Optional, TYPE_CHECKING
 
 from beanie import Document, Link, PydanticObjectId
-from pydantic import HttpUrl
+from pydantic import HttpUrl, BaseModel
 
 if TYPE_CHECKING:
     # this avoids circular imports
     from api.adapters.utils import RepositoryType
+
+
+class SubmissionType(str, Enum):
+    HYDROSHARE = 'HYDROSHARE'
+    S3 = 'S3'
+    IGUIDE_FORM = 'IGUIDE_FORM'
+
+
+class S3Path(BaseModel):
+    path: str
+    bucket: str
+    endpoint_url: HttpUrl = 'https://api.minio.cuahsi.io'
+
+    @property
+    def identifier(self):
+        endpoint_url = self.endpoint_url.rstrip("/")
+        if endpoint_url.endswith("amazonaws.com"):
+            identifier = f"{endpoint_url}/{self.path}"
+        else:
+            identifier = f"{endpoint_url}/{self.bucket}/{self.path}"
+        return identifier
+
+    @property
+    def access_url(self):
+        return f"{self.endpoint_url}+{self.bucket}+{self.path}"
 
 
 class Submission(Document):
@@ -18,6 +44,7 @@ class Submission(Document):
     url: HttpUrl = None
     repository: Optional[str]
     repository_identifier: Optional[str]
+    s3_path: Optional[S3Path]
 
 
 class User(Document):

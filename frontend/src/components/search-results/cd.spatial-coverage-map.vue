@@ -1,12 +1,18 @@
 <template>
-  <v-card class="cd-spatial-coverage-map">
+  <v-card
+    class="cd-spatial-coverage-map"
+    :class="{ flat }"
+    :tile="flat"
+    :outlined="flat"
+  >
     <div ref="map" class="map-container"></div>
   </v-card>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Ref } from "vue-property-decorator";
-import { Loader, LoaderOptions } from "google-maps";
+import { Component, Vue, Prop, Ref, toNative } from "vue-facing-decorator";
+import { Loader } from "google-maps";
+import { APP_GOOGLE_MAPS_API_KEY } from "@/constants";
 
 const DEFAULT_ZOOM = 5;
 
@@ -14,20 +20,23 @@ const DEFAULT_ZOOM = 5;
   name: "cd-spatial-coverage-map",
   components: {},
 })
-export default class CdSpatialCoverageMap extends Vue {
+class CdSpatialCoverageMap extends Vue {
   @Prop() feature!: any;
-  @Prop() loader!: Loader;
-  @Prop() loaderOptions!: LoaderOptions;
+  @Prop() flat?: boolean;
+  static loader = new Loader(APP_GOOGLE_MAPS_API_KEY, {});
 
-  @Ref("map") mapContainer;
-  protected map: google.maps.Map | null = null;
-  protected markers: google.maps.Marker[] = [];
-  protected rectangles: google.maps.Rectangle[] = [];
-  protected markerOptions: google.maps.MarkerOptions = {};
-  protected rectangleOptions: google.maps.RectangleOptions = {};
+  @Ref("map") mapContainer!: InstanceType<typeof HTMLDivElement>;
+  map: google.maps.Map | null = null;
+  markers: google.maps.Marker[] = [];
+  rectangles: google.maps.Rectangle[] = [];
+  markerOptions: google.maps.MarkerOptions = {};
+  rectangleOptions: google.maps.RectangleOptions = {};
 
   async mounted() {
-    await this.initMap();
+    if (this.mapContainer) {
+      await this.initMap();
+    }
+
     this.loadDrawing();
     if (this.map) {
       const bounds = new google.maps.LatLngBounds();
@@ -53,16 +62,17 @@ export default class CdSpatialCoverageMap extends Vue {
     }
   }
 
-  created() {}
+  async initMap() {
+    const google = await CdSpatialCoverageMap.loader.load();
 
-  protected async initMap() {
-    const google = await this.loader.load();
-
-    this.map = new google.maps.Map(this.mapContainer, {
-      center: { lat: 39.8097343, lng: -98.5556199 },
-      zoom: DEFAULT_ZOOM,
-      gestureHandling: "greedy",
-    });
+    if (this.mapContainer) {
+      this.map = new google.maps.Map(this.mapContainer, {
+        center: { lat: 39.8097343, lng: -98.5556199 },
+        zoom: DEFAULT_ZOOM,
+        gestureHandling: "cooperative",
+        mapTypeId: "roadmap",
+      });
+    }
 
     // Icon base from: http://kml4earth.appspot.com/icons.html
     const iconBase = "http://earth.google.com/images/kml-icons/";
@@ -94,7 +104,7 @@ export default class CdSpatialCoverageMap extends Vue {
     };
   }
 
-  protected loadDrawing() {
+  loadDrawing() {
     if (this.feature) {
       if (this.feature["@type"] === "GeoCoordinates") {
         const point: google.maps.ReadonlyLatLngLiteral = {
@@ -120,7 +130,7 @@ export default class CdSpatialCoverageMap extends Vue {
     }
   }
 
-  protected clearMarkers() {
+  clearMarkers() {
     if (this.markers.length) {
       this.markers.forEach((m) => {
         m.setMap(null);
@@ -129,7 +139,7 @@ export default class CdSpatialCoverageMap extends Vue {
     }
   }
 
-  protected loadMarkers(markers: google.maps.ReadonlyLatLngLiteral[]) {
+  loadMarkers(markers: google.maps.ReadonlyLatLngLiteral[]) {
     if (this.map) {
       this.clearMarkers();
 
@@ -145,7 +155,7 @@ export default class CdSpatialCoverageMap extends Vue {
     }
   }
 
-  protected clearRectangles() {
+  clearRectangles() {
     if (this.rectangles.length) {
       this.rectangles.forEach((r) => {
         r.setMap(null);
@@ -154,7 +164,7 @@ export default class CdSpatialCoverageMap extends Vue {
     }
   }
 
-  protected loadRectangles(rectangles: google.maps.LatLngBoundsLiteral[]) {
+  loadRectangles(rectangles: google.maps.LatLngBoundsLiteral[]) {
     if (this.map) {
       this.clearRectangles();
 
@@ -170,6 +180,8 @@ export default class CdSpatialCoverageMap extends Vue {
     }
   }
 }
+
+export default toNative(CdSpatialCoverageMap);
 </script>
 
 <style lang="scss" scoped>

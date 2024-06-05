@@ -45,6 +45,9 @@ async def do_daily():
     await init_beanie(database=db, document_models=[Submission, CoreMetadataDOC])
 
     async for submission in Submission.find(Submission.repository != None):
+        if submission.repository == RepositoryType.S3:
+            # skip S3 submissions as they are not yet supported for scheduled refresh
+            continue
         try:
             dataset = await CoreMetadataDOC.get(submission.identifier, with_children=True)
             if dataset is None:
