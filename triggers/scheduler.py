@@ -8,7 +8,7 @@ from rocketry.conds import daily
 
 from api.adapters.utils import RepositoryType, get_adapter_by_type
 from api.config import get_settings
-from api.models.catalog import DatasetMetadataDOC
+from api.models.catalog import CoreMetadataDOC
 from api.models.user import Submission
 
 app = Rocketry(config={"task_execution": "async"})
@@ -42,14 +42,14 @@ async def retrieve_repository_record(submission: Submission):
 async def do_daily():
     settings = get_settings()
     db = AsyncIOMotorClient(settings.db_connection_string)[settings.database_name]
-    await init_beanie(database=db, document_models=[Submission, DatasetMetadataDOC])
+    await init_beanie(database=db, document_models=[Submission, CoreMetadataDOC])
 
     async for submission in Submission.find(Submission.repository != None):
         if submission.repository == RepositoryType.S3:
             # skip S3 submissions as they are not yet supported for scheduled refresh
             continue
         try:
-            dataset = await DatasetMetadataDOC.get(submission.identifier)
+            dataset = await CoreMetadataDOC.get(submission.identifier, with_children=True)
             if dataset is None:
                 logger.warning(f"No catalog record was found for submission: {submission.identifier}")
                 continue
@@ -61,7 +61,7 @@ async def do_daily():
                 await updated_dataset.replace()
 
                 # update submission record
-                dataset = await DatasetMetadataDOC.get(submission.identifier)
+                dataset = await CoreMetadataDOC.get(submission.identifier, with_children=True)
                 updated_submission = dataset.as_submission()
                 updated_submission.id = submission.id
                 updated_submission.submitted = submission.submitted

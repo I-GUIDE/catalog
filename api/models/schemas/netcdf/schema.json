@@ -1,5 +1,5 @@
 {
-  "title": "GenericDatasetMetadata",
+  "title": "HSNetCDFMetadata",
   "type": "object",
   "properties": {
     "@context": {
@@ -992,24 +992,39 @@
       }
     },
     "additionalType": {
-      "title": "Additional type of submission",
-      "description": "An additional type for the dataset.",
+      "title": "Specific additional type of submission",
+      "description": "Specific additional type of submission",
+      "default": "NetCDF",
+      "const": "NetCDF",
       "type": "string"
     },
     "temporalCoverage": {
       "title": "TemporalCoverage",
       "description": "The time period that applies to the dataset.",
+      "readOnly": true,
       "type": "object",
       "properties": {
         "startDate": {
           "title": "Start date",
           "description": "A date/time object containing the instant corresponding to the commencement of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM).",
+          "formatMaximum": {
+            "$data": "1/endDate"
+          },
+          "errorMessage": {
+            "formatMaximum": "must be lesser than or equal to End date"
+          },
           "type": "string",
           "format": "date-time"
         },
         "endDate": {
           "title": "End date",
           "description": "A date/time object containing the instant corresponding to the termination of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, that means the temporal coverage is ongoing.",
+          "formatMinimum": {
+            "$data": "1/startDate"
+          },
+          "errorMessage": {
+            "formatMinimum": "must be greater than or equal to Start date"
+          },
           "type": "string",
           "format": "date-time"
         }
@@ -1021,6 +1036,7 @@
     "spatialCoverage": {
       "title": "Place",
       "description": "The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. It is a sub property of contentLocation intended primarily for more technical and detailed materials. For example with a Dataset, it indicates areas that the dataset describes: a dataset of New York weather would have spatialCoverage which was the place: the state of New York.",
+      "readOnly": true,
       "type": "object",
       "properties": {
         "@type": {
@@ -1275,6 +1291,7 @@
     "variableMeasured": {
       "title": "Variables measured",
       "description": "Measured variables.",
+      "readOnly": true,
       "type": "array",
       "items": {
         "anyOf": [
@@ -1503,7 +1520,10 @@
   "required": [
     "name",
     "url",
-    "associatedMedia"
+    "associatedMedia",
+    "temporalCoverage",
+    "spatialCoverage",
+    "variableMeasured"
   ],
   "definitions": {
     "Affiliation": {
@@ -2441,12 +2461,24 @@
         "startDate": {
           "title": "Start date",
           "description": "A date/time object containing the instant corresponding to the commencement of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM).",
+          "formatMaximum": {
+            "$data": "1/endDate"
+          },
+          "errorMessage": {
+            "formatMaximum": "must be lesser than or equal to End date"
+          },
           "type": "string",
           "format": "date-time"
         },
         "endDate": {
           "title": "End date",
           "description": "A date/time object containing the instant corresponding to the termination of the time interval (ISO8601 formatted date - YYYY-MM-DDTHH:MM). If the ending date is left off, that means the temporal coverage is ongoing.",
+          "formatMinimum": {
+            "$data": "1/startDate"
+          },
+          "errorMessage": {
+            "formatMinimum": "must be greater than or equal to Start date"
+          },
           "type": "string",
           "format": "date-time"
         }

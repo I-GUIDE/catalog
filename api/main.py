@@ -14,7 +14,13 @@ from starlette import status
 from starlette.responses import PlainTextResponse
 
 from api.config import get_settings
-from api.models.catalog import DatasetMetadataDOC
+from api.models.catalog import (
+    CoreMetadataDOC,
+    HSResourceMetadataDOC,
+    GenericDatasetMetadataDOC,
+    NetCDFMetadataDOC,
+    RasterMetadataDOC,
+)
 from api.models.user import Submission, User
 from api.routes.catalog import router as catalog_router
 from api.routes.discovery import router as discovery_router
@@ -48,7 +54,11 @@ async def startup_db_client():
     settings = get_settings()
     app.mongodb_client = AsyncIOMotorClient(settings.db_connection_string)
     app.mongodb = app.mongodb_client[settings.database_name]
-    await init_beanie(database=app.mongodb, document_models=[DatasetMetadataDOC, User, Submission])
+    await init_beanie(
+        database=app.mongodb,
+        document_models=[CoreMetadataDOC, HSResourceMetadataDOC, GenericDatasetMetadataDOC, NetCDFMetadataDOC,
+                         RasterMetadataDOC, User, Submission]
+    )
 
 
 @app.on_event("shutdown")

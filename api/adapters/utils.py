@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Type, Union
+from typing import Type, Union, Dict
 
 from api.adapters.base import AbstractRepositoryMetadataAdapter
 
@@ -9,7 +9,7 @@ class RepositoryType(str, Enum):
     S3 = 'S3'
 
 
-_adapter_registry = {}
+_adapter_registry: Dict[RepositoryType, Type[AbstractRepositoryMetadataAdapter]] = {}
 
 
 def register_adapter(repository_type: RepositoryType, adapter_class: Type[AbstractRepositoryMetadataAdapter]) -> None:
@@ -21,3 +21,4 @@ def get_adapter_by_type(repository_type: RepositoryType) -> Union[AbstractReposi
     if adapter_cls:
         return adapter_cls()
     return None
+

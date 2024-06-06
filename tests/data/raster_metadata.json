@@ -1,0 +1,294 @@
+{
+  "context": "https://schema.org",
+  "type": "Dataset",
+  "additionalType": "Geo Raster",
+  "name": "Logan",
+  "description": null,
+  "creator": null,
+  "keywords": null,
+  "url": "https://www.hydroshare.org/resource/e2319a79641047bebaee534cfc250e2a/data/contents/logan.vrt",
+  "associatedMedia": [
+    {
+      "type": "MediaObject",
+      "contentUrl": "https://www.hydroshare.org/resource/e2319a79641047bebaee534cfc250e2a/data/contents/logan1.tif",
+      "encodingFormat": "image/tiff",
+      "contentSize": "100.749 KB",
+      "name": "logan1.tif",
+      "sha256": "830f4b50e78e8a8fb0f7eee7369171dacbcaa43cc2c4deb59cef8e4fd2f641c5"
+    },
+    {
+      "type": "MediaObject",
+      "contentUrl": "https://www.hydroshare.org/resource/e2319a79641047bebaee534cfc250e2a/data/contents/logan2.tif",
+      "encodingFormat": "image/tiff",
+      "contentSize": "98.943 KB",
+      "name": "logan2.tif",
+      "sha256": "b5ad48ae6428c23c63ceaa93838eb2b3a688a3ecfbf10f01fcbc25f0d2d16f46"
+    },
+    {
+      "type": "MediaObject",
+      "contentUrl": "https://www.hydroshare.org/resource/e2319a79641047bebaee534cfc250e2a/data/contents/logan.vrt",
+      "encodingFormat": null,
+      "contentSize": "2.175 KB",
+      "name": "logan.vrt",
+      "sha256": "94a844d49defcafef815258d1d2bc558b464d9454de7e178b25d5377eca789b4"
+    }
+  ],
+  "spatialCoverage": {
+    "type": "Place",
+    "name": null,
+    "geo": {
+      "type": "GeoShape",
+      "box": "42.0500287857716 -111.57737502643897 41.98745777903126 -111.65768822411246"
+    },
+    "additionalProperty": [
+      {
+        "type": "PropertyValue",
+        "propertyID": null,
+        "unitCode": null,
+        "description": null,
+        "minValue": null,
+        "maxValue": null,
+        "measurementTechnique": null,
+        "name": "projection",
+        "value": "WGS 84 EPSG:4326"
+      },
+      {
+        "type": "PropertyValue",
+        "propertyID": null,
+        "unitCode": null,
+        "description": null,
+        "minValue": null,
+        "maxValue": null,
+        "measurementTechnique": null,
+        "name": "units",
+        "value": "Decimal degrees"
+      },
+      {
+        "type": "PropertyValue",
+        "propertyID": null,
+        "unitCode": "meter",
+        "description": null,
+        "minValue": null,
+        "maxValue": null,
+        "measurementTechnique": null,
+        "name": "spatialReference",
+        "value": [
+          {
+            "type": "PropertyValue",
+            "propertyID": null,
+            "unitCode": null,
+            "description": null,
+            "minValue": null,
+            "maxValue": null,
+            "measurementTechnique": null,
+            "name": "datum",
+            "value": "North_American_Datum_1983"
+          },
+          {
+            "type": "PropertyValue",
+            "propertyID": null,
+            "unitCode": null,
+            "description": null,
+            "minValue": null,
+            "maxValue": null,
+            "measurementTechnique": null,
+            "name": "projection_string",
+            "value": "PROJCS[\"NAD83 / UTM zone 12N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-111],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH],AUTHORITY[\"EPSG\",\"26912\"]]"
+          },
+          {
+            "type": "PropertyValue",
+            "propertyID": null,
+            "unitCode": null,
+            "description": null,
+            "minValue": null,
+            "maxValue": null,
+            "measurementTechnique": null,
+            "name": "projection",
+            "value": "NAD83 / UTM zone 12N"
+          },
+          {
+            "type": "PropertyValue",
+            "propertyID": null,
+            "unitCode": null,
+            "description": null,
+            "minValue": null,
+            "maxValue": null,
+            "measurementTechnique": null,
+            "name": "eastlimit",
+            "value": 452174.01909127034
+          },
+          {
+            "type": "PropertyValue",
+            "propertyID": null,
+            "unitCode": null,
+            "description": null,
+            "minValue": null,
+            "maxValue": null,
+            "measurementTechnique": null,
+            "name": "northlimit",
+            "value": 4655492.446916306
+          },
+          {
+            "type": "PropertyValue",
+            "propertyID": null,
+            "unitCode": null,
+            "description": null,
+            "minValue": null,
+            "maxValue": null,
+            "measurementTechnique": null,
+            "name": "westlimit",
+            "value": 445574.01909127034
+          },
+          {
+            "type": "PropertyValue",
+            "propertyID": null,
+            "unitCode": null,
+            "description": null,
+            "minValue": null,
+            "maxValue": null,
+            "measurementTechnique": null,
+            "name": "southlimit",
+            "value": 4648592.446916306
+          }
+        ]
+      }
+    ]
+  },
+  "temporalCoverage": null,
+  "additionalProperty": [
+    {
+      "type": "PropertyValue",
+      "propertyID": null,
+      "unitCode": null,
+      "description": null,
+      "minValue": null,
+      "maxValue": null,
+      "measurementTechnique": null,
+      "name": "cellInformation",
+      "value": [
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": null,
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "name",
+          "value": "logan.vrt"
+        },
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": null,
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "cellDataType",
+          "value": "Float32"
+        },
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": null,
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "cellSizeXValue",
+          "value": 30.0
+        },
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": null,
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "cellSizeYValue",
+          "value": 30.0
+        },
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": null,
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "columns",
+          "value": 220
+        },
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": null,
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "rows",
+          "value": 230
+        }
+      ]
+    },
+    {
+      "type": "PropertyValue",
+      "propertyID": null,
+      "unitCode": null,
+      "description": null,
+      "minValue": 2274.958984375,
+      "maxValue": 2880.007080078125,
+      "measurementTechnique": null,
+      "name": "bandInformation",
+      "value": [
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": null,
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "name",
+          "value": "Band_1"
+        },
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": null,
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "noDataValue",
+          "value": -3.4028234663852886e+38
+        },
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": null,
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "variableName",
+          "value": ""
+        },
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": null,
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "variableUnit",
+          "value": ""
+        }
+      ]
+    }
+  ]
+}

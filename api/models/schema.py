@@ -318,7 +318,7 @@ class PropertyValueBase(SchemaBaseModel):
     type: str = Field(
         alias="@type",
         default="PropertyValue",
-        const="PropertyValue",
+        const=True,
         description="A property-value pair.",
     )
     propertyID: Optional[str] = Field(
@@ -400,7 +400,7 @@ class MediaObject(SchemaBaseModel):
     )
     name: str = Field(description="The name of the media object (file).")
     sha256: Optional[str] = Field(title="SHA-256", description="The SHA-256 hash of the media object.")
-    isPartOf: Optional[List[MediaObjectPartOf]] = Field(
+    isPartOf: Optional[MediaObjectPartOf] = Field(
         title="Is part of",
         description="Link to or citation for a related metadata document that this media object is a part of",
     )
@@ -455,9 +455,10 @@ class CoreMetadata(SchemaBaseModel):
     name: str = Field(title="Name or title",
                       description="A text string with a descriptive name or title for the resource."
                       )
-    description: str = Field(title="Description or abstract",
-                             description="A text string containing a description/abstract for the resource."
-                             )
+    description: Optional[str] = Field(
+        title="Description or abstract",
+        description="A text string containing a description/abstract for the resource.",
+    )
     url: HttpUrl = Field(
         title="URL",
         description="A URL for the landing page that describes the resource and where the content "
@@ -466,22 +467,26 @@ class CoreMetadata(SchemaBaseModel):
     )
     identifier: Optional[List[IdentifierStr]] = Field(
         title="Identifiers",
-        description="Any kind of identifier for the resource. Identifiers may be DOIs or unique strings "
+        description="Any kind of identifier for the resource/dataset. Identifiers may be DOIs or unique strings "
                     "assigned by a repository. Multiple identifiers can be entered. Where identifiers can be "
                     "encoded as URLs, enter URLs here."
     )
-    creator: List[Union[Creator, Organization]] = Field(description="Person or Organization that created the resource.")
-    dateCreated: datetime = Field(title="Date created", description="The date on which the resource was created.")
-    keywords: List[str] = Field(
+    creator: Optional[List[Union[Creator, Organization]]] = Field(
+        description="Person or Organization that created the resource."
+    )
+    dateCreated: Optional[datetime] = Field(
+        title="Date created", description="The date on which the resource was created."
+    )
+    keywords: Optional[List[str]] = Field(
         min_items=1,
         description="Keywords or tags used to describe the dataset, delimited by commas."
     )
-    license: License = Field(
+    license: Optional[License] = Field(
         description="A license document that applies to the resource."
     )
-    provider: Union[Organization, Provider] = Field(
+    provider: Optional[Union[Organization, Provider]] = Field(
         description="The repository, service provider, organization, person, or service performer that provides"
-                    " access to the resource."
+        " access to the resource."
     )
     publisher: Optional[PublisherOrganization] = Field(
         title="Publisher",
@@ -517,17 +522,6 @@ class CoreMetadata(SchemaBaseModel):
         description="A Grant or monetary assistance that directly or indirectly provided funding or sponsorship "
                     "for creation of the resource.",
     )
-    temporalCoverage: Optional[TemporalCoverage] = Field(
-        title="Temporal coverage",
-        description="The time period that applies to all of the content within the resource.",
-    )
-    spatialCoverage: Optional[Place] = Field(
-        description="The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. "
-                    "It is a sub property of contentLocation intended primarily for more technical and "
-                    "detailed materials. For example with a Dataset, it indicates areas that the dataset "
-                    "describes: a dataset of New York weather would have spatialCoverage which was the "
-                    "place: the state of New York.",
-    )
     hasPart: Optional[List[HasPart]] = Field(
         title="Has part",
         description="Link to or citation for a related resource that is part of this resource."
@@ -542,18 +536,157 @@ class CoreMetadata(SchemaBaseModel):
         description="A media object that encodes this CreativeWork. This property is a synonym for encoding.",
     )
     citation: Optional[List[str]] = Field(title="Citation", description="A bibliographic citation for the resource.")
-
-
-class DatasetMetadata(CoreMetadata):
-    variableMeasured: Optional[List[Union[str, PropertyValue]]] = Field(
-        title="Variables measured", description="Measured variables."
-    )
     additionalProperty: Optional[List[PropertyValue]] = Field(
         title="Additional properties",
         default=[],
-        description="Additional properties of the dataset."
+        description="Additional properties of the dataset/resource."
+    )
+
+
+class HSResourceMetadata(CoreMetadata):
+    # modeled after hydroshare resource metadata
+    # used in cataloging a HydroShare resource
+    description: str = Field(
+        title="Description or abstract",
+        description="A text string containing a description/abstract for the resource.",
+    )
+    url: HttpUrl = Field(
+        title="URL",
+        description="A URL for the landing page that describes the resource and where the content "
+                    "of the resource can be accessed. If there is no landing page,"
+                    " provide the URL of the content."
+    )
+    identifier: List[IdentifierStr] = Field(
+        title="Identifiers",
+        description="Any kind of identifier for the resource. Identifiers may be DOIs or unique strings "
+                    "assigned by a repository. Multiple identifiers can be entered. Where identifiers can be "
+                    "encoded as URLs, enter URLs here."
+    )
+    creator: List[Union[Creator, Organization]] = Field(description="Person or Organization that created the resource.")
+    dateCreated: datetime = Field(
+        title="Date created", description="The date on which the resource was created."
+    )
+    keywords: List[str] = Field(
+        min_items=1,
+        description="Keywords or tags used to describe the dataset, delimited by commas.",
+    )
+    license: License = Field(
+        description="A license document that applies to the resource."
+    )
+    provider: Union[Organization, Provider] = Field(
+        description="The repository, service provider, organization, person, or service performer that provides"
+        " access to the resource."
+    )
+    inLanguage: Union[LanguageEnum, InLanguageStr] = Field(
+        title="Language",
+        description="The language of the content of the resource."
+    )
+    dateModified: datetime = Field(
+        title="Date modified",
+        description="The date on which the resource was most recently modified or updated."
+    )
+    temporalCoverage: Optional[TemporalCoverage] = Field(
+        title="Temporal coverage",
+        description="The time period that applies to all of the content within the resource.",
+    )
+    spatialCoverage: Optional[Place] = Field(
+        description="The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. "
+                    "It is a sub property of contentLocation intended primarily for more technical and "
+                    "detailed materials. For example with a Dataset, it indicates areas that the dataset "
+                    "describes: a dataset of New York weather would have spatialCoverage which was the "
+                    "place: the state of New York.",
+    )
+
+
+class GenericDatasetMetadata(CoreMetadata):
+    # A generic dataset schema - primarily used for manual metadata entry for cataloging a dataset
+    # It should not be used for fetched/extracted metadata from external sources - subtypes specifically defined
+    # should be used for that
+    type: str = Field(
+        alias="@type",
+        title="Submission type",
+        default="Dataset",
+        const=True,
+        description="Type of submission",
+    )
+    additionalType: Optional[str] = Field(
+        title="Additional type of submission",
+        description="An additional type for the dataset."
+    )
+    temporalCoverage: Optional[TemporalCoverage] = Field(
+        title="Temporal coverage",
+        description="The time period that applies to the dataset.",
+    )
+    spatialCoverage: Optional[Place] = Field(
+        description="The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. "
+                    "It is a sub property of contentLocation intended primarily for more technical and "
+                    "detailed materials. For example with a Dataset, it indicates areas that the dataset "
+                    "describes: a dataset of New York weather would have spatialCoverage which was the "
+                    "place: the state of New York.",
+    )
+    variableMeasured: Optional[List[Union[str, PropertyValue]]] = Field(
+        title="Variables measured", description="Measured variables."
+    )
+    associatedMedia: List[MediaObject] = Field(
+        title="Dataset content",
+        description="A media object that encodes this CreativeWork. This property is a synonym for encoding.",
     )
     sourceOrganization: Optional[SourceOrganization] = Field(
         title="Source organization",
         description="The organization that provided the data for this dataset."
+    )
+
+
+class HSNetCDFMetadata(GenericDatasetMetadata):
+    # modeled after hydroshare netcdf aggregation metadata
+    # used for registering a netcdf dataset in the catalog - netcdf metadata is saved as a catalog record
+
+    additionalType: str = Field(
+        title="Specific additional type of submission",
+        default="NetCDF",
+        const=True,
+        description="Specific additional type of submission",
+    )
+    temporalCoverage: TemporalCoverage = Field(
+        title="Temporal coverage",
+        description="The time period that applies to the dataset.",
+        readOnly=True,
+    )
+    spatialCoverage: Place = Field(
+        description="The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. "
+                    "It is a sub property of contentLocation intended primarily for more technical and "
+                    "detailed materials. For example with a Dataset, it indicates areas that the dataset "
+                    "describes: a dataset of New York weather would have spatialCoverage which was the "
+                    "place: the state of New York.",
+        readOnly=True,
+    )
+    variableMeasured: List[Union[str, PropertyValue]] = Field(
+        title="Variables measured",
+        description="Measured variables.",
+        readOnly=True,
+    )
+
+
+class HSRasterMetadata(GenericDatasetMetadata):
+    # modeled after hydroshare raster aggregation metadata
+    # used for registering a raster dataset in the catalog - raster metadata is saved as a catalog record
+
+    additionalType: str = Field(
+        title="Specific additional type of submission",
+        default="Geo Raster",
+        const=True,
+        description="Specific additional type of submission",
+    )
+    temporalCoverage: Optional[TemporalCoverage] = Field(
+        title="Temporal coverage",
+        description="The time period that applies to the dataset.",
+        readOnly=True,
+    )
+    spatialCoverage: Place = Field(
+        description="The spatialCoverage of a CreativeWork indicates the place(s) which are the focus of the content. "
+                    "It is a sub property of contentLocation intended primarily for more technical and "
+                    "detailed materials. For example with a Dataset, it indicates areas that the dataset "
+                    "describes: a dataset of New York weather would have spatialCoverage which was the "
+                    "place: the state of New York.",
+        readOnly=True,
     )

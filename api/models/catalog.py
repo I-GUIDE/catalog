@@ -1,16 +1,23 @@
 import datetime
-from typing import Optional
+from typing import TypeVar, Optional
 
 from beanie import Document
 
 from api.models.user import Submission, S3Path
-from .schema import CoreMetadata, DatasetMetadata
+from .schema import (
+    CoreMetadata,
+    GenericDatasetMetadata,
+    HSResourceMetadata,
+    HSNetCDFMetadata,
+    HSRasterMetadata,
+)
 
 
 class CoreMetadataDOC(Document, CoreMetadata):
-    # this field is not stored in the database, but is populated from the corresponding submission record
-    # using the type field in the submission record
+    # these fields are not stored in the database, but are populated from the corresponding submission record
     submission_type: str = None
+    repository_identifier: str = None
+    s3_path: Optional[S3Path] = None
 
     class Settings:
         # name is the collection name in database (iguide) where the Metadata Record documents will be stored
@@ -36,6 +43,27 @@ class CoreMetadataDOC(Document, CoreMetadata):
         )
 
 
-class DatasetMetadataDOC(CoreMetadataDOC, DatasetMetadata):
-    repository_identifier: str = None
-    s3_path: Optional[S3Path] = None
+class HSResourceMetadataDOC(CoreMetadataDOC, HSResourceMetadata):
+
+    def as_submission(self) -> Submission:
+        submission = super().as_submission()
+        submission.repository = "HydroShare"
+        submission.repository_identifier = self.repository_identifier
+        return submission
+
+
+class GenericDatasetMetadataDOC(CoreMetadataDOC, GenericDatasetMetadata):
+    pass
+
+
+class NetCDFMetadataDOC(CoreMetadataDOC, HSNetCDFMetadata):
+    pass
+
+
+class RasterMetadataDOC(CoreMetadataDOC, HSRasterMetadata):
+    pass
+
+# T is a type variable that can be used for type hinting for any schema model that inherits from CoreMetadataDOC
+
+
+T = TypeVar("T", bound=CoreMetadataDOC)

@@ -1,0 +1,195 @@
+{
+  "context": "https://schema.org",
+  "type": "Dataset",
+  "additionalType": "Multidimensional Dataset",
+  "name": "Snow water equivalent estimation at TWDEF site from Oct 2009 to June 2010",
+  "description": "This netCDF data is the simulation output from Utah Energy Balance (UEB) model.It includes the simulation result of snow water equivalent during the period Oct. 2009 to June 2010 for TWDEF site in Utah.",
+  "url": "https://www.hydroshare.org/resource/e2319a79641047bebaee534cfc250e2a/data/contents/netcdf_valid.nc",
+  "creator": [
+      {
+      "type": "Person",
+      "email": "jamy@gmail.com",
+      "identifier": null,
+      "affiliation": null,
+      "name": "Jamy"
+    }
+  ],
+  "keywords": [
+    "Snow water equivalent"
+  ],
+  "associatedMedia": [
+    {
+      "type": "MediaObject",
+      "contentUrl": "https://www.hydroshare.org/resource/e2319a79641047bebaee534cfc250e2a/data/contents/netcdf_valid.nc",
+      "encodingFormat": "application/x-netcdf",
+      "contentSize": "4869.898 KB",
+      "name": "netcdf_valid.nc",
+      "sha256": "a3229e683732e4188077d33480f0321c7d97be2248f50ac2a6c1c3928b8c6f21"
+    }
+  ],
+  "spatialCoverage": {
+    "type": "Place",
+    "name": null,
+    "geo": {
+      "type": "GeoShape",
+      "box": "41.867126409000086 -111.5059403684569 41.86390807452128 -111.51138807956225"
+    },
+    "additionalProperty": [
+      {
+        "type": "PropertyValue",
+        "propertyID": null,
+        "unitCode": null,
+        "description": null,
+        "minValue": null,
+        "maxValue": null,
+        "measurementTechnique": null,
+        "name": "projection",
+        "value": "WGS 84 EPSG:4326"
+      },
+      {
+        "type": "PropertyValue",
+        "propertyID": null,
+        "unitCode": null,
+        "description": null,
+        "minValue": null,
+        "maxValue": null,
+        "measurementTechnique": null,
+        "name": "units",
+        "value": "Decimal degrees"
+      }
+    ]
+  },
+  "temporalCoverage": {
+    "endDate": "2010-05-30T23:00:00",
+    "startDate": "2009-10-01T00:00:00"
+  },
+  "additionalProperty": [],
+  "variableMeasured": [
+    {
+      "type": "PropertyValue",
+      "propertyID": null,
+      "unitCode": "m",
+      "description": "Snow water equivalent",
+      "minValue": null,
+      "maxValue": null,
+      "measurementTechnique": "model simulation of UEB model",
+      "name": "SWE",
+      "value": [
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": "Float",
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "shape",
+          "value": "y,x,time"
+        },
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": null,
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "missingValue",
+          "value": "-9999"
+        }
+      ]
+    },
+    {
+      "type": "PropertyValue",
+      "propertyID": null,
+      "unitCode": "Unknown",
+      "description": null,
+      "minValue": null,
+      "maxValue": null,
+      "measurementTechnique": null,
+      "name": "transverse_mercator",
+      "value": [
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": "Unknown",
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "shape",
+          "value": "Not defined"
+        }
+      ]
+    },
+    {
+      "type": "PropertyValue",
+      "propertyID": null,
+      "unitCode": "hours since 2009-10-1 0:0:00 UTC",
+      "description": "time",
+      "minValue": null,
+      "maxValue": null,
+      "measurementTechnique": null,
+      "name": "time",
+      "value": [
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": "Float",
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "shape",
+          "value": "time"
+        }
+      ]
+    },
+    {
+      "type": "PropertyValue",
+      "propertyID": null,
+      "unitCode": "Meter",
+      "description": "y coordinate of projection",
+      "minValue": null,
+      "maxValue": null,
+      "measurementTechnique": null,
+      "name": "y",
+      "value": [
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": "Float",
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "shape",
+          "value": "y"
+        }
+      ]
+    },
+    {
+      "type": "PropertyValue",
+      "propertyID": null,
+      "unitCode": "Meter",
+      "description": "x coordinate of projection",
+      "minValue": null,
+      "maxValue": null,
+      "measurementTechnique": null,
+      "name": "x",
+      "value": [
+        {
+          "type": "PropertyValue",
+          "propertyID": null,
+          "unitCode": "Float",
+          "description": null,
+          "minValue": null,
+          "maxValue": null,
+          "measurementTechnique": null,
+          "name": "shape",
+          "value": "x"
+        }
+      ]
+    }
+  ]
+}

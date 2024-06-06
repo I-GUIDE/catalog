@@ -3,12 +3,12 @@ import pytest
 from pydantic import ValidationError
 
 from api.adapters.utils import RepositoryType, get_adapter_by_type
-from api.models.catalog import DatasetMetadataDOC
+from api.models.catalog import HSResourceMetadataDOC
 
 
 @pytest.mark.parametrize('coverage_type', ["box", "point"])
 @pytest.mark.asyncio
-async def test_hydroshare_resource_meta_adapter(hydroshare_resource_metadata, coverage_type, dataset_model):
+async def test_hydroshare_resource_meta_adapter(hydroshare_resource_metadata, coverage_type, hs_resource_model):
     """Test the HydroshareMetaAdapter for Composite Resource"""
 
     adapter = get_adapter_by_type(RepositoryType.HYDROSHARE)
@@ -18,13 +18,13 @@ async def test_hydroshare_resource_meta_adapter(hydroshare_resource_metadata, co
                                                             "units": "Decimal degrees",
                                                             "projection": "Unknown"}
 
-    dataset = adapter.to_catalog_record(hydroshare_resource_metadata)
+    dataset = adapter.to_catalog_record(hydroshare_resource_metadata, type(hs_resource_model))
     try:
-        dataset_model(**dataset.dict())
+        hs_resource_model(**dataset.dict())
     except ValidationError as err:
         pytest.fail(f"Catalog dataset schema model validation failed: {str(err)}")
 
-    assert isinstance(dataset, DatasetMetadataDOC)
+    assert isinstance(dataset, HSResourceMetadataDOC)
     assert dataset.name == "Testing IGUIDE Metadata Adapter for Hydroshare Resource"
     assert dataset.description == "This is a test resource - abstract"
     assert dataset.url == "http://www.hydroshare.org/resource/1ee81318135c40f587d9a3e5d689daf5"
@@ -101,17 +101,17 @@ async def test_hydroshare_resource_meta_adapter(hydroshare_resource_metadata, co
 
 
 @pytest.mark.asyncio
-async def test_hydroshare_collection_meta_adapter(hydroshare_collection_metadata, dataset_model):
+async def test_hydroshare_collection_meta_adapter(hydroshare_collection_metadata, hs_resource_model):
     """Test the HydroshareMetaAdapter for Collection Resource"""
 
     adapter = get_adapter_by_type(RepositoryType.HYDROSHARE)
-    dataset = adapter.to_catalog_record(hydroshare_collection_metadata)
+    dataset = adapter.to_catalog_record(hydroshare_collection_metadata, type(hs_resource_model))
     try:
-        dataset_model(**dataset.dict())
+        hs_resource_model(**dataset.dict())
     except ValidationError as err:
         pytest.fail(f"Catalog dataset schema model validation failed: {str(err)}")
 
-    assert isinstance(dataset, DatasetMetadataDOC)
+    assert isinstance(dataset, HSResourceMetadataDOC)
     assert dataset.isPartOf == []
     assert len(dataset.hasPart) == 3
     assert dataset.hasPart[0].description == "Tarboton, D. (2019). Created from iRODS by copy from create resource page, HydroShare"
