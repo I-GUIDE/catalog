@@ -74,7 +74,7 @@ async def test_create_dataset_s3(client_test, dataset_data, test_user_access_tok
         s3_path = {
             "path": "data/.hs/dataset_metadata.json",
             "bucket": "iguide-catalog",
-            "endpoint_url": "https://iguide-catalog.s3.us-west-2.amazonaws.com/",
+            "endpoint_url": "https://s3.us-west-2.amazonaws.com/",
         }
 
     payload = {
@@ -124,7 +124,7 @@ async def test_update_dataset_s3(client_test, dataset_data, test_user_access_tok
         s3_path = {
             "path": "data/.hs/dataset_metadata.json",
             "bucket": "iguide-catalog",
-            "endpoint_url": "https://iguide-catalog.s3.us-west-2.amazonaws.com/",
+            "endpoint_url": "https://s3.us-west-2.amazonaws.com/",
         }
 
     payload = {
@@ -160,7 +160,7 @@ async def test_update_dataset_s3(client_test, dataset_data, test_user_access_tok
         s3_path = {
             "path": "data/.hs/dataset_metadata-updated.json",
             "bucket": "iguide-catalog-updated",
-            "endpoint_url": "https://iguide-catalog-updated.s3.us-west-2.amazonaws.com/",
+            "endpoint_url": "https://s3.us-west-2.amazonaws.com/",
         }
 
     payload = {
@@ -329,7 +329,7 @@ async def test_get_datasets_different_submission_types(client_test, dataset_data
     s3_path = {
             "path": "data/.hs/dataset_metadata.json",
             "bucket": "iguide-catalog",
-            "endpoint_url": "https://iguide-catalog.s3.us-west-2.amazonaws.com/",
+            "endpoint_url": "https://s3.us-west-2.amazonaws.com/",
         }
 
     payload = {
@@ -438,7 +438,6 @@ async def test_register_minio_s3_netcdf_dataset(client_test):
     assert response.status_code == 200
 
 
-@pytest.mark.skip("This test is failing due to AWS bucket access denied error - need to fix")
 @pytest.mark.asyncio
 async def test_register_aws_s3_netcdf_dataset(client_test):
     """Testing registering metadata route (POST: api/catalog/repository/s3/netcdf) for a netcdf dataset on AWS s3"""
@@ -447,7 +446,7 @@ async def test_register_aws_s3_netcdf_dataset(client_test):
     s3_path = {
         "path": "data/.hs/netcdf/netcdf_valid.nc.json",
         "bucket": "iguide-catalog",
-        "endpoint_url": "https://iguide-catalog.s3.us-west-2.amazonaws.com/",
+        "endpoint_url": "https://s3.us-west-2.amazonaws.com/",
     }
 
     dataset_response = await client_test.post(
@@ -515,10 +514,12 @@ async def test_get_submissions_2(client_test, dataset_data):
     dataset_response = await client_test.post("api/catalog/dataset/generic", json=dataset_data)
     assert dataset_response.status_code == 201
     dataset_response_data = dataset_response.json()
+
+    # add a dataset record to the db simulation S3 submission
     s3_path = {
             "path": "data/.hs/dataset_metadata.json",
             "bucket": "iguide-catalog",
-            "endpoint_url": "https://iguide-catalog.s3.us-west-2.amazonaws.com/",
+            "endpoint_url": "https://s3.us-west-2.amazonaws.com/",
         }
 
     payload = {
