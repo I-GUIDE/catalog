@@ -68,8 +68,8 @@ async def do_daily():
             else:
                 # couldn't retrieve matching repository record
                 await db["discovery"].delete_one({"_id": submission.identifier})
-        except:
-            logger.exception(f"Failed to collect submission {submission.url}")
+        except Exception as err:
+            logger.exception(f"Failed to collect submission {submission.url}\n Error: {str(err)}")
 
 
 def main():
