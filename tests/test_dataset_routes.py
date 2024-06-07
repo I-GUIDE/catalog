@@ -2,7 +2,7 @@ import pytest
 
 from api.adapters.utils import RepositoryType
 from api.models.catalog import Submission
-from api.models.user import SubmissionType, User
+from api.models.user import SubmissionType, User, S3Path
 
 pytestmark = pytest.mark.asyncio
 
@@ -105,6 +105,11 @@ async def test_create_dataset_s3(client_test, dataset_data, test_user_access_tok
     assert len(submission_response_data) == 1
     assert submission_response_data[0]['repository'] == RepositoryType.S3
     assert submission_response_data[0]['s3_path'] == s3_path
+    if object_store_type == "minio":
+        content_location = "CUAHSI"
+    else:
+        content_location = "AWS"
+    await _check_s3_submission(test_user_access_token, s3_path, content_location)
 
 
 @pytest.mark.parametrize('object_store_type', ['s3', 'minio'])
@@ -193,6 +198,11 @@ async def test_update_dataset_s3(client_test, dataset_data, test_user_access_tok
     assert len(submission_response_data) == 1
     assert submission_response_data[0]['repository'] == RepositoryType.S3
     assert submission_response_data[0]['s3_path'] == s3_path
+    if object_store_type == "minio":
+        content_location = "CUAHSI"
+    else:
+        content_location = "AWS"
+    await _check_s3_submission(test_user_access_token, s3_path, content_location)
 
 
 @pytest.mark.asyncio
@@ -501,3 +511,21 @@ async def _check_hs_submission(hs_dataset, user_access_token, hs_published_res_i
     assert user.submission(submission_id) is not None
     assert user.submission(submission_id).repository == "HYDROSHARE"
     assert user.submission(submission_id).repository_identifier == hs_published_res_id
+    assert user.submission(submission_id).content_location == "HYDROSHARE"
+
+
+async def _check_s3_submission(user_access_token, s3_path, content_location="AWS"):
+    s3_path = S3Path(**s3_path)
+    # there should be one related submission record in the db
+    submissions = await Submission.find().to_list()
+    assert len(submissions) == 1
+    user = await User.find_one(User.access_token == user_access_token, fetch_links=True)
+    assert len(user.submissions) == 1
+    submission = user.submissions[0]
+    submission_id = submission.identifier
+    assert submission_id == user.submissions[0].identifier
+    assert user.submission(submission_id) is not None
+    assert user.submission(submission_id).repository == "S3"
+    assert user.submission(submission_id).s3_path == s3_path
+    assert user.submission(submission_id).repository_identifier == s3_path.identifier
+    assert submission.content_location == content_location
