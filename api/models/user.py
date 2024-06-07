@@ -24,11 +24,13 @@ class S3Path(BaseModel):
     @property
     def identifier(self):
         endpoint_url = self.endpoint_url.rstrip("/")
-        if endpoint_url.endswith("amazonaws.com"):
-            identifier = f"{endpoint_url}/{self.path}"
-        else:
-            identifier = f"{endpoint_url}/{self.bucket}/{self.path}"
+        identifier = f"{endpoint_url}/{self.bucket}/{self.path}"
         return identifier
+
+    @property
+    def fetch_identifier(self):
+        # This is the identifier that is used to fetch the file from S3
+        return f"{self.endpoint_url}+{self.bucket}+{self.path}"
 
 
 class Submission(Document):

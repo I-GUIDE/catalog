@@ -19,8 +19,8 @@ async def _main():
         while True:
             try:
                 await watch_discovery(db)
-            except:
-                logger.exception("Discovery Watch Task failed, restarting the task")
+            except Exception as exp:
+                logger.exception(f"Discovery Watch Task failed.\n Error:{str(exp)}\n Restarting the task")
     finally:
         db.close()
 

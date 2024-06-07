@@ -8,7 +8,7 @@ from api.adapters.utils import RepositoryType, register_adapter
 from api.exceptions import RepositoryException
 from api.models import schema
 from api.models.catalog import DatasetMetadataDOC
-from api.models.user import Submission, SubmissionType
+from api.models.user import Submission
 
 
 class Creator(BaseModel):
