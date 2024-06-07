@@ -46,6 +46,9 @@ async def watch_catalog(db: AsyncIOMotorClient):
                     submission: Submission = await Submission.find_one({"identifier": document["_id"]})
                 catalog_entry["registrationDate"] = submission.submitted
                 catalog_entry["name_for_sorting"] = str.lower(catalog_entry["name"])
+                catalog_entry["submission_type"] = submission.repository
+                # location of the dataset files e.g. AWS,GCP, Azure, Hydroshare, CUAHSI, etc.
+                catalog_entry["content_location"] = submission.content_location
                 await db["discovery"].find_one_and_replace(
                         {"_id": document["_id"]}, catalog_entry, upsert=True
                     )
