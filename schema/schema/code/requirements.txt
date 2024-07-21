@@ -1,0 +1,9 @@
+authlib
+fastapi
+httpx
+python-jose
+uvicorn
+hsclient
+itsdangerous
+python-dotenv
+humanize
