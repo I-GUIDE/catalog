@@ -198,8 +198,10 @@
                 v-if="!results.length"
                 class="text-body-2 text--secondary text-center mt-8"
               >
-                <div class="mb-8">No results found.</div>
-                <v-icon x-large>mdi-book-remove-multiple</v-icon>
+                <v-empty-state
+                  text="No results found."
+                  icon="mdi-text-box-remove"
+                />
               </div>
 
               <v-card
@@ -559,7 +561,6 @@ class CdSearchResults extends Vue {
     max: number;
     isActive: boolean;
   }) {
-    console.log("onSliderControlChange");
     filter.isActive = true;
     this.pushSearchRoute();
   }
@@ -603,7 +604,7 @@ class CdSearchResults extends Vue {
         SearchHistory.log(this.queryParams.term);
       }
 
-      // Note: this will reload the component
+      // Note: this will reload the component because the router-view in the App component has `:key="route.fullPath"`
       this.router
         .push({
           name: "search",

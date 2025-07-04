@@ -54,8 +54,4 @@ export default toNative(CdHomeSearch);
 .search-container {
   max-width: 45rem;
 }
-
-:deep(.v-parallax__content) {
-  padding: 0;
-}
 </style>

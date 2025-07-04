@@ -103,8 +103,6 @@ class CdSearch extends Vue {
   hints: IHint[] = []; // used to reactively bind to template
   menu = false;
   isFetchingHints = false;
-  showList = true;
-  detectCrossover = false;
   rawDbHints: any[] = [];
   route = useRoute();
   router = useRouter();
@@ -144,17 +142,6 @@ class CdSearch extends Vue {
     hints = [...new Set(hints)].slice(0, 10) as string[]; // get unique ones
     hints = hints.map((key) => ({ type: "db", key }) as IHint);
     return hints;
-  }
-
-  // Buetify doesn't handle well reasigning list items array
-  @Watch("hints", { deep: true })
-  public onHintsChanged() {
-    // Reinstantiate component to reset state.
-    this.showList = false;
-    this.detectCrossover = false;
-    this.$nextTick(() => {
-      this.showList = true;
-    });
   }
 
   @Watch("valueInternal")
