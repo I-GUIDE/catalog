@@ -19,7 +19,7 @@ services:
   # frontend:
   #   image: iguide_frontend
   #   build:
-  #     dockerfile: ./docker/frontend/Dockerfile
+  #     dockerfile: ./frontend/Dockerfile
   #   #volumes:
   #     #- ./frontend:/app
   #     #- ./frontend/nginx.conf:/etc/nginx/nginx.conf
@@ -36,7 +36,8 @@ services:
       - ./tests:/app/tests
       - ./.env:/app/.env
     build:
-      dockerfile: ./docker/api/Dockerfile
+      context: ./api/
+      dockerfile: Dockerfile
     ports:
       - 8000:8000
     restart: on-failure
@@ -48,7 +49,8 @@ services:
       - ./triggers:/app/triggers
       - ./.env:/app/.env
     build:
-      dockerfile: ./docker/triggers/Dockerfile
+      context: ./triggers/
+      dockerfile: Dockerfile
     command: >
       python triggers/update_catalog.py
     restart: on-failure
@@ -60,7 +62,10 @@ services:
       - ./triggers:/app/triggers
       - ./.env:/app/.env
     build:
-      dockerfile: ./docker/triggers/Dockerfile
+      context: ./triggers/
+      dockerfile: Dockerfile
+    env_file:
+      - .env
     command: >
       python triggers/update_typeahead.py
     restart: on-failure
@@ -72,7 +77,10 @@ services:
       - ./triggers:/app/triggers
       - ./.env:/app/.env
     build:
-      dockerfile: ./docker/triggers/Dockerfile
+      context: ./triggers/
+      dockerfile: Dockerfile
+    env_file:
+      - .env
     command: >
       python triggers/scheduler.py
     restart: on-failure
